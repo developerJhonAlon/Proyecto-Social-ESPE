@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      >
+    <h:body>    
+        <ui:composition template="/vista/template-sistema2.xhtml">
+            <ui:define name="content">
+                <style>
+                    .col1_edicion{
+                        width: 100px;
+                    }
+
+                </style>                
+
+                <p:panel id="panelBase" header="Convocatorias" style="border: hidden; margin-bottom: 35px">
+                    <p:panel id="inicio" style="border: hidden;">
+
+                        <h:panelGrid columns="2">
+                            <h:outputLabel value="Listado de Convocatorias"/>
+                            <p:button outcome="convocatoria" icon="ui-icon-plus" value="Agregar" title="Agregar Convocatoria"></p:button>  
+                        </h:panelGrid>
+
+                        <p:dataTable id="dtConvocatorias" value="#{listadoConvocatoriasController.convocatoriaList}" var="con" 
+                                     paginator="true" rows="15" rowIndexVar="index" resizableColumns="true"
+                                     paginatorPosition="top"
+                                     emptyMessage="No se encontraron resultados">
+                            <p:column headerText="Ord." style="width:20px;text-align: center" sortBy="#{con.id}">
+                                <h:outputText value="#{index + 1}" />
+                            </p:column>
+                            <p:column headerText="Nombre" style="width: 300px; white-space: pre-line" sortBy="#{con.nombre}">
+                                <h:outputText  value ="#{con.nombre}" style="white-space: pre-line"/> 
+                            </p:column>
+                            <p:column rendered="false" headerText="Observación" style="white-space: pre-line" sortBy="#{con.observacion}">
+                                <h:outputText  value ="#{con.observacion}" style="white-space: pre-line"/> 
+                            </p:column>
+                            <p:column headerText="Fecha Inicio" style="width: 70px;white-space:pre-line" sortBy="#{con.fechaInicio}">
+                                <h:outputText value="#{con.fechaInicio}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Fecha Finalización" style="width: 70px;white-space:pre-line" sortBy="#{con.fechaFin}">
+                                <h:outputText value="#{con.fechaFin}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                </h:outputText>
+                            </p:column>     
+                            <p:column headerText="Activa" width="40" style="text-align: center;">
+                                <p:selectBooleanCheckbox value="#{con.estadoActivo}" disabled="true">
+                                        </p:selectBooleanCheckbox>
+                            </p:column>
+                            
+                            <p:column rendered="false" headerText="Nombre Archivo Digital" style="width: 200px; white-space: pre-line" sortBy="#{con.nombreDocumento}">
+                                <h:outputText  value ="#{con.nombreDocumento}" style="white-space: pre-line"/> 
+                            </p:column>
+                            <!--<p:column rendered="false" headerText="Archivo Digital" style="width: 85px; white-space: pre-line">
+                                <h:outputLink target="_blank" value="http://localhost:8080/Vinculacion-war/documentos_adjuntos/bases_convocatorias/13/PFGMAP814.pdf">link2</h:outputLink>
+                            </p:column>
+                            <p:column rendered="false" headerText="Archivo Digital" style="width: 85px; white-space: pre-line">
+                                <p:commandButton actionListener="#{listadoConvocatoriasController.prepararArchivoDownload(con)}"
+                                                 rendered="#{con.nombreDocumento!=null}"
+                                                 value="Descargar" ajax="false" icon="ui-icon-arrowthick-1-s">
+                                    <p:fileDownload value="#{listadoConvocatoriasController.archivo}" />
+                                </p:commandButton>
+                            </p:column>-->
+                            <p:column headerText="Seleccione" style="width: 70px; text-align: center">
+                                <p:button outcome="convocatoria" icon="ui-icon-circle-check" title="Seleccionar Convocatoria">
+                                    <f:param name="idConvocatoria" value="#{con.id}" />
+                                </p:button>  
+                            </p:column>
+                            <p:column headerText="Eliminar" width="50" style ="text-align: center">
+                                <p:commandButton title="Eliminar el registro" icon="ui-icon-trash" 
+                                                 process="@this"
+                                                 onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                 action="#{listadoConvocatoriasController.eliminarConvocatoria}"
+                                                 update=":formPrincipal:inicio, :formPrincipal:message1 ">
+                                    <f:setPropertyActionListener value="#{con}" target="#{listadoConvocatoriasController.convocatoriaSelected}" />
+                                    <p:confirm header="Confirmación" message="Confirma que desea eliminar el item seleccionado?" icon="ui-icon-alert" />
+                                </p:commandButton>  
+                            </p:column>                                                
+                            
+                        </p:dataTable>
+                    </p:panel>
+
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

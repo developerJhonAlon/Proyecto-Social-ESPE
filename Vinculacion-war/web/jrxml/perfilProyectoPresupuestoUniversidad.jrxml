@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyectoPresupuestoUniversidad" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="2.593742460100005"/>
+	<property name="ireport.x" value="748"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idProyecto" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[102]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select SEA_CLASIFICADOR_PRESUP.SCP_ID || '. ' || SEA_CLASIFICADOR_PRESUP.SCP_NOMBRE PARTIDA,
+SEA_CLASIFICADOR_PRESUP_PADRE.SCP_ID || '. ' || SEA_CLASIFICADOR_PRESUP_PADRE.SCP_NOMBRE PARTIDA_PADRE,
+SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_ID || '. ' || SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_NOMBRE PARTIDA_PADRE2,
+SEA_CLASIFICADOR_PRESUP_PADRE3.SCP_ID || '. ' || SEA_CLASIFICADOR_PRESUP_PADRE3.SCP_NOMBRE PARTIDA_PADRE3,
+SZDTAVPRESUP.SZTVPRESUP_ESPTECNIC  DESCRIPCION,
+SZDTAVPRESUP.SZTVPRESUP_TIPOGASTO,
+SZDTAVPRESUP.SZTVPRESUP_CANTIDAD,
+SZDTAVPRESUP.SZTVPRESUP_VALOR
+from SZDTAVPRESUP , SZDTAVCLASPRE, SEA_CLASIFICADOR_PRESUP, SEA_CLASIFICADOR_PRESUP SEA_CLASIFICADOR_PRESUP_PADRE, SEA_CLASIFICADOR_PRESUP SEA_CLASIFICADOR_PRESUP_PADRE2, SEA_CLASIFICADOR_PRESUP SEA_CLASIFICADOR_PRESUP_PADRE3
+where SZTVPROYEC_CODE= $P{idProyecto}
+and SZDTAVPRESUP.SZTVPRESUP_TIPO=1
+and SZDTAVPRESUP.SZTVCLASPRE_CODE = SZDTAVCLASPRE.SZTVCLASPRE_CODE
+and SZDTAVCLASPRE.SCP_ID = SEA_CLASIFICADOR_PRESUP.SCP_ID
+and SEA_CLASIFICADOR_PRESUP.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE.SCP_ID
+and SEA_CLASIFICADOR_PRESUP_PADRE.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_ID
+and SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE3.SCP_ID]]>
+	</queryString>
+	<field name="PARTIDA" class="java.lang.String"/>
+	<field name="PARTIDA_PADRE" class="java.lang.String"/>
+	<field name="PARTIDA_PADRE2" class="java.lang.String"/>
+	<field name="PARTIDA_PADRE3" class="java.lang.String"/>
+	<field name="DESCRIPCION" class="java.lang.String"/>
+	<field name="SZTVPRESUP_TIPOGASTO" class="java.lang.String"/>
+	<field name="SZTVPRESUP_CANTIDAD" class="java.math.BigDecimal"/>
+	<field name="SZTVPRESUP_VALOR" class="java.math.BigDecimal"/>
+	<variable name="total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{SZTVPRESUP_CANTIDAD}*$F{SZTVPRESUP_VALOR}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="24">
+			<staticText>
+				<reportElement x="350" y="0" width="54" height="24" uuid="981360f9-d9b2-4ba2-ba79-16ff17c36669"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="190" height="24" uuid="169e91ba-6343-4850-8e21-09a67d9f6cff"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Partida Presupuestaria]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="0" width="92" height="24" uuid="011892d7-172d-4b3b-b343-9ef79ba4c461"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="282" y="0" width="68" height="24" uuid="9773a2c4-7040-406c-a4e2-40db1705ae26"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Gasto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="404" y="0" width="64" height="24" uuid="66555309-dbb5-4734-b40c-1528003a2e85"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Unitario (USD)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="468" y="0" width="64" height="24" uuid="783f1dcb-e6e5-42b7-9084-31ada7e697e6"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Total (USD)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Prevent">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="0" width="190" height="20" uuid="fd5b7bcf-e6a1-4017-803d-d31fe74f67f3"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PARTIDA_PADRE3}+"\n"+$F{PARTIDA_PADRE2}+"\n"+$F{PARTIDA_PADRE}+"\n"+$F{PARTIDA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="190" y="0" width="92" height="20" uuid="eab8c0e1-a843-49cf-9676-0007790c193d"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIPCION}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="282" y="0" width="68" height="20" uuid="361d7a38-3e95-4ce2-9187-5b594c4bcdbf"/>
+				<box topPadding="5" bottomPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPRESUP_TIPOGASTO}=="C"?"Permanente":"No Permanente"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="350" y="0" width="54" height="20" uuid="12447714-6997-42e7-af39-3f9b6ef0f06a"/>
+				<box topPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPRESUP_CANTIDAD}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="404" y="0" width="64" height="20" uuid="89a9f33d-483d-4540-82f6-5368b980948b"/>
+				<box topPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPRESUP_VALOR}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="468" y="0" width="64" height="20" uuid="d867e897-ed9c-4dfb-8fa6-94235c5171f5"/>
+				<box topPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPRESUP_CANTIDAD}*$F{SZTVPRESUP_VALOR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="14">
+			<staticText>
+				<reportElement x="0" y="0" width="468" height="14" uuid="12945406-cc59-4037-a6a2-c17d862f5f35"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;-#,##0.00">
+				<reportElement x="468" y="0" width="64" height="14" uuid="5e115c5f-b64b-4e57-8367-db849ed3e0dd"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

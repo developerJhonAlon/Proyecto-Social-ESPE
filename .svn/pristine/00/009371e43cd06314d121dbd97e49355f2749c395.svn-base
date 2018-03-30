@@ -1,0 +1,87 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ec.edu.espe_innovativa.controller;
+
+import ec.edu.espe_ctt.vinculacion.entity.Proyecto;
+import ec.edu.espe_ctt.vinculacion.session.ProyectoFacade;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
+/**
+ *
+ * @author Administrador
+ */
+@ManagedBean
+@ViewScoped
+public class AprobacionVicerrectorado implements Serializable {
+
+    @EJB
+    private ProyectoFacade proyectoFacade;
+    private List<Proyecto> proyectoList;
+
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
+    }
+
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
+    }
+
+    public AprobacionVicerrectorado() {
+    }
+
+    @PostConstruct
+    public void init() {
+        proyectoList = proyectoFacade.findByPorAutorizarVicerrectorado();
+    }
+    public void seleccionarNoAprobado(Proyecto proyecto) {
+        if (proyecto.getNoAprobado()!=null && proyecto.getNoAprobado()){
+            proyecto.setAprobado(false);
+        }
+    }
+    public void seleccionarAprobado(Proyecto proyecto) {
+        if (proyecto.getAprobado()!=null && proyecto.getAprobado()){
+            proyecto.setNoAprobado(false);
+        }
+    }
+
+    public String grabarAprobacionVicerrectorado() {
+        try {
+            List<Proyecto> temp = new ArrayList<>();
+            for (Proyecto proyecto : proyectoList) {
+                if (proyecto.getAprobado()!=null && proyecto.getAprobado()){
+                    proyecto.setEstado(Proyecto.ESTADO_APROBADO_VICERRECTORADO);
+                }
+                if (proyecto.getNoAprobado()!=null && proyecto.getNoAprobado()){
+                    proyecto.setEstado(Proyecto.ESTADO_RECHAZADO_VICERRECTORADO);
+                }
+                if (proyecto.getEstado().equals(Proyecto.ESTADO_APROBADO_COMISION_VINCULACION)){
+                    temp.add(proyecto);
+                }
+            }
+            proyectoFacade.actualizarProyectos(proyectoList);
+            proyectoList = proyectoFacade.findByPorAutorizarVicerrectorado();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            try {
+                Throwable t = (Throwable) e;
+                while (t.getCause() != null) {
+                    t = t.getCause();
+                }
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+            } catch (Exception e2) {
+            }
+        }
+        return "";
+    }    
+}

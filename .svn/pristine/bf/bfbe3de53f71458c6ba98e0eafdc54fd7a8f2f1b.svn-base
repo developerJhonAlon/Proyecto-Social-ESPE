@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions" 
+      >
+
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <h:body>
+        <ui:composition template="/vista/template-sistema2.xhtml">
+            <ui:define name="content">
+                <p:panel header="Matenimiento de Cobertura">
+                    <h:panelGrid id="panelPrincipal"> <!--es el nombre del panel-->
+                        <p:fieldset legend="Ingreso de Cobertura" rendered="#{matenimientoCoberturaController.catalogoCobertura!= null}">
+                            <h:panelGrid columns="3">
+                                <p:outputLabel for="txtNombre" value="NOMBRE:"></p:outputLabel>
+                                <p:inputText id="txtNombre" required="true" value="#{matenimientoCoberturaController.catalogoCobertura.descripcion}" style="width:250px" maxlength="150"></p:inputText>
+                                <p:message for="txtNombre"></p:message>
+
+                                <p:outputLabel value="ESTADO:"></p:outputLabel>
+                                <p:selectOneMenu id="selEstado" value="#{matenimientoCoberturaController.catalogoCobertura.estado}"  
+                                                 required="true" 
+                                                 >
+                                    <f:selectItem itemLabel="[[-Seleccione un item-]]" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItem itemLabel="Activo" itemValue="A"/>
+                                    <f:selectItem itemLabel="Inactivo" itemValue="I"/>
+                                </p:selectOneMenu>                                                
+                                <p:message for="selEstado"></p:message>
+
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <p:commandButton value="Grabar" 
+                                                 update=":formPrincipal:panelPrincipal, :formPrincipal:message1" 
+                                                 action="#{matenimientoCoberturaController.grabarCobertura()}" ></p:commandButton>
+                                <p:commandButton value="Cancelar"
+                                                 update=":formPrincipal:panelPrincipal"  
+                                                 action="#{matenimientoCoberturaController.cancelarCobertura()}"
+                                                 ></p:commandButton>
+
+                            </h:panelGrid>
+
+                        </p:fieldset>
+                        <p:commandButton value="Agregar" action="#{matenimientoCoberturaController.agregarCobertura()}" update="panelPrincipal"></p:commandButton>
+                        <p:outputLabel value="Listado de Cobertura ">                     
+                        </p:outputLabel>
+                        <p:dataTable id="dtCatalogo" value="#{matenimientoCoberturaController.catalogoCoberturaList}" var="catCob">
+                            <p:column headerText="CODIGO" > 
+                                <h:outputLabel value="#{catCob.id}">
+                                </h:outputLabel>
+
+                            </p:column>
+                            <p:column headerText="DESCRIPCION">
+                                <h:outputLabel value="#{catCob.descripcion}">
+                                </h:outputLabel>
+                            </p:column>                        
+                            <p:column headerText="ESTADO">
+                                <h:outputLabel value="#{catCob.estado}">
+                                </h:outputLabel>
+                            </p:column>                        
+                            <p:column headerText="ELIMINAR" width="46" style="text-align: center">
+                                <!-- el update siempre se debe poner para refrescar la pantalla que se 
+                                                 va actualizar y si se desea se pone solo la parte que se requiere ejm dtCatalogo-->
+                                                 
+                                <p:commandButton title="Eliminar el registro" icon="ui-icon-trash"
+                                                 action="#{matenimientoCoberturaController.eliminarCobertura(catCob)}" 
+                                                 update=":formPrincipal:dtCatalogo, :formPrincipal:message1"
+                                                  >
+                                    <p:confirm header="Confirmación" message="Confirma que desea eliminar el catalogo actual ?" icon="ui-icon-alert" />
+                                
+                                    <!-- el confirm es un componente y en este caso se coloca la confirmacion dentro del boton-->
+                                
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="EDITAR" width="40" style="text-align: center">
+                                <!-- el update siempre se debe poner para refrescar la pantalla que se 
+                                                 va actualizar y si se desea se pone solo la parte que se requiere ejm dtCatalogo-->
+                                                 
+                                <p:commandButton title="Editar registro" icon="ui-icon-pencil"
+                                                 action="#{matenimientoCoberturaController.editarCobertura(catCob)}" 
+                                                 update=":formPrincipal:panelPrincipal"
+                                                  >
+                                    
+                                    <!-- el confirm es un componente y en este caso se coloca la confirmacion dentro del boton-->
+                                
+                                </p:commandButton>
+                            </p:column>
+
+
+                        </p:dataTable>
+                    </h:panelGrid>
+
+                </p:panel>
+
+
+            </ui:define>
+
+
+        </ui:composition>
+
+    </h:body>
+</html>

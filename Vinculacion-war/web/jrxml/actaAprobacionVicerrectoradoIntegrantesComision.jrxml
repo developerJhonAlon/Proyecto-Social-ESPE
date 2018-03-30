@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="actaAprobacionVicerrectorado" language="groovy" pageWidth="595" pageHeight="842" columnWidth="435" leftMargin="80" rightMargin="80" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="1.0000000000000018"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="48"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nroActa" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[80]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pathAplicacion" class="java.lang.String">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\build\\web\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaActual" class="java.lang.String"/>
+	<parameter name="nroProyectos" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select * from SZDTAVACTAPRUEBA where SZDTAVACTAPRUEBA_CODE = $P{nroActa}]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="643" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="-2" y="68" width="435" height="24" uuid="9d920aa2-02b0-4b62-bf4e-de599cb19c19"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VICERRECTORADO DE INVESTIGACIÓN INNOVACIÓN Y TRANSFERENCIA DE TECNOLOGÍA]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="-2" y="203" width="435" height="16" uuid="464ecf01-cb85-475c-bcbd-3f7260cc755b"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="html">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["El Vicerrectorado de Investigación, Innovación y Transferencia de Tecnología, resuelve aprobar " +  $P{nroProyectos} + " proyecto" + ($P{nroProyectos}>1?"s":"") + " de Vinculación con la Sociedad, presentados por los Departamentos de la Universidad de las Fuerzas Armadas ESPE, que obtuvieron el puntaje requerido para continuar el proceso de aprobación, en la evaluación realizada por la Comisión Evaluadora de Proyectos Sociales, conformada por los siguientes delegados: "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="102" width="435" height="24" uuid="0c3e312c-6bf1-41d0-b95c-4d249c7b583a"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTA DE APROBACIÓN PROYECTOS DE VINCULACIÓN CON LA SOCIEDAD]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="142" width="435" height="16" uuid="76ccd9d9-ceaa-4b63-b62d-58a5c37d4817"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="html">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Acta No. " + $P{nroActa}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="168" width="435" height="16" uuid="4fe12b94-a7ee-42ed-940d-e03d7f48716c"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="html">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fecha: " + $P{fechaActual}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

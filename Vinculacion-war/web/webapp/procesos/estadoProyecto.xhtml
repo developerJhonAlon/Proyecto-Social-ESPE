@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:body>    
+        <ui:composition template="/vista/template-sistema2.xhtml">
+            <ui:define name="content">
+
+                <style>
+                    .ui-panel .ui-panel-content {
+                        padding: 0;
+                    }            
+                </style>                 
+
+                <p:panel id="panelBase" header="Control de proyectos" style="border: hidden; margin-bottom: 35px">
+                    <p:panel id="panelProyectos" style="border: hidden;"> 
+
+                        <p:dataTable id="dtProyectos" value="#{estadoProyectoController.proyectoList}" var="d" 
+                                     rowKey="#{d.id}"
+                                     editable="true" editMode="cell" widgetVar="cellCars"
+                                     paginator="true" rows="10" rowIndexVar="index" resizableColumns="true" 
+                                     emptyMessage="No se encontraron resultados"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                     rowsPerPageTemplate="5,10,15,20,30,50,100" >
+
+                            <p:ajax event="cellEdit" listener="#{estadoProyectoController.onCellEdit}" update=":formPrincipal:panelProyectos"/>
+
+                            <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{d.id}">
+                                <h:outputText value="#{index + 1}" />
+                            </p:column>
+                            <p:column headerText="Código" width="100" style="white-space: pre-line"  sortBy="#{d.codigo}" filterBy="#{d.codigo}" filterMatchMode="contains">
+                                <h:outputText  value ="#{d.codigo}"/> 
+                            </p:column>
+                            <p:column headerText="Nombre" style="white-space: pre-line" sortBy="#{d.nombre}" filterBy="#{d.nombre}" filterMatchMode="contains">
+                                <h:outputText  value ="#{d.nombre}"/> 
+                            </p:column>
+
+                            <p:column  headerText="Estado" width="200" style="white-space: pre-line" sortBy="#{d.estado.prdDescripcion}" filterBy="#{d.estado.prdDescripcion}" filterMatchMode="contains">                                
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{d.estado.prdDescripcion}" /></f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu value="#{d.estado.prdId}" style="width:100%">
+                                             <f:selectItems value="#{estadoProyectoController.estadoList}" var="color" itemLabel="#{color.prdDescripcion}" itemValue="#{color.prdId}" />
+                                        </h:selectOneMenu>                                          
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:contextMenu for="dtProyectos" widgetVar="cMenu">   
+                                <p:menuitem value="Edit Cell" icon="ui-icon-search" onclick="PF('cellCars').showCellEditor();return false;"/>  
+                                <p:menuitem value="Hide Menu" icon="ui-icon-close" onclick="PF('cMenu').hide()"/>  
+                            </p:contextMenu> 
+
+                        </p:dataTable>       
+
+
+                    </p:panel>
+
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

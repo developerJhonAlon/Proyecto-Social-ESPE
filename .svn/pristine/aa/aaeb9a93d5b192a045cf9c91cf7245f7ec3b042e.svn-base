@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyectoCronograma" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="2.3579476910000023"/>
+	<property name="ireport.x" value="94"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="cronograma" uuid="a0d614ed-4312-4a00-8206-cdd2fdbd0574">
+		<parameter name="idObjetivo" class="java.math.BigDecimal"/>
+		<queryString>
+			<![CDATA[select
+OBJ.SVOP_OBJETIVO_PROY,
+OBJ.SVOP_FEC_INI,
+OBJ.SVOP_FEC_FIN
+from SZDTAVOBJETIVO_PROGRAMA OBJ
+where OBJ.SVOP_ID_PADRE =$P{idObjetivo}
+order by obj.SVOP_ORDEN]]>
+		</queryString>
+		<field name="SVOP_OBJETIVO_PROY" class="java.lang.String"/>
+		<field name="SVOP_FEC_INI" class="java.sql.Timestamp"/>
+		<field name="SVOP_FEC_FIN" class="java.sql.Timestamp"/>
+	</subDataset>
+	<parameter name="idProyecto" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[102]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select  obj.SVOP_ID,
+obj.SVOP_TIPO,
+OBJ.SVOP_OBJETIVO_PROY,
+(CASE SVOP_INDICADOR_TIPO WHEN 2 THEN 'Porcentaje' ELSE 'Valor' END) INDICADOR_TIPO,
+OBJ.SVOP_INDICADOR_VALOR,
+OBJ.SVOP_INDICADOR,
+OBJ.SVOP_MVERIFICA,
+OBJ.SVOP_SUPUESTOS,
+(select  min(trunc(svop_fec_ini, 'MONTH'))
+from SZDTAVOBJETIVO_PROGRAMA
+where SVOP_ID_PADRE=obj.SVOP_ID
+and SVOP_TIPO=4) FECHA_INICIAL,
+(select  add_months(max(trunc(svop_fec_fin, 'MONTH')),2)
+from SZDTAVOBJETIVO_PROGRAMA
+where SVOP_ID_PADRE=obj.SVOP_ID
+and SVOP_TIPO=4) FECHA_FINAL,
+(select  add_months(min(trunc(svop_fec_ini, 'MONTH')),12)
+from SZDTAVOBJETIVO_PROGRAMA
+where SVOP_ID_PADRE=obj.SVOP_ID
+and SVOP_TIPO=4) FECHA_FINAL2
+from SZDTAVOBJETIVO_PROGRAMA OBJ
+where OBJ.SZTVPROYEC_CODE = $P{idProyecto}
+and OBJ.SVOP_TIPO = 3
+order by OBJ.SVOP_ORDEN]]>
+	</queryString>
+	<field name="SVOP_ID" class="java.math.BigDecimal"/>
+	<field name="SVOP_TIPO" class="java.math.BigDecimal"/>
+	<field name="SVOP_OBJETIVO_PROY" class="java.lang.String"/>
+	<field name="INDICADOR_TIPO" class="java.lang.String"/>
+	<field name="SVOP_INDICADOR_VALOR" class="java.math.BigDecimal"/>
+	<field name="SVOP_INDICADOR" class="java.lang.String"/>
+	<field name="SVOP_MVERIFICA" class="java.lang.String"/>
+	<field name="SVOP_SUPUESTOS" class="java.lang.String"/>
+	<field name="FECHA_INICIAL" class="java.sql.Timestamp"/>
+	<field name="FECHA_FINAL" class="java.sql.Timestamp"/>
+	<field name="FECHA_FINAL2" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="37" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="532" height="20" uuid="fd5b7bcf-e6a1-4017-803d-d31fe74f67f3"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SVOP_OBJETIVO_PROY}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="30" y="20" width="502" height="17" uuid="72da7776-f4dd-4324-9275-557328740d32"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actividades:]]></text>
+			</staticText>
+		</band>
+		<band height="65">
+			<subreport>
+				<reportElement positionType="Float" x="30" y="0" width="502" height="14" uuid="98a54581-b2bc-4982-aa93-84109e29f8ce"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idObjetivo">
+					<subreportParameterExpression><![CDATA[$F{SVOP_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fecInicial">
+					<subreportParameterExpression><![CDATA[$F{FECHA_INICIAL}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fecFinal">
+					<subreportParameterExpression><![CDATA[$F{FECHA_FINAL}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fecFinal2">
+					<subreportParameterExpression><![CDATA[$F{FECHA_FINAL2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoCronogramaActividad.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" x="30" y="14" width="502" height="17" uuid="9b89b4b3-df58-428b-8962-d5aa2235d936"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hitos:]]></text>
+			</staticText>
+			<subreport>
+				<reportElement positionType="Float" x="30" y="31" width="502" height="14" uuid="60412d49-9ee6-455b-8451-aaa1d61c2eb4"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idObjetivo">
+					<subreportParameterExpression><![CDATA[$F{SVOP_ID}.intValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoCronogramaHito.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

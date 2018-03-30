@@ -1,0 +1,118 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ec.edu.espe_ctt.convocatoria.controller;
+
+import ec.edu.espe_ctt.seguridades.entity.SegUsuario;
+import ec.edu.espe_ctt.vinculacion.entity.Proyecto;
+import ec.edu.espe_ctt.vinculacion.entity.SvinResponsableProg;
+import ec.edu.espe_ctt.vinculacion.entity.VDocenteVinculacion2;
+import ec.edu.espe_ctt.vinculacion.session.ProyectoFacade;
+import ec.edu.espe_ctt.vinculacion.session.VDocenteVinculacion2Facade;
+import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
+
+@ManagedBean(name = "busquedaDocenteController")
+@ViewScoped
+public class BusquedaDocenteController implements Serializable {
+
+    @EJB
+    private VDocenteVinculacion2Facade docenteFacade;
+    private List<VDocenteVinculacion2> docenteList;
+    private String cedula;
+    private String nombres;
+    private String apellidos;
+    private Proyecto proyectoSelected;
+    @EJB
+    private ProyectoFacade proyectoFacade;
+
+    @PostConstruct
+    public void init() {
+        Object idProyecto = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idProyecto");
+        proyectoSelected= proyectoFacade.findById(Integer.valueOf(idProyecto.toString()));
+    }
+
+    public List<VDocenteVinculacion2> getDocenteList() {
+        return docenteList;
+    }
+
+    public void setDocenteList(List<VDocenteVinculacion2> docenteList) {
+        this.docenteList = docenteList;
+    }
+
+    public void selectDocenteFromDialog(VDocenteVinculacion2 docente) {
+        /*FacesContext context = FacesContext.getCurrentInstance();
+        ProyectoController proyectoController = context.getApplication().evaluateExpressionGet(context, "#{proyectoController}", ProyectoController.class);
+        List<SvinResponsableProg> temp = proyectoController.getProyectoSelected().getParticipanteList();
+        for (SvinResponsableProg resp : temp) {
+            if (resp.getUsuario().getUsuId().equals(docente.getUsuario().getUsuId())){
+                FacesContext.getCurrentInstance().addMessage("j_idt6:txtCedula", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El docente ya se encuentra asignado al proyecto."));
+                return;
+            }
+        }
+        RequestContext.getCurrentInstance().closeDialog(docente); 
+*/
+        for (SvinResponsableProg resp : proyectoSelected.getParticipanteList()) {
+            if (resp.getUsuario().getUsuId().equals(docente.getUsuario().getUsuId())){
+                FacesContext.getCurrentInstance().addMessage("j_idt6:txtCedula", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El docente ya se encuentra asignado al proyecto."));
+                return;
+            }
+        }
+        RequestContext.getCurrentInstance().closeDialog(docente); 
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String buscar() {
+        if (cedula.trim().isEmpty() && nombres.trim().isEmpty() && apellidos.trim().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage("txtCedula", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe seleccionar al menos un criterio de búsqueda"));
+        } else {
+            docenteList = docenteFacade.findByCedNomApe(cedula, nombres, apellidos);
+        }
+
+        return "";
+    }
+    
+    private Integer idProyecto;
+
+    public Integer getIdProyecto() {
+        return idProyecto;
+    }
+
+    public void setIdProyecto(Integer idProyecto) {
+        this.idProyecto = idProyecto;
+    }
+    
+    
+}

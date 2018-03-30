@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyectoObjetivosPLNBVPoliticas" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="5.054470284992949"/>
+	<property name="ireport.x" value="125"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idProyecto" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[102]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idObjetivo" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[Select SVOBVI_DESCRIPCION, SVOBVI_ORDEN
+from SZDTAVPROG_OBJ, SZDTAVOBJETIVO_B_VIVIR
+where SZTVPROYEC_CODE = $P{idProyecto}
+and SZDTAVOBJETIVO_B_VIVIR.SVOBVI_ID_PADRE = $P{idObjetivo}
+AND SZDTAVPROG_OBJ.SVOBVI_ID = SZDTAVOBJETIVO_B_VIVIR.SVOBVI_ID]]>
+	</queryString>
+	<field name="SVOBVI_DESCRIPCION" class="java.lang.String"/>
+	<field name="SVOBVI_ORDEN" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="15">
+			<staticText>
+				<reportElement x="0" y="0" width="532" height="15" uuid="169e91ba-6343-4850-8e21-09a67d9f6cff"/>
+				<box topPadding="1" leftPadding="25" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Políticas:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="16" splitType="Prevent">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="532" height="16" uuid="fd5b7bcf-e6a1-4017-803d-d31fe74f67f3"/>
+				<box topPadding="1" leftPadding="25" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SVOBVI_ORDEN}+". "+$F{SVOBVI_DESCRIPCION}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

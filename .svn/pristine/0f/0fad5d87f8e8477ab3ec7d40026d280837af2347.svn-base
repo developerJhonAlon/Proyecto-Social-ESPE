@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:body>    
+        <ui:composition template="/vista/template-sistema2.xhtml">
+            <ui:define name="content">
+
+                <style>
+                    .ui-panel .ui-panel-content {
+                        padding: 0;
+                    }            
+                </style>                 
+
+                <p:panel header="Reportes" style="border: hidden;">
+                    <h:panelGrid columns="3" columnClasses="menu, alineadoSuperior" style="width: 100%">
+                        <h:panelGrid id="panelMenu" columns="1" style="margin-top: 10px">
+                            <p:tree id="treeMenu" value="#{reportesController.opcionesMenu}" var="opcion"
+                                    selectionMode="single"
+                                    selection="#{reportesController.opcionMenuSelected}"
+                                    style="width: 201px"
+                                    >
+                                <p:ajax event="select" listener="#{reportesController.onMenuSelect}" update=":formPrincipal:panelCentral"
+                                        onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"/>
+                                <p:treeNode styleClass="menuOpciones2">
+                                    <h:outputText value="#{opcion.nombre}" style="white-space: pre-line" />
+                                </p:treeNode>
+                            </p:tree>
+
+                        </h:panelGrid>
+
+                        <p:panel id="panelCentral" style="width: 98%; border: hidden ">
+
+
+
+                            <!--panelProyectosAprobacionVicerrectorado-->
+                            <p:panel id="panelProyectosAprobacionVicerrectorado" rendered="#{reportesController.opcionMenuCodeSelected=='1'}" style="border: hidden; margin-left: 20px;">
+                                <h:panelGrid cellspacing="5" columns="1" style="width: 100%"
+                                             >
+                                    <p:fieldset 
+                                        legend="Reporte: Proyectos pendientes de evaluación por Vicerrectorado">
+                                        <h:panelGrid columns="3">
+                                            <p:outputLabel value="Seleccione la configuración de parámetros:" for="selConfigParametros"/>
+                                            <p:selectOneMenu id="selConfigParametros" value="#{reportesController.configuracionParametrosEvaluacionSelected}" 
+                                                             converter="omnifaces.SelectItemsConverter">
+                                                <f:selectItem itemLabel="[[-Seleccione un item-]]" itemValue="" noSelectionOption="true"/>
+                                                <f:selectItems value="#{reportesController.configuracionParametrosEvaluacionList}" var="conf" itemLabel="#{conf.descripcion}" itemValue="#{conf}" />
+                                                <p:ajax event="change" update=":formPrincipal:dtProyectosAprobacionVicerrectorado" 
+                                                        listener="#{reportesController.seleccionarConfiguracionParametrosEvaluacion()}" 
+                                                        onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                        />
+                                            </p:selectOneMenu>
+                                            <p:message for="selConfigParametros"></p:message>
+                                        </h:panelGrid> 
+
+                                        <h:panelGrid columns="1" style="width: 100%; margin-bottom: 10px">
+                                            <h:panelGrid columns="2">
+                                                <h:commandLink rendered="false" target="_blank" actionListener="#{reportesController.generarReportePDF()}"
+                                                               title="Exportar a PDF">
+                                                    <p:graphicImage url="../../resources/images/pdf.png"/>
+                                                </h:commandLink>
+                                                <h:commandLink rendered="false" target="_blank" actionListener="#{reportesController.generarReporteExcel()}"
+                                                               title="Exportar a Excel">
+                                                    <p:graphicImage url="../../resources/images/excel2.png" width="33"/>
+                                                </h:commandLink>
+
+                                                <h:commandLink rendered="false">
+                                                    <p:graphicImage value="/resources/images/pdf.png"/>  
+                                                    <p:dataExporter type="pdf" target="dtProyectosAprobacionVicerrectorado" fileName="cars" pageOnly="false" preProcessor="#{reportesController.preProcessPDF}" />
+                                                </h:commandLink>
+
+                                                <p:commandLink rendered="false" id="repPdf" ajax="false" title="Exportar a PDF">  
+                                                    <p:graphicImage value="/resources/images/pdf.png"/>  
+                                                    <f:setPropertyActionListener value="true" target="#{exporterController.customExporter}" /> 
+                                                    <pe:exporter type="pdf" target="dtProyectosAprobacionVicerrectorado" fileName="dynamicColumnsTable" 
+                                                                 encoding="ISO-8859-1"
+                                                                 orientation="Landscape"
+                                                                 preProcessor="#{reportesController.preProcessPDF}"
+                                                                 />  
+                                                </p:commandLink>  
+                                                <p:commandLink id="xls" ajax="false" title="Exportar a Excel">  
+                                                    <p:graphicImage value="/resources/images/excel2.png" width="33"/>  
+                                                    <f:setPropertyActionListener value="true" target="#{exporterController.customExporter}" />  
+                                                    <pe:exporter type="xlsx" target="dtProyectosAprobacionVicerrectorado" fileName="dynamicColumnsTable"/>  
+                                                </p:commandLink>                                                 
+
+                                            </h:panelGrid>
+                                            <p:dataTable id="dtProyectosAprobacionVicerrectorado" value="#{reportesController.proyectoList}" var="proy"
+                                                         rowIndexVar="index"  style="width: 3000px">
+                                                <p:columnGroup type="header">
+                                                    <p:row>
+                                                        <p:column rowspan="3" headerText="Nro." />
+                                                        <p:column rowspan="3" headerText="Proyecto" />
+                                                        <p:column rowspan="3" headerText="Objetivo" />
+                                                        <p:column rowspan="3" headerText="Director Proyecto" />
+                                                        <p:column rowspan="3" headerText="Teléfono" />
+                                                        <p:column rowspan="3" headerText="Correo Electónico" />
+                                                        <p:column rowspan="3" headerText="Departamento" />
+                                                        <p:column rowspan="3" headerText="Aporte de la ESPE Gasto No Permanente" />
+                                                        <p:column rowspan="3" headerText="Aporte de la ESPE Gasto Permanente" />
+                                                        <p:column rowspan="3" headerText="Aporte Patrocinador" />
+                                                        <p:column rowspan="3" headerText="Aporte de la Comunidad Beneficiaria" />
+                                                        <p:column rowspan="3" headerText="Monto Total" />
+                                                        <p:column rowspan="3" headerText="Fecha de inicio del proyecto planificada" />
+                                                        <p:column rowspan="3" headerText="Fecha de fin del proyecto planificada" />
+                                                        <p:column colspan="#{reportesController.colspanParametrosEvaluacion}" headerText="PARÁMETROS DE EVALUACIÓN" />
+                                                    </p:row>
+                                                    <p:row>
+                                                        <c:forEach items="#{reportesController.cols}" var="col">
+                                                            <p:column headerText="#{col}" colspan="#{reportesController.colsSpan[col]}">
+                                                            </p:column>
+                                                        </c:forEach>
+                                                        <p:column rowspan="2" headerText="TOTAL" />
+                                                        <p:column rowspan="2" headerText="PORCENTAJE" />
+                                                        <p:column rowspan="2" headerText="Observaciones" />
+                                                    </p:row>
+                                                    <p:row>
+                                                        <c:forEach items="#{reportesController.cols2}" var="col2">
+                                                            <p:column headerText="#{col2.descripcion.concat(' (').concat(col2.puntaje).toString().concat(' Puntos)')}">
+                                                            </p:column>
+                                                        </c:forEach>
+                                                    </p:row>
+                                                </p:columnGroup>
+                                                <p:column style="width:20px">
+                                                    <h:outputText value="#{index + 1}"/>
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.nombre}"/>  
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.objetivoGeneral.svopObjetivoProy}"/>  
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.director.usuario.usuNombres.concat(' ').concat(proy.director.usuario.usuApellidos)}"/>  
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.director.usuario.usuTelefonoFijo}"/>  
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.director.usuario.usuEmail}"/>  
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.departamento.stvsubjDesc}"/>  
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.presupuestoAporteUniv}">  
+                                                        <f:convertNumber locale="es"  pattern="#,##0.00" />
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.presupuestoAporteUnivValorado}">  
+                                                        <f:convertNumber locale="es"  pattern="#,##0.00" />
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.presupuestoEntidadAuspiciante}">
+                                                        <f:convertNumber locale="es"  pattern="#,##0.00" />
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.presupuestoContraparte}">  
+                                                        <f:convertNumber locale="es"  pattern="#,##0.00" />
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.presupuestoTotal}">  
+                                                        <f:convertNumber locale="es"  pattern="#,##0.00" />
+                                                    </h:outputText> 
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.fechaInicio}">  
+                                                        <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.fechaFinalizacion}">  
+                                                        <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                                    </h:outputText>
+                                                </p:column>
+
+                                                <p:columns value="#{reportesController.cols2}" var="col2">
+                                                    <h:outputText value="#{proy.columns[col2.id].puntaje==-1?'':proy.columns[col2.id].puntaje}"/>
+                                                </p:columns>        
+                                                <p:column>
+                                                    <h:outputText value="#{proy.consolidacionCalificacionUltimaList[0].totalPuntaje}">  
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.consolidacionCalificacionUltimaList[0].totalPuntaje/proy.configuracionParametrosEvaluacion.puntajeMinimoRequerido}">  
+                                                        <f:convertNumber locale="es"  pattern="###0.00%" />
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column>
+                                                    <h:outputText value="#{proy.consolidacionCalificacionUltimaList[0].observacionesConsolidado}">  
+                                                    </h:outputText>
+                                                </p:column>
+
+
+
+                                            </p:dataTable>
+                                        </h:panelGrid>
+                                    </p:fieldset>                                
+                                </h:panelGrid>
+
+                            </p:panel>
+
+
+
+                            <!--panelProgramasEjecutadosAnio-->
+                            <p:panel id="panelProgramasEjecutadosAnio" rendered="#{reportesController.opcionMenuCodeSelected=='3'}" style="border: hidden; margin-left: 20px;">
+                                <h:panelGrid cellspacing="5" columns="1" style="width: 100%"
+                                             >
+                                    
+                                      <p:outputLabel value="Reportes:" for="somReportes"/>
+                                            <p:selectOneMenu  id="somReportes"
+                                                              value="#{reportesController.codigoReporte}">
+                                                <f:selectItem itemLabel="Programas Ejecutados" itemValue="1" />
+                                                <f:selectItem itemLabel="Avance del programa" itemValue="2" />
+                                                <f:selectItem itemLabel="Avance del proyecto" itemValue="3" />
+                                               
+                                                <p:ajax event="change" update=":formPrincipal:fsFiltros" />
+
+                                            </p:selectOneMenu>
+                                      
+                                    
+                                      <p:fieldset id="fsFiltros"
+                                        legend="Reporte:">
+                                        <h:panelGrid columns="2">
+                                            <h:panelGrid columns="2">
+                                                <p:outputLabel value="Desde:" for="calFechaDesde"/>
+                                                <p:calendar id="calFechaDesde" value="#{reportesController.fechaDesde}" 
+                                                            timeZone="#{parametrosApplication.timeZone}"
+                                                            required="true"
+                                                            locale="#{parametrosApplication.local}" pattern="#{parametrosApplication.formatoFecha}"
+                                                            showButtonPanel="true"  showOn="button" showOtherMonths="true" navigator="true"/>
+
+                                            </h:panelGrid>
+                                            <h:panelGrid columns="2">
+                                                <p:outputLabel value="Hasta:" for="calFechaHasta"/>
+                                                <p:calendar id="calFechaHasta" value="#{reportesController.fechaHasta}" 
+                                                            required="true"
+                                                            timeZone="#{parametrosApplication.timeZone}"
+                                                            locale="#{parametrosApplication.local}" pattern="#{parametrosApplication.formatoFecha}"
+                                                            showButtonPanel="true"  showOn="button" showOtherMonths="true" navigator="true"/>
+                                            </h:panelGrid>
+
+                                            <p:outputLabel value="Programas:" for="somProgramas"/>
+                                            <p:selectOneMenu  id="somProgramas"
+                                                              value="#{reportesController.codigoPrograma}"
+                                                              effect="fade"
+                                                              filter="true">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="-1" />
+                                                
+                                                <f:selectItems value="#{reportesController.programas}" var="programa" 
+                                                               itemValue="#{programa.id}" itemLabel="#{programa.nombre}"
+                                                               >
+
+                                                </f:selectItems>
+
+
+                                            </p:selectOneMenu>
+                                            
+                                            <p:outputLabel value="Proyecto:" for="somProyecto"/>
+                                            <p:selectOneMenu  id="somProyecto"
+                                                              value="#{reportesController.codigoProyecto}"
+                                                              effect="fade"
+                                                              filter="true">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="-1" />
+                                                
+                                                <f:selectItems value="#{reportesController.proyectos}" var="proyecto" 
+                                                               itemValue="#{proyecto.id}" itemLabel="#{proyecto.nombre}"
+                                                               >
+
+                                                </f:selectItems>
+
+
+                                            </p:selectOneMenu>
+
+                                            <p:outputLabel value="Carreras:" for="somCarreras" rendered="#{reportesController.codigoReporte eq '1'}"/>
+                                            <p:selectOneMenu  id="somCarreras"
+                                                              rendered="#{reportesController.codigoReporte eq '1'}"
+                                                              value="#{reportesController.codigoCarrera}"
+                                                              effect="fade"
+                                                              filter="true">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" />
+                                                <f:selectItems value="#{reportesController.carrerasPrograma}" var="carrera" 
+                                                               itemValue="#{carrera.stvmajrCode}" itemLabel="#{carrera.stvmajrDesc}"
+                                                               >
+
+                                                </f:selectItems>
+
+
+                                            </p:selectOneMenu>
+
+                                            <p:outputLabel value="Departamentos:" for="somDepartamentos"/>
+                                            <p:selectOneMenu  id="somDepartamentos"
+                                                              value="#{reportesController.codigoDepartamento}"
+                                                              effect="fade"
+                                                              filter="true">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="%" />
+                                                <f:selectItems value="#{reportesController.departamentos}" var="departamento" 
+                                                               itemValue="#{departamento.stvsubjCode}" itemLabel="#{departamento.stvsubjDesc}"
+                                                               >
+
+                                                </f:selectItems>
+
+
+                                            </p:selectOneMenu>
+                                            
+                                            <p:outputLabel value="Provincias:" for="somProvincias" rendered="#{reportesController.codigoReporte eq '1'}"/>
+                                            <p:selectOneMenu  id="somProvincias"
+                                                              rendered="#{reportesController.codigoReporte eq '1'}"
+                                                              value="#{reportesController.codigoProvincia}"
+                                                              effect="fade"
+                                                              filter="true">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" />
+                                                <f:selectItems value="#{reportesController.provincias}" var="provincia" 
+                                                               itemValue="#{provincia.proId}" itemLabel="#{provincia.proNombre}"
+                                                               >
+
+                                                </f:selectItems>
+
+
+                                            </p:selectOneMenu>
+
+                                            <p:outputLabel value="Sedes:" for="somSedes" rendered="#{reportesController.codigoReporte eq '1'}"/>
+                                            <p:selectOneMenu  id="somSedes"
+                                                              value="#{reportesController.codigoSede}"
+                                                              effect="fade"
+                                                              filter="true"
+                                                              rendered="#{reportesController.codigoReporte eq '1'}">
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="" />
+                                                <f:selectItems value="#{reportesController.sedes}" var="sede" 
+                                                               itemValue="#{sede.stvcampCode}" itemLabel="#{sede.stvcampDesc}"
+                                                               >
+
+                                                </f:selectItems>
+
+
+                                            </p:selectOneMenu>
+
+<!--                                            <p:outputLabel value="Seleccione la configuración de parámetros:" for="selConfigProgramas"/>
+                                            <p:selectOneMenu id="selConfigProgramas" value="#{reportesController.configuracionParametrosEvaluacionSelected}" 
+                                                             converter="omnifaces.SelectItemsConverter">
+                                                <f:selectItem itemLabel="[[-Seleccione un item-]]" itemValue="" noSelectionOption="true"/>
+                                                <f:selectItems value="#{reportesController.configuracionParametrosEvaluacionList}" var="conf" itemLabel="#{conf.descripcion}" itemValue="#{conf}" />
+                                                <p:ajax event="change" update=":formPrincipal:dtProyectosAprobacionVicerrectorado" 
+                                                        listener="#{reportesController.seleccionarConfiguracionParametrosEvaluacion()}" 
+                                                        onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                        />
+                                            </p:selectOneMenu>
+                                            <p:message for="selConfigParametros"></p:message>-->
+                                        </h:panelGrid> 
+
+                                        <h:panelGrid columns="1" style="width: 100%; margin-bottom: 10px">
+                                            <h:panelGrid columns="2">
+                                                <h:commandLink rendered="true" target="_blank" actionListener="#{reportesController.generarReportePDF()}"
+                                                               title="Exportar a PDF">
+                                                    <p:graphicImage url="../../resources/images/pdf.png"/>
+                                                </h:commandLink>
+                                                <h:commandLink rendered="true" target="_blank" actionListener="#{reportesController.generarReporteExcel()}"
+                                                               title="Exportar a Excel">
+                                                    <p:graphicImage url="../../resources/images/excel2.png" width="33"/>
+                                                </h:commandLink>
+
+
+
+                                            </h:panelGrid>
+
+                                        </h:panelGrid>
+                                    </p:fieldset>                                
+                                </h:panelGrid>
+
+                            </p:panel>
+
+
+                        </p:panel>
+
+
+                    </h:panelGrid>
+
+                </p:panel>
+
+
+
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

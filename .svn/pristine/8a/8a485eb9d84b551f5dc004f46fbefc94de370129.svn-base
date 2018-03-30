@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="proyectosEjecutados" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4bbfdc44-6e61-4d91-81db-bec0723057ab">
+	<property name="ireport.zoom" value="1.610510000000013"/>
+	<property name="ireport.x" value="340"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dirPhoto" class="java.lang.String">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\imagenes\\banner_SSD.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pathAplicacion" class="java.lang.String">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\build\\web\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoDepartamento" class="java.lang.String"/>
+	<parameter name="codigoCarrera" class="java.lang.String"/>
+	<parameter name="fechaDesde" class="java.util.Date"/>
+	<parameter name="fechaHasta" class="java.util.Date"/>
+	<parameter name="codigoSede" class="java.lang.String"/>
+	<parameter name="codigoPrograma" class="java.lang.Integer"/>
+	<parameter name="estado" class="java.lang.String"/>
+	<parameter name="codigoProvincia" class="java.lang.String"/>
+	<parameter name="codigoCanton" class="java.lang.String"/>
+	<parameter name="codigoParroquia" class="java.lang.String"/>
+	<parameter name="cobertura" class="java.lang.Integer"/>
+	<parameter name="tipoProyecto" class="java.lang.String"/>
+	<parameter name="whereDepartamento" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{codigoDepartamento}==""?"":" and exists (select SZTVPROYEC_CODE from SZDTAVDOCPARTI dep where dep.SZTVPROYEC_CODE = proy.SZTVPROYEC_CODE  and dep.STVSUBJ_CODE ='"+$P{codigoDepartamento}+"')"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="whereCarrera" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{codigoCarrera}==""?"":" and exists (select SZTVPROYEC_CODE from SZDTAVESTUPARTI car where car.SZTVPROYEC_CODE = proy.SZTVPROYEC_CODE  and car.stvmajr_code ='"+$P{codigoCarrera}+"')"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="whereFechaInicio" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{fechaDesde}==null?"":" and proy.SZTVPROYEC_FECHA_INICIO >= "+$P{fechaDesde}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="whereFechaFin" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{fechaHasta}==null?"":" and proy.SZTVPROYEC_FECHA_FINALIZA <= "+$P{fechaHasta}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="whereCampus" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{codigoSede}==""?"":" and exists (select SZTVPROYEC_CODE from SZDTAVDOCPARTI cam where cam.SZTVPROYEC_CODE = proy.SZTVPROYEC_CODE  and cam.stvcamp_code ='"+$P{codigoSede}+"')"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="wherePrograma" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{codigoPrograma}==-1?"":" and prog.SPRV_ID ="+$P{codigoPrograma}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="whereEstado" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{estado}==""?"":" and SZTVPROYEC_ESTADO ='"+$P{estado}+"'"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="whereProvincia" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{codigoProvincia}==""?"":" and exists (select SZTVPROYEC_CODE from SZDTAVZONA_DETALLE prov where prov.SZTVPROYEC_CODE = proy.SZTVPROYEC_CODE  and prov.pro_id ='"+$P{codigoProvincia}+"')"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="whereCanton" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{codigoCanton}==""?"":" and exists (select SZTVPROYEC_CODE from SZDTAVZONA_DETALLE can where can.SZTVPROYEC_CODE = proy.SZTVPROYEC_CODE  and can.can_id ='"+$P{codigoCanton}+"')"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="whereParroquia" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{codigoParroquia}==""?"":" and exists (select SZTVPROYEC_CODE from SZDTAVZONA_DETALLE parr where parr.SZTVPROYEC_CODE = proy.SZTVPROYEC_CODE  and parr.prq_id ='"+$P{codigoParroquia}+"')"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="whereCobertura" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{cobertura}==0?"":" and proy.SZTVPROYEC_COBERTURA ="+$P{cobertura}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="whereTipoProyecto" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{tipoProyecto}==""?"":" and proy.SZTVPROYEC_TIPO_PROY ="+$P{tipoProyecto}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramSql" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["select PROG.SPRV_NOMBRE, PROY.SZTVPROYEC_TIPO_PROY, proy.SZTVPROYEC_CODE,  proy.SZTVPROYEC_CODIGO, proy.SZTVPROYEC_ESTADO, proy.SZTVPROYEC_NOMBRE, proy.SZTVPROYEC_COBERTURA, proy.SZTVPROYEC_FECHA_INICIO, proy.SZTVPROYEC_FECHA_FINALIZA, (select  usu.usu_nombres from SZDTAVRESPONSABLE_PROG dir inner join  seg_usuario usu on dir.usu_id_docente = usu.usu_id where dir.sztvtipres_code = 1 and DIR.SZTVPROYEC_CODE = proy.SZTVPROYEC_CODE) DIR_NOMBRE, (select  usu.usu_apellidos from SZDTAVRESPONSABLE_PROG dir inner join  seg_usuario usu on dir.usu_id_docente = usu.usu_id where dir.sztvtipres_code = 1 and DIR.SZTVPROYEC_CODE = proy.SZTVPROYEC_CODE) DIR_APELLIDO, (select  usu.usu_cc  from SZDTAVRESPONSABLE_PROG dir inner join  seg_usuario usu on dir.usu_id_docente = usu.usu_id where dir.sztvtipres_code = 1 and DIR.SZTVPROYEC_CODE = proy.SZTVPROYEC_CODE) DIR_CEDULA, (select  USU_EMAIL  from SZDTAVRESPONSABLE_PROG dir inner join  seg_usuario usu on dir.usu_id_docente = usu.usu_id where dir.sztvtipres_code = 1 and DIR.SZTVPROYEC_CODE = proy.SZTVPROYEC_CODE) DIR_MAIL, (select  USU_TELEFONO_FIJO  from SZDTAVRESPONSABLE_PROG dir inner join  seg_usuario usu on dir.usu_id_docente = usu.usu_id where dir.sztvtipres_code = 1 and DIR.SZTVPROYEC_CODE = proy.SZTVPROYEC_CODE) DIR_TELEFONO  from SZDTAVPROYEC proy, SZDTAVPROGRAMA_V PROG where PROY.SPRV_ID = PROG.SPRV_ID AND proy.SZTVPROYEC_ESTADO_ACTIVO = 'A'"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[$P!{paramSql}]]>
+	</queryString>
+	<field name="SZTVPROYEC_CODIGO" class="java.lang.String"/>
+	<field name="SZTVPROYEC_ESTADO" class="java.lang.String"/>
+	<field name="SZTVPROYEC_NOMBRE" class="java.lang.String"/>
+	<field name="SZTVPROYEC_COBERTURA" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_FECHA_INICIO" class="java.sql.Timestamp"/>
+	<field name="SZTVPROYEC_FECHA_FINALIZA" class="java.sql.Timestamp"/>
+	<field name="SZTVPROYEC_CODE" class="java.lang.Integer"/>
+	<field name="SPRV_NOMBRE" class="java.lang.String"/>
+	<field name="DIR_CEDULA" class="java.lang.String"/>
+	<field name="DIR_NOMBRE" class="java.lang.String"/>
+	<field name="DIR_APELLIDO" class="java.lang.String"/>
+	<field name="DIR_MAIL" class="java.lang.String"/>
+	<field name="DIR_TELEFONO" class="java.lang.String"/>
+	<field name="SZTVPROYEC_TIPO_PROY" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="78">
+			<image>
+				<reportElement x="0" y="3" width="167" height="45" uuid="92ca7fb2-7995-45b3-b6e4-e51cd8fec1d6"/>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/logoEspeReportePerfil.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="504" y="0" width="48" height="48" uuid="07ae5dda-70db-4332-8f40-ddd20d71525a"/>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/logoVinculacionReportePerfil.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="53" width="552" height="20" backcolor="#E2E0E0" uuid="32c1a16b-0325-49b5-a250-b0da8c0f05b2"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE GENERAL DE PROYECTOS]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Prevent">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="58" height="20" backcolor="#CCCCCC" uuid="a14e7e29-d5cc-4e6d-9e84-2e0c8a93bb41"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="178" y="0" width="118" height="20" backcolor="#CCCCCC" uuid="affd6357-1e34-4e73-92af-96af92d8132f"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROYECTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="355" y="0" width="60" height="20" backcolor="#CCCCCC" uuid="45bec8da-e62e-4777-a9f1-df5e03d060ec"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA INICIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="415" y="0" width="60" height="20" backcolor="#CCCCCC" uuid="44a7a534-11f3-4a46-a1da-cdc94121deb9"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA FIN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="475" y="0" width="77" height="20" backcolor="#CCCCCC" uuid="4ec38a27-4980-422c-b8ec-bbf47ecf07f4"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="20" width="58" height="15" uuid="3f9d8ba3-deac-44b5-a266-b77ff931b4f0"/>
+				<box topPadding="0" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_CODIGO}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="178" y="20" width="116" height="15" uuid="02ae4c27-00ed-4d7d-9cfc-f4c631842926"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToTallestObject" x="355" y="20" width="60" height="15" uuid="a7f7d0ff-d6ff-4e66-81be-21ef4252667c"/>
+				<box topPadding="0" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_FECHA_INICIO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToTallestObject" x="415" y="20" width="60" height="15" uuid="02b9f505-b5c9-4a52-a684-67f9dd7dc946"/>
+				<box topPadding="0" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_FECHA_FINALIZA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="475" y="20" width="77" height="15" uuid="5e1a1fd9-fcfd-4a85-838e-008e547e32f5"/>
+				<box topPadding="0" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_ESTADO}=="CRE"?"Ingreso de Perfil":($F{SZTVPROYEC_ESTADO}=="REV"?"Enviado a Revisión":($F{SZTVPROYEC_ESTADO}=="CEP"?"En Evaluación por Comisión de Vinculación":($F{SZTVPROYEC_ESTADO}=="CEC"?"En Consolidación de Evaluación Comisión de Vinculación":($F{SZTVPROYEC_ESTADO}=="REC0"?"No aprobado por Comisión Vinculación":($F{SZTVPROYEC_ESTADO}=="APR0"?"En aprobación por Vicerrectorado":($F{SZTVPROYEC_ESTADO}=="REC1"?"No aprobado por Vicerrectorado":($F{SZTVPROYEC_ESTADO}=="APR1"?"En aprobación por Consejo Académico":($F{SZTVPROYEC_ESTADO}=="REC2"?"No aprobado por Consejo Académico":($F{SZTVPROYEC_ESTADO}=="APR2"?"En Ejecución":($F{SZTVPROYEC_ESTADO}=="CEE"?"En proceso de Cierre":($F{SZTVPROYEC_ESTADO}=="CER"?"En proceso de Evaluación Final":"Finalizado")))))))))))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="58" y="0" width="120" height="20" backcolor="#CCCCCC" uuid="c55c274d-b2f7-4101-a31e-90ce71df26de"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROGRAMA]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="58" y="20" width="120" height="15" uuid="e4795b2d-ad35-48ac-8206-75b89b8cec2b"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SPRV_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="294" y="0" width="61" height="20" backcolor="#CCCCCC" uuid="2e42cac0-16ca-4a9c-a94d-6b6a226e5871"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO GASTO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="294" y="20" width="61" height="15" uuid="66ae8908-2307-4a1e-82bc-45ee6f4412f4"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_TIPO_PROY}=="I"?"No Permanente":"Permanente"]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="250">
+			<rectangle>
+				<reportElement positionType="Float" x="375" y="152" width="177" height="20" uuid="b08fca4e-1040-453f-911b-a5e882e06a1d"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="265" y="152" width="110" height="20" uuid="87df83b9-52dd-45da-983d-8bf04e58c766"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="155" y="152" width="110" height="20" uuid="2fdee4ab-28fc-4be8-99b4-c2f673dd70b1"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</rectangle>
+			<rectangle>
+				<reportElement positionType="Float" x="20" y="152" width="135" height="20" uuid="63ae1cba-87d0-4746-a556-a31672909281"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</rectangle>
+			<subreport runToBottom="false">
+				<reportElement positionType="Float" x="20" y="80" width="532" height="10" uuid="c6d22f41-7014-4cb5-b15b-43ba9d107b57"/>
+				<subreportParameter name="codigoProyecto">
+					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_CODE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "proyectosEjecutadosDepartamento.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="20" y="116" width="532" height="10" uuid="a84d0617-e402-4a41-9736-8e9cfb33bb2e"/>
+				<subreportParameter name="codigoProyecto">
+					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_CODE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "proyectosEjecutadosCarrera.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="20" y="197" width="532" height="10" uuid="ff40e872-62de-4d95-8e9c-d9595553799d"/>
+				<subreportParameter name="cobertura">
+					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_COBERTURA}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="codigoProyecto">
+					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_CODE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "proyectosEjecutadosLocalizacion.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" mode="Transparent" x="20" y="140" width="532" height="12" backcolor="#CCCCCC" uuid="b0daf059-0a3a-420e-b861-c88632598804"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cobertura:]]></text>
+			</staticText>
+			<image>
+				<reportElement positionType="Float" x="83" y="158" width="10" height="10" uuid="f5b95521-6c31-43dc-87f5-ce34503f7f20">
+					<printWhenExpression><![CDATA[$F{SZTVPROYEC_COBERTURA}==1]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/check1.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement positionType="Float" x="83" y="158" width="10" height="10" uuid="4630904a-0997-41ef-9833-54b951550fcd">
+					<printWhenExpression><![CDATA[$F{SZTVPROYEC_COBERTURA}!=1]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/check0.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement positionType="Float" x="229" y="158" width="10" height="10" uuid="f93f50b3-61bb-4bea-a0ba-d7c687acff5a">
+					<printWhenExpression><![CDATA[$F{SZTVPROYEC_COBERTURA}!=2]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/check0.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement positionType="Float" x="229" y="158" width="10" height="10" uuid="a23c7b63-6796-4c7e-b2fe-d5e7b2f390aa">
+					<printWhenExpression><![CDATA[$F{SZTVPROYEC_COBERTURA}==2]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/check1.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement positionType="Float" x="328" y="158" width="10" height="10" uuid="a661f5c9-4fd1-430b-87aa-4c6ee11378db">
+					<printWhenExpression><![CDATA[$F{SZTVPROYEC_COBERTURA}!=3]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/check0.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement positionType="Float" x="328" y="158" width="10" height="10" uuid="57e9e0f1-d456-43ec-a30a-5c00873ba6f2">
+					<printWhenExpression><![CDATA[$F{SZTVPROYEC_COBERTURA}==3]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/check1.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement positionType="Float" x="452" y="158" width="10" height="10" uuid="ebb99f85-0b5c-4bda-9b02-13440f9a3d83">
+					<printWhenExpression><![CDATA[$F{SZTVPROYEC_COBERTURA}!=4]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/check0.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement positionType="Float" x="452" y="158" width="10" height="10" uuid="fff177fe-0cf5-4df0-bb19-eed0ba86eb79">
+					<printWhenExpression><![CDATA[$F{SZTVPROYEC_COBERTURA}==4]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/check1.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement positionType="Float" x="41" y="152" width="45" height="20" uuid="8789607f-b61f-4162-be04-af4a3e21c63d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nacional:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="178" y="152" width="48" height="20" uuid="ab5b8326-4c31-4b41-a219-7d5476c8aa3d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincial:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="285" y="152" width="44" height="20" uuid="e9f34866-5c0a-4a9d-8076-57e23f37a24a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantonal:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="399" y="152" width="51" height="20" uuid="093341cc-c9c6-4310-9f63-23c94dcece16"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parroquial:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="337" y="43" width="215" height="12" uuid="5337ae6e-70e4-454d-b8af-e1ebe518361b"/>
+				<box topPadding="1" leftPadding="5" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIR_TELEFONO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Transparent" x="20" y="7" width="532" height="12" backcolor="#CCCCCC" uuid="f151ce86-86e2-46e1-9fee-2cc68f3927e4"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Director del proyecto:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="72" y="43" width="213" height="12" uuid="c9e98cfa-fe72-4b1f-b5da-e67814fac150"/>
+				<box topPadding="1" leftPadding="5" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIR_MAIL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="20" y="43" width="52" height="12" uuid="92cd60f7-0d36-4238-971d-b6a2cb007314"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mail:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="20" y="31" width="52" height="12" uuid="2e0e7357-ac67-4606-9158-8aa1d5ff9578"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombres:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="72" y="31" width="213" height="12" uuid="07258dd1-f37a-451f-a739-442e2238e58e"/>
+				<box topPadding="1" leftPadding="5" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIR_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="337" y="31" width="215" height="12" uuid="17579d38-a27d-4312-b810-bdfe0a20eead"/>
+				<box topPadding="1" leftPadding="5" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIR_APELLIDO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="285" y="31" width="52" height="12" uuid="250297bb-9db7-476b-8c3f-2e872853a8a3"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apellidos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="285" y="43" width="52" height="12" uuid="1ba1fdca-5d11-4799-b716-a7e0c28e16a7"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="20" y="19" width="52" height="12" uuid="5a8893b9-3615-4a5e-a368-28f9549ada16"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cédula:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="72" y="19" width="213" height="12" uuid="ebdceee1-59cf-479e-8f7c-1c74dd06b047"/>
+				<box topPadding="1" leftPadding="5" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIR_CEDULA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="285" y="19" width="267" height="12" uuid="9511b47c-98cb-4494-bc08-10a93745cbc3"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="20" y="68" width="532" height="12" uuid="accf4d9b-c6c4-4895-a58c-0696303b9969"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Departamentos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="20" y="104" width="532" height="12" uuid="a7867747-76da-48bd-b892-a410355d126c"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Carreras:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="20" y="185" width="532" height="12" uuid="5562b0bd-7146-4957-b9ce-70e370e4174e"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ubicación:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="36" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="506" y="6" width="40" height="20" uuid="0d2f4ecb-7e04-4ad4-a4be-a1a35937e0ed"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="426" y="6" width="80" height="20" uuid="5364442c-37b0-4350-8c43-e00d9e51d1a8"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="101" y="6" width="325" height="20" uuid="1b4ecec6-150b-4896-b931-b227daf147c4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Unidad de Vinculación con la Sociedad"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="5" width="552" height="1" uuid="060d8d46-5fd1-4706-8039-ab237bc71e30"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

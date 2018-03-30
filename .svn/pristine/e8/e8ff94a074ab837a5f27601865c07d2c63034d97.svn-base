@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteSedePrograma" language="groovy" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ad78a31c-a5fe-4044-80c1-2d5c5ee623fd">
+	<property name="ireport.zoom" value="2.357947691000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoPrograma" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[SELECT distinct CAMPUS.STVCAMP_CODE, CAMPUS.STVCAMP_desc
+ FROM SVIN_DEPCENPROY prodep
+ INNER JOIN STVCAMP CAMPUS ON PRODEP.STVCAMP_CODE = CAMPUS.STVCAMP_CODE
+where SPRV_ID = $P{codigoPrograma}]]>
+	</queryString>
+	<field name="STVCAMP_CODE" class="java.lang.String"/>
+	<field name="STVCAMP_DESC" class="java.lang.String"/>
+	<columnHeader>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="9df0de39-826b-41bb-a5c3-46b377ba7549" x="13" y="23" width="100" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a605f6e9-4f12-4bc1-a451-c6cc0780dd73" x="137" y="23" width="100" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8f28f761-fe13-41d6-bcb3-92e7a0a22a2d" x="13" y="7" width="100" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sedes:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="299497ad-b928-4c65-9f0a-912bc8e1225f" x="0" y="3" width="500" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()!=0)]]></printWhenExpression>
+			<textField>
+				<reportElement uuid="c7795206-0f09-4e54-83ca-c918b6080416" x="13" y="0" width="100" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{STVCAMP_CODE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d0f466c3-ebb8-4abd-a3f4-2e956a19bd37" x="137" y="0" width="100" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{STVCAMP_DESC}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

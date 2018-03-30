@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      >
+    <h:body>    
+        <ui:composition template="/vista/template-sistema2.xhtml">
+            <ui:define name="content">
+                <style>
+                    .foo td {
+                        vertical-align: top;
+                    }
+
+                    .foo2{
+                        width: 150px;
+                    }
+
+                    .ui-panel .ui-panel-content {
+                        padding: 0;
+                    }            
+                    .col1_datos_generales {
+                        width: 65px;
+                    }
+                    .col1_adquisicion {
+                        width: 95px;
+                    }
+                    .col1_objetivos {
+                        width: 80px;
+                    }
+                    .col1_presupuesto {
+                        width: 125px;
+                    }
+                    .col1_identificacionPoblacion {
+                        width: 70px;
+                        text-align: left;
+                        border: solid;
+                        border-width: 1px;
+                    }
+                    .col2_identificacionPoblacion {
+                        width: 70px;
+                        text-align: center;
+                        border: solid;
+                        border-width: 1px;
+                    }
+                    .col1_acta_concejo_departamento{
+                        width: 200px;
+                    }
+                    .hide-column-names table thead tr {
+                        display: none;
+                    }
+                    .button {
+
+                        background-color: Transparent;background-repeat:no-repeat;border: none;cursor:pointer;overflow: hidden;
+
+                    }            
+                </style>                
+
+                <p:panel id="panelBase" header="Proyectos Vinculación" style="border: hidden; margin-bottom: 130px">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="Filtrar por Programa:" for="selPrograma"/>
+                        <p:selectOneMenu id="selPrograma" value="#{listadoProyectosController.codProgramaSelected}" >
+                            <f:selectItem itemLabel="[[-TODOS-]]" itemValue=""/>
+                            <f:selectItems value="#{listadoProyectosController.programaList}" var="prog" itemValue="#{prog.id}" itemLabel="#{prog.nombre}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Filtrar por Estado:" for="selEstado"/>
+                        <p:selectOneMenu id="selEstado" value="#{listadoProyectosController.estado}">
+                            <f:selectItem itemLabel="[[-TODOS-]]" itemValue=""/>
+                            <f:selectItem itemLabel="Ingreso de Perfil" itemValue="CRE"/>
+                            <f:selectItem itemLabel="Evaluación por Comisión de Vinculación" itemValue="CEP"/>
+                            <f:selectItem itemLabel="Consolidación de Evaluación Comisión de Vinculación" itemValue="CEC"/>
+                            <f:selectItem itemLabel="No aprobado por Comisión Vinculación" itemValue="REC0"/>
+                            <f:selectItem itemLabel="En aprobación por Vicerrectorado" itemValue="APR0"/>
+                            <f:selectItem itemLabel="No aprobado por Vicerrectorado" itemValue="REC1"/>
+                            <f:selectItem itemLabel="En aprobación por Consejo Académico" itemValue="APR1"/>
+                            <f:selectItem itemLabel="No aprobado por Consejo Académico" itemValue="REC2"/>
+                            <f:selectItem itemLabel="En Ejecución" itemValue="APR2"/>
+                            <f:selectItem itemLabel="En proceso de Cierre" itemValue="CEE"/>
+                            <f:selectItem itemLabel="En proceso de Evaluación Final" itemValue="CER"/>
+                            <f:selectItem itemLabel="Finalizado" itemValue="EVA"/>
+                        </p:selectOneMenu>
+                        <p:spacer></p:spacer>
+                        <h:panelGrid columns="2">
+
+
+                            <p:commandButton value="Listar Proyectos" icon="ui-icon-search" 
+                                             title="Listar Proyectos"  action="#{listadoProyectosController.listarProyectos}"  
+                                             update=":formPrincipal:panelBase, :formPrincipal:message1"
+                                             onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                            </p:commandButton>
+
+                            <p:commandButton id="btnAgregarProyecto" value="Agregar Proyecto" icon="ui-icon-plus" 
+                                             title="Agregar Información"  action="#{listadoProyectosController.agregarProyecto}"  
+                                             disabled="#{!listadoProyectosController.permitirAgregarProyecto}"
+                                             update=":formPrincipal:panelBase, :formPrincipal:message1"
+                                             onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                            </p:commandButton>
+                        </h:panelGrid>
+
+
+                    </h:panelGrid> 
+                    <h:outputLabel value="Listado de Proyectos"/>
+
+                    <p:dataTable id="dtProyectos" value="#{listadoProyectosController.proyectoList}" var="d" 
+                                 paginator="true" rows="15" rowIndexVar="index" resizableColumns="true"
+                                 emptyMessage="No se encontraron resultados">
+                        <p:column headerText="Nro." style="width:20px;text-align: center" sortBy="#{d.id}">
+                            <h:outputText value="#{index + 1}" />
+                        </p:column>
+                        <p:column headerText="Código" style="width: 100px; white-space: pre-line" sortBy="#{d.codigo}">
+                            <h:outputText  value ="#{d.codigo}"/> 
+                        </p:column>
+                        <p:column headerText="Nombre" style="white-space: pre-line" sortBy="#{d.nombre}">
+                            <h:outputText  value ="#{d.nombre}"/> 
+                        </p:column>
+                        <p:column headerText="Programa" style="width:200px; white-space: pre-line" sortBy="#{d.programa.nombre}">
+                            <h:outputText  value ="#{d.programa.nombre}"/> 
+                        </p:column>
+                        <p:column headerText="Departamento" style="width: 160px; white-space: pre-line" sortBy="#{d.departamento.stvsubjDesc}">
+                            <h:outputText  value ="#{d.departamento.stvsubjDesc}"/> 
+                        </p:column>
+                        <p:column headerText="Convocatoria" style="width: 200px; white-space: pre-line" sortBy="#{d.convocatoria.nombre}">
+                            <h:outputText  value ="#{d.convocatoria.nombre}"/> 
+                        </p:column>
+                        <p:column headerText="Estado" style="width: 120px; white-space: pre-line" sortBy="#{d.estadoStr}">
+                            <h:outputText  value ="#{d.estadoStr}"/> 
+                        </p:column>
+                        <p:column headerText="Seleccione" style="width: 70px; text-align: center">
+                            <p:button outcome="proyecto" icon="ui-icon-circle-check">
+                                <f:param name="idProyecto" value="#{d.id}" />
+                            </p:button>                                    
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

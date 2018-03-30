@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cronograma" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="40" bottomMargin="40" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="1.331000000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idProyecto" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[102]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pathAplicacion" class="java.lang.String">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomProyecto" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select SZTVPROYEC_CODE from SZDTAVPROYEC where SZTVPROYEC_CODE = $P{idProyecto}]]>
+	</queryString>
+	<field name="SZTVPROYEC_CODE" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="47">
+			<image>
+				<reportElement x="477" y="-1" width="48" height="48" uuid="030e204d-62d6-4e18-aafb-ed7cf5b533c5"/>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/logoVinculacionReportePerfil.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="0" y="2" width="167" height="45" uuid="4a214aba-9bc0-4ae8-888b-79ed4f163bed"/>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/logoEspeReportePerfil.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="90">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="15" width="535" height="17" uuid="e696469b-6e7e-4404-ab6f-cf0e82fe5588"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CRONOGRAMA DE ACTIVIDADES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="32" width="535" height="17" uuid="ad7edcc2-5e40-4455-a1c2-dc0623456014"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROYECTO DE VINCULACIÓN CON LA SOCIEDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="60" width="79" height="17" uuid="f7c77d6d-73c2-4621-b946-e4025b405dcd"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Título Proyecto:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="79" y="60" width="456" height="17" uuid="c3a30227-9209-46fa-8197-fed5d63f6f17"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomProyecto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14">
+			<subreport>
+				<reportElement positionType="Float" x="1" y="0" width="534" height="14" uuid="adc660f9-7640-4ce0-b2c3-5c000f566a2e"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "cronogramaActividad.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

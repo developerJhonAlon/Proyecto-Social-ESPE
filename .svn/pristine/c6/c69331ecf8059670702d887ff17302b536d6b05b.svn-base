@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    template="/vista/plantilla.xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    >
+
+    <ui:param name="backingBean" value="#{proyectoController}"/>
+    <ui:param name="tituloPagina" value=""/>
+    <ui:define name="editar"/> 
+    <ui:define name="contenido">
+        <script type="text/javascript" src="resources/js/proyectoVinculacion.js"/>
+        <h:form id="formPrincipal1" enctype="multipart/form-data">
+            <p:panel id="panelBase" header="Proyectos Vinculación" style="font-size: 11px; text-align: left; border: hidden; font-weight: bold">
+                <p:growl id="message" showDetail="true" life="3000"></p:growl>            
+                <h:panelGrid columns="3"> 
+                    <p:selectBooleanButton value="#{proyectoController.botonInicio}" onLabel="Agregar" offLabel="Proyectos Vinculación" 
+                                           onIcon="ui-icon-plus" offIcon="ui-icon-arrowreturnthick-1-w" style="width:100px">
+                        <p:ajax update=":formPrincipal:formPrincipal1:panelBase" listener="#{proyectoController.inicioProgramas}"/>
+                    </p:selectBooleanButton>
+                    <h:outputText  value ="#{proyectoController.nombreProySeleccionado}"/> 
+                </h:panelGrid>
+                <p:panel id="inicio" visible="#{proyectoController.botonInicio}" style="font-size: 11px; text-align: left; border: hidden; font-weight: bold">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Programa:"/>
+                        <p:selectOneMenu value="#{proyectoController.codProgramaSelected}" style="width:100%;">
+                            <f:selectItem itemLabel="[[-Seleccione un item-]]" itemValue=""/>
+                            <f:selectItems value="#{proyectoController.programaList}" var="prog" itemValue="#{prog.sprvId}" itemLabel="#{prog.sprvNombre}" />
+                            <p:ajax event="change" update=":formPrincipal:formPrincipal1:dtProyectos" listener="#{proyectoController.seleccionarPrograma()}" />
+                        </p:selectOneMenu>
+
+                    </h:panelGrid>
+
+                    <p:dataTable id="dtProyectos" value="#{proyectoController.proyectoList}" var="d" 
+                                 paginator="true" rows="15" rowIndexVar="index" resizableColumns="true"
+                                 emptyMessage="No se encontraron resultados">
+                        <p:column headerText="Ord." style="width:20px;text-align: center" sortBy="#{d.id}">
+                            <h:outputText value="#{index + 1}" />
+                        </p:column>
+                        <p:column headerText="Nombre" style="white-space: pre-line" sortBy="#{d.nombre}">
+                            <h:outputText  value ="#{d.nombre}"/> 
+                        </p:column>
+                        <p:column headerText="Seleccione" style="width: 70px; text-align: center">
+                            <p:commandButton icon="ui-icon-circle-check" 
+                                             title="Seleccionar Proyecto" action="#{proyectoController.seleccionarProyecto()}"
+                                             update=":formPrincipal:formPrincipal1:panelBase" process="@this">
+                                <f:setPropertyActionListener value="#{d}" target="#{proyectoController.proyectoSelected}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+
+
+
+                <p:tabView id="tabViewPrincipal" activeIndex="#{proyectoController.indiceTabActivo}" scrollable="false" rendered="#{!proyectoController.botonInicio}" style="width: 100%; height: 100%" dynamic="true" effect="fold" effectDuration="fast">
+                    <!--tab: Perfil Proyecto-->
+                    <p:tab title="Perfil Proyecto" >
+                        <p:tabView id="tabP" activeIndex="#{proyectoController.indiceTabActivo}" scrollable="false" orientation="left" rendered="#{!proyectoController.botonInicio}" style="width: 100%; height: 100%" dynamic="true" effect="slide" effectDuration="fast">
+                            <p:ajax event="tabChange" listener="#{proyectoController.cambiarTabPerfil}"
+                                    >
+                            </p:ajax>
+
+                            <!--tab1: Datos Generales-->
+                            <p:tab title="Datos Generales" id="tabP1">
+                                <p:panel id="p1">
+
+                                    <h:panelGrid columns="3" cellpadding="7" id="h1">
+                                        <p:commandButton id="btnGrabarP1" value="Grabar" icon="ui-icon-locked" style="margin: 0; font-size: 11px; float: left" disabled="#{!proyectoController.datosCompletos}"
+                                                         title="Graba Información" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:h1,:formPrincipal:formPrincipal1:panelBase,:formPrincipal:formPrincipal1:tabViewPrincipal:tabP,:formPrincipal:formPrincipal1:tabViewPrincipal:tabP:pInput1" 
+                                                         action="#{proyectoController.registraP1()}">
+                                        </p:commandButton>
+                                        <p:commandButton value="Eliminar" icon="ui-icon-closethick" style="margin: 0; font-size: 11px; float: left" disabled="#{proyectoController.proyectoSelected.id==null}"
+                                                         title="Eliminar Programa" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:h1,:formPrincipal:formPrincipal1:panelBase,:formPrincipal:formPrincipal1:tabViewPrincipal:tabP,:formPrincipal:formPrincipal1:tabViewPrincipal:tabP:pInput1"
+                                                         onclick="PF('dialogDeleteProyecto').show();" process="@this"
+                                                         >
+                                        </p:commandButton>                                        
+                                        <p:commandButton value="Imprimir" icon="ui-icon-print" style="margin: 0; font-size: 11px; float: left" disabled="#{proyectoController.proyectoSelected.id==null}"
+                                                         title="Imprimir Programa" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:h1,:formPrincipal:formPrincipal1:panelBase,:formPrincipal:formPrincipal1:tabViewPrincipal:tabP,:formPrincipal:formPrincipal1:tabViewPrincipal:tabP:pInput1"
+                                                         process="@this"
+                                                         >
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2" cellpadding="2"  id="pInput1"  style="text-align: left">
+                                        <h:outputLabel value="Código:"/>
+                                        <h:outputLabel value="ABC000"/>
+
+                                        <h:outputLabel value="Nombre:"/>
+                                        <p:inputTextarea value="#{proyectoController.proyectoSelected.nombre}" maxlength="150" rows="2" cols="80">
+                                            <p:ajax event="keyup" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:btnGrabarP1" listener="#{proyectoController.validarVaciosP1}"/> 
+                                        </p:inputTextarea>
+
+                                        <h:outputLabel value="Población Beneficiaria:"/>
+                                        <p:selectOneRadio value="#{proyectoController.proyectoSelected.tipoPoblacion.prdId}" 
+                                                          valueChangeListener="#{proyectoController.seleccionarTipoPoblacion}">
+                                            <f:selectItems value="#{proyectoController.paramTipoPoblacionList}" var="tipoPob" itemValue="#{tipoPob.prdId}" itemLabel="#{tipoPob.prdDescripcion}" />
+                                            <p:ajax event="change" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:btnGrabarP1" />
+                                        </p:selectOneRadio>
+
+                                    </h:panelGrid>
+                                    
+                                    
+                                    <h:outputText value="PLAZO DE EJECUCIÓN" style="alignment-adjust: middle;font-size: small; font-weight: bold "/>
+                                    <h:panelGrid  columns="2" cellpadding="2" >
+                                        <p:outputLabel value="Fecha de Presentación (dd/mm/aaaa):" style="text-align: left"/>
+                                        <p:calendar navigator="true" value="#{proyectoController.proyectoSelected.fechaPresentacion}" yearRange="2015:2030" size="10" style="font-size: 11px" locale="es" pattern="dd/MM/yyyy">
+                                            <p:ajax event="dateSelect" listener="#{proyectoController.validarVaciosP1()}" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP" />
+                                        </p:calendar>
+                                        <p:outputLabel value="Fecha de Inicio (dd/mm/aaaa):" style="text-align: left"/>
+                                        <p:calendar navigator="true" value="#{proyectoController.proyectoSelected.fechaInicio}" yearRange="2015:2030" size="10" style="font-size: 11px" locale="es" pattern="dd/MM/yyyy">
+                                            <p:ajax event="dateSelect" listener="#{proyectoController.validarFechaInicio()}" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP, :formPrincipal:formPrincipal1:message" />
+                                        </p:calendar>
+                                        <p:outputLabel value="Fecha de Finalización (dd/mm/aaaa):" style="text-align: left"/>
+                                        <p:calendar navigator="true" value="#{proyectoController.proyectoSelected.fechaFinalizacion}" yearRange="2015:2030" size="10" style="font-size: 11px" locale="es" pattern="dd/MM/yyyy">
+                                            <p:ajax event="dateSelect" listener="#{proyectoController.validarFechaFin()}" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP, :formPrincipal:formPrincipal1:message" />
+                                        </p:calendar>
+                                        <h:outputLabel value="Duración:" style="text-align: left"/>
+                                        <h:outputLabel value="#{proyectoController.proyectoSelected.duracion}"/>
+
+                                        <p:spacer height="15"></p:spacer>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:tab>
+                            
+                            
+                            
+<!--tab3: Cobertura y Localización-->
+                    <p:tab title="Cobertura y Localización" id="tabP3" disabled="#{proyectoController.proyectoSelected.id==null}">
+                        <h:panelGrid id="h3" columns="2" cellpadding="5">
+                            <p:commandButton id="btnGrabarP3" value="Grabar" icon="ui-icon-locked" style="margin: 0; font-size: 11px; float: left " 
+                                             title="Graba Información" action="#{proyectoController.registraP3()}" disabled="#{!proyectoController.datosCompletos}"
+                                             update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:h3, :formPrincipal:formPrincipal1:message"
+                                             >
+                            </p:commandButton>
+                            <p:commandButton id="btnCancelarP3" value="Cancelar" icon="ui-icon-arrowreturnthick-1-w" style="margin: 0; font-size: 11px; float: left "
+                                             title="Cancela Información" 
+                                             disabled="#{!proyectoController.datosCompletos}"
+                                             update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:h3,:formPrincipal:formPrincipal1:tabViewPrincipal:tabP:treeLocalizacion" 
+                                             action="#{proyectoController.cancelarP3}">
+                            </p:commandButton>
+
+                        </h:panelGrid>
+                        <p:panel id="vinPCobertura" style="font-size: 11px; text-align: left; border: hidden; font-weight: bold">
+
+
+                            <p:tree id="treeLocalizacion" value="#{proyectoController.root3}" var="doc"
+                                    selectionMode="checkbox"
+                                    selection="#{proyectoController.selectedNodes2}">
+                                <p:ajax event="select" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:h3" listener="#{proyectoController.validarVaciosP3()}" />
+                                <p:ajax event="unselect" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:h3" listener="#{proyectoController.validarVaciosP3()}"/>
+                                <p:treeNode>
+                                    <h:outputText value="#{doc.nombre}"/>
+                                </p:treeNode>
+                                <p:treeNode>
+                                    <h:outputText value="#{doc.nombre}" />
+                                </p:treeNode>
+                            </p:tree>
+
+
+
+                        </p:panel>
+
+                    </p:tab>    
+
+
+<!--tab15: Objetivos del Programa-->
+                            <p:tab title="Objetivos del Proyecto" id="tabP15" disabled="#{proyectoController.proyectoSelected.id==null}">
+                                <h:panelGrid columns="2" cellpadding="7" id="h15">
+                                    <p:commandButton id="btnAgregarP15" value="Agregar" icon="ui-icon-plus" 
+                                                     title="Agregar Información"  actionListener="#{proyectoController.actionListener}" rendered="#{!proyectoController.controlGrabar}" 
+                                                     update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:h15,:formPrincipal:formPrincipal1:tabViewPrincipal:tabP:p15">
+                                    </p:commandButton>
+                                </h:panelGrid>
+                                <p:panel id="p15" visible="#{proyectoController.controlGrabar}" style="font-size: 11px; text-align: left; border: hidden; font-weight: bold">
+                                    <h:panelGrid columns="2" cellpadding="5" cellspacing="0">
+                                        <p:commandButton id="btnGrabarP15" value="Grabar" icon="ui-icon-locked" disabled="#{!proyectoController.datosCompletos}"
+                                                         title="Graba Información" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:p15,:formPrincipal:formPrincipal1:tabViewPrincipal:tabP:h15,:formPrincipal:formPrincipal1:tabViewPrincipal:tabP:dataTObjetivos, :formPrincipal:formPrincipal1:message" action="#{proyectoController.registraP15}">
+                                        </p:commandButton>
+                                        <p:commandButton id="btnCancelarP15" value="Cancelar" icon="ui-icon-arrowreturnthick-1-w" 
+                                                         title="Cancela Información" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:p15,:formPrincipal:formPrincipal1:tabViewPrincipal:tabP:h15" action="#{proyectoController.cancelarP15}">
+                                        </p:commandButton>
+                                    </h:panelGrid>  
+                                    <h:panelGrid columns="2" cellpadding="5" id="pInput15">
+                                        <h:outputLabel for="selTipoObjetivo" value="Tipo Objetivo:"/>
+                                        <p:selectOneMenu id="selTipoObjetivo" value="#{proyectoController.objetivoProgramaSelected.svopTipo}" required="false" style="width:460px;">
+                                            <f:selectItem itemLabel="[[-Seleccione un item-]]" itemValue="" noSelectionOption="true"/>
+                                            <f:selectItem itemLabel="FIN" itemValue="1"/>
+                                            <f:selectItem itemLabel="PROPOSITO (OBJETIVO GENERAL)" itemValue="2"/>
+                                            <f:selectItem itemLabel="COMPONENTE (OBJETIVO ESPECIFICO)" itemValue="3"/>
+                                            <f:selectItem itemLabel="ACTIVIDAD" itemValue="4"/>
+                                            <p:ajax event="change" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:btnGrabarP15" listener="#{proyectoController.validarVaciosP15}"/>
+                                        </p:selectOneMenu>
+
+
+                                        <h:outputLabel value="Fin:" />
+                                        <p:inputTextarea id="txtObjetivo15" cols="160" rows="3" value="#{proyectoController.objetivoProgramaSelected.svopObjetivoProy}" maxlength="250">
+                                            <p:ajax event="keyup" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:btnGrabarP15" listener="#{proyectoController.validarVaciosP15}"/>
+                                        </p:inputTextarea>
+
+                                        <h:outputLabel for="txtIndicador15" value="Indicador:" style="text-align: left"/>
+                                        <p:inputTextarea id="txtIndicador15" cols="160" rows="3" value="#{proyectoController.objetivoProgramaSelected.svopIndicador}" maxlength="250">
+                                            <p:ajax event="keyup" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:btnGrabarP15" listener="#{proyectoController.validarVaciosP15}"/>
+                                        </p:inputTextarea>                             
+
+                                        <h:outputLabel value="Medio de verificación:" />
+                                        <p:inputTextarea id="txtMedioVerificacion15" cols="160" rows="3" value="#{proyectoController.objetivoProgramaSelected.svopMverifica}" maxlength="250">
+                                            <p:ajax event="keyup" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:btnGrabarP15" listener="#{proyectoController.validarVaciosP15}"/>
+                                        </p:inputTextarea>                             
+
+                                        <h:outputLabel for="txtSupuestos15" value="Supuestos:" style="text-align: left"/>
+                                        <p:inputTextarea id="txtSupuestos15" cols="160" rows="3" value="#{proyectoController.objetivoProgramaSelected.svopSupuestos}" maxlength="250">
+                                            <p:ajax event="keyup" update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:btnGrabarP15" listener="#{proyectoController.validarVaciosP15}"/>
+                                        </p:inputTextarea>                             
+
+                                    </h:panelGrid>
+                                </p:panel>                        
+                                <h:outputLabel for="dataTObjetivos" value="Objetivos del Proyecto"/>
+                                <p:dataTable id="dataTObjetivos" value="#{proyectoController.objetivoProgramaList}" var="objetivoPrograma" paginator="true"
+                                             rows="10" rowIndexVar="index" resizableColumns="true"
+                                             emptyMessage="No se encontraron Resultados"> 
+                                    <p:column headerText="Ord." style="width: 20px">
+                                        <h:outputText value="#{index + 1}"/>
+                                    </p:column>
+                                    <p:column headerText="Tipo" style="width: 70px;" sortBy="#{objetivoPrograma.tipoStr}">
+<h:outputText value="#{objetivoPrograma.tipoStr}" style="white-space: pre-line"/>                                    </p:column>
+
+                                    <p:column headerText="Objetivo" style="width: 150px;" sortBy="#{objetivoPrograma.svopObjetivoProy}"> 
+<h:outputText value="#{objetivoPrograma.svopObjetivoProy}" style="white-space: pre-line;"/>                                    </p:column>
+                                    <p:column headerText="Indicador" style="width: 150px;" sortBy="#{objetivoPrograma.svopIndicador}">
+<h:outputText value="#{objetivoPrograma.svopIndicador}" style="white-space: pre-line;"/>                                    </p:column>
+                                    <p:column headerText="Medio de verificación" style="width: 150px;" sortBy="#{objetivoPrograma.svopMverifica}">
+<h:outputText value="#{objetivoPrograma.svopMverifica}" style="white-space: pre-line;"/>                                    </p:column>
+                                    <p:column headerText="Supuestos" style="width: 120px;" sortBy="#{objetivoPrograma.svopSupuestos}">
+<h:outputText value="#{objetivoPrograma.svopSupuestos}" style="white-space: pre-line;"/>                                    </p:column>
+                                    <p:column headerText="Editar" style="width: 40px; text-align: center">
+                                        <p:commandButton icon="ui-icon-pencil"
+                                                         title="Editar el registro" action="#{proyectoController.seleccionarP15()}"
+                                                         update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:h15,:formPrincipal:formPrincipal1:tabViewPrincipal:tabP:p15"
+                                                         oncomplete="document.getElementById('formPrincipal:formPrincipal1:tabViewPrincipal:tabP:txtObjetivo15').focus();">
+                                            <f:setPropertyActionListener value="#{objetivoPrograma}" target="#{proyectoController.objetivoProgramaSelected}"/>
+                                        </p:commandButton>
+
+                                    </p:column>
+
+                                    <p:column headerText="Eliminar " style="width: 40px;text-align: center">
+                                        <p:commandButton id="btnEliminarP15" style="margin: 0" title="Eliminar el registro" icon="ui-icon-trash"
+                                                         onclick="PF('dialogDeleteObjetivoPrograma').show();" process="@this" disabled="#{programaVinculacionController.programaSelected.sprvFechaFinReal!=null}">
+                                            <f:setPropertyActionListener value="#{objetivoPrograma}" target="#{programaVinculacionController.objPrograma}"/>
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+
+
+
+                            </p:tab>
+
+                        </p:tabView>
+
+                    </p:tab>
+
+
+                                         
+                </p:tabView>
+
+            </p:panel>
+
+        </h:form>
+
+
+        <p:dialog id="dialogDeleteProyecto" header="Confirmación" widgetVar="dialogDeleteProyecto" resizable="false" width="400" modal="true" closeOnEscape="true" style="font-size: 11px; text-align: left; font-weight: bold" appendTo="@(body)">
+            <h:form>
+                <p:outputPanel>
+                    <center>
+                        <h:panelGrid columns="1">
+                            <h:outputLabel value="¿Está seguro que desea eliminar el programa actual ?" style="font-size: 11px"/>
+                        </h:panelGrid>
+                    </center>
+                    <p:spacer height="10"></p:spacer>
+                    <center>
+                        <p:commandButton value="Aceptar" style="margin:0" onclick="PF('dialogDeleteProyecto').hide();">
+                            <p:ajax update=":formPrincipal:formPrincipal1:dtProyectos" listener ="#{programaVinculacionController.eliminarPrograma()}" />
+                        </p:commandButton>
+                        <p:spacer width="10" ></p:spacer>
+                        <p:commandButton value="Cancelar" style="margin:0" onclick="PF('dialogDeleteProyecto').hide();"></p:commandButton>
+                    </center>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+        <p:dialog id="dialogDeleteObjetivoPrograma" header="Confirmación" widgetVar="dialogDeleteObjetivoPrograma" resizable="false" width="400" modal="true" closeOnEscape="true" style="font-size: 11px; text-align: left; font-weight: bold" appendTo="@(body)">
+            <h:form>
+                <p:outputPanel>
+                    <center>
+                        <h:panelGrid columns="1">
+                            <h:outputLabel value="¿Está seguro que desea eliminar el objetivo del proyecto seleccionado?" style="font-size: 11px; text-align: center"/>
+                        </h:panelGrid>
+                    </center>
+                    <p:spacer height="10"></p:spacer>
+                    <center>
+                        <p:commandButton value="Aceptar" style="margin:0" onclick="PF('dialogDeleteObjetivoPrograma').hide();">
+                            <p:ajax listener ="#{proyectoController.eliminarP15()}"
+                                update=":formPrincipal:formPrincipal1:tabViewPrincipal:tabP:dataTObjetivos, :formPrincipal:formPrincipal1:tabViewPrincipal:tabP:p15,:formPrincipal:formPrincipal1:tabViewPrincipal:tabP:h15, :formPrincipal:formPrincipal1:message" 
+                            />
+                        </p:commandButton>
+                        <p:spacer width="10" ></p:spacer>
+                        <p:commandButton value="Cancelar" style="margin:0" onclick="PF('dialogDeleteObjetivoPrograma').hide();"></p:commandButton>
+                    </center>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

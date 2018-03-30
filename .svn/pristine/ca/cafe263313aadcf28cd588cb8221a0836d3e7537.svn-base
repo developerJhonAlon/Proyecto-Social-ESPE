@@ -1,0 +1,61 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ec.edu.espe_innovativa.controller;
+
+import ec.edu.espe_ctt.vinculacion.entity.Programa;
+import ec.edu.espe_ctt.vinculacion.session.ProgramaFacade;
+import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+/**
+ *
+ * @author Administrador
+ */
+@ManagedBean
+@ViewScoped
+public class ListadoProgramasController implements Serializable {
+
+    @EJB
+    private ProgramaFacade programaFacade;
+
+    @PostConstruct
+    public void init() {
+        /*FacesContext context = FacesContext.getCurrentInstance();
+        usuario = (SegUsuario) context.getExternalContext().getSessionMap().get("usu_login");
+        SegUsuPerfil perfil = (SegUsuPerfil) context.getExternalContext().getSessionMap().get("usu_perfil");*/
+        listarProgramas();
+        
+    }
+
+    private List<Programa> programaList;
+
+    public List<Programa> getProgramaList() {
+        return programaList;
+    }
+
+    public void setProgramaList(List<Programa> programaList) {
+        this.programaList = programaList;
+    }
+
+    private String estado;
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
+    public void listarProgramas(){
+        programaList = programaFacade.findXEstado(estado);
+    }
+    
+}

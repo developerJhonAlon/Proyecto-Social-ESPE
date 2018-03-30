@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:body>    
+        <ui:composition template="/vista/template-sistema2.xhtml">
+            <ui:define name="content">
+
+                <style>
+                    .ui-panel .ui-panel-content {
+                        padding: 0;
+                    }            
+                </style>                 
+
+                <!--panelProyectosAprobacionVicerrectorado-->
+                <p:panel id="panelProyectosAprobacionVicerrectorado" style="border: hidden; margin-left: 20px;">
+                    <h:panelGrid cellspacing="5" columns="1" style="width: 100%"
+                                 >
+                        <p:fieldset 
+                            legend="Proyectos pendientes de aprobacion por Vicerrectorado">
+                            <p:commandButton id="btnGrabarAprobacionVicerrectorado" value="Grabar" title="Grabar Información" icon="ui-icon-locked" 
+                                             update=":formPrincipal:panelProyectosAprobacionVicerrectorado, :formPrincipal:message1" 
+                                             style="margin-top: 20px"
+                                             disabled="#{empty aprobacionVicerrectorado.proyectoList}"
+                                             action ="#{aprobacionVicerrectorado.grabarAprobacionVicerrectorado()}"
+                                             onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                            </p:commandButton>
+
+                            <h:panelGrid columns="1" style="width: 100%; margin-bottom: 10px">
+                                <h:panelGrid columns="2">
+                                    <p:commandLink rendered="false" id="xls" ajax="false" title="Exportar a Excel">  
+                                        <p:graphicImage value="/resources/images/excel2.png" width="33"/>  
+                                        <f:setPropertyActionListener value="true" target="#{exporterController.customExporter}" />  
+                                        <pe:exporter type="xlsx" target="dtProyectosAprobacionVicerrectorado" fileName="dynamicColumnsTable"/>  
+                                    </p:commandLink>                                                 
+
+                                </h:panelGrid>
+                                <p:dataTable id="dtProyectosAprobacionVicerrectorado" value="#{aprobacionVicerrectorado.proyectoList}" var="proy"
+                                             rowIndexVar="index"  style="width: 100%" expandedRow="false" emptyMessage="No se encontraron resultados"  >
+                                    <p:column width="40">
+                                        <p:rowToggler/>
+                                    </p:column>
+                                    <p:column headerText="Nro." style="width:20px">
+                                        <h:outputText value="#{index + 1}"/>
+                                    </p:column>
+                                    <p:column headerText="Proyecto">
+                                        <h:outputText value="#{proy.nombre}"/>  
+                                    </p:column>
+                                    <p:column headerText="Director">
+                                        <h:outputText value="#{proy.director.usuario.usuNombres.concat(' ').concat(proy.director.usuario.usuApellidos)}"/>  
+                                    </p:column>
+                                    <p:column headerText="Departamento">
+                                        <h:outputText value="#{proy.departamento.stvsubjDesc}"/>  
+                                    </p:column>
+                                    <p:column headerText="Aporte de la ESPE Gasto No Permanente">
+                                        <h:outputText value="#{proy.totalPresupuestoUniversidadGastoNoPermanente}">  
+                                            <f:convertNumber locale="es"  pattern="###,###,##0.00" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Aporte de la ESPE Gasto Permanente">
+                                        <h:outputText value="#{proy.totalPresupuestoUniversidadGastoPermanente}">  
+                                            <f:convertNumber locale="es"  pattern="###,###,##0.00" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Aporte Patrocinador">
+                                        <h:outputText value="#{proy.totalPresupuestoEntidadAuspiciante}">
+                                            <f:convertNumber locale="es"  pattern="###,###,##0.00" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Aporte de la Comunidad Beneficiaria">
+                                        <h:outputText value="#{proy.totalPresupuestoComunidadBeneficiaria}">  
+                                            <f:convertNumber locale="es"  pattern="###,###,##0.00" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Monto Total">
+                                        <h:outputText value="#{proy.totalPresupuesto}">  
+                                            <f:convertNumber locale="es"  pattern="###,###,##0.00" />
+                                        </h:outputText> 
+                                    </p:column>
+                                    <p:column headerText="Fecha de inicio del proyecto planificada">
+                                        <h:outputText value="#{proy.fechaInicio}">  
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Fecha de fin del proyecto planificada">
+                                        <h:outputText value="#{proy.fechaFinalizacion}">  
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Total Puntaje">
+                                        <h:outputText value="#{proy.consolidacionCalificacionUltimaList[0].totalPuntaje}">  
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Porcentaje cumplimiento">
+                                        <h:outputText value="#{proy.consolidacionCalificacionUltimaList[0].totalPuntaje/proy.configuracionParametrosEvaluacion.puntajeMaximoEvaluacion}">  
+                                            <f:convertNumber locale="es"  pattern="###0.00%" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Aprobado" style ="text-align: center">
+                                        <p:selectBooleanCheckbox value="#{proy.aprobado}">
+                                            <p:ajax update="dtProyectosAprobacionVicerrectorado" listener="#{aprobacionVicerrectorado.seleccionarAprobado(proy)}" />
+                                        </p:selectBooleanCheckbox>
+                                    </p:column>
+                                    <p:column headerText="No Aprobado" style ="text-align: center">
+                                        <p:selectBooleanCheckbox value="#{proy.noAprobado}">
+                                            <p:ajax update="dtProyectosAprobacionVicerrectorado" listener="#{aprobacionVicerrectorado.seleccionarNoAprobado(proy)}" />
+                                        </p:selectBooleanCheckbox>
+                                    </p:column>
+                                    <p:rowExpansion >
+                                        <p:panel style="border:hidden;width:90%; padding-left: 30px"  >
+                                            <h:outputLabel value="Detalle de calificación:" style="font-weight: bold"/>
+                                            <p:dataTable value="#{proy.consolidacionCalificacionUltimaList[0].detalleCalificacionProyectoConsolidado}" var="detalleUltConsolidacion"
+                                                         rendered="#{not empty proy.consolidacionCalificacionUltimaList[0].detalleCalificacionProyectoConsolidado}"
+                                                         rowIndexVar="index">
+                                                <p:column headerText="Nro." style="width:20px">
+                                                    <h:outputText value="#{index + 1}"/>
+                                                </p:column>
+                                                <p:column headerText="Parámetro" style="white-space:pre-line">
+                                                    <h:outputText value="#{detalleUltConsolidacion.parametroEvaluacion.descripcion}" style="white-space: pre-line;"/>
+                                                </p:column>
+                                                <p:column headerText="Respuesta" width="120">
+                                                    <h:outputText value="#{detalleUltConsolidacion.valoracionParametroPromedio.descripcion}" style="white-space: pre-line"></h:outputText>
+                                                </p:column>
+                                                <p:column headerText="Puntaje" width="70" style="text-align: center">
+                                                    <h:outputText value="#{detalleUltConsolidacion.valoracionParametroPromedio.puntaje}"/>
+                                                </p:column>
+                                                <p:columnGroup type="footer">
+                                                    <p:row>
+                                                        <p:column colspan="3" style="text-align:right" footerText="Total:" />
+                                                        <p:column footerText="#{proy.consolidacionCalificacionUltimaList[0].totalPuntaje}" style="text-align: center" >
+                                                        </p:column>
+                                                    </p:row>
+                                                    <p:row>
+                                                        <p:column colspan="3" style="text-align:right" footerText="Mínimo requerido:" />
+                                                        <p:column footerText="#{proy.configuracionParametrosEvaluacion.puntajeMinimoRequerido}" style="text-align: center" >
+                                                        </p:column>
+                                                    </p:row>
+                                                </p:columnGroup>                                                 
+
+                                            </p:dataTable>
+                                        </p:panel>                                            
+                                    </p:rowExpansion>                                        
+
+                                </p:dataTable>
+                            </h:panelGrid>
+                        </p:fieldset>                                
+                    </h:panelGrid>
+
+                </p:panel>
+
+
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

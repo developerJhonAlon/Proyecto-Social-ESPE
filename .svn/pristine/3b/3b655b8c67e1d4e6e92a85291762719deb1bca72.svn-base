@@ -1,0 +1,3 @@
+$(document).on("paste", "#formPrincipal\\:formPrincipal1\\:tabViewPrincipal\\:tabP\\:resProg", function() {
+    setTimeout(function(){$("#formPrincipal\\:formPrincipal1\\:tabViewPrincipal\\:tabP\\:resProg").trigger("keyup");}, 0);
+});

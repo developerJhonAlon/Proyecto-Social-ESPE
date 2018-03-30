@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="actaAprobacionVicerrectoradoFirma" language="groovy" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="1.4641000000000033"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nroActa" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[80]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pathAplicacion" class="java.lang.String">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\build\\web\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaActual" class="java.lang.String"/>
+	<parameter name="nroProyectos" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT VICERRECTOR_NOM, VICERRECTOR_APE, VICERRECTOR_ABREV,VICERRECTOR_GRADO_MIL    FROM SZDTAVCONFIGURACION WHERE ROWNUM=1]]>
+	</queryString>
+	<field name="VICERRECTOR_NOM" class="java.lang.String"/>
+	<field name="VICERRECTOR_APE" class="java.lang.String"/>
+	<field name="VICERRECTOR_ABREV" class="java.lang.String"/>
+	<field name="VICERRECTOR_GRADO_MIL" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="210" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="144" y="127" width="210" height="30" uuid="1f1f42e2-438e-4230-936c-089c50ccd506">
+					<printWhenExpression><![CDATA[$F{VICERRECTOR_GRADO_MIL}!=null && $F{VICERRECTOR_GRADO_MIL}!=""]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="0">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VICERRECTOR DE INVESTIGACIÓN, INNOVACIÓN Y TRANSFERENCIA DE TECNOLOGÍA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="146" y="113" width="210" height="30" uuid="97487f30-3d77-4de3-b07e-f0b4dfabbeaf">
+					<printWhenExpression><![CDATA[$F{VICERRECTOR_GRADO_MIL}==null || $F{VICERRECTOR_GRADO_MIL}==""]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="0">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VICERRECTOR DE INVESTIGACIÓN, INNOVACIÓN Y TRANSFERENCIA DE TECNOLOGÍA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="144" y="17" width="210" height="70" uuid="47b89aa4-8ed5-42bc-8704-89427476bd94"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Dotted"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="144" y="97" width="210" height="16" uuid="44a8bfc0-508f-4512-8f80-51071d30e23f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($F{VICERRECTOR_ABREV}!=null && $F{VICERRECTOR_ABREV}!="")?$F{VICERRECTOR_ABREV}:"") + " " + $F{VICERRECTOR_NOM} + " " +$F{VICERRECTOR_APE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="144" y="112" width="210" height="16" uuid="a50e8657-bb64-4f8a-a407-1fe26af95c4a">
+					<printWhenExpression><![CDATA[$F{VICERRECTOR_GRADO_MIL}!=null && $F{VICERRECTOR_GRADO_MIL}!=""]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VICERRECTOR_GRADO_MIL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="179" width="475" height="16" uuid="9c4e13b2-e843-4788-ab6e-b30b2402ebe7"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="html">
+					<font size="8" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Adj.: Matriz de proyecto para aprobación del Consejo Académico."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

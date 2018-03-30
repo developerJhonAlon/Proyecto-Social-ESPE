@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyectoPerspectivaObjetivo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="2.1435888100000016"/>
+	<property name="ireport.x" value="21"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idProyecto" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[102]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idPerspectiva" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select DISTINCT(OBJ_PADRE.SOESI_ID) OBJETIVO_ID, OBJ_PADRE.SOESI_DESCRIPCION OBJETIVO_DESC
+from SZDTAVPROG_OBJ_ESTARTEGICOS,
+SZDTAVOBJETIVOS_ESTRA_INSTI OBJ,
+SZDTAVOBJETIVOS_ESTRA_INSTI OBJ_PADRE
+where SZDTAVPROG_OBJ_ESTARTEGICOS.SOESI_ID = OBJ.SOESI_ID
+AND  OBJ.SOESI_PADRE = OBJ_PADRE.SOESI_ID
+AND  OBJ_PADRE.SOESI_PADRE = $P{idPerspectiva}
+AND SZDTAVPROG_OBJ_ESTARTEGICOS.SZTVPROYEC_CODE=$P{idProyecto}]]>
+	</queryString>
+	<field name="OBJETIVO_ID" class="java.math.BigDecimal"/>
+	<field name="OBJETIVO_DESC" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="58" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="532" height="20" uuid="fd5b7bcf-e6a1-4017-803d-d31fe74f67f3"/>
+				<box leftPadding="25">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OBJETIVO_DESC}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="36" width="532" height="21" uuid="42f0ba73-d48d-4856-a7d0-1bfe9dda4163"/>
+				<subreportParameter name="idObjetivo">
+					<subreportParameterExpression><![CDATA[$F{OBJETIVO_ID}.intValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoPerspectivaObjetivoIndicador.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="20" width="532" height="16" uuid="9f3d57fc-6194-4314-b064-527a7ff30bb8"/>
+				<box leftPadding="50">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Indicadores:]]></text>
+			</staticText>
+		</band>
+		<band height="37">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="-1" width="532" height="16" uuid="c3fdcd5a-f090-4ba0-ac61-1e87ebec08c0"/>
+				<box leftPadding="50">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estrategias:]]></text>
+			</staticText>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="15" width="532" height="21" uuid="69159654-c66a-4bfb-bc32-8994c6c1a35b"/>
+				<subreportParameter name="idObjetivo">
+					<subreportParameterExpression><![CDATA[$F{OBJETIVO_ID}.intValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoPerspectivaObjetivoEstrategia.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

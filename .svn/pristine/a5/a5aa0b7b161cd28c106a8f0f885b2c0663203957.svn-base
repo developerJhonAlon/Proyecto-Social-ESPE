@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="programasAnio" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4bbfdc44-6e61-4d91-81db-bec0723057ab">
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="dirPhoto" class="java.lang.String">
+		<defaultValueExpression><![CDATA["E:\\banner_SSD.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigoDepartamento" class="java.lang.String"/>
+	<parameter name="fechaDesde" class="java.util.Date"/>
+	<parameter name="fechaHasta" class="java.util.Date"/>
+	<parameter name="codigoPrograma" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select distinct programa.SPRV_ID codigo_programa, programa.sprv_nombre nombre_programa, objpro.svop_id, objpro.svop_indicador,
+ (case
+ when (
+select id_indicador  from (select detalleavance.svop_id id_indicador
+from sztvdetactproy detalleavance
+inner join SZTVACTPROY avance on DETALLEAVANCE.SZTVACTPROY_CODE = AVANCE.SZTVACTPROY_CODE
+order by AVANCE.SZTVACTPROY_FECH_REGIS DESC)
+where rownum = 1 and id_indicador = objpro.svop_id
+) is null then -1
+when (
+select id_indicador  from (select detalleavance.svop_id id_indicador
+from sztvdetactproy detalleavance
+inner join SZTVACTPROY avance on DETALLEAVANCE.SZTVACTPROY_CODE = AVANCE.SZTVACTPROY_CODE
+order by AVANCE.SZTVACTPROY_FECH_REGIS DESC)
+where rownum = 1 and id_indicador = objpro.svop_id
+)  is not null
+then (
+
+select to_number( SUBSTR(concatenado, INSTR(concatenado,'|')+1, 10 ) ,'999')
+from (select CONCAT(detalleavance.svop_id, '| ' || detalleavance.sztvdetactproy_porcent)  concatenado
+from sztvdetactproy detalleavance
+inner join SZTVACTPROY avance on DETALLEAVANCE.SZTVACTPROY_CODE = AVANCE.SZTVACTPROY_CODE
+order by AVANCE.SZTVACTPROY_FECH_REGIS DESC)
+where rownum = 1 and to_number(SUBSTR(concatenado, 1, INSTR(concatenado,'|')-1) , '999') = objpro.svop_id
+
+)
+end)   avance,
+(case
+ when (
+select id_indicador  from (select detalleavance.svop_id id_indicador
+from sztvdetactproy detalleavance
+inner join SZTVACTPROY avance on DETALLEAVANCE.SZTVACTPROY_CODE = AVANCE.SZTVACTPROY_CODE
+order by AVANCE.SZTVACTPROY_FECH_REGIS DESC)
+where rownum = 1 and id_indicador = objpro.svop_id
+) is null then '-1'
+when (
+select id_indicador  from (select detalleavance.svop_id id_indicador
+from sztvdetactproy detalleavance
+inner join SZTVACTPROY avance on DETALLEAVANCE.SZTVACTPROY_CODE = AVANCE.SZTVACTPROY_CODE
+order by AVANCE.SZTVACTPROY_FECH_REGIS DESC)
+where rownum = 1 and id_indicador = objpro.svop_id
+)  is not null
+then (
+
+select  SUBSTR(concatenado, INSTR(concatenado,'|')+1, 450 )
+from (select CONCAT(detalleavance.svop_id, '| ' || detalleavance.sztvdetactproy_resultado)  concatenado
+from sztvdetactproy detalleavance
+inner join SZTVACTPROY avance on DETALLEAVANCE.SZTVACTPROY_CODE = AVANCE.SZTVACTPROY_CODE
+order by AVANCE.SZTVACTPROY_FECH_REGIS DESC)
+where rownum = 1 and to_number(SUBSTR(concatenado, 1, INSTR(concatenado,'|')-1) , '999') = objpro.svop_id
+
+)
+end)   resultado
+
+  from svin_objetivo_programa objpro
+ INNER JOIN SVIN_PROGRAMA_V programa on objpro.SPRV_ID = programa.SPRV_ID
+inner join  SVIN_DEPCENPROY prodep on programa.SPRV_ID =  prodep.SPRV_ID
+where
+((programa.sprv_fecha_evaluacion between $P{fechaDesde} and $P{fechaHasta}
+	and
+ programa.sprv_fecha_evaluacion is not null) or
+	to_char(programa.SPRV_ID) like $P{codigoPrograma} or
+	prodep.STVSUBJ_CODE_DEPTO like  $P{codigoDepartamento}
+) and programa.SPRV_ESTADO_ACTIVO = 'A'
+order by programa.SPRV_ID , programa.sprv_nombre, objpro.svop_indicador]]>
+	</queryString>
+	<field name="CODIGO_PROGRAMA" class="java.math.BigDecimal"/>
+	<field name="NOMBRE_PROGRAMA" class="java.lang.String"/>
+	<field name="SVOP_ID" class="java.math.BigDecimal"/>
+	<field name="SVOP_INDICADOR" class="java.lang.String"/>
+	<field name="AVANCE" class="java.math.BigDecimal"/>
+	<field name="RESULTADO" class="java.lang.String"/>
+	<variable name="codigoProg" class="java.math.BigDecimal"/>
+	<group name="Programa">
+		<groupExpression><![CDATA[$F{CODIGO_PROGRAMA}]]></groupExpression>
+		<groupHeader>
+			<band height="59">
+				<textField>
+					<reportElement uuid="ab628c5e-53e4-462a-a2b0-ff11b15fe63a" x="87" y="2" width="60" height="20"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CODIGO_PROGRAMA}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="280bcec3-3a5e-42f7-b063-272ecf333e69" x="169" y="2" width="377" height="29"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOMBRE_PROGRAMA}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="d206fa95-90ac-4fb0-98d5-9e6b9c8058d6" x="0" y="55" width="546" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="9dc7e3a7-3a43-4b70-8e21-2b3ad33474c8" x="31" y="31" width="100" height="20"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Componente]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="757e75a7-d075-4a07-b40b-ce47005162e7" x="147" y="31" width="100" height="20"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Avance]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="dbb3740b-b226-4f4a-8996-68c4d8781b9f" x="261" y="31" width="100" height="20"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<text><![CDATA[Resultado]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement uuid="d3a2444e-f50b-4c0a-9f22-0d12588bdc81" positionType="Float" x="10" y="0" width="545" height="66"/>
+				<imageExpression><![CDATA[$P{dirPhoto}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="32c1a16b-0325-49b5-a250-b0da8c0f05b2" x="165" y="6" width="196" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[AVANCE DE PROGRAMAS]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="37" splitType="Stretch">
+			<textField>
+				<reportElement uuid="3de19cff-f56a-46ba-83d9-a5e5111e756c" x="31" y="6" width="100" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SVOP_INDICADOR}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8f3a744c-c789-479d-808a-eb8808dcf76f" x="147" y="6" width="100" height="20"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AVANCE} == -1?"No registro":$F{AVANCE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b2bea2f3-dfc5-47f9-988c-653c40812f4c" x="261" y="6" width="285" height="25"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RESULTADO} == '-1'?"No registro":$F{RESULTADO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="36" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement uuid="0d2f4ecb-7e04-4ad4-a4be-a1a35937e0ed" x="506" y="6" width="40" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5364442c-37b0-4350-8c43-e00d9e51d1a8" x="426" y="6" width="80" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

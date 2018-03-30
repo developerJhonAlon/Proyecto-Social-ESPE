@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"      
+      >
+    <h:head>
+        <h:outputStylesheet name="theme_sistema_SVS.css" library="css" />
+    </h:head>
+    <h:body>    
+        <h:form id="formPrincipal">
+
+            <style>
+                .ui-panel .ui-panel-content {
+                    padding: 0;
+                }            
+            </style>                 
+
+            <p:panel header="Reportes" style="border: hidden; margin-bottom: 35px">
+                <p:panel id="panelCentral" style="width: 98%; border: hidden ">
+
+                    <!--panelReportesProyectos-->
+                    <p:panel id="panelReportesProyectos" style="border: hidden;">
+                        <h:panelGrid style="width: 100%">
+                            <p:fieldset id="fsParametrosRepProy" legend="Filtros del reporte" rendered="true">
+                                <h:panelGrid columns="3">
+                                    <p:outputLabel value="Fecha de ejecución."/>
+                                    <h:panelGrid columns="2">
+                                        <p:outputLabel value="Desde:" for="calFechaDesdeProy"/>
+                                        <p:calendar id="calFechaDesdeProy" value="#{reportes3Controller.fechaDesde}" timeZone="#{parametrosApplication.timeZone}"
+                                                    locale="#{parametrosApplication.local}" pattern="#{parametrosApplication.formatoFecha}"
+                                                    showButtonPanel="true"  showOn="button" showOtherMonths="true" navigator="true"/>
+
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <p:outputLabel value="Hasta:" for="calFechaHastaProy"/>
+                                        <p:calendar id="calFechaHastaProy" value="#{reportes3Controller.fechaHasta}" timeZone="#{parametrosApplication.timeZone}"
+                                                    locale="#{parametrosApplication.local}" pattern="#{parametrosApplication.formatoFecha}"
+                                                    showButtonPanel="true"  showOn="button" showOtherMonths="true" navigator="true"/>
+                                    </h:panelGrid>
+                                </h:panelGrid>
+
+                                <h:panelGrid columns="18">
+                                    <p:commandLink onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                   action="#{reportes3Controller.setFiltroReporte(1)}" 
+                                                   update=":formPrincipal:panelReportesProyectos">
+                                        <h:outputText value="Programas" />
+                                    </p:commandLink>
+                                    <p:commandButton title="Eliminar filtro de Programas" icon="ui-icon-closethick" 
+                                                     update=":formPrincipal:panelReportesProyectos" 
+                                                     rendered="#{reportes3Controller.verificarFiltro(1)}"
+                                                     style="width: 20px; height: 20px"
+                                                     action ="#{reportes3Controller.cancelarFiltro(1)}"
+                                                     onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                    </p:commandButton>
+
+
+                                    <p:spacer width="20"/>
+                                    <p:commandLink onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                   action="#{reportes3Controller.setFiltroReporte(2)}" 
+                                                   update=":formPrincipal:panelReportesProyectos">
+                                        <h:outputText value="Proyectos" />
+                                    </p:commandLink>
+                                    <p:commandButton title="Eliminar filtro de Proyectos" icon="ui-icon-closethick" 
+                                                     rendered="#{reportes3Controller.verificarFiltro(2)}"
+                                                     update=":formPrincipal:panelReportesProyectos" 
+                                                     style="width: 20px; height: 20px"
+                                                     action ="#{reportes3Controller.cancelarFiltro(2)}"
+                                                     onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                    </p:commandButton>
+
+
+                                    <p:spacer width="20"/>
+                                    <p:commandLink onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                   action="#{reportes3Controller.setFiltroReporte(3)}" 
+                                                   update=":formPrincipal:panelReportesProyectos">
+                                        <h:outputText value="Tipo Proyecto" />
+                                    </p:commandLink>
+                                    <p:commandButton title="Eliminar filtro de Tipo Proyecto" icon="ui-icon-closethick" 
+                                                     update=":formPrincipal:panelReportesProyectos" 
+                                                     rendered="#{reportes3Controller.verificarFiltro(3)}"
+                                                     style="width: 20px; height: 20px"
+                                                     action ="#{reportes3Controller.cancelarFiltro(3)}"
+                                                     onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                    </p:commandButton>                                            
+
+
+
+                                    <p:spacer width="20"/>
+                                    <p:commandLink onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                   action="#{reportes3Controller.setFiltroReporte(4)}" 
+                                                   update=":formPrincipal:panelReportesProyectos">
+                                        <h:outputText value="Carrera" />
+                                    </p:commandLink>
+                                    <p:commandButton title="Eliminar filtro de Tipo Proyecto" icon="ui-icon-closethick" 
+                                                     update=":formPrincipal:panelReportesProyectos" 
+                                                     rendered="#{reportes3Controller.verificarFiltro(4)}"
+                                                     style="width: 20px; height: 20px"
+                                                     action ="#{reportes3Controller.cancelarFiltro(4)}"
+                                                     onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                    </p:commandButton>                                                 
+
+
+                                </h:panelGrid> 
+
+                            </p:fieldset>
+
+                            <p:fieldset legend="Campos adicionales a visualizar" rendered="#{reportes3Controller.filtroReporte==null}">
+                                <h:panelGrid columns="18">
+                                    <h:outputLabel value="Línea de Investigación"></h:outputLabel>
+                                    <p:selectBooleanCheckbox value="#{reportes3Controller.visualizarLineaInvestigacion}"></p:selectBooleanCheckbox>
+                                    <p:spacer width="10"/>
+
+                                    <h:outputLabel value="Campus Participante"></h:outputLabel>
+                                    <p:selectBooleanCheckbox value="#{reportes3Controller.visualizarCampusParticipante}"></p:selectBooleanCheckbox>
+                                    <p:spacer width="10"/>
+
+                                    <h:outputLabel value="Departamento Participante"></h:outputLabel>
+                                    <p:selectBooleanCheckbox value="#{reportes3Controller.visualizarDepartamentoParticipante}"></p:selectBooleanCheckbox>
+                                    <p:spacer width="10"/>
+
+                                    <h:outputLabel value="Carrera"></h:outputLabel>
+                                    <p:selectBooleanCheckbox value="#{reportes3Controller.visualizarCarrera}"></p:selectBooleanCheckbox>
+
+
+                                </h:panelGrid>
+
+
+
+                            </p:fieldset>                                    
+
+                            <p:fieldset legend="Selección de Filtro: #{reportes3Controller.filtroReporte==1?'Programas':'Proyectos'}"
+                                        rendered="#{reportes3Controller.filtroReporte!=null}">
+                                <h:panelGrid columns="2">
+                                    <p:commandButton value="Aceptar" title="Aceptar selección de filtro" icon="ui-icon-locked" 
+                                                     update=":formPrincipal:panelReportesProyectos" 
+                                                     action ="#{reportes3Controller.seleccionarFiltro}"
+                                                     onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                    </p:commandButton>
+                                    <p:commandButton rendered="false" value="Cancelar" title="Cancelar selección de filtro" icon="ui-icon-arrowreturnthick-1-w" 
+                                                     update=":formPrincipal:panelReportesProyectos" 
+                                                     action="#{reportes3Controller.cancelarFiltro}">
+                                    </p:commandButton>
+
+                                </h:panelGrid>
+
+                                <p:dataTable id="dtProgramaVinculacion" widgetVar="dtProgramaVinculacion" value="#{reportes3Controller.programas}" var="progr" paginator="true" rows="5" rowIndexVar="index" resizableColumns="true"
+                                             emptyMessage="No se encontraron resultados"
+                                             rendered="#{reportes3Controller.filtroReporte==1}"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                             currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                             rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                                    <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{progr.id}">
+                                        <h:outputText value="#{index + 1}" />
+                                    </p:column>
+                                    <p:column headerText="Nombre" style="white-space: pre-line" sortBy="#{progr.nombre}" filterBy="#{progr.nombre}" filterMatchMode="contains">
+                                        <h:outputText  value ="#{progr.nombre}"/> 
+                                    </p:column>
+                                    <p:column rendered="false" headerText="Creado por" width="250" style="white-space: pre-line" sortBy="#{progr.creador.usuario.usuNombres.concat(' ').concat(progr.creador.usuario.usuApellidos)}" filterBy="#{progr.creador.usuario.usuNombres.concat(' ').concat(progr.creador.usuario.usuApellidos)}" filterMatchMode="contains">
+                                        <h:outputText  value ="#{progr.creador.usuario.usuCc.concat('-').concat(progr.creador.usuario.usuNombres).concat(' ').concat(progr.creador.usuario.usuApellidos)}"/> 
+                                    </p:column>
+                                    <p:column rendered="false" headerText="Director" width="250" style="white-space: pre-line" sortBy="#{progr.director.usuario.usuNombres.concat(' ').concat(progr.director.usuario.usuApellidos)}" filterBy="#{progr.director.usuario.usuNombres.concat(' ').concat(progr.director.usuario.usuApellidos)}" filterMatchMode="contains">
+                                        <h:outputText  value ="#{progr.director.usuario.usuCc.concat('-').concat(progr.director.usuario.usuNombres).concat(' ').concat(progr.director.usuario.usuApellidos)}"/> 
+                                    </p:column>
+                                    <p:column rendered="false" headerText="Estado" width="120" style="white-space: pre-line" sortBy="#{progr.estadoStr}" filterBy="#{progr.estado}" filterMatchMode="exact">
+                                        <f:facet name="filter">
+                                            <p:selectOneMenu onchange="PF('dtProgramaVinculacion').filter()" >
+                                                <f:selectItem itemLabel="[[-Seleccione-]]" itemValue="#{null}" noSelectionOption="true" />
+                                                <f:selectItem itemLabel="Ingreso de Perfil" itemValue="CRE"/>
+                                                <f:selectItem itemLabel="Seguimiento" itemValue="CEP"/>
+                                                <f:selectItem itemLabel="En proceso de Cierre" itemValue="CES"/>
+                                                <f:selectItem itemLabel="En proceso de Evaluación Final" itemValue="CER"/>
+                                                <f:selectItem itemLabel="Finalizado" itemValue="EVA"/>
+                                            </p:selectOneMenu>
+                                        </f:facet>                            
+                                        <h:outputText  value ="#{progr.estadoStr}"/> 
+                                    </p:column>
+                                    <p:column headerText="Seleccione" width="70" style="text-align: center">
+                                        <p:selectBooleanCheckbox value="#{progr.selected}"></p:selectBooleanCheckbox>
+                                    </p:column>
+                                </p:dataTable>
+
+                                <p:dataTable id="dtProyectos" widgetVar="dtProyectos" value="#{reportes3Controller.proyectos}" var="d" 
+                                             paginator="true" rows="5" rowIndexVar="index" resizableColumns="true"
+                                             rendered="#{reportes3Controller.filtroReporte==2}"
+                                             emptyMessage="No se encontraron resultados"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                             currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                             rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                                    <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{d.id}">
+                                        <h:outputText value="#{index + 1}" />
+                                    </p:column>
+                                    <p:column headerText="Código" width="100" style="white-space: pre-line" sortBy="#{d.codigo}" filterBy="#{d.codigo}" filterMatchMode="contains">
+                                        <h:outputText  value ="#{d.codigo}"/> 
+                                    </p:column>
+                                    <p:column headerText="Nombre" style="white-space: pre-line" sortBy="#{d.nombre}" filterBy="#{d.nombre}" filterMatchMode="contains">
+                                        <h:outputText  value ="#{d.nombre}"/> 
+                                    </p:column>
+                                    <p:column rendered="false" headerText="Director" style="white-space: pre-line" width="120"
+                                              sortBy="#{d.director.usuario.usuNombres.concat(' ').concat(d.director.usuario.usuApellidos)}" 
+                                              filterBy="#{d.director.usuario.usuCc.concat('-').concat(d.director.usuario.usuNombres).concat(' ').concat(d.director.usuario.usuApellidos)}" filterMatchMode="contains">
+                                        <h:outputText  value ="#{d.director.usuario.usuCc.concat('-').concat(d.director.usuario.usuNombres).concat(' ').concat(d.director.usuario.usuApellidos)}"/> 
+                                    </p:column>
+                                    <p:column rendered="false" headerText="Programa" width="200" style="white-space: pre-line" sortBy="#{d.programa.nombre}" filterBy="#{d.programa.nombre}" filterMatchMode="contains">
+                                        <h:outputText  value ="#{d.programa.nombre}"/> 
+                                    </p:column>
+                                    <p:column rendered="false" headerText="Campus" width="120" style="white-space: pre-line" sortBy="#{d.campus.stvcampDesc}" filterBy="#{d.campus.stvcampDesc}" filterMatchMode="contains">
+                                        <h:outputText  value ="#{d.campus.stvcampDesc}"/> 
+                                    </p:column>
+                                    <p:column rendered="false" headerText="Departamento" width="120" style="white-space: pre-line" sortBy="#{d.departamento.stvsubjDesc}" filterBy="#{d.departamento.stvsubjDesc}" filterMatchMode="contains">
+                                        <h:outputText  value ="#{d.departamento.stvsubjDesc}"/> 
+                                    </p:column>
+                                    <p:column rendered="false" headerText="Convocatoria" width="120" style="white-space: pre-line" sortBy="#{d.convocatoria.nombre}" filterBy="#{d.convocatoria.nombre}" filterMatchMode="contains">
+                                        <h:outputText  value ="#{d.convocatoria.nombre}"/>  
+                                    </p:column>
+                                    <p:column rendered="false" headerText="Tipo Proyecto" width="120" style="white-space: pre-line" sortBy="#{d.tipo}" filterBy="#{d.tipo}" filterMatchMode="exact">
+                                        <h:outputText  value ="#{d.tipo=='C'?'Gasto Permanente':'Gasto No Permanente'}"/>  
+                                        <f:facet name="filter">
+                                            <p:selectOneMenu onchange="PF('dtProyectos').filter()" >
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true" />
+                                                <f:selectItem itemLabel="Gasto Permanente" itemValue="C"/>
+                                                <f:selectItem itemLabel="Gasto No Permanente" itemValue="I"/>
+                                            </p:selectOneMenu>
+                                        </f:facet>                                  
+                                    </p:column>
+                                    <p:column rendered="false" headerText="Estado" width="150" style="white-space: pre-line" sortBy="#{d.estadoStr}" filterBy="#{d.estado}" filterMatchMode="exact">
+                                        <f:facet name="filter">
+                                            <p:selectOneMenu onchange="PF('dtProyectos').filter()" >
+                                                <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true" />
+                                                <f:selectItem itemLabel="Ingreso de Perfil" itemValue="CRE"/>
+                                                <f:selectItem itemLabel="Evaluación por Comisión de Vinculación" itemValue="CEP"/>
+                                                <f:selectItem itemLabel="Consolidación de Evaluación Comisión de Vinculación" itemValue="CEC"/>
+                                                <f:selectItem itemLabel="No aprobado por Comisión Vinculación" itemValue="REC0"/>
+                                                <f:selectItem itemLabel="En aprobación por Vicerrectorado" itemValue="APR0"/>
+                                                <f:selectItem itemLabel="No aprobado por Vicerrectorado" itemValue="REC1"/>
+                                                <f:selectItem itemLabel="En aprobación por Consejo Académico" itemValue="APR1"/>
+                                                <f:selectItem itemLabel="No aprobado por Consejo Académico" itemValue="REC2"/>
+                                                <f:selectItem itemLabel="En Ejecución" itemValue="APR2"/>
+                                                <f:selectItem itemLabel="En proceso de Cierre" itemValue="CEE"/>
+                                                <f:selectItem itemLabel="En proceso de Evaluación Final" itemValue="CER"/>
+                                                <f:selectItem itemLabel="Finalizado" itemValue="EVA"/>
+
+                                            </p:selectOneMenu>
+                                        </f:facet>                            
+                                        <h:outputText  value ="#{d.estadoStr}"/> 
+                                    </p:column>
+                                    <p:column headerText="Seleccione" width="70" style="text-align: center">
+                                        <p:selectBooleanCheckbox value="#{d.selected}"></p:selectBooleanCheckbox>
+                                    </p:column>
+                                </p:dataTable>                                        
+
+
+                                <p:dataTable id="dtTipoProyecto" widgetVar="dtTipoProyecto" value="#{reportes3Controller.tipoProyectoList}" var="tipoProyecto" 
+                                             paginator="true" rows="5" rowIndexVar="index" resizableColumns="true"
+                                             rendered="#{reportes3Controller.filtroReporte==3}"
+                                             emptyMessage="No se encontraron resultados"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                             currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                             rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                                    <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{d.id}">
+                                        <h:outputText value="#{index + 1}" />
+                                    </p:column>
+                                    <p:column headerText="Código" width="100" style="white-space: pre-line" sortBy="#{tipoProyecto.id}" filterBy="#{tipoProyecto.id}" filterMatchMode="contains">
+                                        <h:outputText  value ="#{tipoProyecto.id}"/> 
+                                    </p:column>
+                                    <p:column headerText="Descripción" style="white-space: pre-line" sortBy="#{tipoProyecto.descripcion}" filterBy="#{tipoProyecto.descripcion}" filterMatchMode="contains">
+                                        <h:outputText  value ="#{tipoProyecto.descripcion}"/> 
+                                    </p:column>
+                                    <p:column headerText="Seleccione" width="70" style="text-align: center">
+                                        <p:selectBooleanCheckbox value="#{tipoProyecto.selected}"></p:selectBooleanCheckbox>
+                                    </p:column>
+                                </p:dataTable> 
+
+                                <p:dataTable id="dtCarreras" widgetVar="dtCarreras" value="#{reportes3Controller.carreras}" var="carrera" 
+                                             paginator="true" rows="5" rowIndexVar="index" resizableColumns="true"
+                                             rendered="#{reportes3Controller.filtroReporte==4}"
+                                             emptyMessage="No se encontraron resultados"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                             currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                             rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                                    <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{d.id}">
+                                        <h:outputText value="#{index + 1}" />
+                                    </p:column>
+                                    <p:column headerText="Descripción" style="white-space: pre-line" sortBy="#{carrera.stvmajrDesc}" filterBy="#{carrera.stvmajrDesc}" filterMatchMode="contains">
+                                        <h:outputText  value ="#{carrera.stvmajrDesc}"/> 
+                                    </p:column>
+                                    <p:column headerText="Seleccione" width="70" style="text-align: center">
+                                        <p:selectBooleanCheckbox value="#{carrera.selected}"></p:selectBooleanCheckbox>
+                                    </p:column>
+                                </p:dataTable>                                         
+                            </p:fieldset>
+
+                            <h:panelGrid columns="2" rendered="#{reportes3Controller.filtroReporte==null}" style="width: 100%;">
+                                <p:commandButton value="Generar Reporte" title="Generar Reporte" 
+                                                 update=":formPrincipal:panelReportesProyectos" 
+                                                 action ="#{reportes3Controller.generarReporteProyectos}"
+                                                 onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                </p:commandButton>
+                                <h:commandLink target="_blank" title="Exportar a Excel" style="float: right">
+                                    <p:graphicImage url="../../resources/images/excel2.png" width="33"/>
+                                    <p:dataExporter type="xls" target="dtProyectosReporte" fileName="cars" pageOnly="true" />
+                                </h:commandLink>
+                            </h:panelGrid>
+
+
+                            <p:dataTable id="dtProyectosReporte" widgetVar="dtProyectosReporte" value="#{reportes3Controller.proyectosReporteList}" var="proy" 
+                                         paginator="true" rows="5" rowIndexVar="index" resizableColumns="true"
+                                         rendered="#{reportes3Controller.filtroReporte==null}"
+                                         emptyMessage="No se encontraron resultados"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                         currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                         rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                                <p:column headerText="Nro." width="20" style="text-align: center">
+                                    <h:outputText value="#{proy.id}" />
+                                </p:column>
+                                <p:column headerText="Nombre" style="white-space: pre-line" sortBy="#{proy.nombre}" >
+                                    <h:outputText  value ="#{proy.nombre}"/> 
+                                </p:column>
+                                <p:column headerText="Tipo Proyecto" width="120" style="white-space: pre-line" sortBy="#{proy.tipo}">
+                                    <h:outputText  value ="#{proy.tipo=='C'?'Gasto Permanente':'Gasto No Permanente'}"/>  
+                                </p:column>                                    
+                                <p:column headerText="Director" style="white-space: pre-line" width="120" sortBy="#{proy.director}" >
+                                    <h:outputText  value ="#{proy.director}"/> 
+                                </p:column>
+                                <p:column headerText="Programa" width="200" style="white-space: pre-line" sortBy="#{proy.programa}" >
+                                    <h:outputText  value ="#{proy.programa}"/> 
+                                </p:column>
+                                <p:column rendered="#{reportes3Controller.visualizarCampusParticipante}" headerText="Campus Participante" width="200" style="white-space: pre-line" sortBy="#{proy.campusParticipante.stvcampDesc}" >
+                                    <h:outputText  value ="#{proy.campusParticipante.stvcampDesc}"/> 
+                                </p:column>
+                                <p:column rendered="#{reportes3Controller.visualizarDepartamentoParticipante}" headerText="Departamento Participante" width="200" style="white-space: pre-line" sortBy="#{proy.departamentoParticipante.stvsubjDesc}" >
+                                    <h:outputText  value ="#{proy.departamentoParticipante.stvsubjDesc}"/> 
+                                </p:column>
+                                <p:column rendered="#{reportes3Controller.visualizarCarrera}" headerText="Carrera" width="200" style="white-space: pre-line" sortBy="#{proy.carrera.stvmajrDesc}" >
+                                    <h:outputText  value ="#{proy.carrera.stvmajrDesc}"/> 
+                                </p:column>
+                                <p:column rendered="#{reportes3Controller.visualizarLineaInvestigacion}" headerText="Línea de Investigación" width="200" style="white-space: pre-line" sortBy="#{proy.lineaInvestigacion.lineaDescip}" >
+                                    <h:outputText  value ="#{proy.lineaInvestigacion.lineaDescip}"/> 
+                                </p:column>
+                            </p:dataTable> 
+
+
+                            <rich:extendedDataTable var="car"
+                                                    sortMode="single"
+                                                    selectionMode="multiple"
+                                                    value="#{reportes3Controller.proyectosReporteList}"
+                                                    filterVar="car"
+                                                    id="table" frozenColumns="2"
+                                                    style="height:300px; width:500px;"
+                                                    >
+                                <f:facet name="header">
+                                    <h:outputText value="Cars marketplace"/>
+                                </f:facet>
+                                <rich:column headerClass="dataTableHeader"  sortBy="#{car.nombre}" filter="#{car.nombre}">
+                                    <f:facet name="header">
+                                        <h:outputText value="vendor"/>
+                                    </f:facet>
+                                    <h:outputText value="#{car.nombre}"/>
+                                </rich:column>
+                                <rich:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Model"/>
+                                    </f:facet>
+                                    <h:outputText value="#{car.tipo}"/>
+                                </rich:column>
+                                <rich:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Price"/>
+                                    </f:facet>
+                                    <h:outputText value="#{car.director}"/>
+                                </rich:column>
+                            </rich:extendedDataTable>                              
+                        </h:panelGrid>
+                    </p:panel>
+
+                </p:panel>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+

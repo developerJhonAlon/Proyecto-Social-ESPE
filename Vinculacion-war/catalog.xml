@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8080/Vinculacion-war/WSEnvioMail?wsdl" uri="src/conf/xml-resources/web-service-references/WSEnvioMail/wsdl/localhost_8080/Vinculacion-war/WSEnvioMail.wsdl"/>
+    <system systemId="http://localhost:8080/Vinculacion-war/WSEnvioMail?xsd=1" uri="src/conf/xml-resources/web-service-references/WSEnvioMail/wsdl/localhost_8080/Vinculacion-war/WSEnvioMail.xsd_1.xsd"/>
+    <system systemId="http://10.9.24.10:8080/WS_EnvioMail/WSEnvioMail?wsdl" uri="src/conf/xml-resources/web-service-references/WSEnvioMail/wsdl/10.9.24.10_8080/WS_EnvioMail/WSEnvioMail.wsdl"/>
+    <system systemId="http://10.9.24.10:8080/WS_EnvioMail/WSEnvioMail?xsd=1" uri="src/conf/xml-resources/web-service-references/WSEnvioMail/wsdl/10.9.24.10_8080/WS_EnvioMail/WSEnvioMail.xsd_1.xsd"/>
+    <system systemId="http://10.9.24.10:8080/WSAlumnos/service?wsdl" uri="src/conf/xml-resources/web-service-references/service/wsdl/10.9.24.10_8080/WSAlumnos/service.wsdl"/>
+    <system systemId="http://10.9.24.10:8080/WSAlumnos/service?xsd=1" uri="src/conf/xml-resources/web-service-references/service/wsdl/10.9.24.10_8080/WSAlumnos/service.xsd_1.xsd"/>
+    <system systemId="http://10.1.0.25:8080/WS_EnvioMail-1.0-SNAPSHOT/WSEnvioMail?wsdl" uri="src/conf/xml-resources/web-service-references/WSEnvioMail/wsdl/10.1.0.25_8080/WS_EnvioMail-1.0-SNAPSHOT/WSEnvioMail.wsdl"/>
+    <system systemId="http://10.1.0.25:8080/WS_EnvioMail-1.0-SNAPSHOT/WSEnvioMail?xsd=1" uri="src/conf/xml-resources/web-service-references/WSEnvioMail/wsdl/10.1.0.25_8080/WS_EnvioMail-1.0-SNAPSHOT/WSEnvioMail.xsd_1.xsd"/>
+</catalog>

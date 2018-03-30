@@ -1,0 +1,294 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package ec.edu.espe_ctt.convocatoria.controller;
+
+import ec.edu.espe_ctt.seguridades.entity.SegUsuario;
+import ec.edu.espe_ctt.seguridades.navegacion.MensajeController;
+import ec.edu.espe_ctt.vinculacion.entity.SvinConvoca;
+import ec.edu.espe_ctt.vinculacion.session.SvinConvocaFacade;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import org.apache.commons.io.IOUtils;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.UploadedFile;
+
+/**
+ *
+ * @author Administrador
+ */
+@ManagedBean
+@ViewScoped
+public class ConvocatoriaVinculacionController implements Serializable{
+
+    /**
+     * Creates a new instance of ConvocatoriaVinculacionController
+     */
+    public ConvocatoriaVinculacionController() {
+    }
+    //<editor-fold defaultstate="collapsed" desc="Declaracion de variables">
+    private boolean botonInicio=true;   
+    private SegUsuario usuario;
+    private String usuID;
+    private boolean validaVacios = true;
+    private boolean controlGrabar = false;
+    private boolean controlGrabarP7 = false;
+    private String proObservacion = "";
+    private String estado = "";
+    private String nombre = "";
+    private String convDigital = "";
+    private Date fechaConv;
+    private String fConvoca;
+    
+
+    
+    @EJB
+    private SvinConvocaFacade convocaFacade;
+    
+    
+    private SvinConvoca svinConvoca; 
+    private List<SvinConvoca> vinConvocaList;
+    private SvinConvoca convocaSelected;
+
+    private String nomFile ="";
+    private UploadedFile file;
+    private byte[] file1 = null;
+   
+    //</editor-fold>
+    @PostConstruct
+    public void init() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        usuario = (SegUsuario) context.getExternalContext().getSessionMap().get("usu_login");
+        checkIngreso();
+      
+    }
+    void checkIngreso(){
+        vinConvocaList = convocaFacade.findAll();
+    }
+    //<editor-fold defaultstate="collapsed" desc="Funciones">
+     public String agregarP1(){
+        controlGrabar = true;
+        return "";
+      }
+     public String registra(){         
+        /* if (convocaSelected != null) {
+            System.out.println(" actualiza registro");
+            svinConvoca.setSconvNombre(nombre);
+            svinConvoca.setSconvObservacion(proObservacion);
+            svinConvoca.setSconvEstado(estado);
+            svinConvoca.setSconvFechaCrea(fechaConv);
+            convocaFacade.edit(svinConvoca);
+            //System.out.flush();            
+         } 
+         else
+         {*/
+         if (convocaSelected == null) {
+             svinConvoca = new SvinConvoca();
+             System.out.println(" ingresa registro");
+             svinConvoca.setSconvNombre(nombre);
+             svinConvoca.setSconvObservacion(proObservacion);
+             svinConvoca.setSconvEstado("A");
+             svinConvoca.setSconvFechaCrea(new Date());
+             convocaFacade.create(svinConvoca);
+             vinConvocaList = convocaFacade.findAll();
+             cancelar();
+          }
+         //}    
+        return "";
+     }
+     
+     public void cancelar() {
+        controlGrabar = false;
+        proObservacion = "";
+        nombre = "";
+        nomFile = "";
+        validaVacios = true;
+    }
+     public boolean  validarVacios(){
+         System.out.println(" valida vacios ");
+         validaVacios = false;
+         proObservacion = proObservacion.trim();
+         nombre = nombre.trim();
+         nomFile = nomFile.trim();
+         if(proObservacion.isEmpty()) validaVacios = true;
+         if(nombre.isEmpty())validaVacios = true;
+         if(nomFile.isEmpty()) validaVacios = true;
+         return validaVacios;
+     }
+    
+     public void handleFileUpload (FileUploadEvent event) throws IOException{
+         nomFile = event.getFile().getFileName();
+         InputStream is = null;
+         is = event.getFile().getInputstream();
+         this.setFile1(IOUtils.toByteArray(is));
+         validarVacios();
+     }
+   
+   
+     public void eliminar(){
+         System.out.println(" elimina registro");
+         if (convocaSelected != null) {
+             SvinConvoca eliminar = null;
+             for(int i = 0; i < vinConvocaList.size(); i++) {
+                SvinConvoca elemento = this.vinConvocaList.get(i);
+                if(convocaSelected.getSconvId()== vinConvocaList.get(i).getSconvId())
+                {
+                    eliminar = elemento;
+                    break;
+                }                
+             }
+             System.out.println("eliminar " + eliminar);
+            if (eliminar != null) {
+                System.out.println(" ingreso a eliminar");
+                this.vinConvocaList.remove(eliminar);
+                convocaFacade.remove(eliminar);
+            }
+         }
+     }
+     public void onRowEdit(RowEditEvent event)
+     {
+         SvinConvoca vinConvoca = new SvinConvoca();
+         vinConvoca = (SvinConvoca) event.getObject();
+         convocaFacade.edit(vinConvoca);
+         
+     }
+         public void onRowCancel(RowEditEvent event) {
+
+    }
+    
+
+     
+//</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Getter and Setter">
+    
+    public boolean isBotonInicio() {
+        return botonInicio;
+    }
+   
+    public void setBotonInicio(boolean botonInicio) {
+        this.botonInicio = botonInicio;
+    }
+    
+     public boolean isValidaVacios() {
+        return validaVacios;
+    }
+
+    public void setValidaVacios(boolean validaVacios) {
+        this.validaVacios = validaVacios;
+    }
+    
+     public boolean isControlGrabar() {
+        return controlGrabar;
+    }
+
+    public void setControlGrabar(boolean controlGrabar) {
+        this.controlGrabar = controlGrabar;
+    }
+
+    public String getProObservacion() {
+        return proObservacion;
+    }
+
+    public void setProObservacion(String proObservacion) {
+        this.proObservacion = proObservacion;
+    }
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
+    public String getConvDigital() {
+        return convDigital;
+    }
+
+    public void setConvDigital(String convDigital) {
+        this.convDigital = convDigital;
+    }
+    
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    public Date getFechaIni() {
+        return fechaConv;
+    }
+
+    public void setFechaIni(Date fechaIni) {
+        this.fechaConv = fechaIni;
+    }    
+
+    public List<SvinConvoca> getVinConvocaList() {
+        return vinConvocaList;
+    }
+
+    public void setVinConvocaList(List<SvinConvoca> vinConvocaList) {
+        this.vinConvocaList = vinConvocaList;
+    }
+  
+    public String getfConvoca() {
+        return fConvoca;
+    }
+
+    public void setfConvoca(String fConvoca) {
+        this.fConvoca = fConvoca;
+    }
+    public String getNomFile() {
+        return nomFile;
+    }
+
+    public void setNomFile(String nomFile) {
+        this.nomFile = nomFile;
+    }
+     public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+
+    public byte[] getFile1() {
+        return file1;
+    }
+
+    public void setFile1(byte[] file1) {
+        this.file1 = file1;
+    }
+    public boolean isControlGrabarP7() {
+        return controlGrabarP7;
+    }
+
+    public void setControlGrabarP7(boolean controlGrabarP7) {
+        this.controlGrabarP7 = controlGrabarP7;
+    }
+    
+    public SvinConvoca getConvocaSelected() {
+        return convocaSelected;
+    }
+
+    public void setConvocaSelected(SvinConvoca convocaSelected) {
+        this.convocaSelected = convocaSelected;
+    }
+    //</editor-fold>
+    
+}

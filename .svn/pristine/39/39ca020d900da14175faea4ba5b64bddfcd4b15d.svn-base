@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core" 
+      xmlns:f="http://java.sun.com/jsf/core"
+      >
+
+    <h:head>
+        <!--<link rel="shortcut icon" />-->
+        <h:outputStylesheet name="theme_sistema_SVS3.css" library="css" />
+        <h:outputScript library="js" name="timelineLocales.js" />
+        <h:outputScript library="js" name="proyectoVinculacion.js" />
+        <script type="text/javascript">
+            var countDownTime;
+            var sessionTime = 30 * 60 * 1000;//in miliseconds
+            function countDownInit() {
+                countDownTime = (new Date()).getTime();
+            }
+            function checkCountDown() {
+                if (countDownTime == null) {
+                    countDownTime = (new Date()).getTime();
+                }
+                var now = (new Date()).getTime();
+                //console.log(now - countDownTime);
+                if ((now - countDownTime) > sessionTime) {
+                    PF('dlgSesion').show();
+                }
+            }
+            window.setInterval(checkCountDown, 1000);
+
+            function onrangechange1() {
+                var range = PF('timelineHitos').getVisibleRange();
+                PF('timelineActividades').setVisibleRange(range.start, range.end);
+            }
+
+            function onrangechange2() {
+                var range = PF('timelineActividades').getVisibleRange();
+                PF('timelineHitos').setVisibleRange(range.start, range.end);
+            }
+            function scrollToFistrMessage() {
+                try {
+                    PrimeFaces.scrollTo("formPrincipal:tabViewPrincipal:tabP:btnAgregarP7");
+                } catch (err) {
+                    console.log("errorrrrr");
+                }
+            }
+
+        </script>        
+    </h:head>
+
+    <h:body>
+
+        <p:layout fullPage="true" >
+            <p:layoutUnit rendered="true" position="north" size="74" style="border: hidden" >
+                <h:form id="formCabecera">
+                    <!--para deshabilitar el Enter en el formulario-->
+                    <p:commandButton widgetVar="dummy" id="dummy" process="@none" global="false" style="display:none;"/> 
+                    <p:defaultCommand target="dummy"/>
+
+                    <p:growl id="message1" widgetVar="message1" showDetail="true" life="3000"></p:growl>            
+                    <p:idleMonitor timeout="#{session.maxInactiveInterval * 1000}" onidle="PF('dlgSesion').show();"  />
+                    <!--<p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();countDownInit();"/>-->
+                    <p:ajaxStatus onsuccess="countDownInit();"/>
+                    <pe:blockUI widgetVar="blockUIWidget">  
+                        <h:panelGrid columns="2">  
+                            <p:graphicImage value="/resources/images/ajax-loader1.gif" style="margin-right: 12px; vertical-align: middle;" />  
+                            <h:outputText value="Procesando... Por favor espere..." style="white-space: nowrap;"/>  
+                        </h:panelGrid>   
+                    </pe:blockUI>              
+                    <p:dialog id="dlgForm01" modal="true" widgetVar="statusDialog" header="msg.procesando"   minimizable="false" showHeader="false"
+                              draggable="false" closable="false" maximizable="false" width="240">  
+                        <h:panelGrid columns="2">  
+                            <p:graphicImage value="/resources/images/ajax-loader1.gif" style="margin-right: 12px; vertical-align: middle;" />  
+                            <h:outputText value="Procesando... Por favor espere..." style="white-space: nowrap;"/>  
+                        </h:panelGrid>  
+                    </p:dialog> 
+
+                    <p:confirmDialog id="dlgSesion"
+                                     header="Sesión expirada" severity="alert" widgetVar="dlgSesion"
+                                     appendTo="@(body)" closable="false"
+                                     >
+                        <f:facet name="message">
+                            <h:outputText value="Estimado usuario,"/><br/>
+                            <h:outputText value="por su seguridad su sesión ha sido expirada ..."/><br/>
+                            <h:outputText value="Esto ocurre cuando el sistema no ha sido usado por un lapso de "/>
+                            <h:outputText value="#{session.maxInactiveInterval/60}">
+                                <f:convertNumber locale="es_ES" pattern="###" />
+                            </h:outputText>
+                            <h:outputText value=" minutos."/><br/>
+                            <h:outputText value="Por favor vuelva a ingresar al sistema."/>
+                        </f:facet>
+                        <center>
+                            <input id="confirmBackToLogin" type="button" value="Aceptar" style="cursor: pointer"
+                                   onclick="window.location = '#{facesContext.externalContext.requestContextPath}';" />
+                        </center>
+                    </p:confirmDialog>            
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" closeOnEscape="true">
+                        <center>
+                            <p:commandButton value="Aceptar" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                            <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </center>
+                    </p:confirmDialog>
+                    <div id="cabecera" class="cabecera" style="border: 1px solid #00652e; height: 105px; width: 99%; background: #f5f3e5; border-radius: 6px;margin: auto; ">
+                        <h:panelGrid columns="1" width="99%" columnClasses="centrado" cellpadding="0" cellspacing="0" >
+                            <h:panelGrid columns="4" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #F5F3E5">
+                                <h:commandButton image="/resources/images/close-session.png" immediate="true" action="#{navegacionController.cerrar_session}"
+                                                 style="width: 35px; float:right; text-align:right; margin-left:10px; " alt="Cerrar Sesión"/>
+                                <p:commandLink id="ajax" style="float: left" onclick="PF('dialogCambioPassword').show();">
+                                    <h:outputText value="Cambiar contraseña" />
+                                </p:commandLink>
+
+                                <h:graphicImage value="/resources/images/banner_SVS.png" width="90%"
+                                                style=" margin-left:10px;"/>
+
+                                <h:commandButton rendered="false" image="/resources/images/close-session.png" immediate="true" action="#{navegacionController.cerrar_session}"
+                                                 style="width: 35px; float:right; text-align:right; margin-left:5px; " alt="Cerrar Sesión"/>
+
+
+
+                            </h:panelGrid>
+                            <h:panelGrid columns="4" cellpadding="0" cellspacing="0" >
+                                <p:spacer width="10" height="1"></p:spacer>
+                                <h:outputLabel style="font-weight: bold; font-size: 10px" value="Usuario: #{sesionBean.usu_login.usuCc.concat('-').concat(sesionBean.usu_login.usuNombres).concat(' ').concat(sesionBean.usu_login.usuApellidos)}"></h:outputLabel>
+                                <p:spacer width="50" height="1"></p:spacer>
+                                <h:outputLabel style="font-weight: bold; font-size: 10px" value="Perfil: #{sesionBean.perfilesDesc}"></h:outputLabel>
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </div>    
+                </h:form>
+
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+
+                <ui:insert name="content"> 
+
+                </ui:insert> 
+
+
+            </p:layoutUnit>
+            <p:layoutUnit rendered="true" position="south" size="60" style="border: hidden">
+                <h:form>
+                    <p:menubar styleClass="centeredMenuBar">
+                        <c:forEach items="#{navegacionController.lopciones}" var="item">           
+                            <p:menuitem value="#{item.opcNombre}" url="#{item.opcUrl}">
+                            </p:menuitem>
+                        </c:forEach>
+                    </p:menubar>
+
+                </h:form>
+            </p:layoutUnit>
+
+        </p:layout>        
+    </h:body>
+
+
+</html>
+

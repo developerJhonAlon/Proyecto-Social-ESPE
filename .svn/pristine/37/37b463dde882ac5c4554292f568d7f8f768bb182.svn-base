@@ -1,0 +1,92 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ec.edu.espe_innovativa.controller;
+
+import ec.edu.espe_ctt.saturno.entity.Sfrstcr;
+import ec.edu.espe_ctt.vinculacion.entity.Proyecto;
+import ec.edu.espe_ctt.vinculacion.entity.ResponsableProyecto;
+import ec.edu.espe_ctt.vinculacion.entity.VEstudiante;
+import ec.edu.espe_ctt.vinculacion.session.ProyectoFacade;
+import ec.edu.espe_ctt.vinculacion.session.VistaEstudianteFacade;
+import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
+
+@ManagedBean(name = "busquedaEstudianteController")
+@ViewScoped
+public class BusquedaEstudianteController implements Serializable {
+
+    @EJB
+    private VistaEstudianteFacade estudianteFacade;
+    @EJB
+    private ProyectoFacade proyectoFacade;
+    private List<VEstudiante> estudianteList;
+    private String cedula;
+    private String nombres;
+    private String apellidos;
+    private Proyecto proyectoSelected;
+
+
+    @PostConstruct
+    public void init() {
+        Object idProyecto = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idProyecto");
+        proyectoSelected= proyectoFacade.findById(Integer.valueOf(idProyecto.toString()));
+    }
+
+    public void selectEstudianteFromDialog(VEstudiante estudiante) {
+        for (ResponsableProyecto resp : proyectoSelected.getParticipanteEstudianteList()) {
+            if (resp.getUsuario().equals(estudiante.getUsuario()) && resp.getCarrera().equals(estudiante.getCarrera()) && resp.getDepartamento().equals(estudiante.getDepartamento())) {
+                FacesContext.getCurrentInstance().addMessage("j_idt6:txtCedula", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El estudiante seleccionado ya se encuentra asignado al proyecto."));
+                return;
+            }
+        }
+        RequestContext.getCurrentInstance().closeDialog(estudiante);
+    }
+
+    public List<VEstudiante> getEstudianteList() {
+        return estudianteList;
+    }
+
+    public void setEstudianteList(List<VEstudiante> estudianteList) {
+        this.estudianteList = estudianteList;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String buscar() {
+        estudianteList = estudianteFacade.findByCedNomApe(cedula, nombres, apellidos);
+        //estudianteList = estudianteFacade.findAll();
+        return "";
+    }
+}

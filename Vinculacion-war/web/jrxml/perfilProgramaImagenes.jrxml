@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProgramaImagenes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="0" rightMargin="60" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="1.771561000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idPrograma" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[101]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pathAplicacion" class="java.lang.String">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\build\\web\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select SZVTANEXOSPR_URL, SZVTANEXOSPR_NOMBRE
+from SZDTAVANEXOSPR
+where SPRV_ID = $P{idPrograma}
+and SZVTANEXOSPR_TIPO =0]]>
+	</queryString>
+	<field name="SZVTANEXOSPR_URL" class="java.lang.String"/>
+	<field name="SZVTANEXOSPR_NOMBRE" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="40" splitType="Prevent">
+			<image scaleImage="RealHeight" hAlign="Center">
+				<reportElement x="0" y="0" width="515" height="39" uuid="83e1b987-57c3-49ce-8e88-72be33328c0b"/>
+				<imageExpression><![CDATA[$P{pathAplicacion}  + $F{SZVTANEXOSPR_URL} + $F{SZVTANEXOSPR_NOMBRE}]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

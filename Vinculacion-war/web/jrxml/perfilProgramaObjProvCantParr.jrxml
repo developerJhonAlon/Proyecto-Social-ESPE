@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProgramaObjProvCantParr" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="2.1435888100000042"/>
+	<property name="ireport.x" value="110"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idPrograma" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[98]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cobertura" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[4]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select SEA_PROVINCIA.pro_nombre PROVINCIA, NVL(SEA_CANTON.CAN_NOMBRE, ' ') CANTON, NVL(SEA_PARROQUIA.PRQ_NOMBRE,' ') PARROQUIA, SZDTAVZONA_DETALLE.ZONDETA_OBJETIVOS
+from SZDTAVZONA_DETALLE
+left join SEA_PROVINCIA
+on SZDTAVZONA_DETALLE.PRO_ID = SEA_PROVINCIA.PRO_ID
+left join SEA_CANTON
+on SZDTAVZONA_DETALLE.CAN_ID = SEA_CANTON.CAN_ID
+left join SEA_PARROQUIA
+on SZDTAVZONA_DETALLE.PRQ_ID = SEA_PARROQUIA.PRQ_ID
+WHERE SZDTAVZONA_DETALLE.SPRV_ID =  $P{idPrograma}
+--AND ZONDETA_OBJETIVOS IS NOT NULL
+ORDER BY PROVINCIA, CANTON, PARROQUIA]]>
+	</queryString>
+	<field name="PROVINCIA" class="java.lang.String"/>
+	<field name="CANTON" class="java.lang.String"/>
+	<field name="PARROQUIA" class="java.lang.String"/>
+	<field name="ZONDETA_OBJETIVOS" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="16">
+			<staticText>
+				<reportElement x="0" y="0" width="103" height="16" uuid="169e91ba-6343-4850-8e21-09a67d9f6cff">
+					<printWhenExpression><![CDATA[$P{cobertura}==2 || $P{cobertura}==3 || $P{cobertura}==4]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="103" y="0" width="114" height="16" uuid="981360f9-d9b2-4ba2-ba79-16ff17c36669">
+					<printWhenExpression><![CDATA[$P{cobertura}==3 || $P{cobertura}==4]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantón]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="217" y="0" width="114" height="16" uuid="bb8e184a-590e-42fd-b46d-9299d32663f7">
+					<printWhenExpression><![CDATA[$P{cobertura}==4]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parroquia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="532" height="16" uuid="8b73083d-a82d-48e8-a3d4-23a7bcc6132b">
+					<printWhenExpression><![CDATA[$P{cobertura}==1]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Objetivo Nacional]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="103" y="0" width="429" height="16" uuid="193bf690-fbc1-41eb-a585-1d3e7faf6cb9">
+					<printWhenExpression><![CDATA[$P{cobertura}==2]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Objetivos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="217" y="0" width="315" height="16" uuid="bde9533d-332b-49e5-b694-c72fd771bbb9">
+					<printWhenExpression><![CDATA[$P{cobertura}==3]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Objetivos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="331" y="0" width="201" height="16" uuid="0b3ef4a5-5894-4beb-b64e-5cce77039214">
+					<printWhenExpression><![CDATA[$P{cobertura}==4]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Objetivos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="16" splitType="Prevent">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="103" height="16" uuid="1c587382-c91a-422d-bb2b-4f3cc8115cc7">
+					<printWhenExpression><![CDATA[$P{cobertura}==2 || $P{cobertura}==3 || $P{cobertura}==4]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PROVINCIA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="103" y="0" width="114" height="16" uuid="9ed27be3-40b1-48ac-96cc-4793c6c3d49b">
+					<printWhenExpression><![CDATA[$P{cobertura}==3 || $P{cobertura}==4]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CANTON}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="217" y="0" width="114" height="16" uuid="5181b87e-9a41-4796-80cd-3a0b6709080e">
+					<printWhenExpression><![CDATA[$P{cobertura}==4]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PARROQUIA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="532" height="16" uuid="8bfd6877-9d1a-4c9a-9547-b8e201a061b0">
+					<printWhenExpression><![CDATA[$P{cobertura}==1]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ZONDETA_OBJETIVOS}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="103" y="0" width="429" height="16" uuid="04a632ad-0ea6-42e5-b70c-c1833f171d06">
+					<printWhenExpression><![CDATA[$P{cobertura}==2]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ZONDETA_OBJETIVOS}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="217" y="0" width="315" height="16" uuid="ba31c55a-0f8b-4075-92cd-b21c3148bf40">
+					<printWhenExpression><![CDATA[$P{cobertura}==3]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ZONDETA_OBJETIVOS}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="331" y="0" width="201" height="16" uuid="2740d960-b96c-41b8-9a60-ca2fd9ad4fc3">
+					<printWhenExpression><![CDATA[$P{cobertura}==4]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ZONDETA_OBJETIVOS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

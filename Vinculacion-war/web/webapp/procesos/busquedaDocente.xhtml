@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <h:head>
+        <title>Búsqueda de Docentes</title>
+        <h:outputStylesheet name="theme_sistema_SVS.css" library="css" />        
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <p:growl id="message1" widgetVar="message1" showDetail="true" life="3000"></p:growl>            
+            <h:panelGrid columns="1">
+                <p:dataTable id="dtDocentes" var="doc" value="#{busquedaDocenteController2.docentes}"
+                             paginator="true" rows="5" rowIndexVar="index"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                             currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                             rowsPerPageTemplate="5,10,15,20,30,50,100" lazy="false"
+                             >
+                    <p:column headerText="Cédula" sortBy="#{doc.usuario.usuCc}" filterBy="#{doc.usuario.usuCc}" width="70" filterMatchMode="startsWith">
+                        <h:outputText value="#{doc.usuario.usuCc}" />
+                    </p:column>
+                    <p:column headerText="Apellidos" sortBy="#{doc.usuario.usuApellidos}" filterBy="#{doc.usuario.usuApellidos}" filterMatchMode="contains">
+                        <h:outputText value="#{doc.usuario.usuApellidos}" />
+                    </p:column>
+                    <p:column headerText="Nombres" sortBy="#{doc.usuario.usuNombres}" filterBy="#{doc.usuario.usuNombres}" filterMatchMode="contains">
+                        <h:outputText value="#{doc.usuario.usuNombres}" />
+                    </p:column>
+                    <p:column rendered="#{busquedaDocenteController2.idCampus==null}" headerText="Campus" sortBy="#{doc.campus.stvcampDesc}" filterBy="#{doc.campus.stvcampDesc}" filterMatchMode="contains">
+                        <h:outputText value="#{doc.campus.stvcampDesc}" />
+                    </p:column>
+                    <p:column rendered="#{busquedaDocenteController2.idCampus!=null}" headerText="Campus" sortBy="#{doc.campus.stvcampDesc}">
+                        <h:outputText value="#{doc.campus.stvcampDesc}" />
+                    </p:column>
+                    <p:column rendered="#{busquedaDocenteController2.idDepartamento==null}" headerText="Departamento" sortBy="#{doc.departamento.stvsubjDesc}" filterBy="#{doc.departamento.stvsubjDesc}" filterMatchMode="contains">
+                        <h:outputText value="#{doc.departamento.stvsubjDesc}" />
+                    </p:column>
+                    <p:column rendered="#{busquedaDocenteController2.idDepartamento!=null}" headerText="Departamento" sortBy="#{doc.departamento.stvsubjDesc}">
+                        <h:outputText value="#{doc.departamento.stvsubjDesc}" />
+                    </p:column>
+                    <p:column headerText="Seleccionar" width="50" style="text-align: center">
+                        <p:commandButton icon="ui-icon-check"  actionListener="#{busquedaDocenteController2.selectDocenteFromDialog(doc)}" update=":j_idt6:message1, :j_idt6" />
+                    </p:column>
+                </p:dataTable>
+
+            </h:panelGrid>
+
+            <pe:blockUI widgetVar="blockUIWidget">  
+                <h:panelGrid columns="2">  
+                    <p:graphicImage value="/resources/images/ajax-loader1.gif" style="margin-right: 12px; vertical-align: middle;" />  
+                    <h:outputText value="Procesando... Por favor espere..." style="white-space: nowrap;"/>  
+                </h:panelGrid>   
+            </pe:blockUI>   
+        </h:form>
+    </h:body>
+
+</html>

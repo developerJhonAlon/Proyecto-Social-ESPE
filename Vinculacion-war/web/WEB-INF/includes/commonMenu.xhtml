@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                  xmlns:c="http://java.sun.com/jsp/jstl/core" 
+                   xmlns:f="http://java.sun.com/jsf/core"
+                   xmlns:ui="http://java.sun.com/jsf/facelets"
+                   xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    
+  
+
+    
+    <c:forEach items="#{navegacionController.lopciones}" var="item">    
+       
+        <p:menu  style="width: 175px; font-size: small ">
+            <p:submenu label="#{item.opcNombre}">
+              <c:forEach items="#{item.lhijos}" var="itemHijo"> 
+                  <p:menuitem value="#{itemHijo.opcNombre}" actionListener="#{navegacionController.van()}"  update="formPrincipal">
+                         <f:param name="includePath" value="#{itemHijo.opcUrl}" />
+                  </p:menuitem>
+      
+              </c:forEach>
+                
+                
+            </p:submenu>
+        </p:menu>
+     
+        
+    </c:forEach>
+    
+
+
+</ui:composition>

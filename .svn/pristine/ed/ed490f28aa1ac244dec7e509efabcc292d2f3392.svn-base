@@ -1,0 +1,1650 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ec.edu.espe_ctt.convocatoria.controller;
+
+//<editor-fold defaultstate="collapsed" desc="Import">
+import ec.edu.espe_ctt.saturno.entity.Stvmajr;
+import ec.edu.espe_ctt.saturno.entity.Stvsubj;
+import ec.edu.espe_ctt.saturno.session.StvmajrFacade;
+import ec.edu.espe_ctt.saturno.session.StvsubjFacade;
+import ec.edu.espe_ctt.seguridades.entity.SegUsuario;
+import ec.edu.espe_ctt.seguridades.session.SegUsuarioFacade;
+import ec.edu.espe_ctt.vinculacion.entity.AdquisicionProyecto;
+import ec.edu.espe_ctt.vinculacion.entity.CarreraProyecto;
+import ec.edu.espe_ctt.vinculacion.entity.DepartamentoProyecto;
+import ec.edu.espe_ctt.vinculacion.entity.HitoProyecto;
+import ec.edu.espe_ctt.vinculacion.entity.Proyecto;
+import ec.edu.espe_ctt.vinculacion.entity.Proyecto_;
+import ec.edu.espe_ctt.vinculacion.entity.SvinObjetivoBVivir;
+import ec.edu.espe_ctt.vinculacion.entity.SvinObjetivoPrograma;
+import ec.edu.espe_ctt.vinculacion.entity.SvinObjetivosEstraInsti;
+import ec.edu.espe_ctt.vinculacion.entity.SvinProgObj;
+import ec.edu.espe_ctt.vinculacion.entity.SvinProgObjEstrategicos;
+import ec.edu.espe_ctt.vinculacion.entity.SvinProgramaV;
+import ec.edu.espe_ctt.vinculacion.entity.SvinZonaDetalle;
+import ec.edu.espe_ctt.vinculacion.entity.VDocenteVinculacion;
+import ec.edu.espe_ctt.vinculacion.session.AdquisicionProyectoFacade;
+import ec.edu.espe_ctt.vinculacion.session.CarreraProyectoFacade;
+import ec.edu.espe_ctt.vinculacion.session.DepartamentoProyectoFacade;
+import ec.edu.espe_ctt.vinculacion.session.HitoProyectoFacade;
+import ec.edu.espe_ctt.vinculacion.session.ProyectoFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinObjetivoBVivirFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinObjetivoProgramaFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinObjetivosEstraInstiFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinProgramaVFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinZonaDetalleFacade;
+import ec.edu.espe_ctt.vinculacion.session.VDocenteVinculacionFacade;
+import ec.edu.espe_ctt_investigacion.entity.SeaCanton;
+import ec.edu.espe_ctt_investigacion.entity.SeaParametrosDet;
+import ec.edu.espe_ctt_investigacion.entity.SeaParroquia;
+import ec.edu.espe_ctt_investigacion.entity.SeaProvincia;
+import ec.edu.espe_ctt_investigacion.session.SeaParametrosDetFacade;
+import ec.edu.espe_ctt_investigacion.session.SeaProvinciaFacade;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIOutput;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
+import javax.swing.text.StyledEditorKit;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TabChangeEvent;
+import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.CheckboxTreeNode;
+import org.primefaces.model.TreeNode;
+import org.primefaces.model.Visibility;
+
+//</editor-fold>
+/**
+ *
+ * @author Administrador
+ */
+@ManagedBean
+@ViewScoped
+public class ProyectoController implements Serializable {
+
+//<editor-fold defaultstate="collapsed" desc="Atributos">
+    @EJB
+    private SegUsuarioFacade usuarioFacade;
+    @EJB
+    private VDocenteVinculacionFacade vistaDocenteFacade;
+    @EJB
+    private SvinProgramaVFacade programaFacade;
+    @EJB
+    private ProyectoFacade proyectoFacade;
+    @EJB
+    private SeaParametrosDetFacade parametrosDetFacade;
+    @EJB
+    private SvinZonaDetalleFacade vinZonaDetalleFacade;
+    @EJB
+    private DepartamentoProyectoFacade departamentoProyectoFacade;
+    @EJB
+    private CarreraProyectoFacade carreraProyectoFacade;
+    @EJB
+    private StvsubjFacade departamentoFacade;
+    @EJB
+    private StvmajrFacade carreraFacade;
+    @EJB
+    private SvinObjetivoProgramaFacade objetivoProgramaFacade;
+    @EJB
+    private AdquisicionProyectoFacade adquisicionProyectoFacade;
+    @EJB
+    private SeaProvinciaFacade provinciaFacade;
+    @EJB
+    private HitoProyectoFacade hitoProyectoFacade;
+    @EJB
+    private SvinObjetivoBVivirFacade svinObjBVivirFacade;
+    @EJB
+    private SvinObjetivosEstraInstiFacade svinObjEstraInstFacade;
+
+    private List<SvinProgramaV> programaList;
+    private List<Proyecto> proyectoList;
+    private List<SeaParametrosDet> paramTipoPoblacionList;
+    private List<SeaParametrosDet> paramTipoAdquisicionProyectoList;
+    private List<SvinZonaDetalle> svinZonaDetalleList;
+    private List<SvinZonaDetalle> svinZonaDetalleList2;
+    private List<DepartamentoProyecto> departamentoProyectoList;
+    private List<CarreraProyecto> carreraProyectoList;
+    private List<Stvsubj> departamentoList;
+    private List<Stvmajr> carreraList;
+    private List<AdquisicionProyecto> adquisicionProyectoList;
+    private List<SeaProvincia> provinciaList;
+    private List<SvinZonaDetalle> listaIngresar;
+    private List<SvinZonaDetalle> listaEliminar;
+    private List<HitoProyecto> hitoProyectoList;
+    private List<SeaParametrosDet> paramSemestreList;
+    private List<SvinObjetivoBVivir> objBVivirPadreList;
+    private List<SvinObjetivoBVivir> objBVivirHijoList;
+    private List<SvinObjetivosEstraInsti> perspectivasList;
+
+    private Proyecto proyectoSelected;
+    private SvinProgramaV programaSelected;
+    private CarreraProyecto carreraProyectoSelected;
+    private SvinObjetivoPrograma objetivoProyectoSelected;
+    private SvinObjetivoPrograma objetivoProyectoPadreSelected;
+    private SvinProgObj objetivoBVivirSelected;
+    private AdquisicionProyecto adquisicionProyectoSelected;
+    private DepartamentoProyecto departamentoProyectoSelected;
+    private HitoProyecto hitoProyectoSelected;
+    private SegUsuario docenteSelected;
+    private SvinObjetivoBVivir objBVivirPadre = new SvinObjetivoBVivir();
+    private SvinObjetivoBVivir objBVivirHijo = new SvinObjetivoBVivir();
+    private SvinObjetivosEstraInsti perspectivaSelected;
+    private SvinObjetivosEstraInsti objetivoEstrategicoSelected;
+    private SvinObjetivosEstraInsti indicadorSelected;
+    private SvinProgObjEstrategicos objetivoEstrategicoProyectoSelected;
+
+    private boolean botonInicio = true;
+    private Integer codProgramaSelected;
+    private boolean controlGrabar;
+    private boolean datosCompletos;
+    private int indiceTabActivo;
+    private TreeNode root3;
+    private TreeNode[] selectedNodes2;
+    private String nomDocenteBusqueda = "";
+    private Stvmajr carreraSelected;
+
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Constructor">
+    public ProyectoController() {
+        adquisicionProyectoSelected = new AdquisicionProyecto();
+        svinZonaDetalleList = new ArrayList<>();
+        svinZonaDetalleList2 = new ArrayList<>();
+        objetivoProyectoSelected = new SvinObjetivoPrograma();
+        departamentoProyectoSelected = new DepartamentoProyecto();
+        carreraProyectoSelected = new CarreraProyecto();
+        hitoProyectoSelected = new HitoProyecto();
+        objetivoBVivirSelected = new SvinProgObj();
+
+        datosCompletos = false;
+        controlGrabar = false;
+    }
+
+    //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Init">
+    @PostConstruct
+    public void init() {
+        programaList = programaFacade.findXEstado(SvinProgramaVFacade.ESTADO_ACTIVO);
+        paramTipoPoblacionList = parametrosDetFacade.findByCodigoParametro(SeaParametrosDetFacade.PARAM_TIPO_POBLACION);
+        paramTipoAdquisicionProyectoList = parametrosDetFacade.findByCodigoParametro(SeaParametrosDetFacade.PARAM_TIPO_ADQUISICION_PROYECTO);
+        paramSemestreList = parametrosDetFacade.findByCodigoParametro(SeaParametrosDetFacade.PARAM_SEMESTRE);
+        provinciaList = provinciaFacade.findAllOrdenados();
+        departamentoList = departamentoFacade.findDepartamento();
+        carreraList = carreraFacade.findCarrera();
+        objBVivirPadreList = svinObjBVivirFacade.findObjetivosPadre();
+        perspectivasList = svinObjEstraInstFacade.findPrespectivaEstraInst();
+        objetivoEstrategicoProyectoSelected = new SvinProgObjEstrategicos();
+    }
+
+    //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Getter and Setter">
+    public String getNomDocenteBusqueda() {
+        return nomDocenteBusqueda;
+    }
+
+    public void setNomDocenteBusqueda(String nomDocenteBusqueda) {
+        this.nomDocenteBusqueda = nomDocenteBusqueda;
+    }
+
+    public List<HitoProyecto> getHitoProyectoList() {
+        return hitoProyectoList;
+    }
+
+    public void setHitoProyectoList(List<HitoProyecto> hitoProyectoList) {
+        this.hitoProyectoList = hitoProyectoList;
+    }
+
+    public List<SeaParametrosDet> getParamSemestreList() {
+        return paramSemestreList;
+    }
+
+    public void setParamSemestreList(List<SeaParametrosDet> paramSemestreList) {
+        this.paramSemestreList = paramSemestreList;
+    }
+
+    public HitoProyecto getHitoProyectoSelected() {
+        return hitoProyectoSelected;
+    }
+
+    public void setHitoProyectoSelected(HitoProyecto hitoProyectoSelected) {
+        this.hitoProyectoSelected = hitoProyectoSelected;
+    }
+
+    public AdquisicionProyecto getAdquisicionProyectoSelected() {
+        return adquisicionProyectoSelected;
+    }
+
+    public void setAdquisicionProyectoSelected(AdquisicionProyecto adquisicionProyectoSelected) {
+        this.adquisicionProyectoSelected = adquisicionProyectoSelected;
+    }
+
+    public List<AdquisicionProyecto> getAdquisicionProyectoList() {
+        return adquisicionProyectoList;
+    }
+
+    public void setAdquisicionProyectoList(List<AdquisicionProyecto> adquisicionProyectoList) {
+        this.adquisicionProyectoList = adquisicionProyectoList;
+    }
+
+    public List<SeaParametrosDet> getParamTipoAdquisicionProyectoList() {
+        return paramTipoAdquisicionProyectoList;
+    }
+
+    public void setParamTipoAdquisicionProyectoList(List<SeaParametrosDet> paramTipoAdquisicionProyectoList) {
+        this.paramTipoAdquisicionProyectoList = paramTipoAdquisicionProyectoList;
+    }
+
+    public List<Stvsubj> getDepartamentoList() {
+        return departamentoList;
+    }
+
+    public void setDepartamentoList(List<Stvsubj> departamentoList) {
+        this.departamentoList = departamentoList;
+    }
+
+    public List<DepartamentoProyecto> getDepartamentoProyectoList() {
+        return departamentoProyectoList;
+    }
+
+    public void setDepartamentoProyectoList(List<DepartamentoProyecto> departamentoProyectoList) {
+        this.departamentoProyectoList = departamentoProyectoList;
+    }
+
+    public DepartamentoProyecto getDepartamentoProyectoSelected() {
+        return departamentoProyectoSelected;
+    }
+
+    public void setDepartamentoProyectoSelected(DepartamentoProyecto departamentoProyectoSelected) {
+        this.departamentoProyectoSelected = departamentoProyectoSelected;
+    }
+
+    public CarreraProyecto getCarreraProyectoSelected() {
+        return carreraProyectoSelected;
+    }
+
+    public void setCarreraProyectoSelected(CarreraProyecto carreraProyectoSelected) {
+        this.carreraProyectoSelected = carreraProyectoSelected;
+    }
+
+    public SegUsuario getDocenteSelected() {
+        return docenteSelected;
+    }
+
+    public void setDocenteSelected(SegUsuario docenteSelected) {
+        this.docenteSelected = docenteSelected;
+    }
+
+    public List<Stvmajr> getCarreraList() {
+        return carreraList;
+    }
+
+    public void setCarreraList(List<Stvmajr> carreraList) {
+        this.carreraList = carreraList;
+    }
+
+    public List<CarreraProyecto> getCarreraProyectoList() {
+        return carreraProyectoList;
+    }
+
+    public void setCarreraProyectoList(List<CarreraProyecto> carreraProyectoList) {
+        this.carreraProyectoList = carreraProyectoList;
+    }
+
+    public SvinObjetivoPrograma getObjetivoProyectoSelected() {
+        return objetivoProyectoSelected;
+    }
+
+    public void setObjetivoProyectoSelected(SvinObjetivoPrograma objetivoProyectoSelected) {
+        this.objetivoProyectoSelected = objetivoProyectoSelected;
+    }
+
+    public boolean isControlGrabar() {
+        return controlGrabar;
+    }
+
+    public void setControlGrabar(boolean controlGrabar) {
+        this.controlGrabar = controlGrabar;
+    }
+
+    public Integer getCodProgramaSelected() {
+        return codProgramaSelected;
+    }
+
+    public void setCodProgramaSelected(Integer codProgramaSelected) {
+        this.codProgramaSelected = codProgramaSelected;
+    }
+
+    public List<SvinProgramaV> getProgramaList() {
+        return programaList;
+    }
+
+    public void setProgramaList(List<SvinProgramaV> programaList) {
+        this.programaList = programaList;
+    }
+
+    public int getIndiceTabActivo() {
+        return indiceTabActivo;
+    }
+
+    public void setIndiceTabActivo(int indiceTabActivo) {
+        this.indiceTabActivo = indiceTabActivo;
+    }
+
+    public boolean isBotonInicio() {
+        return botonInicio;
+    }
+
+    public void setBotonInicio(boolean botonInicio) {
+        this.botonInicio = botonInicio;
+    }
+
+    public String getNombreProySeleccionado() {
+        if (proyectoSelected != null && proyectoSelected.getNombre() != null) {
+            return ("PROYECTO: " + proyectoSelected.getNombre());
+        } else {
+            return "";
+        }
+    }
+
+    public Proyecto getProyectoSelected() {
+        return proyectoSelected;
+    }
+
+    public void setProyectoSelected(Proyecto proyectoSelected) {
+        this.proyectoSelected = proyectoSelected;
+    }
+
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
+    }
+
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
+    }
+
+    public boolean isDatosCompletos() {
+        return datosCompletos;
+    }
+
+    public void setDatosCompletos(boolean datosCompletos) {
+        this.datosCompletos = datosCompletos;
+    }
+
+    public List<SeaParametrosDet> getParamTipoPoblacionList() {
+        return paramTipoPoblacionList;
+    }
+
+    public void setParamTipoPoblacionList(List<SeaParametrosDet> paramTipoPoblacionList) {
+        this.paramTipoPoblacionList = paramTipoPoblacionList;
+    }
+
+    public TreeNode getRoot3() {
+        return root3;
+    }
+
+    public void setRoot3(TreeNode root3) {
+        this.root3 = root3;
+    }
+
+    public TreeNode[] getSelectedNodes2() {
+        return selectedNodes2;
+    }
+
+    public void setSelectedNodes2(TreeNode[] selectedNodes2) {
+        this.selectedNodes2 = selectedNodes2;
+    }
+
+    //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Tab1-Datos Generales">
+    public void cancelarP1() {
+        proyectoSelected = proyectoFacade.find(proyectoSelected.getId());
+        if (proyectoSelected.getResponsableList() != null && !proyectoSelected.getResponsableList().isEmpty()) {
+            llenarDatosDocenteXUsuId(proyectoSelected.getResponsableList().get(0).getUsuId().getUsuId());
+        }
+        datosCompletos = false;
+        controlGrabar = false;
+    }
+
+    public String registraP1() {
+        try {
+            if (validarVaciosP1()) {
+                SegUsuario usu = usuarioFacade.find(docenteSelected.getUsuId());
+                usu.setUsuEmail(docenteSelected.getUsuEmail());
+                usu.setUsuTelefonoFijo(docenteSelected.getUsuTelefonoFijo());
+                usuarioFacade.edit(usu);
+
+                if (proyectoSelected.getId() == null) {
+                    proyectoSelected.setPrograma(programaSelected);
+                    proyectoSelected.addObjetivoProyecto(new SvinObjetivoPrograma(proyectoSelected, SvinObjetivoPrograma.TIPO_FIN, 1));
+                    proyectoSelected.addObjetivoProyecto(new SvinObjetivoPrograma(proyectoSelected, SvinObjetivoPrograma.TIPO_PROPOSITO, 2));
+                    proyectoFacade.create(proyectoSelected);
+                } else {
+                    proyectoFacade.edit(proyectoSelected);
+                }
+                cancelarP1();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    public boolean validarVaciosP1() {
+
+        datosCompletos = true;
+
+        if (!proyectoSelected.getFechaFinalizacion().after(proyectoSelected.getFechaInicio())) {
+            FacesContext.getCurrentInstance().addMessage("formPrincipal:formPrincipal1:tabViewPrincipal:tabP:fechaFinProyecto", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La fecha de finalización debe ser mayor que la fecha de inicio"));
+            datosCompletos = false;
+        }
+
+        if (docenteSelected.getUsuId() == null) {
+            FacesContext.getCurrentInstance().addMessage("formPrincipal:formPrincipal1:tabViewPrincipal:tabP:lblNombreDirectorProyecto", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Campo obligatorio"));
+            datosCompletos = false;
+        }
+
+        /*datosCompletos = true;
+         if (proyectoSelected.getNombre() == null || proyectoSelected.getNombre().trim().isEmpty()
+         || proyectoSelected.getFechaPresentacion() == null
+         || proyectoSelected.getFechaInicio() == null
+         || proyectoSelected.getFechaFinalizacion() == null
+         || proyectoSelected.getTipoPoblacion() == null || proyectoSelected.getTipoPoblacion().getPrdId() == null
+         || programaSelected.getSvinDepcenproyList() == null || programaSelected.getSvinDepcenproyList().isEmpty()) {
+         datosCompletos = false;
+         }*/
+        return datosCompletos;
+    }
+
+    public void validarFechaInicio() {
+        if (proyectoSelected.getFechaFinalizacion() != null && proyectoSelected.getFechaFinalizacion().compareTo(proyectoSelected.getFechaInicio()) <= 0) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La fecha de inicio debe ser menor que la fecha de finalización"));
+            proyectoSelected.setFechaInicio(null);
+        }
+        validarVaciosP1();
+    }
+
+    public void validarFechaFin() {
+        if (proyectoSelected.getFechaInicio() != null && proyectoSelected.getFechaFinalizacion().compareTo(proyectoSelected.getFechaInicio()) <= 0) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La fecha de finalización debe ser mayor que la fecha de inicio"));
+            proyectoSelected.setFechaFinalizacion(null);
+        }
+        validarVaciosP1();
+
+    }
+
+    public void eliminarProyecto() {
+        //proyectoSelected.setSprvEstado("I");
+        proyectoFacade.edit(proyectoSelected);
+        proyectoList = proyectoFacade.findByPrograma(codProgramaSelected);
+    }
+
+    public void seleccionarTipoPoblacion(ValueChangeEvent event) {
+        Long codSeleccionado = (Long) event.getNewValue();
+        for (SeaParametrosDet par : paramTipoPoblacionList) {
+            if (par.getPrdId().equals(codSeleccionado)) {
+                proyectoSelected.setTipoPoblacion(par);
+            }
+        }
+        //validarVaciosP1();
+    }
+
+    public List<String> completeText(String query) {
+        System.out.println(" el valor es tar " + query);
+        List<VDocenteVinculacion> doceVincuLista = vistaDocenteFacade.findByName(query);
+        System.out.println(" la lista es " + doceVincuLista.size());
+        List<String> results = new ArrayList<String>();
+        for (int i = 0; i < doceVincuLista.size(); i++) {
+            results.add(doceVincuLista.get(i).getUsuApellidos() + " " + doceVincuLista.get(i).getUsuNombres());
+        }
+        return results;
+    }
+
+    public void onItemSelect(SelectEvent event) {
+        System.out.println(" el evet es " + event.getObject());
+        llenarDatosDocenteXNombres(event.getObject().toString());
+        //validarVaciosP1();
+    }
+
+    private void llenarDatosDocenteXNombres(String nombresApellidos) {
+        List<VDocenteVinculacion> doceVincuLista = vistaDocenteFacade.findByName(nombresApellidos);
+        docenteSelected = usuarioFacade.findUsuarioByCodUsu(new BigDecimal(doceVincuLista.get(0).getUsuId()));
+        docenteSelected.setCargo(doceVincuLista.get(0).getNbrjobsDesc());
+        docenteSelected.setDepartamento(doceVincuLista.get(0).getStvsubjDesc());
+        proyectoSelected.asignarResponsable(docenteSelected);
+
+    }
+
+    private void llenarDatosDocenteXUsuId(BigDecimal usuId) {
+        VDocenteVinculacion vDocenteVinculacion = vistaDocenteFacade.findByUsuId(usuId);
+        docenteSelected = usuarioFacade.findUsuarioByCodUsu(new BigDecimal(vDocenteVinculacion.getUsuId()));
+        docenteSelected.setCargo(vDocenteVinculacion.getNbrjobsDesc());
+        docenteSelected.setDepartamento(vDocenteVinculacion.getStvsubjDesc());
+        nomDocenteBusqueda = docenteSelected.getUsuApellidos() + " " + docenteSelected.getUsuNombres();
+    }
+
+    //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Tab2-Origen de los fondos">
+    public String validarVaciosP2() {
+        datosCompletos = true;
+        if (proyectoSelected.getPresupuestoAporteUniv() == null
+                || proyectoSelected.getPresupuestoAporteUnivValorado() == null
+                || proyectoSelected.getPresupuestoEntidadAuspiciante() == null
+                || proyectoSelected.getPresupuestoContraparte() == null) {
+            datosCompletos = false;
+        }
+        return "";
+    }
+
+    //</editor-fold>    
+//<editor-fold defaultstate="collapsed" desc="Tab3-Cobertura y Localización">
+    public void cancelarP3() {
+        svinZonaDetalleList = vinZonaDetalleFacade.findXProyecto(proyectoSelected.getId());
+        svinZonaDetalleList2 = vinZonaDetalleFacade.findXProyecto(proyectoSelected.getId());
+        Collections.sort(svinZonaDetalleList2);
+        root3 = crearArbol();
+
+        datosCompletos = false;
+    }
+
+    public String registraP3() {
+        try {
+            listaIngresar = verificarNuevos();
+            listaEliminar = verificarEliminados();
+
+            vinZonaDetalleFacade.guardar(listaIngresar, listaEliminar);
+            cancelarP3();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    public String validarVaciosP3() {
+        datosCompletos = true;
+
+        if (selectedNodes2.length == 0) {
+            datosCompletos = false;
+        }
+        return "";
+    }
+
+    public TreeNode crearArbol() {
+        TreeNode root = new CheckboxTreeNode(new SvinZonaDetalle(), null);
+        for (SeaProvincia provincia : provinciaList) {
+            TreeNode nodoProvincia = new CheckboxTreeNode(new SvinZonaDetalle(provincia), root);
+            for (SeaCanton canton : provincia.getSeaCantonList()) {
+                TreeNode nodoCanton = new CheckboxTreeNode(new SvinZonaDetalle(canton), nodoProvincia);
+                for (SeaParroquia parroquia : canton.getSeaParroquiaList()) {
+                    SvinZonaDetalle svinZonaDetalle = new SvinZonaDetalle(parroquia);
+                    TreeNode nodoParroquia = new CheckboxTreeNode(svinZonaDetalle, nodoCanton);
+                    if (buscarSvinZonaDetalleBD(svinZonaDetalle)) {
+                        nodoParroquia.setSelected(true);
+                    }
+                }
+            }
+        }
+        return root;
+    }
+
+    private boolean buscarSvinZonaDetalleBD(SvinZonaDetalle svinZonaDetalleBuscar) {
+        for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+            boolean encontro = svinZonaDetalle.comparar(svinZonaDetalleBuscar);
+            if (encontro) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private List<SvinZonaDetalle> verificarNuevos() {
+        List<SvinZonaDetalle> listaTemp = new ArrayList<>();
+        String codProvincia = "";
+        String codCanton = "";
+
+        for (TreeNode node : selectedNodes2) {
+            SvinZonaDetalle seleccionado = (SvinZonaDetalle) node.getData();
+            System.out.println(seleccionado.getNombre());
+            if (seleccionado.getParroquia() != null) {
+                SvinZonaDetalle nuevo = null;
+                if (!seleccionado.getProvincia().getProId().equals(codProvincia)) {
+                    codProvincia = seleccionado.getProvincia().getProId();
+                    nuevo = new SvinZonaDetalle(seleccionado.getProvincia());
+                    if (!buscarSvinZonaDetalleBD(nuevo)) {
+                        nuevo.setProyecto(proyectoSelected);
+                        listaTemp.add(nuevo);
+                    }
+                }
+                if (!seleccionado.getCanton().getCanId().equals(codCanton)) {
+                    codCanton = seleccionado.getCanton().getCanId();
+                    nuevo = new SvinZonaDetalle(seleccionado.getCanton());
+                    if (!buscarSvinZonaDetalleBD(nuevo)) {
+                        nuevo.setProyecto(proyectoSelected);
+                        listaTemp.add(nuevo);
+                    }
+                }
+                nuevo = new SvinZonaDetalle(seleccionado.getParroquia());
+                if (!buscarSvinZonaDetalleBD(nuevo)) {
+                    nuevo.setProyecto(proyectoSelected);
+                    listaTemp.add(nuevo);
+                }
+            }
+        }
+        return listaTemp;
+    }
+
+    private List<SvinZonaDetalle> verificarEliminados() {
+        List<SvinZonaDetalle> listaTemp = new ArrayList<>();
+        String codProvincia = "";
+        String codCanton = "";
+
+        for (SvinZonaDetalle seleccionado : svinZonaDetalleList) {
+
+            if (codCanton.equals("")) {
+                if (seleccionado.getCanton() != null) {
+                    codCanton = seleccionado.getCanton().getCanId();
+                }
+            } else {
+                if (seleccionado.getCanton() != null && !seleccionado.getCanton().getCanId().equals(codCanton)) {
+                    verificarEliminarCanton(codCanton, listaTemp);
+                    codCanton = seleccionado.getCanton().getCanId();
+                }
+            }
+            if (codProvincia.equals("")) {
+                codProvincia = seleccionado.getProvincia().getProId();
+            } else {
+                if (!seleccionado.getProvincia().getProId().equals(codProvincia)) {
+                    verificarEliminarProvincia(codProvincia, listaTemp);
+                    codProvincia = seleccionado.getProvincia().getProId();
+                }
+            }
+            if (seleccionado.getParroquia() != null) {
+
+                SvinZonaDetalle eliminar = new SvinZonaDetalle(seleccionado.getParroquia());
+                if (!buscarSvinZonaDetalleMemoria(eliminar)) {
+                    SvinZonaDetalle eliminarParroquia = getParroquiaEliminar(seleccionado.getParroquia().getPrqId());
+                    listaTemp.add(eliminarParroquia);
+                }
+            }
+        }
+        verificarEliminarCanton(codCanton, listaTemp);
+        verificarEliminarProvincia(codProvincia, listaTemp);
+
+        return listaTemp;
+    }
+
+    private boolean buscarSvinZonaDetalleMemoria(SvinZonaDetalle svinZonaDetalleBuscar) {
+        for (TreeNode node : selectedNodes2) {
+            SvinZonaDetalle svinZonaDetalle = (SvinZonaDetalle) node.getData();
+            boolean encontro = svinZonaDetalle.comparar(svinZonaDetalleBuscar);
+            if (encontro) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void verificarEliminarCanton(String codCanton, List<SvinZonaDetalle> listaTemp) {
+        int cont = 0;
+        for (SvinZonaDetalle svinZonaDetalle : listaTemp) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getCanton().getCanId().equals(codCanton)) {
+                cont++;
+            }
+        }
+        for (SvinZonaDetalle nuevo : listaIngresar) {
+            if (nuevo.getParroquia() != null && nuevo.getCanton().getCanId().equals(codCanton)) {
+                cont--;
+            }
+        }
+        if (cont > 0) {
+            SvinZonaDetalle eliminarCanton = getCantonEliminar(codCanton, cont);
+            if (eliminarCanton != null) {
+                listaTemp.add(eliminarCanton);
+            }
+        }
+    }
+
+    private void verificarEliminarProvincia(String codProvincia, List<SvinZonaDetalle> listaTemp) {
+        int cont = 0;
+        for (SvinZonaDetalle svinZonaDetalle : listaTemp) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getProvincia().getProId().equals(codProvincia)) {
+                cont++;
+            }
+        }
+        for (SvinZonaDetalle nuevo : listaIngresar) {
+            if (nuevo.getParroquia() != null && nuevo.getProvincia().getProId().equals(codProvincia)) {
+                cont--;
+            }
+        }
+
+        if (cont > 0) {
+            SvinZonaDetalle eliminarProvincia = getProvinciaEliminar(codProvincia, cont);
+            if (eliminarProvincia != null) {
+                listaTemp.add(eliminarProvincia);
+            }
+        }
+    }
+
+    private SvinZonaDetalle getProvinciaEliminar(String codProvincia, int contVerificar) {
+        int cont = 0;
+        for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getProvincia().getProId().equals(codProvincia)) {
+                cont++;
+            }
+        }
+        if (cont == contVerificar) {
+            for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+                if (svinZonaDetalle.getProvincia() != null && svinZonaDetalle.getCanton() == null && svinZonaDetalle.getParroquia() == null
+                        && svinZonaDetalle.getProvincia().getProId().equals(codProvincia)) {
+                    return svinZonaDetalle;
+                }
+            }
+        }
+        return null;
+    }
+
+    private SvinZonaDetalle getCantonEliminar(String codCanton, int contVerificar) {
+        int cont = 0;
+        for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getCanton().getCanId().equals(codCanton)) {
+                cont++;
+            }
+        }
+
+        if (cont == contVerificar) {
+            for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+                if (svinZonaDetalle.getCanton() != null && svinZonaDetalle.getParroquia() == null
+                        && svinZonaDetalle.getCanton().getCanId().equals(codCanton)) {
+                    return svinZonaDetalle;
+                }
+            }
+        }
+        return null;
+    }
+
+    private SvinZonaDetalle getParroquiaEliminar(String codParroquia) {
+        for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getParroquia().getPrqId().equals(codParroquia)) {
+                return svinZonaDetalle;
+            }
+        }
+        return null;
+    }
+
+    //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Tab4-Detalle de entregables del proyecto">
+    public String validarVaciosP4() {
+        datosCompletos = true;
+        if (proyectoSelected.getBienes() == null || proyectoSelected.getBienes().trim().isEmpty()
+                || proyectoSelected.getServicios() == null || proyectoSelected.getServicios().trim().isEmpty()
+                || proyectoSelected.getBienesServicios() == null || proyectoSelected.getBienesServicios().trim().isEmpty()) {
+            datosCompletos = false;
+        }
+        return "";
+    }
+
+    //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Tab5-Docentes participantes">
+    public void cancelarP5() {
+        controlGrabar = false;
+        datosCompletos = false;
+        departamentoProyectoList = departamentoProyectoFacade.findByProyecto(proyectoSelected.getId());
+    }
+
+    public boolean validarVaciosP5() {
+        datosCompletos = true;
+        if (departamentoProyectoSelected.getDepartamento() == null || departamentoProyectoSelected.getDepartamento().getStvsubjCode() == null
+                || departamentoProyectoSelected.getNroDocentes() == null) {
+            datosCompletos = false;
+        }
+        return datosCompletos;
+    }
+
+    public void agregarP5(ActionEvent event) {
+        departamentoProyectoSelected = new DepartamentoProyecto(proyectoSelected);
+        controlGrabar = true;
+
+    }
+
+
+    public void eliminarP5() {
+        try {
+            departamentoProyectoFacade.remove(departamentoProyectoSelected);
+            cancelarP5();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        }
+    }
+
+    public String registraP5() {
+        try {
+            if (departamentoProyectoSelected.getId() == null) {
+                departamentoProyectoFacade.create(departamentoProyectoSelected);
+            } else {
+                departamentoProyectoFacade.edit(departamentoProyectoSelected);
+            }
+            cancelarP5();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+            RequestContext.getCurrentInstance().update("formPrincipal:formPrincipal1:tabViewPrincipal:tabP:panel5");
+        } catch (Exception e) {
+            try {
+                Throwable t = (Throwable) e;
+                while (t.getCause() != null) {
+                    t = t.getCause();
+                }
+                String msgError = "No fue posible grabar la información ingresada";
+                String controlMsgError = null;
+                if (t.getMessage().toUpperCase().contains("ORA-00001")) {
+                    msgError = "Ya existe un registro para el Departamento seleccionado";
+                    departamentoProyectoList = departamentoProyectoFacade.findByProyecto(proyectoSelected.getId());
+                    RequestContext.getCurrentInstance().update("formPrincipal:formPrincipal1:tabViewPrincipal:tabP:dataTDocentesParticipantes");
+                    controlMsgError = "formPrincipal:formPrincipal1:tabViewPrincipal:tabP:selDepartamento";
+                }
+                FacesContext.getCurrentInstance().addMessage(controlMsgError, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msgError));
+            } catch (Exception e2) {
+            }
+        }
+        return "";
+    }
+
+    //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Tab6-Estudiantes participantes">
+    public void eliminarP6() {
+        try {
+            carreraProyectoFacade.remove(carreraProyectoSelected);
+            cancelarP6();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        }
+    }
+
+    public void cancelarP6() {
+        controlGrabar = false;
+        datosCompletos = false;
+        carreraProyectoList = carreraProyectoFacade.findByProyecto(proyectoSelected.getId());
+    }
+
+    public boolean validarVaciosP6() {
+        datosCompletos = true;
+        if (carreraProyectoSelected.getCarrera() == null || carreraProyectoSelected.getCarrera().getStvmajrCode() == null
+                || carreraProyectoSelected.getNroEstudiantes() == null) {
+            datosCompletos = false;
+        }
+        return datosCompletos;
+    }
+
+    /*public void seleccionarCarrera(ValueChangeEvent event) {
+     String codSeleccionado = (String) event.getNewValue();
+     if (codSeleccionado.equals("0")) {
+     carreraProyectoSelected.setCarrera(new Stvmajr());
+     } else {
+     for (Stvmajr car : carreraList) {
+     if (car.getStvmajrCode().equals(codSeleccionado)) {
+     carreraProyectoSelected.setCarrera(car);
+     break;
+     }
+     }
+     }
+*/
+    
+    /*public void seleccionarCarrera(SelectEvent event) {
+        String[] temp = event.getObject().toString().split("-");
+        String cod = temp[temp.length - 1];
+        event.getObject().toString();
+        carreraProyectoSelected.setCarrera(new Stvmajr(cod));
+        //validarVaciosP1();
+    }*/
+
+  /*  public List<Stvmajr> buscarCarrera(String query) {
+        carreraList = carreraFacade.findByNombre(query);
+        return carreraList;
+    }
+*/    
+    public List<String> buscarCarrera(String query) {
+        carreraList = carreraFacade.findByNombre(query);
+        List<String> temp = new ArrayList<>();
+        for (Stvmajr car : carreraList) {
+            temp.add(car.getStvmajrDesc() + "-" + car.getStvmajrCode());
+        }
+        return temp;
+    }
+    private String nomCarreraSeleccionada; 
+
+    public String getNomCarreraSeleccionada() {
+        return nomCarreraSeleccionada;
+    }
+
+    public void setNomCarreraSeleccionada(String nomCarreraSeleccionada) {
+        this.nomCarreraSeleccionada = nomCarreraSeleccionada;
+    }
+    
+    
+    
+    
+    
+    
+    
+
+    public String getTotalDocentesParticipantes() {
+        DecimalFormat decimalFormat;
+        Locale locale = new Locale("es", "ES");
+        String pattern = "###,##0";
+
+        decimalFormat = (DecimalFormat) NumberFormat.getNumberInstance(locale);
+        decimalFormat.applyPattern(pattern);
+        Integer total = 0;
+        if (departamentoProyectoList != null) {
+
+            for (DepartamentoProyecto departamentoProyecto : departamentoProyectoList) {
+                try {
+                    total += departamentoProyecto.getNroDocentes();
+                } catch (Exception e) {
+                }
+            }
+        }
+        return decimalFormat.format(total);
+    }
+
+    public String getTotalEstudiantesParticipantes() {
+        DecimalFormat decimalFormat;
+        Locale locale = new Locale("es", "ES");
+        String pattern = "###,##0";
+
+        decimalFormat = (DecimalFormat) NumberFormat.getNumberInstance(locale);
+        decimalFormat.applyPattern(pattern);
+        Integer total = 0;
+        if (carreraProyectoList != null) {
+            for (CarreraProyecto carreraProyecto : carreraProyectoList) {
+                try {
+                    total += carreraProyecto.getNroEstudiantes();
+                } catch (Exception e) {
+                }
+            }
+        }
+        return decimalFormat.format(total);
+    }
+
+    public String registraP6() {
+        try {
+            String[] temp = nomCarreraSeleccionada.split("-");
+            String cod = temp[temp.length-1];
+            carreraProyectoSelected.setCarrera(carreraFacade.find(cod));
+        
+            if (carreraProyectoSelected.getId() == null) {
+                carreraProyectoFacade.create(carreraProyectoSelected);
+            } else {
+                carreraProyectoFacade.edit(carreraProyectoSelected);
+            }
+            cancelarP6();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+            RequestContext.getCurrentInstance().update("formPrincipal:formPrincipal1:tabViewPrincipal:tabP:panel6");
+        } catch (Exception e) {
+            try {
+                Throwable t = (Throwable) e;
+                while (t.getCause() != null) {
+                    t = t.getCause();
+                }
+                String msgError = "No fue posible grabar la información ingresada";
+                String controlMsgError = null;
+                if (t.getMessage().toUpperCase().contains("ORA-00001")) {
+                    msgError = "Ya existe un registro para la Carrera seleccionada";
+                    carreraProyectoList = carreraProyectoFacade.findByProyecto(proyectoSelected.getId());
+                    RequestContext.getCurrentInstance().update("formPrincipal:formPrincipal1:tabViewPrincipal:tabP:dataTEstudiantesParticipantes");
+                    controlMsgError = "formPrincipal:formPrincipal1:tabViewPrincipal:tabP:selCarrera";
+                }
+                FacesContext.getCurrentInstance().addMessage(controlMsgError, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msgError));
+            } catch (Exception e2) {
+            }
+        }
+        return "";
+    }
+
+    public void agregarP6(ActionEvent event) {
+        carreraProyectoSelected = new CarreraProyecto(proyectoSelected);
+        nomCarreraSeleccionada="";
+        controlGrabar = true;
+
+    }
+    public String editarP6() {
+        nomCarreraSeleccionada = carreraProyectoSelected.getCarrera().getStvmajrDesc() + "-" + carreraProyectoSelected.getCarrera().getStvmajrCode();
+        controlGrabar = true;
+        datosCompletos = false;
+        return "";
+    }
+    //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Tab7-Estrategia de Seguimiento y Evaluación">
+    public void eliminarP7() {
+        try {
+            hitoProyectoFacade.remove(hitoProyectoSelected);
+            cancelarP7();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        }
+    }
+
+    public void cancelarP7() {
+        controlGrabar = false;
+        datosCompletos = false;
+        hitoProyectoList = hitoProyectoFacade.findByProyecto(proyectoSelected.getId());
+    }
+
+    public boolean validarVaciosP7() {
+        datosCompletos = true;
+        if (hitoProyectoSelected.getSemestre() == null || hitoProyectoSelected.getSemestre().getPrdId() == null
+                || hitoProyectoSelected.getDescripcion() == null || hitoProyectoSelected.getDescripcion().trim().isEmpty()
+                || hitoProyectoSelected.getValor() == null) {
+            datosCompletos = false;
+        }
+        return datosCompletos;
+    }
+
+    public void seleccionarSemestre(ValueChangeEvent event) {
+        Long codSeleccionado = (Long) event.getNewValue();
+        if (codSeleccionado.compareTo(new Long(0)) == 0) {
+            hitoProyectoSelected.setSemestre(new SeaParametrosDet());
+        } else {
+            for (SeaParametrosDet sem : paramSemestreList) {
+                if (sem.getPrdId().equals(codSeleccionado)) {
+                    hitoProyectoSelected.setSemestre(sem);
+                    break;
+                }
+            }
+
+        }
+        validarVaciosP7();
+    }
+
+    public String registraP7() {
+        try {
+            if (hitoProyectoSelected.getId() == null) {
+                hitoProyectoFacade.create(hitoProyectoSelected);
+            } else {
+                hitoProyectoFacade.edit(hitoProyectoSelected);
+            }
+            cancelarP7();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+            RequestContext.getCurrentInstance().update("formPrincipal:formPrincipal1:tabViewPrincipal:tabP:panel7");
+        } catch (Exception e) {
+            try {
+                Throwable t = (Throwable) e;
+                while (t.getCause() != null) {
+                    t = t.getCause();
+                }
+                String msgError = "No fue posible grabar la información ingresada";
+                if (t.getMessage().toUpperCase().contains("ORA-00001")) {
+                    msgError = "Ya existe un registro para el Semestre seleccionado";
+                    hitoProyectoList = hitoProyectoFacade.findByProyecto(proyectoSelected.getId());
+                    RequestContext.getCurrentInstance().update("formPrincipal:formPrincipal1:tabViewPrincipal:tabP:dataTHitosProyecto");
+                }
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msgError));
+            } catch (Exception e2) {
+            }
+        }
+        return "";
+    }
+
+    public void agregarP7(ActionEvent event) {
+        hitoProyectoSelected = new HitoProyecto(proyectoSelected);
+        controlGrabar = true;
+
+    }
+
+    //</editor-fold>    
+//<editor-fold defaultstate="collapsed" desc="Tab9-Diagnóstico y Problemas">
+    public String validarVaciosP9() {
+        datosCompletos = true;
+        System.out.println(proyectoSelected.getNroBeneficiariosIndirectosHombres());
+        return "";
+    }
+
+    public void amountChanged(ValueChangeEvent event) {
+        Double value = ((Double) ((UIOutput) event.getSource()).getValue());
+        System.out.println("AMOUNT CHANGED: " + value);
+    }
+
+    //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Tab13-Viabilidad y Plan de Sostenibilidad">
+    public String validarVaciosP13() {
+        datosCompletos = true;
+        if (proyectoSelected.getViabilidadTecnica() == null || proyectoSelected.getViabilidadTecnica().trim().isEmpty()
+                || proyectoSelected.getPerderiaPais() == null || proyectoSelected.getPerderiaPais().trim().isEmpty()
+                || proyectoSelected.getResultadosEsperados() == null || proyectoSelected.getResultadosEsperados().trim().isEmpty()
+                || proyectoSelected.getImpactoAmbiental() == null || proyectoSelected.getImpactoAmbiental().trim().isEmpty()
+                || proyectoSelected.getSostenibilidadSocial() == null || proyectoSelected.getSostenibilidadSocial().trim().isEmpty()) {
+            datosCompletos = false;
+        }
+        return "";
+    }
+
+    //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Tab14-Detalle de adquisiciones del proyecto">
+    public String registraP14() {
+        try {
+            if (adquisicionProyectoSelected.getId() == null) {
+                adquisicionProyectoFacade.create(adquisicionProyectoSelected);
+            } else {
+                adquisicionProyectoFacade.edit(adquisicionProyectoSelected);
+            }
+            cancelarP14();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+            RequestContext.getCurrentInstance().update("formPrincipal:formPrincipal1:tabViewPrincipal:tabP:panel14");
+        } catch (Exception e) {
+            try {
+                Throwable t = (Throwable) e;
+                while (t.getCause() != null) {
+                    t = t.getCause();
+                }
+                String msgError = "No fue posible grabar la información ingresada";
+                if (t.getMessage().toUpperCase().contains("ORA-00001")) {
+                    msgError = "Ya existe un registro para el tipo de adquisición seleccionado";
+                    adquisicionProyectoList = adquisicionProyectoFacade.findByProyecto(proyectoSelected.getId());
+                    RequestContext.getCurrentInstance().update("formPrincipal:formPrincipal1:tabViewPrincipal:tabP:dataTAdqusicion");
+                }
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msgError));
+            } catch (Exception e2) {
+            }
+        }
+        return "";
+    }
+
+    public boolean validarVaciosP14() {
+        datosCompletos = true;
+        if (adquisicionProyectoSelected.getTipoAdquisicion() == null || adquisicionProyectoSelected.getTipoAdquisicion().getPrdId() == null
+                || adquisicionProyectoSelected.getPorcentajeImportado() == null
+                || adquisicionProyectoSelected.getPorcentajeNacional() == null
+                || adquisicionProyectoSelected.getDetalleInsumoImportado() == null || adquisicionProyectoSelected.getDetalleInsumoImportado().trim().isEmpty()
+                || adquisicionProyectoSelected.getDetalleInsumoNacional() == null || adquisicionProyectoSelected.getDetalleInsumoNacional().trim().isEmpty()) {
+            datosCompletos = false;
+        }
+        return datosCompletos;
+    }
+
+    public void eliminarP14() {
+        try {
+            adquisicionProyectoFacade.remove(adquisicionProyectoSelected);
+            cancelarP14();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        }
+    }
+
+    public void seleccionarTipoAdquisicion(ValueChangeEvent event) {
+        Long seleccionado = (Long) event.getNewValue();
+        for (SeaParametrosDet par : paramTipoAdquisicionProyectoList) {
+            if (par.getPrdId().equals(seleccionado)) {
+                adquisicionProyectoSelected.setTipoAdquisicion(par);
+            }
+        }
+        //validarVaciosP14();
+    }
+
+    public void agregarP14(ActionEvent event) {
+        adquisicionProyectoSelected = new AdquisicionProyecto(proyectoSelected);
+        controlGrabar = true;
+    }
+
+    public void cancelarP14() {
+        controlGrabar = false;
+        datosCompletos = false;
+        adquisicionProyectoList = adquisicionProyectoFacade.findByProyecto(proyectoSelected.getId());
+    }
+
+    //</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="Tab15-Matriz del Marco Lógico">
+    public void eliminarP15() {
+        try {
+            objetivoProgramaFacade.remove(objetivoProyectoSelected);
+            estadoExpandidoObjetivo.remove(objetivoProyectoSelected.getSvopId());
+            cancelarP15(false);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        }
+    }
+
+    public String agregarP15() {
+        objetivoProyectoSelected = new SvinObjetivoPrograma(proyectoSelected);
+        objetivoProyectoSelected.setSvopTipo(objetivoProyectoPadreSelected.getSvopTipo() + 1);
+        objetivoProyectoSelected.setSvinObjetivoPadre(objetivoProyectoPadreSelected);
+        controlGrabar = true;
+        return "";
+    }
+
+    public String registraP15() {
+        try {
+            if (objetivoProyectoSelected.getSvopId() == null) {
+                objetivoProyectoSelected.setSvopOrden(objetivoProyectoPadreSelected.getSvinObjetivoHijoList().size() + 1);
+                objetivoProgramaFacade.create(objetivoProyectoSelected);
+                objetivoProyectoSelected.setearEstadoExpanded();
+                estadoExpandidoObjetivo.put(objetivoProyectoSelected.getSvopId(), objetivoProyectoSelected.isExpanded());
+            } else {
+
+                objetivoProgramaFacade.edit(objetivoProyectoSelected);
+            }
+            cancelarP15(false);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    public void cancelarP15(boolean setearEstadoExpansion) {
+        controlGrabar = false;
+        datosCompletos = false;
+        proyectoSelected = proyectoFacade.find(proyectoSelected.getId());
+        if (setearEstadoExpansion) {
+            estadoExpandidoObjetivo = null;
+            proyectoSelected.resetEstadoExpandidoObjetivo();
+            estadoExpandidoObjetivo=proyectoSelected.getEstadoExpandidoObjetivo();
+        } else {
+            proyectoSelected.setEstadoExpandidoObjetivo(estadoExpandidoObjetivo);
+        }
+    }
+
+    public void onRowToggleObjetivoProyecto(ToggleEvent event) {
+        SvinObjetivoPrograma obj = (SvinObjetivoPrograma) event.getData();
+        estadoExpandidoObjetivo.put(obj.getSvopId(), event.getVisibility() == Visibility.VISIBLE);
+    }
+
+    public SvinObjetivoPrograma getObjetivoProyectoPadreSelected() {
+        return objetivoProyectoPadreSelected;
+    }
+
+    public void setObjetivoProyectoPadreSelected(SvinObjetivoPrograma objetivoProyectoPadreSelected) {
+        this.objetivoProyectoPadreSelected = objetivoProyectoPadreSelected;
+    }
+
+    private Map<BigDecimal, Boolean> estadoExpandidoObjetivo = new HashMap<BigDecimal, Boolean>();
+    private Map<BigDecimal, Boolean> estadoExpandidoObjetivoBVivir = new HashMap<BigDecimal, Boolean>();
+
+    public String cambiarOrdenActividad(Integer cambio) {
+        try {
+            objetivoProyectoSelected.cambiarOrdenObjetivo(cambio);
+            objetivoProgramaFacade.edit(objetivoProyectoSelected.getSvinObjetivoPadre());
+            cancelarP15(false);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+
+        return "";
+    }
+
+    //</editor-fold>    
+//<editor-fold defaultstate="collapsed" desc="Metodos generales">
+    public String inicioProgramas() {
+        proyectoSelected = new Proyecto();
+        docenteSelected = new SegUsuario();
+        nomDocenteBusqueda = "";
+
+        if (botonInicio) {
+            init();
+        } else {
+        }
+        return "";
+    }
+
+    public String listarProyectos() {
+        proyectoSelected = new Proyecto();
+        docenteSelected = new SegUsuario();
+        nomDocenteBusqueda = "";
+        proyectoList = proyectoFacade.findByPrograma(codProgramaSelected);
+
+        indiceTabActivo = 0;
+        botonInicio = true;
+        return "";
+    }
+
+    public SvinProgramaV getProgramaSelected() {
+        return programaSelected;
+    }
+
+    public void setProgramaSelected(SvinProgramaV programaSelected) {
+        this.programaSelected = programaSelected;
+    }
+
+    public String seleccionarPrograma() {
+        proyectoList = proyectoFacade.findByPrograma(codProgramaSelected);
+        for (SvinProgramaV prog : programaList) {
+            if (prog.getSprvId().equals(codProgramaSelected)) {
+                programaSelected = prog;
+                break;
+            }
+        }
+        return "";
+    }
+
+    public String seleccionarProyecto() {
+        botonInicio = false;
+        indiceTabActivo = 0;
+        if (proyectoSelected.getTipoPoblacion() == null) {
+            proyectoSelected.setTipoPoblacion(new SeaParametrosDet());
+        }
+        if (proyectoSelected.getResponsableList() != null && !proyectoSelected.getResponsableList().isEmpty()) {
+            llenarDatosDocenteXUsuId(proyectoSelected.getResponsableList().get(0).getUsuId().getUsuId());
+        }
+        return "";
+    }
+
+    public String seleccionarEdicion() {
+        controlGrabar = true;
+        datosCompletos = false;
+        return "";
+    }
+
+    public void cambiarTabPerfil(TabChangeEvent e) {
+        try {
+            datosCompletos = false;
+            if (e.getTab() != null) {
+                String[] aux = e.getTab().getClientId().split(":");
+                if (aux[aux.length - 1].equals("tabP1")) {//tab1: Datos Generales
+                    cancelarP1();
+                } else if (aux[aux.length - 1].equals("tabP2")) {//tab2: Origen de los fondos
+                    cancelarP1();
+                } else if (aux[aux.length - 1].equals("tabP3")) {//tab3: Cobertura y Localización
+                    cancelarP3();
+                } else if (aux[aux.length - 1].equals("tabP4")) {//tab4: Detalle de entregables del proyecto
+                    cancelarP1();
+                } else if (aux[aux.length - 1].equals("tabP5")) {//tab5: Docentes participantes
+                    cancelarP5();
+                } else if (aux[aux.length - 1].equals("tabP6")) {//tab6: Estudiantes participantes
+                    cancelarP6();
+                } else if (aux[aux.length - 1].equals("tabP7")) {//tab7: Estrategia de Seguimiento y Evaluación
+                    cancelarP7();
+                } else if (aux[aux.length - 1].equals("tabP13")) {//tab13: Viabilidad y Plan de Sostenibilidad
+                    cancelarP1();
+                } else if (aux[aux.length - 1].equals("tabP14")) {//tab14: Detalle de adquisiciones del proyecto
+                    cancelarP14();
+                } else if (aux[aux.length - 1].equals("tabP15")) {//tab15: Matriz del Marco Lógico
+                    cancelarP15(true);
+                } else if (aux[aux.length - 1].equals("tabP16")) {//tab16: Alineamiento del Proyecto-Objetivos PLNBV
+                    cancelarP16(true, true);
+                } else if (aux[aux.length - 1].equals("tabP17")) {//tab17: Alineamiento del Proyecto-Objetivos Estratégicos Institucionales
+                    cancelarP17(true);
+                }
+
+            }
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+        }
+
+    }
+//</editor-fold>
+
+    public void agregarProyecto(ActionEvent event) {
+        botonInicio = false;
+        proyectoSelected = new Proyecto();
+        docenteSelected = new SegUsuario();
+        nomDocenteBusqueda = "";
+
+        controlGrabar = true;
+    }
+
+    public Stvmajr getCarreraSelected() {
+        return carreraSelected;
+    }
+
+    public void setCarreraSelected(Stvmajr carreraSelected) {
+        this.carreraSelected = carreraSelected;
+    }
+
+    public void agregarP16(ActionEvent event) {
+        objBVivirPadre = null;
+        objetivoBVivirSelected = new SvinProgObj(proyectoSelected);
+        controlGrabar = true;
+    }
+
+    public void cancelarP16(boolean setearBotones, boolean setearExpanded) {
+        proyectoSelected = proyectoFacade.find(proyectoSelected.getId());
+        proyectoSelected.setearObjetivoBVivirProyectoPadreList();
+        if (setearBotones) {
+            objBVivirPadre = null;
+            datosCompletos = false;
+            controlGrabar = false;
+        }
+        if (setearExpanded) {
+            proyectoSelected.setEstadoExpandidoObjetivoBVivir(new HashMap<BigDecimal, Boolean>());
+            estadoExpandidoObjetivoBVivir = proyectoSelected.getEstadoExpandidoObjetivoBVivir();
+        } else {
+            proyectoSelected.setEstadoExpandidoObjetivoBVivir(estadoExpandidoObjetivoBVivir);
+        }
+    }
+
+    public String registraP16() {
+        try {
+            proyectoSelected.addObjetivoBVivir(objetivoBVivirSelected);
+            proyectoFacade.edit(proyectoSelected);
+            estadoExpandidoObjetivoBVivir = proyectoSelected.getEstadoExpandidoObjetivoBVivir();
+            cancelarP16(true, false);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            try {
+                cancelarP16(false, false);
+                Throwable t = (Throwable) e;
+                while (t.getCause() != null) {
+                    t = t.getCause();
+                }
+                String msgError = "No fue posible grabar la información ingresada";
+                String controlMsgError = null;
+                if (t.getMessage()!=null && t.getMessage().toUpperCase().contains("ORA-00001")) {
+                    msgError = "Ya existe un registro para el Objetivo seleccionado";
+                    controlMsgError = "formPrincipal:formPrincipal1:tabViewPrincipal:tabP:subojPlan1";
+                }
+                FacesContext.getCurrentInstance().addMessage(controlMsgError, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msgError));
+            } catch (Exception e2) {
+            }
+        }
+        return "";
+    }
+
+    public SvinProgObj getObjetivoBVivirSelected() {
+        return objetivoBVivirSelected;
+    }
+
+    public void setObjetivoBVivirSelected(SvinProgObj objetivoBVivirSelected) {
+        this.objetivoBVivirSelected = objetivoBVivirSelected;
+    }
+
+    public void bsqSubObjetivos() {
+        objBVivirHijoList = svinObjBVivirFacade.findObjXPadre(objBVivirPadre.getSvobviId());
+        System.out.println(" la lista es " + objBVivirHijoList.size());
+    }
+
+    public List<SvinObjetivoBVivir> getObjBVivirPadreList() {
+        return objBVivirPadreList;
+    }
+
+    public void setObjBVivirPadreList(List<SvinObjetivoBVivir> objBVivirPadreList) {
+        this.objBVivirPadreList = objBVivirPadreList;
+    }
+
+    public List<SvinObjetivoBVivir> getObjBVivirHijoList() {
+        return objBVivirHijoList;
+    }
+
+    public void setObjBVivirHijoList(List<SvinObjetivoBVivir> objBVivirHijoList) {
+        this.objBVivirHijoList = objBVivirHijoList;
+    }
+
+    public SvinObjetivoBVivir getObjBVivirPadre() {
+        return objBVivirPadre;
+    }
+
+    public void setObjBVivirPadre(SvinObjetivoBVivir objBVivirPadre) {
+        this.objBVivirPadre = objBVivirPadre;
+    }
+
+    public SvinObjetivoBVivir getObjBVivirHijo() {
+        return objBVivirHijo;
+    }
+
+    public void setObjBVivirHijo(SvinObjetivoBVivir objBVivirHijo) {
+        this.objBVivirHijo = objBVivirHijo;
+    }
+
+    public void onRowToggleObjetivoBVivir(ToggleEvent event) {
+        SvinProgObj subObj = (SvinProgObj) event.getData();
+        //proyectoSelected.addEstadoExpandidoObjetivoBVivir(subObj.getObjetivoBVivir().getSvobviId(), event.getVisibility() == Visibility.VISIBLE);
+        estadoExpandidoObjetivoBVivir.put(subObj.getObjetivoBVivir().getSvobviId(), event.getVisibility() == Visibility.VISIBLE);
+        /*if (event.getVisibility() == Visibility.VISIBLE) {
+         subObj.setExpanded(true);
+         } else {
+         subObj.setExpanded(false);
+         }*/
+    }
+
+    public void eliminarP16() {
+        try {
+            proyectoSelected.removeObjetivoBVivir(objetivoBVivirSelected);
+            proyectoFacade.edit(proyectoSelected);
+            estadoExpandidoObjetivoBVivir = proyectoSelected.getEstadoExpandidoObjetivoBVivir();            
+            cancelarP16(true, false);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            cancelarP16(true, false);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        }
+    }
+
+    public void agregarP17(ActionEvent event) {
+        objetivoEstrategicoProyectoSelected = new SvinProgObjEstrategicos(proyectoSelected);
+        controlGrabar = true;
+    }
+
+    public SvinObjetivosEstraInsti getPerspectivaSelected() {
+        return perspectivaSelected;
+    }
+
+    public void setPerspectivaSelected(SvinObjetivosEstraInsti perspectivaSelected) {
+        this.perspectivaSelected = perspectivaSelected;
+    }
+
+    public SvinObjetivosEstraInsti getObjetivoEstrategicoSelected() {
+        return objetivoEstrategicoSelected;
+    }
+
+    public void setObjetivoEstrategicoSelected(SvinObjetivosEstraInsti objetivoEstrategicoSelected) {
+        this.objetivoEstrategicoSelected = objetivoEstrategicoSelected;
+    }
+
+    public SvinObjetivosEstraInsti getIndicadorSelected() {
+        return indicadorSelected;
+    }
+
+    public void setIndicadorSelected(SvinObjetivosEstraInsti indicadorSelected) {
+        this.indicadorSelected = indicadorSelected;
+    }
+
+    public List<SvinObjetivosEstraInsti> getPerspectivasList() {
+        return perspectivasList;
+    }
+
+    public void setPerspectivasList(List<SvinObjetivosEstraInsti> perspectivasList) {
+        this.perspectivasList = perspectivasList;
+    }
+
+    public String registraP17() {
+        try {
+            proyectoSelected.addObjetivoEstrategico(objetivoEstrategicoProyectoSelected);
+            proyectoFacade.edit(proyectoSelected);
+            cancelarP17(true);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            try {
+                cancelarP17(false);
+                Throwable t = (Throwable) e;
+                while (t.getCause() != null) {
+                    t = t.getCause();
+                }
+                String msgError = "No fue posible grabar la información ingresada";
+                String controlMsgError = null;
+                if (t.getMessage().toUpperCase().contains("ORA-00001")) {
+                    msgError = "Ya existe un registro para el Objetivo seleccionado";
+                    controlMsgError = "formPrincipal:formPrincipal1:tabViewPrincipal:tabP:estInt";
+                }
+                FacesContext.getCurrentInstance().addMessage(controlMsgError, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msgError));
+            } catch (Exception e2) {
+            }
+        }
+        return "";
+    }
+
+    public SvinProgObjEstrategicos getObjetivoEstrategicoProyectoSelected() {
+        return objetivoEstrategicoProyectoSelected;
+    }
+
+    public void setObjetivoEstrategicoProyectoSelected(SvinProgObjEstrategicos objetivoEstrategicoProyectoSelected) {
+        this.objetivoEstrategicoProyectoSelected = objetivoEstrategicoProyectoSelected;
+    }
+
+    public void cancelarP17(boolean setearBotones) {
+        proyectoSelected = proyectoFacade.find(proyectoSelected.getId());
+        if (setearBotones) {
+            datosCompletos = false;
+            controlGrabar = false;
+            perspectivaSelected = new SvinObjetivosEstraInsti();
+            objetivoEstrategicoSelected= new SvinObjetivosEstraInsti();
+            indicadorSelected= new SvinObjetivosEstraInsti();
+            objetivoEstrategicoProyectoSelected = new SvinProgObjEstrategicos(proyectoSelected);
+        }
+    }
+
+    public void eliminarP17() {
+        try {
+            proyectoSelected.removeObjetivoEstrategico(objetivoEstrategicoProyectoSelected);
+            proyectoFacade.edit(proyectoSelected);
+            cancelarP17(true);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            cancelarP17(false);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        }
+    }
+
+    public String editarP18() {
+        controlGrabar = true;
+        return "";
+    }
+
+    public String registraP18() {
+        try {
+            proyectoFacade.edit(proyectoSelected);
+            cancelarP18();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    public String cancelarP18() {
+        proyectoSelected = proyectoFacade.find(proyectoSelected.getId());
+        controlGrabar = false;
+        return "";
+    }
+
+}

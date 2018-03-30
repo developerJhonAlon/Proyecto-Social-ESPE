@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyecto" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6b4c77c-7a1f-4a03-b3c2-8c98554325d3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="192"/>
+	<parameter name="idProyecto" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select * from SZTVPROYEC
+where SZTVPROYEC_CODE = $P{idProyecto}]]>
+	</queryString>
+	<field name="SZTVPROYEC_CODE" class="java.math.BigDecimal"/>
+	<field name="SPRV_ID" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_NOMBRE" class="java.lang.String"/>
+	<field name="SZTVPROYEC_APORUNI" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_APORUNI_VALOR" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_ENTIAUPI" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_CONTRAPARTE" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_FECHA_PRESENTA" class="java.sql.Timestamp"/>
+	<field name="SZTVPROYEC_FECHA_INICIO" class="java.sql.Timestamp"/>
+	<field name="SZTVPROYEC_FECHA_FINALIZA" class="java.sql.Timestamp"/>
+	<field name="SZTVPROYEC_BIENES" class="java.lang.String"/>
+	<field name="SZTVPROYEC_SERVICIOS" class="java.lang.String"/>
+	<field name="SZTVPROYEC_BIEN_SERVICIO" class="java.lang.String"/>
+	<field name="SZTVPROYEC_SITUACTUAL" class="java.lang.String"/>
+	<field name="SZTVPROYEC_DIAGNOSTICO" class="java.lang.String"/>
+	<field name="SZTVPROYEC_LINEABASE" class="java.lang.String"/>
+	<field name="SZTVPROYEC_DIRECTOS_HOMBRES" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_DIRECTOS_MUJERES" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_DIRECTOS_DISCAPAC" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_INIDIRECTOS_HOMBRES" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_INIDIRECTOS_MUJERES" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_FACTORESC" class="java.lang.String"/>
+	<field name="SZTVPROYEC_RESTRICION" class="java.lang.String"/>
+	<field name="SZTVPROYEC_VIABILIDAD" class="java.lang.String"/>
+	<field name="SZTVPROYEC_PERDERIA" class="java.lang.String"/>
+	<field name="SZTVPROYEC_RESULTADOS" class="java.lang.String"/>
+	<field name="SZTVPROYEC_IMPACTOA" class="java.lang.String"/>
+	<field name="SZTVPROYEC_SOSTENIBILIDAD" class="java.lang.String"/>
+	<field name="SZTVPROYEC_INIDIRECTOS_DISCAPA" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_TIPO_PROY" class="java.lang.String"/>
+	<field name="STVSUBJ_CODE" class="java.lang.String"/>
+	<field name="SZTVPROYEC_CODIGO" class="java.lang.String"/>
+	<field name="SCONV_ID" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_APROB_CON_DEP_NOM" class="java.lang.String"/>
+	<field name="SZTVPROYEC_APROB_CON_DEP_URL" class="java.lang.String"/>
+	<field name="SZTVPROYEC_ESTADO" class="java.lang.String"/>
+	<field name="SZTVCABCOMCA_CODE" class="java.math.BigDecimal"/>
+	<field name="SZTVCONPARAEVA_CODE" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_FECHA_C" class="java.sql.Timestamp"/>
+	<field name="SZTVPROYEC_NOMBRE_PDF_ACTA" class="java.lang.String"/>
+	<field name="SZTVPROYEC_URL_PDF_ACTA" class="java.lang.String"/>
+	<field name="SZTVPROYEC_OBSERVACIO_C" class="java.lang.String"/>
+	<field name="SZTVPROYEC_MENSAJE_CORREO" class="java.lang.String"/>
+	<field name="SZTVPROYEC_ASUNTO_CORREO" class="java.lang.String"/>
+	<field name="SZTVPROYEC_DIRECCION_CORREO" class="java.lang.String"/>
+	<field name="SZTVPROYEC_SITUACTUAL2" class="oracle.sql.CLOB"/>
+	<field name="SZTVPROYEC_DIAGNOSTICO2" class="oracle.sql.CLOB"/>
+	<field name="SZTVPROYEC_NOMBRE_PDF_MEMO" class="java.lang.String"/>
+	<field name="SZTVPROYEC_URL_PDF_MEMO" class="java.lang.String"/>
+	<field name="SZTVCONPARAEVA_ADJUNTO_ACTA" class="java.lang.String"/>
+	<field name="SZTVCONPARAEVA_ADJUNTO_MEMO" class="java.lang.String"/>
+	<field name="SZTVPROYEC_COBERTURA" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_DIRECTOS_NINIOS" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_INDIRECTOS_NINIOS" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_CIERRE_PROD" class="java.lang.String"/>
+	<field name="SZTVPROYEC_CIERRE_BIEN" class="java.lang.String"/>
+	<field name="SZTVPROYEC_CIERRE_RESUL" class="java.lang.String"/>
+	<field name="SZTVPROYEC_CIERRE_APLIC" class="java.lang.String"/>
+	<field name="SZTVPROYEC_CIERRE_IMP" class="java.lang.String"/>
+	<field name="SZTVPROYEC_CIERRE_REST" class="java.lang.String"/>
+	<field name="SZTVPROYEC_CIERRE_COMEN" class="java.lang.String"/>
+	<field name="SZTVCONPARAEVAF_CODE" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_FECHA_V" class="java.sql.Timestamp"/>
+	<field name="SZTVPROYEC_OBSERVACIO_V" class="java.lang.String"/>
+	<field name="SZTVPROYEC_ESTADO_ACTIVO" class="java.lang.String"/>
+	<field name="SZTVPROYEC_FECHA_CIERRE" class="java.sql.Timestamp"/>
+	<field name="SZTVPROYEC_FECHA_EVALUACION" class="java.sql.Timestamp"/>
+	<field name="SZTVPROYEC_DIRECTOS_EJEC" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_FECHA_MAIL_AVANCE" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="54" y="2" width="100" height="20" uuid="2328b23b-c75c-4895-9998-75bc21f186c6"/>
+				<text><![CDATA[SZTVPROYEC_COBERTURA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="266" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="176" height="20" uuid="f2aa5689-2276-407c-9ee2-223a5d263f77"/>
+				<text><![CDATA[1. DATOS GENERALES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="44" width="176" height="20" uuid="55d27a45-15d4-4270-8541-0c7f0260583f"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre o Título del proyecto: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="64" width="532" height="48" uuid="65aba299-f706-4d4e-943d-b03876000b7c"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="134" width="176" height="20" uuid="3c6865d7-3f56-4883-ba15-c12e573c4c72"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cobertura y localización: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="78" y="157" width="24" height="20" uuid="f5b30167-1703-45e0-a684-bad6545e991b"/>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_COBERTURA}==1?"\u2611":"\u2610"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="23" y="157" width="55" height="20" uuid="4a8d8352-33be-4967-847a-d96359043cf1"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nacional:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="143" y="154" width="55" height="20" uuid="1befea72-1e65-4627-bb43-92795a34e397"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincial:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="201" y="154" width="24" height="20" uuid="d8a5b119-3077-44a8-af17-8e7c23b8c9bc"/>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_COBERTURA}==2?"\u2611":"\u2610"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="248" y="157" width="55" height="20" uuid="94695bef-ec6a-49bb-b646-5f09cd3c16bf"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantonal:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="303" y="156" width="24" height="20" uuid="2d71f7eb-e2dd-408e-b1c2-465f1188121f"/>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_COBERTURA}==3?"\u2611":"\u2610"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="351" y="157" width="55" height="20" uuid="d74f4731-37e8-4853-baef-2b5cd8591343"/>
+				<textElement>
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parroquial:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="411" y="157" width="24" height="20" uuid="2779e2a6-4eff-489c-a3ff-ebdb70265520"/>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_COBERTURA}==4?"\u2611":"\u2610"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

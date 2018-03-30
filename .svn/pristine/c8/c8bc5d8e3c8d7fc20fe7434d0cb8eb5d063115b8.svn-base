@@ -1,0 +1,13 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+   
+    <p:panel styleClass="contentContainer">     
+        <ui:insert name="page-content"/>
+        <p:panel styleClass="clearer"/>
+    </p:panel>
+
+        
+        
+</ui:composition>

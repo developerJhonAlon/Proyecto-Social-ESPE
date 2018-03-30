@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>Búsqueda de Institución</title>
+        <h:outputStylesheet name="theme_sistema_SVS.css" library="css" />        
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <p:growl id="message1" widgetVar="message1" showDetail="true" life="3000"></p:growl>            
+
+            <p:dataTable id="dtInstituciones" var="institucion" value="#{busquedaInstitucionController.institucionList}"
+                         paginator="true" rows="5" rowIndexVar="index" style="width: 98%" emptyMessage="No se encontraron resultados">
+                <p:column headerText="Nro." width="20" >
+                    <h:outputText value="#{index + 1}"/>
+                </p:column>
+                <p:column headerText="Nombre" style="white-space: pre-line">
+                    <h:outputText value="#{institucion.nombre}"/>
+                </p:column>
+                <p:column headerText="Provincia">
+                    <h:outputText value="#{institucion.parroquia.canId.proId.proNombre}" style="white-space: pre-line"></h:outputText>
+                </p:column>
+                <p:column headerText="Cantón">
+                    <h:outputText value="#{institucion.parroquia.canId.canNombre}" style="white-space: pre-line"></h:outputText>
+                </p:column>
+                <p:column headerText="Parroquia">
+                    <h:outputText value="#{institucion.parroquia.prqNombre}" style="white-space: pre-line"></h:outputText>
+                </p:column>
+                <p:column headerText="Dirección">
+                    <h:outputText value="#{institucion.direccion}" style="white-space: pre-line"></h:outputText>
+                </p:column>
+                <p:column headerText="Representante Legal" style="white-space: pre-line">
+                    <h:outputText value="#{institucion.representanteNombres.concat(' ').concat(institucion.representanteApellidos)}" style="white-space: pre-line"></h:outputText>
+                </p:column>
+                <p:column headerText="Seleccionar" width="50" style="text-align: center">
+                    <p:commandButton icon="ui-icon-check"  actionListener="#{busquedaInstitucionController.seleccionarInsitucion(institucion)}"/>
+                </p:column>
+            </p:dataTable>
+
+            <pe:blockUI widgetVar="blockUIWidget">  
+                <h:panelGrid columns="2">  
+                    <p:graphicImage value="/resources/images/ajax-loader1.gif" style="margin-right: 12px; vertical-align: middle;" />  
+                    <h:outputText value="Procesando... Por favor espere..." style="white-space: nowrap;"/>  
+                </h:panelGrid>   
+            </pe:blockUI>   
+        </h:form>
+    </h:body>
+
+</html>

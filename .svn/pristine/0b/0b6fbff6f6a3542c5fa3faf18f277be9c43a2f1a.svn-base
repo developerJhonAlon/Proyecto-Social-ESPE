@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <h:head>
+        <title>Estudiantes</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 90%;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <h:panelGrid columns="2">
+                <p:outputLabel value="Cédula" for="txtCedula"></p:outputLabel>
+                <pe:inputNumber id="txtCedula" value="#{busquedaEstudianteController.cedula}" decimalPlaces="0" minValue="0" maxValue="9999999999" styleClass="inputNumber">
+                </pe:inputNumber>
+                <p:outputLabel value="Nombres" for="txtNombres"></p:outputLabel>
+                <p:inputText id="txtNombres" value="#{busquedaEstudianteController.nombres}">
+                </p:inputText>
+                <p:outputLabel value="Apellidos" for="txtApellidos"></p:outputLabel>
+                <p:inputText id="txtApellidos" value="#{busquedaEstudianteController.apellidos}">
+                </p:inputText>
+            </h:panelGrid>
+            <p:commandButton value="Grabar" icon="ui-icon-locked" 
+                             title="Buscar estudiantes" update="dtEstudiantes" 
+                             action="#{busquedaEstudianteController.buscar}"
+                             onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+            </p:commandButton>
+            
+            <p:dataTable id="dtEstudiantes" var="est" value="#{busquedaEstudianteController.estudianteList}">
+                <p:column headerText="Cédula">
+                    <h:outputText value="#{est.usuario.usuCc}" />
+                </p:column>
+                <p:column headerText="Apellidos">
+                    <h:outputText value="#{est.usuario.usuApellidos}" />
+                </p:column>
+                <p:column headerText="Nombres">
+                    <h:outputText value="#{est.usuario.usuNombres}" />
+                </p:column>
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton icon="ui-icon-search" actionListener="#{busquedaEstudianteController.selectEstudianteFromDialog(est)}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+
+</html>

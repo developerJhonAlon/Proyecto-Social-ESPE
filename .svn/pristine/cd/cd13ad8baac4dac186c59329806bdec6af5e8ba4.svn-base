@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      >
+    <h:body>    
+        <ui:composition template="/vista/template-sistema1.xhtml">
+            <ui:define name="content">
+                <h:form id="formPrincipal" >
+                    <p:growl id="message1" widgetVar="message1" showDetail="true" life="3000"></p:growl>
+                    <pe:blockUI widgetVar="blockUIWidget">  
+                        <h:panelGrid columns="2">  
+                            <p:graphicImage value="/resources/images/ajax-loader1.gif" style="margin-right: 12px; vertical-align: middle;" />  
+                            <h:outputText value="Procesando... Por favor espere..." style="white-space: nowrap;"/>  
+                        </h:panelGrid>   
+                    </pe:blockUI>                      
+                    <p:layout style="min-width:800px;min-height:500px;">
+                        <p:layoutUnit position="west" resizable="true" size="600" minSize="40" maxSize="400" style="border: hidden">
+
+                        </p:layoutUnit>
+
+
+                        <p:layoutUnit position="center" style="border: hidden">
+                            <p:panel  style="font-size: 14px; text-align: center; border: hidden; margin-top: 110px">
+                                <p:spacer height="5"></p:spacer>
+                                <p:panel header="Ingreso al Sistema" style="font-size: 11px; text-align: center; font-weight: bold; width: 400px; float: bottom">
+                                    <center>
+                                        <h:panelGrid>
+                                        <h:outputLabel value="Para ingresar la primera vez utilice su número de cédula tanto en usuario como en clave."></h:outputLabel>
+                                        <h:outputLabel value="Luego podrá cambiar su contraseña desde el sistema."></h:outputLabel>
+                                            
+                                        </h:panelGrid>
+                                        
+                                        <p:separator></p:separator>
+                                        <h:panelGrid columns="2" style="">
+                                            <h:panelGroup>
+                                                <img src="#{request.contextPath}/resources/images/logo-innovativa-edu.png" style="width: 150px;"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup>
+                                                <h:panelGrid columns="3" style="width: 100%; margin-left: 0px; border-radius: 10px; padding-top: 12px;" >
+                                                    <h:outputLabel value="USUARIO: "/>
+                                                    <p:inputText id="txt_usuario" value="#{login.uname}" style="text-transform: uppercase" autocomplete="off"
+                                                                 required="true" requiredMessage="El usuario es requerido!"/>
+                                                    <p:message for="txt_usuario"/>
+                                                    <h:outputLabel value="CLAVE: "/>
+                                                    <p:password id="txt_pass" feedback="true" value="#{login.password}" style="text-transform: uppercase" autocomplete="off"
+                                                                promptLabel="Ingrese su clave" required="true" requiredMessage="La clave es requerido!"
+                                                                weakLabel="Seguridad baja" goodLabel="Seguridad buena" strongLabel="Seguridad fuerte"/>
+                                                    <p:message for="txt_pass"/>
+                                                </h:panelGrid>
+                                                <br/>
+                                                <center>
+                                                    <p:commandButton value="Ingresar" action="#{login.valida()}" update=":formPrincipal:message1" 
+                                                                     onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()" />
+
+                                                </center>
+                                            </h:panelGroup>
+                                        </h:panelGrid>
+                                    </center>
+                                </p:panel>
+                            </p:panel>
+                        </p:layoutUnit>
+
+                    </p:layout>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

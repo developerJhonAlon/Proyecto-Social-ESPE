@@ -1,0 +1,121 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ec.edu.espe_ctt.convocatoria.controller;
+
+//<editor-fold defaultstate="collapsed" desc="Import">
+import ec.edu.espe_ctt.vinculacion.entity.Convocatoria;
+import ec.edu.espe_ctt.vinculacion.entity.Proyecto;
+import ec.edu.espe_ctt.vinculacion.entity.SvinProgramaV;
+import ec.edu.espe_ctt.vinculacion.session.ConvocatoriaFacade;
+import ec.edu.espe_ctt.vinculacion.session.ProyectoFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinProgramaVFacade;
+import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
+//</editor-fold>
+/**
+ *
+ * @author Administrador
+ */
+@ManagedBean
+@ViewScoped
+public class ListadoProyectosController implements Serializable {
+//<editor-fold defaultstate="collapsed" desc="Constructor">
+
+    public ListadoProyectosController() {
+
+    }
+
+    //</editor-fold>
+    @EJB
+    private SvinProgramaVFacade programaFacade;
+    @EJB
+    private ProyectoFacade proyectoFacade;
+    @EJB
+    private ConvocatoriaFacade convocatoriaFacade;
+
+//<editor-fold defaultstate="collapsed" desc="Init">
+    @PostConstruct
+    public void init() {
+        programaList = programaFacade.findXEstado(SvinProgramaVFacade.ESTADO_ACTIVO);
+        Object idPrograma = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idPrograma");
+        if (idPrograma!=null){
+            codProgramaSelected = Integer.valueOf(idPrograma.toString());
+            proyectoList = proyectoFacade.findByPrograma(codProgramaSelected);
+        }
+    }
+
+    private Integer codProgramaSelected;
+
+    public Integer getCodProgramaSelected() {
+        return codProgramaSelected;
+    }
+
+    public void setCodProgramaSelected(Integer codProgramaSelected) {
+        this.codProgramaSelected = codProgramaSelected;
+    }
+
+    private List<Proyecto> proyectoList;
+
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
+    }
+
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
+    }
+
+    public String seleccionarPrograma() {
+        proyectoList = proyectoFacade.findByPrograma(codProgramaSelected);
+        for (SvinProgramaV prog : programaList) {
+            if (prog.getSprvId().equals(codProgramaSelected)) {
+                programaSelected = prog;
+                break;
+            }
+        }
+        return "";
+    }
+
+    public List<SvinProgramaV> getProgramaList() {
+        return programaList;
+    }
+
+    public void setProgramaList(List<SvinProgramaV> programaList) {
+        this.programaList = programaList;
+    }
+
+    private List<SvinProgramaV> programaList;
+
+    private SvinProgramaV programaSelected;
+
+    public SvinProgramaV getProgramaSelected() {
+        return programaSelected;
+    }
+
+    public void setProgramaSelected(SvinProgramaV programaSelected) {
+        this.programaSelected = programaSelected;
+    }
+
+    public String agregarProyecto() {
+        try {
+            /*Convocatoria convocatoria = convocatoriaFacade.findByEstadoAbierto();
+            if (convocatoria == null) {
+                FacesContext.getCurrentInstance().addMessage("formPrincipal:btnAgregarProyecto", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No existe una convocatoria abierta a la fecha actual. Por favor, previamente debe crear una convocatoria."));
+                return "";
+            } else {*/
+                FacesContext.getCurrentInstance().getExternalContext().redirect("proyecto.xhtml?idPrograma=" + codProgramaSelected);
+            //}
+        } catch (Exception e) {
+        }
+        return "";
+    }
+}

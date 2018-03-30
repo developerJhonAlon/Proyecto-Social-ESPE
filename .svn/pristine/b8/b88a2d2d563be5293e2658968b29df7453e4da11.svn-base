@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="aprobacionProyectoDetalle" language="groovy" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0844b7b9-ba78-45c1-8044-4c5448c94f82">
+	<property name="ireport.zoom" value="1.9487171000000043"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoProyecto" class="java.lang.Integer"/>
+	<parameter name="puntajeMinimoRequerido" class="java.lang.String"/>
+	<parameter name="puntajeMaximoEvaluacion" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT dep.stvsubj_desc departamento, CAM.STVCAMP_DESC campus
+ FROM SZDTAVDOCPARTI prodep
+INNER JOIN STVSUBJ  dep ON prodep.STVSUBJ_CODE  = dep.STVSUBJ_CODE
+INNER JOIN STVCAMP  cam ON prodep.STVCAMP_CODE  = cam.STVCAMP_CODE
+where SZTVPROYEC_CODE = $P{codigoProyecto}]]>
+	</queryString>
+	<field name="parametroEvaluacion.descripcion" class="java.lang.String"/>
+	<field name="valoracionParametroPromedio.descripcion" class="java.lang.String"/>
+	<field name="valoracionParametroPromedio.puntaje" class="java.lang.Integer"/>
+	<field name="parametroEvaluacion.orden" class="java.lang.Integer"/>
+	<variable name="totalPuntaje" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{valoracionParametroPromedio.puntaje}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="0" width="532" height="15" uuid="be7bf399-33aa-4dd2-a5db-483292177373"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Items de aprobación:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="348" height="15" uuid="6c4438a4-c1f9-48a4-acef-b76eb767bc5d"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parámetro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="348" y="15" width="95" height="15" uuid="47cea1cf-78c0-4dfc-9910-455aa54a7ea9"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Respuesta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="443" y="15" width="89" height="15" uuid="0e12ab51-3f4b-4bfb-9133-a70e3358999d"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Puntaje]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="13" splitType="Prevent">
+			<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()!=0)]]></printWhenExpression>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="348" height="13" uuid="a5e323b8-903d-481a-a008-1dc97ab89ffd"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{parametroEvaluacion.orden} + ". " + $F{parametroEvaluacion.descripcion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement stretchType="RelativeToTallestObject" x="348" y="0" width="95" height="13" uuid="b8865f1c-162e-4e20-861b-a11e6c3728de"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valoracionParametroPromedio.descripcion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement stretchType="RelativeToTallestObject" x="443" y="0" width="89" height="13" uuid="704ecb8c-8440-4f1b-ad6f-c15c1f69c4aa"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valoracionParametroPromedio.puntaje}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="443" height="13" uuid="27b2c6de-dbdb-4253-b98d-54fd41065cf1"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement stretchType="RelativeToTallestObject" x="443" y="0" width="89" height="13" uuid="26e35ff1-818b-49ab-856d-ae211cbe0065"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totalPuntaje} + " / " + $P{puntajeMaximoEvaluacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="13" width="443" height="13" uuid="16c8218e-9b7d-421e-8fba-dcae2f75f8a6"/>
+				<box leftPadding="5" rightPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mínimo requerido:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="">
+				<reportElement stretchType="RelativeToTallestObject" x="443" y="13" width="89" height="13" uuid="9487fc42-6d24-4a8a-ac4a-67ac89c7876d"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{puntajeMinimoRequerido}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyectoLocalizacion" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="20" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="1.771561000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idProyecto" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[98]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cobertura" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[4]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paramSql" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["SELECT SEA_PARROQUIA.PRQ_ID, SEA_PARROQUIA.PRQ_NOMBRE, SEA_CANTON.CAN_ID, SEA_CANTON.CAN_NOMBRE, SEA_PROVINCIA.PRO_ID, SEA_PROVINCIA.PRO_NOMBRE FROM SVIN_ZONA_DETALLE, SISEACB.SEA_PARROQUIA, SISEACB.SEA_CANTON,SISEACB.SEA_PROVINCIA WHERE SZTVPROYEC_CODE=" + $P{idProyecto} + " AND(SVIN_ZONA_DETALLE.PRQ_ID = SEA_PARROQUIA.PRQ_ID) AND (SEA_PARROQUIA.CAN_ID = SEA_CANTON.CAN_ID)  AND (SEA_CANTON.PRO_ID = SEA_PROVINCIA.PRO_ID)"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[$P!{paramSql}]]>
+	</queryString>
+	<field name="PRQ_ID" class="java.lang.String"/>
+	<field name="PRQ_NOMBRE" class="java.lang.String"/>
+	<field name="CAN_ID" class="java.lang.String"/>
+	<field name="CAN_NOMBRE" class="java.lang.String"/>
+	<field name="PRO_ID" class="java.lang.String"/>
+	<field name="PRO_NOMBRE" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="228" y="19" width="100" height="20" uuid="981360f9-d9b2-4ba2-ba79-16ff17c36669"/>
+				<text><![CDATA[CANTÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="66" y="19" width="100" height="20" uuid="169e91ba-6343-4850-8e21-09a67d9f6cff"/>
+				<text><![CDATA[PROVINCIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="385" y="19" width="100" height="20" uuid="bb8e184a-590e-42fd-b46d-9299d32663f7"/>
+				<text><![CDATA[PARROQUIA]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="8" width="510" height="1" uuid="7019c364-fece-4b72-bc25-b78274bc7f07"/>
+			</line>
+			<line>
+				<reportElement x="0" y="37" width="510" height="1" uuid="4f77b1be-746a-4568-8579-e76b23376f28"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="385" y="2" width="149" height="20" uuid="5181b87e-9a41-4796-80cd-3a0b6709080e"/>
+				<textFieldExpression><![CDATA[$F{PRQ_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="228" y="2" width="139" height="20" uuid="9ed27be3-40b1-48ac-96cc-4793c6c3d49b"/>
+				<textFieldExpression><![CDATA[$F{CAN_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="66" y="2" width="139" height="20" uuid="1c587382-c91a-422d-bb2b-4f3cc8115cc7"/>
+				<textFieldExpression><![CDATA[$F{PRO_NOMBRE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="14" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="5" width="510" height="1" uuid="3b775c5d-3a8e-4a89-aacd-a83a52588fdc"/>
+			</line>
+		</band>
+	</columnFooter>
+</jasperReport>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:body>    
+        <ui:composition template="/vista/template-sistema2.xhtml">
+            <ui:define name="content">
+                <style>
+                    .foo td {
+                        vertical-align: top;
+                    }
+                </style>                
+
+
+                <p:panel id="panelBase" header="Programas Vinculación" style="border: hidden;">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Listado de Proyectos"/>
+                        <p:button outcome="programa" icon="ui-icon-plus" value="Agregar">
+                        </p:button>  
+                    </h:panelGrid>    
+                    <p:dataTable id="dtProgramaVinculacion" value="#{listadoProgramasController.programaList}" var="progr" paginator="true" rows="15" rowIndexVar="index" resizableColumns="true"
+                                 emptyMessage="No se encontraron resultados">
+                        <p:column headerText="Ord." style="width:5%;text-align: center" sortBy="#{progr.sprvId}">
+                            <h:outputText value="#{index + 1}" />
+                        </p:column>
+                        <p:column headerText="Nombre" style="width:40%;white-space: pre-line" sortBy="#{progr.sprvNombre}">
+                            <h:outputText  value ="#{progr.sprvNombre}"/> 
+                        </p:column>
+                        <p:column headerText="Seleccione" style="width: 5%; text-align: center">
+                            <p:button outcome="programa" icon="ui-icon-circle-check">
+                                <f:param name="idPrograma" value="#{progr.sprvId}" />
+                            </p:button>  
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

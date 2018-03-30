@@ -1,0 +1,296 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ec.edu.espe_ctt.convocatoria.controller;
+
+import ec.edu.espe_ctt.vinculacion.entity.CalificacionProyecto;
+import ec.edu.espe_ctt.vinculacion.entity.ParametroEvaluacion;
+import ec.edu.espe_ctt.vinculacion.entity.SvinProgObj;
+import ec.edu.espe_ctt.vinculacion.entity.ValoracionParametroEvaluacion;
+import ec.edu.espe_ctt.vinculacion.session.ParametroEvaluacionFacade;
+import ec.edu.espe_ctt.vinculacion.session.ValoracionParametroEvaluacionFacade;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
+import org.primefaces.model.Visibility;
+
+/**
+ *
+ * @author Administrador
+ */
+@ManagedBean
+@ViewScoped
+public class ConfiguracionesController implements Serializable {
+
+    @EJB
+    private ParametroEvaluacionFacade parametroEvaluacionFacade;
+    @EJB
+    private ValoracionParametroEvaluacionFacade valoracionParametroEvaluacionFacade;
+    private TreeNode opcionesMenu;
+    private ParametroEvaluacion parametroEvaluacionSelected;
+    private TreeNode opcionMenuSelected;
+    private List<ParametroEvaluacion> parametroEvaluacionList;
+    private ValoracionParametroEvaluacion valoracionParametroEvaluacionSelected;
+
+    public ConfiguracionesController() {
+        expandedParametroEvaluacion = new HashMap<>();
+    }
+
+    @PostConstruct
+    public void init() {
+        inicializarOpcionesMenu();
+        initParametroEvaluacion();
+    }
+
+    public ParametroEvaluacion getParametroEvaluacionSelected() {
+        return parametroEvaluacionSelected;
+    }
+
+    public void setParametroEvaluacionSelected(ParametroEvaluacion parametroEvaluacionSelected) {
+        this.parametroEvaluacionSelected = parametroEvaluacionSelected;
+    }
+
+    public TreeNode getOpcionesMenu() {
+        return opcionesMenu;
+    }
+
+    public void setOpcionesMenu(TreeNode opcionesMenu) {
+        this.opcionesMenu = opcionesMenu;
+    }
+
+    public TreeNode getOpcionMenuSelected() {
+        return opcionMenuSelected;
+    }
+
+    public void setOpcionMenuSelected(TreeNode opcionMenuSelected) {
+        this.opcionMenuSelected = opcionMenuSelected;
+    }
+
+    public void onMenuSelect(NodeSelectEvent event) {
+        OpcionMenu opcionMenu = (OpcionMenu) opcionMenuSelected.getData();
+        switch (opcionMenu.getCodigo()) {
+            case "1":
+                initParametroEvaluacion();
+                break;
+            case "1.1.2":
+                break;
+        }
+
+    }
+
+    public List<ParametroEvaluacion> getParametroEvaluacionList() {
+        return parametroEvaluacionList;
+    }
+
+    public void setParametroEvaluacionList(List<ParametroEvaluacion> parametroEvaluacionList) {
+        this.parametroEvaluacionList = parametroEvaluacionList;
+    }
+
+    public String getOpcionMenuCodeSelected() {
+        if (opcionMenuSelected != null) {
+            return ((OpcionMenu) opcionMenuSelected.getData()).getCodigo();
+        } else {
+            return "";
+        }
+    }
+
+    public void nuevoParametroEvaluacion(ActionEvent event) {
+        parametroEvaluacionSelected = new ParametroEvaluacion();
+        parametroEvaluacionSelected.setOrden(parametroEvaluacionList.size() + 1);
+    }
+
+    public String grabarParametroEvaluacion() {
+        try {
+            if (parametroEvaluacionSelected.getId() == null) {
+                parametroEvaluacionFacade.create(parametroEvaluacionSelected);
+            } else {
+                parametroEvaluacionFacade.edit(parametroEvaluacionSelected);
+            }
+            cancelarEdicionParametroEvaluacion(true);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            try {
+                Throwable t = (Throwable) e;
+                while (t.getCause() != null) {
+                    t = t.getCause();
+                }
+                String msgError = "No fue posible grabar la información ingresada";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msgError));
+                cancelarEdicionParametroEvaluacion(false);
+            } catch (Exception e2) {
+            }
+        }
+        return "";
+    }
+
+    public void initParametroEvaluacion() {
+        expandedParametroEvaluacion.clear();
+        cancelarEdicionParametroEvaluacion(true);
+        for (ParametroEvaluacion parametroEvaluacion : parametroEvaluacionList) {
+            expandedParametroEvaluacion.put(parametroEvaluacion.getId(), parametroEvaluacion.isExpanded());
+        }
+    }
+
+    public void cancelarEdicionParametroEvaluacion(boolean ocultarPanelEdicion) {
+        if (ocultarPanelEdicion) {
+            parametroEvaluacionSelected = null;
+            valoracionParametroEvaluacionSelected = null;
+        }
+        parametroEvaluacionList = parametroEvaluacionFacade.findAll();
+        Collections.sort(parametroEvaluacionList);
+        setExpandedParametroEvaluacion();
+    }
+
+    public String cambiarOrdenParametroEvaluacion(Integer cambio) {
+        try {
+            cambiarOrdenParametroEvaluacion(parametroEvaluacionSelected, cambio);
+            cancelarEdicionParametroEvaluacion(true);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+
+        return "";
+    }
+
+    public String cambiarOrdenValoracionParametroEvaluacion(Integer cambio) {
+        try {
+            valoracionParametroEvaluacionSelected.cambiarOrden(cambio);
+            parametroEvaluacionFacade.edit(valoracionParametroEvaluacionSelected.getParametroEvaluacion());
+            cancelarEdicionParametroEvaluacion(true);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+
+        return "";
+    }
+
+    private void cambiarOrdenParametroEvaluacion(ParametroEvaluacion parametroEvaluacion, Integer cambio) {
+        Integer temp = parametroEvaluacion.getOrden();
+        if (cambio.equals(-1)) {
+            parametroEvaluacionList.get(temp - 2).setOrden(temp);
+            parametroEvaluacionFacade.edit(parametroEvaluacionList.get(temp - 2));
+            parametroEvaluacion.setOrden(temp - 1);
+        } else {
+            parametroEvaluacionList.get(temp).setOrden(temp);
+            parametroEvaluacionFacade.edit(parametroEvaluacionList.get(temp));
+            parametroEvaluacion.setOrden(temp + 1);
+        }
+        parametroEvaluacionFacade.edit(parametroEvaluacion);
+    }
+
+    public void inicializarOpcionesMenu() {
+        opcionesMenu = new DefaultTreeNode("Root", null);
+        TreeNode node1 = new DefaultTreeNode(new OpcionMenu("1", "Parámetros de evaluación"), opcionesMenu);
+        node1.setExpanded(true);
+        node1.setSelected(true);
+        TreeNode node2 = new DefaultTreeNode(new OpcionMenu("2", "Comisión de evaluación"), opcionesMenu);
+    }
+
+    public void eliminarParametroEvaluacion() {
+        try {
+            for (ParametroEvaluacion parametroEvaluacion : parametroEvaluacionList) {
+                if (parametroEvaluacion.getOrden() > parametroEvaluacionSelected.getOrden()) {
+                    parametroEvaluacion.setOrden(parametroEvaluacion.getOrden() - 1);
+                    parametroEvaluacionFacade.edit(parametroEvaluacion);
+                }
+
+            }
+            parametroEvaluacionFacade.remove(parametroEvaluacionSelected);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        } finally {
+            cancelarEdicionParametroEvaluacion(true);
+        }
+    }
+
+    public ValoracionParametroEvaluacion getValoracionParametroEvaluacionSelected() {
+        return valoracionParametroEvaluacionSelected;
+    }
+
+    public void setValoracionParametroEvaluacionSelected(ValoracionParametroEvaluacion valoracionParametroEvaluacionSelected) {
+        this.valoracionParametroEvaluacionSelected = valoracionParametroEvaluacionSelected;
+    }
+
+    public void nuevoValoracionParametro(ActionEvent event) {
+        valoracionParametroEvaluacionSelected = new ValoracionParametroEvaluacion();
+
+    }
+
+    public String grabarValoracionParametro() {
+        try {
+            if (valoracionParametroEvaluacionSelected.getId() == null) {
+                parametroEvaluacionSelected.addValoracion(valoracionParametroEvaluacionSelected);
+                parametroEvaluacionFacade.edit(parametroEvaluacionSelected);
+            } else {
+                valoracionParametroEvaluacionFacade.edit(valoracionParametroEvaluacionSelected);
+            }
+            cancelarEdicionParametroEvaluacion(true);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            try {
+                Throwable t = (Throwable) e;
+                while (t.getCause() != null) {
+                    t = t.getCause();
+                }
+                String msgError = "No fue posible grabar la información ingresada";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msgError));
+                cancelarEdicionParametroEvaluacion(false);
+            } catch (Exception e2) {
+            }
+        }
+        return "";
+    }
+
+    public void eliminarValoracionParametroEvaluacion() {
+        try {
+            parametroEvaluacionSelected.removeValoracion(valoracionParametroEvaluacionSelected);
+            parametroEvaluacionFacade.edit(parametroEvaluacionSelected);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        } finally {
+            cancelarEdicionParametroEvaluacion(true);
+        }
+    }
+    private Map<Integer, Boolean> expandedParametroEvaluacion = new HashMap<Integer, Boolean>();
+
+    public Map<Integer, Boolean> getExpandedParametroEvaluacion() {
+        return expandedParametroEvaluacion;
+    }
+
+    public void setExpandedParametroEvaluacion(Map<Integer, Boolean> expandedParametroEvaluacion) {
+        this.expandedParametroEvaluacion = expandedParametroEvaluacion;
+    }
+
+    public void onRowToggleParametroEvaluacion(ToggleEvent event) {
+        ParametroEvaluacion parametroEvaluacion = (ParametroEvaluacion) event.getData();
+        expandedParametroEvaluacion.put(parametroEvaluacion.getId(), event.getVisibility() == Visibility.VISIBLE);
+    }
+
+    private void setExpandedParametroEvaluacion() {
+        for (ParametroEvaluacion parametroEvaluacion : parametroEvaluacionList) {
+            Boolean expanded = (expandedParametroEvaluacion.get(parametroEvaluacion.getId()) != null) ? expandedParametroEvaluacion.get(parametroEvaluacion.getId()) : false;
+            parametroEvaluacion.setExpanded(expanded);
+        }
+    }
+
+}

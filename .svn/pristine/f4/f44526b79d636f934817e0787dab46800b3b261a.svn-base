@@ -1,0 +1,210 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ec.edu.espe_innovativa.controller;
+
+import ec.edu.espe_ctt.vinculacion.entity.ConfiguracionParametrosEvaluacion;
+import ec.edu.espe_ctt.vinculacion.entity.ParametroEvaluacion;
+import ec.edu.espe_ctt.vinculacion.entity.Proyecto;
+import ec.edu.espe_ctt.vinculacion.entity.ValoracionParametroEvaluacion;
+import ec.edu.espe_ctt.vinculacion.session.ConfiguracionParametrosEvaluacionFacade;
+import ec.edu.espe_ctt.vinculacion.session.ProyectoFacade;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
+
+/**
+ *
+ * @author Administrador
+ */
+@ManagedBean
+@ViewScoped
+public class ReportesController implements Serializable {
+
+    private TreeNode opcionesMenu;
+    private TreeNode opcionMenuSelected;
+    private List<ConfiguracionParametrosEvaluacion> configuracionParametrosEvaluacionList;
+    @EJB
+    private ConfiguracionParametrosEvaluacionFacade configuracionParametrosEvaluacionFacade;
+    private ConfiguracionParametrosEvaluacion configuracionParametrosEvaluacionSelected;
+
+    public ReportesController() {
+    }
+
+    @PostConstruct
+    public void init() {
+        inicializarOpcionesMenu();
+        configuracionParametrosEvaluacionList = configuracionParametrosEvaluacionFacade.findXProyPendientesAprobacionVicerrectorado();
+    }
+
+    public ConfiguracionParametrosEvaluacion getConfiguracionParametrosEvaluacionSelected() {
+        return configuracionParametrosEvaluacionSelected;
+    }
+
+    public void setConfiguracionParametrosEvaluacionSelected(ConfiguracionParametrosEvaluacion ConfiguracionParametrosEvaluacionSelected) {
+        this.configuracionParametrosEvaluacionSelected = ConfiguracionParametrosEvaluacionSelected;
+    }
+
+    public List<ConfiguracionParametrosEvaluacion> getConfiguracionParametrosEvaluacionList() {
+        return configuracionParametrosEvaluacionList;
+    }
+
+    public void setConfiguracionParametrosEvaluacionList(List<ConfiguracionParametrosEvaluacion> configuracionParametrosEvaluacionList) {
+        this.configuracionParametrosEvaluacionList = configuracionParametrosEvaluacionList;
+    }
+
+    public TreeNode getOpcionesMenu() {
+        return opcionesMenu;
+    }
+
+    public void setOpcionesMenu(TreeNode opcionesMenu) {
+        this.opcionesMenu = opcionesMenu;
+    }
+
+    public TreeNode getOpcionMenuSelected() {
+        return opcionMenuSelected;
+    }
+
+    public void setOpcionMenuSelected(TreeNode opcionMenuSelected) {
+        this.opcionMenuSelected = opcionMenuSelected;
+    }
+
+    public String getOpcionMenuCodeSelected() {
+        if (opcionMenuSelected != null) {
+            return ((OpcionMenu) opcionMenuSelected.getData()).getCodigo();
+        } else {
+            return "";
+        }
+    }
+
+    @EJB
+    private ProyectoFacade proyectoFacade;
+
+    public void inicializarOpcionesMenu() {
+        opcionesMenu = new DefaultTreeNode("Root", null);
+        TreeNode node1 = new DefaultTreeNode(new OpcionMenu("1", "1. Proyectos pendientes de evaluación por Vicerrectorado"), opcionesMenu);
+        node1.setExpanded(true);
+        node1.setSelected(true);
+        seleccionarConfiguracionParametrosEvaluacion();
+        TreeNode node2 = new DefaultTreeNode(new OpcionMenu("2", "2. Reporte 2"), opcionesMenu);
+        TreeNode node3 = new DefaultTreeNode(new OpcionMenu("3", "3. Reporte 3"), opcionesMenu);
+    }
+
+    public void onMenuSelect(NodeSelectEvent event) {
+        OpcionMenu opcionMenu = (OpcionMenu) opcionMenuSelected.getData();
+        switch (opcionMenu.getCodigo()) {
+            case "1":
+                seleccionarConfiguracionParametrosEvaluacion();
+                break;
+            case "2":
+                break;
+            case "1.1.2":
+                break;
+        }
+
+    }
+
+    private List<Proyecto> proyectoList;
+
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
+    }
+
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
+    }
+
+    private List<String> cols;
+    private List<ValoracionParametroEvaluacion> cols2;
+
+    public List<ValoracionParametroEvaluacion> getCols2() {
+        return cols2;
+    }
+
+    public void setCols2(List<ValoracionParametroEvaluacion> cols2) {
+        this.cols2 = cols2;
+    }
+    
+    public void setCols(List<String> cols) {
+        this.cols = cols;
+    }
+
+    public List<String> getCols() {
+        /*List<String> cols = new ArrayList<>();
+         if (proyectoList!=null && !proyectoList.isEmpty()){
+         for (ParametroEvaluacion par : proyectoList.get(0).getConfiguracionParametrosEvaluacion().getParametroEvaluacionList()) {
+         cols.add(par.getDescripcion());
+         }
+         }
+         cols.add("TOTAL");*/
+        return cols;
+    }
+
+    private Map<String, Integer> colsSpan;
+
+    public void setColsSpan(Map<String, Integer> colsSpan) {
+        this.colsSpan = colsSpan;
+    }
+
+    public Map<String, Integer> getColsSpan() {
+        /*Map<String, Integer> m= new HashMap<>();
+         for (String col : getCols()) {
+         m.put(col, 3);
+         }*/
+        return colsSpan;
+    }
+    private Integer colspanParametrosEvaluacion;
+
+    public void setColspanParametrosEvaluacion(Integer colspanParametrosEvaluacion) {
+        this.colspanParametrosEvaluacion = colspanParametrosEvaluacion;
+    }
+    
+
+    public Integer getColspanParametrosEvaluacion() {
+        /*int cont = 0;
+        if (configuracionParametrosEvaluacionSelected == null) {
+            return 0;
+        }
+        for (ParametroEvaluacion par : configuracionParametrosEvaluacionSelected.getParametroEvaluacionList()) {
+            cont = cont + par.getValoracionList().size();
+        }
+        return cont + 1;*/
+        return colspanParametrosEvaluacion;
+    }
+
+    public String seleccionarConfiguracionParametrosEvaluacion() {
+        
+        colspanParametrosEvaluacion=0;
+        if (configuracionParametrosEvaluacionSelected != null) {
+            proyectoList = proyectoFacade.findByPorAutorizarVicerrectorado(configuracionParametrosEvaluacionSelected.getId());
+            colsSpan= new HashMap<>();
+            cols = new ArrayList<>();
+            cols2= new ArrayList<>();
+            if (proyectoList != null && !proyectoList.isEmpty()) {
+                for (ParametroEvaluacion par : proyectoList.get(0).getConfiguracionParametrosEvaluacion().getParametroEvaluacionList()) {
+                    cols.add(par.getDescripcion());
+                    colsSpan.put(par.getDescripcion(), par.getValoracionList().size());
+                    colspanParametrosEvaluacion = colspanParametrosEvaluacion + par.getValoracionList().size();
+                    for (ValoracionParametroEvaluacion val : par.getValoracionList()) {
+                        cols2.add(val); 
+                    }
+                }
+            }
+            colspanParametrosEvaluacion= colspanParametrosEvaluacion +3;
+            //cols.add("TOTAL");
+        }
+        return "";
+    }
+    
+}

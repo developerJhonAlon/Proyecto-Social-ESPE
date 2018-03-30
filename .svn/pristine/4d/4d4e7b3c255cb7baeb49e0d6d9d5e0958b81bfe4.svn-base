@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    <h:body>    
+        <ui:composition template="/vista/template-sistema2.xhtml">
+            <ui:define name="content">
+                <style>
+                    .ui-panel .ui-panel-content {
+                        padding: 0;
+                    }            
+                </style>                 
+                <p:panel header="Reportes Programas" style="border: hidden; margin-bottom: 35px">
+                    <p:panel id="panelCentral" style="width: 98%; border: hidden ">
+
+                        <!--panelReportesProgramas-->
+                        <p:panel id="panelReportesProgramas" style="border: hidden;">
+                            <h:panelGrid style="width: 100%">
+                                <p:fieldset legend="Filtros del reporte" rendered="#{reportesProgramasController.filtroReporte==null}">
+                                    <h:panelGrid columns="3">
+                                        <p:outputLabel value="Fecha de ejecución."/>
+                                        <h:panelGrid columns="2">
+                                            <p:outputLabel value="Desde:" for="calFechaDesde"/>
+                                            <p:calendar id="calFechaDesde" value="#{reportesProgramasController.fechaDesde}" timeZone="#{parametrosApplication.timeZone}"
+                                                        locale="#{parametrosApplication.local}" pattern="#{parametrosApplication.formatoFecha}"
+                                                        showButtonPanel="true"  showOn="button" showOtherMonths="true" navigator="true"/>
+
+                                        </h:panelGrid>
+                                        <h:panelGrid columns="2">
+                                            <p:outputLabel value="Hasta:" for="calFechaHasta"/>
+                                            <p:calendar id="calFechaHasta" value="#{reportesProgramasController.fechaHasta}" timeZone="#{parametrosApplication.timeZone}"
+                                                        locale="#{parametrosApplication.local}" pattern="#{parametrosApplication.formatoFecha}"
+                                                        showButtonPanel="true"  showOn="button" showOtherMonths="true" navigator="true"/>
+                                        </h:panelGrid>
+                                    </h:panelGrid>
+
+                                    <h:panelGrid columns="100">
+                                        <p:commandLink onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                       action="#{reportesProgramasController.setFiltroReporte(1)}" 
+                                                       update=":formPrincipal:panelReportesProgramas">
+                                            <h:outputText value="Programas" />
+                                        </p:commandLink>
+                                        <p:commandButton title="Eliminar filtro de Programas" icon="ui-icon-closethick" 
+                                                         update=":formPrincipal:panelReportesProgramas" 
+                                                         rendered="#{reportesProgramasController.verificarFiltro(1)}"
+                                                         style="width: 20px; height: 20px"
+                                                         action ="#{reportesProgramasController.cancelarFiltro(1)}"
+                                                         onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                        </p:commandButton>
+
+
+
+
+                                        <p:spacer width="20"/>
+                                        <p:commandLink onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                       action="#{reportesProgramasController.setFiltroReporte(2)}" 
+                                                       update=":formPrincipal:panelReportesProgramas">
+                                            <h:outputText value="Estado" />
+                                        </p:commandLink>
+                                        <p:commandButton title="Eliminar filtro de Estado" icon="ui-icon-closethick" 
+                                                         update=":formPrincipal:panelReportesProgramas" 
+                                                         rendered="#{reportesProgramasController.verificarFiltro(2)}"
+                                                         style="width: 20px; height: 20px"
+                                                         action ="#{reportesProgramasController.cancelarFiltro(2)}"
+                                                         onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                        </p:commandButton>     
+
+
+                                        <p:spacer width="20"/>
+                                        <p:commandLink onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                       action="#{reportesProgramasController.setFiltroReporte(3)}" 
+                                                       update=":formPrincipal:panelReportesProgramas">
+                                            <h:outputText value="Carrera" />
+                                        </p:commandLink>
+                                        <p:commandButton title="Eliminar filtro de Tipo Proyecto" icon="ui-icon-closethick" 
+                                                         update=":formPrincipal:panelReportesProgramas" 
+                                                         rendered="#{reportesProgramasController.verificarFiltro(3)}"
+                                                         style="width: 20px; height: 20px"
+                                                         action ="#{reportesProgramasController.cancelarFiltro(3)}"
+                                                         onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                        </p:commandButton>      
+
+                                        <p:spacer width="20"/>
+                                        <p:commandLink onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                       action="#{reportesProgramasController.setFiltroReporte(4)}" 
+                                                       update=":formPrincipal:panelReportesProgramas">
+                                            <h:outputText value="Cobertura" />
+                                        </p:commandLink>
+                                        <p:commandButton title="Eliminar filtro de Cobertura" icon="ui-icon-closethick" 
+                                                         update=":formPrincipal:panelReportesProgramas" 
+                                                         rendered="#{reportesProgramasController.verificarFiltro(4)}"
+                                                         style="width: 20px; height: 20px"
+                                                         action ="#{reportesProgramasController.cancelarFiltro(4)}"
+                                                         onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                        </p:commandButton>                                              
+
+
+                                        <p:spacer width="20"/>
+                                        <p:commandLink onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                       action="#{reportesProgramasController.setFiltroReporte(5)}" 
+                                                       update=":formPrincipal:panelReportesProgramas">
+                                            <h:outputText value="Provincia" />
+                                        </p:commandLink>
+                                        <p:commandButton title="Eliminar filtro de Localización Provincia" icon="ui-icon-closethick" 
+                                                         update=":formPrincipal:panelReportesProgramas" 
+                                                         rendered="#{reportesProgramasController.verificarFiltro(5)}"
+                                                         style="width: 20px; height: 20px"
+                                                         action ="#{reportesProgramasController.cancelarFiltro(5)}"
+                                                         onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                        </p:commandButton>       
+
+
+                                        <p:spacer width="20"/>
+                                        <p:commandLink onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                       action="#{reportesProgramasController.setFiltroReporte(6)}" 
+                                                       update=":formPrincipal:panelReportesProgramas">
+                                            <h:outputText value="Cantón" />
+                                        </p:commandLink>
+                                        <p:commandButton title="Eliminar filtro de Localización Cantón" icon="ui-icon-closethick" 
+                                                         update=":formPrincipal:panelReportesProgramas" 
+                                                         rendered="#{reportesProgramasController.verificarFiltro(6)}"
+                                                         style="width: 20px; height: 20px"
+                                                         action ="#{reportesProgramasController.cancelarFiltro(6)}"
+                                                         onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                        </p:commandButton>
+
+
+                                        <p:spacer width="20"/>
+                                        <p:commandLink onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                       action="#{reportesProgramasController.setFiltroReporte(7)}" 
+                                                       update=":formPrincipal:panelReportesProgramas">
+                                            <h:outputText value="Parroquia" />
+                                        </p:commandLink>
+                                        <p:commandButton title="Eliminar filtro de Localización Parroquia" icon="ui-icon-closethick" 
+                                                         update=":formPrincipal:panelReportesProgramas" 
+                                                         rendered="#{reportesProgramasController.verificarFiltro(7)}"
+                                                         style="width: 20px; height: 20px"
+                                                         action ="#{reportesProgramasController.cancelarFiltro(7)}"
+                                                         onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                        </p:commandButton>                                               
+
+
+                                    </h:panelGrid> 
+                                </p:fieldset>
+
+                                <p:fieldset legend="Campos adicionales a visualizar" rendered="#{reportesProgramasController.filtroReporte==null}">
+                                    <h:panelGrid columns="27">
+                                        <p:selectBooleanCheckbox value="#{reportesProgramasController.visualizarProyectos}"></p:selectBooleanCheckbox>
+                                        <h:outputLabel value="Proyectos"></h:outputLabel>
+                                        <p:spacer width="10"/>
+
+                                        
+                                        <p:selectBooleanCheckbox value="#{reportesProgramasController.visualizarProvincia}"></p:selectBooleanCheckbox>
+                                        <h:outputLabel value="Provincia"></h:outputLabel>
+                                        <p:spacer width="10"/>
+
+                                        
+                                        <p:selectBooleanCheckbox value="#{reportesProgramasController.visualizarCanton}"></p:selectBooleanCheckbox>
+                                        <h:outputLabel value="Cantón"></h:outputLabel>
+                                        <p:spacer width="10"/>
+
+                                        
+                                        <p:selectBooleanCheckbox value="#{reportesProgramasController.visualizarParroquia}"></p:selectBooleanCheckbox>
+                                        <h:outputLabel value="Parroquia"></h:outputLabel>
+                                        <p:spacer width="10"/>
+
+                                        
+                                        <p:selectBooleanCheckbox value="#{reportesProgramasController.visualizarEvaluacionFinal}"></p:selectBooleanCheckbox>
+                                        <h:outputLabel value="Evaluación Final"></h:outputLabel>
+                                        <p:spacer width="10"/>
+
+                                        
+                                    </h:panelGrid>
+
+
+
+                                </p:fieldset>                                    
+
+                                <p:fieldset legend="Selección de Filtro: #{reportesProgramasController.filtroReporteStr}"
+                                            rendered="#{reportesProgramasController.filtroReporte!=null}">
+                                    <h:panelGrid columns="2">
+                                        <p:commandButton value="Aceptar" title="Aceptar selección de filtro" icon="ui-icon-locked" 
+                                                         update=":formPrincipal:panelReportesProgramas" 
+                                                         action ="#{reportesProgramasController.seleccionarFiltro}"
+                                                         onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                        </p:commandButton>
+                                        <p:commandButton rendered="false" value="Cancelar" title="Cancelar selección de filtro" icon="ui-icon-arrowreturnthick-1-w" 
+                                                         update=":formPrincipal:panelReportesProgramas" 
+                                                         action="#{reportesProgramasController.cancelarFiltro}">
+                                        </p:commandButton>
+
+                                    </h:panelGrid>
+
+                                    <p:dataTable id="dtProgramaVinculacion" widgetVar="dtProgramaVinculacion" value="#{reportesProgramasController.programas}" var="progr" paginator="true" rows="10" rowIndexVar="index" resizableColumns="true"
+                                                 emptyMessage="No se encontraron resultados"
+                                                 rendered="#{reportesProgramasController.filtroReporte==1}"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                                 currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                                 rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                                        <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{progr.id}">
+                                            <h:outputText value="#{index + 1}" />
+                                        </p:column>
+                                        <p:column headerText="Nombre" style="white-space: pre-line" sortBy="#{progr.nombre}" filterBy="#{progr.nombre}" filterMatchMode="contains">
+                                            <h:outputText  value ="#{progr.nombre}"/> 
+                                        </p:column>
+                                        <p:column rendered="false" headerText="Creado por" width="250" style="white-space: pre-line" sortBy="#{progr.creador.usuario.usuNombres.concat(' ').concat(progr.creador.usuario.usuApellidos)}" filterBy="#{progr.creador.usuario.usuNombres.concat(' ').concat(progr.creador.usuario.usuApellidos)}" filterMatchMode="contains">
+                                            <h:outputText  value ="#{progr.creador.usuario.usuCc.concat('-').concat(progr.creador.usuario.usuNombres).concat(' ').concat(progr.creador.usuario.usuApellidos)}"/> 
+                                        </p:column>
+                                        <p:column rendered="false" headerText="Director" width="250" style="white-space: pre-line" sortBy="#{progr.director.usuario.usuNombres.concat(' ').concat(progr.director.usuario.usuApellidos)}" filterBy="#{progr.director.usuario.usuNombres.concat(' ').concat(progr.director.usuario.usuApellidos)}" filterMatchMode="contains">
+                                            <h:outputText  value ="#{progr.director.usuario.usuCc.concat('-').concat(progr.director.usuario.usuNombres).concat(' ').concat(progr.director.usuario.usuApellidos)}"/> 
+                                        </p:column>
+                                        <p:column rendered="false" headerText="Estado" width="120" style="white-space: pre-line" sortBy="#{progr.estadoStr}" filterBy="#{progr.estado}" filterMatchMode="exact">
+                                            <f:facet name="filter">
+                                                <p:selectOneMenu onchange="PF('dtProgramaVinculacion').filter()" >
+                                                    <f:selectItem itemLabel="[[-Seleccione-]]" itemValue="#{null}" noSelectionOption="true" />
+                                                    <f:selectItem itemLabel="Ingreso de Perfil" itemValue="CRE"/>
+                                                    <f:selectItem itemLabel="Seguimiento" itemValue="CEP"/>
+                                                    <f:selectItem itemLabel="En proceso de Cierre" itemValue="CES"/>
+                                                    <f:selectItem itemLabel="En proceso de Evaluación Final" itemValue="CER"/>
+                                                    <f:selectItem itemLabel="Finalizado" itemValue="EVA"/>
+                                                </p:selectOneMenu>
+                                            </f:facet>                            
+                                            <h:outputText  value ="#{progr.estadoStr}"/> 
+                                        </p:column>
+                                        <p:column headerText="Seleccione" width="70" style="text-align: center">
+                                            <p:selectBooleanCheckbox value="#{progr.selected}"></p:selectBooleanCheckbox>
+                                        </p:column>
+                                    </p:dataTable>
+
+
+                                    <p:dataTable id="dtEstado" widgetVar="dtEstado" value="#{reportesProgramasController.estadoList}" var="estado" 
+                                                 paginator="true" rows="10" rowIndexVar="index" resizableColumns="true"
+                                                 rendered="#{reportesProgramasController.filtroReporte==2}"
+                                                 emptyMessage="No se encontraron resultados"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                                 currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                                 rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                                        <p:column headerText="Nro." width="20" style="text-align: center">
+                                            <h:outputText value="#{index + 1}" />
+                                        </p:column>
+                                        <p:column headerText="Descripción" style="white-space: pre-line" sortBy="#{estado.descripcion}" filterBy="#{estado.descripcion}" filterMatchMode="contains">
+                                            <h:outputText  value ="#{estado.descripcion}"/> 
+                                        </p:column>
+                                        <p:column headerText="Seleccione" width="70" style="text-align: center">
+                                            <p:selectBooleanCheckbox value="#{estado.selected}"></p:selectBooleanCheckbox>
+                                        </p:column>
+                                    </p:dataTable> 
+
+
+                                    <p:dataTable id="dtCarreras" widgetVar="dtCarreras" value="#{reportesProgramasController.carreras}" var="carrera" 
+                                                 paginator="true" rows="5" rowIndexVar="index" resizableColumns="true"
+                                                 rendered="#{reportesProgramasController.filtroReporte==3}"
+                                                 emptyMessage="No se encontraron resultados"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                                 currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                                 rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                                        <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{carrera.id}">
+                                            <h:outputText value="#{index + 1}" />
+                                        </p:column>
+                                        <p:column headerText="Descripción" style="white-space: pre-line" sortBy="#{carrera.stvmajrDesc}" filterBy="#{carrera.stvmajrDesc}" filterMatchMode="contains">
+                                            <h:outputText  value ="#{carrera.stvmajrDesc}"/> 
+                                        </p:column>
+                                        <p:column headerText="Seleccione" width="70" style="text-align: center">
+                                            <p:selectBooleanCheckbox value="#{carrera.selected}"></p:selectBooleanCheckbox>
+                                        </p:column>
+                                    </p:dataTable>   
+
+
+                                    <p:dataTable id="dtCobertura" widgetVar="dtCobertura" value="#{reportesProgramasController.coberturaList}" var="cobertura" 
+                                                 paginator="true" rows="5" rowIndexVar="index" resizableColumns="true"
+                                                 rendered="#{reportesProgramasController.filtroReporte==4}"
+                                                 emptyMessage="No se encontraron resultados"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                                 currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                                 rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                                        <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{cobertura.id}">
+                                            <h:outputText value="#{index + 1}" />
+                                        </p:column>
+                                        <p:column headerText="Descripción" style="white-space: pre-line" sortBy="#{cobertura.descripcion}" filterBy="#{cobertura.descripcion}" filterMatchMode="contains">
+                                            <h:outputText  value ="#{cobertura.descripcion}"/> 
+                                        </p:column>
+                                        <p:column headerText="Seleccione" width="70" style="text-align: center">
+                                            <p:selectBooleanCheckbox value="#{cobertura.selected}"></p:selectBooleanCheckbox>
+                                        </p:column>
+                                    </p:dataTable> 
+
+                                    <p:dataTable id="dtProvincia" widgetVar="dtProvincia" value="#{reportesProgramasController.provincias}" var="provincia" 
+                                                 paginator="true" rows="10" rowIndexVar="index" resizableColumns="true"
+                                                 rendered="#{reportesProgramasController.filtroReporte==5}"
+                                                 emptyMessage="No se encontraron resultados"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                                 currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                                 rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                                        <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{provincia.proId}">
+                                            <h:outputText value="#{index + 1}" />
+                                        </p:column>
+                                        <p:column headerText="Descripción" style="white-space: pre-line" sortBy="#{provincia.proNombre}" filterBy="#{provincia.proNombre}" filterMatchMode="contains">
+                                            <h:outputText  value ="#{provincia.proNombre}"/> 
+                                        </p:column>
+                                        <p:column headerText="Seleccione" width="70" style="text-align: center">
+                                            <p:selectBooleanCheckbox value="#{provincia.selected}"></p:selectBooleanCheckbox>
+                                        </p:column>
+                                    </p:dataTable> 
+
+
+
+                                    <p:dataTable id="dtCanton" widgetVar="dtCanton" value="#{reportesProgramasController.cantones}" var="canton" 
+                                                 paginator="true" rows="10" rowIndexVar="index" resizableColumns="true"
+                                                 rendered="#{reportesProgramasController.filtroReporte==6}"
+                                                 emptyMessage="No se encontraron resultados"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                                 currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                                 rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                                        <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{canton.canId}">
+                                            <h:outputText value="#{index + 1}" />
+                                        </p:column>
+                                        <p:column headerText="Provincia" style="white-space: pre-line" sortBy="#{canton.canNombre}" filterBy="#{canton.proId.proNombre}" filterMatchMode="contains">
+                                            <h:outputText  value ="#{canton.proId.proNombre}"/> 
+                                        </p:column>
+                                        <p:column headerText="Cantón" style="white-space: pre-line" sortBy="#{canton.canNombre}" filterBy="#{canton.canNombre}" filterMatchMode="contains">
+                                            <h:outputText  value ="#{canton.canNombre}"/> 
+                                        </p:column>
+                                        <p:column headerText="Seleccione" width="70" style="text-align: center">
+                                            <p:selectBooleanCheckbox value="#{canton.selected}"></p:selectBooleanCheckbox>
+                                        </p:column>
+                                    </p:dataTable>  
+
+
+
+                                    <p:dataTable id="dtParroquia" widgetVar="dtCanton" value="#{reportesProgramasController.parroquias}" var="parroquia" 
+                                                 paginator="true" rows="10" rowIndexVar="index" resizableColumns="true"
+                                                 rendered="#{reportesProgramasController.filtroReporte==7}"
+                                                 emptyMessage="No se encontraron resultados"
+                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                                 currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                                 rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                                        <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{parroquia.prqId}">
+                                            <h:outputText value="#{index + 1}" />
+                                        </p:column>
+                                        <p:column headerText="Provincia" style="white-space: pre-line" sortBy="#{parroquia.canId.proId.proNombre}" filterBy="#{parroquia.canId.proId.proNombre}" filterMatchMode="contains">
+                                            <h:outputText  value ="#{parroquia.canId.proId.proNombre}"/> 
+                                        </p:column>
+                                        <p:column headerText="Cantón" style="white-space: pre-line" sortBy="#{parroquia.canId.proId.proNombre}" filterBy="#{parroquia.canId.proId.proNombre}" filterMatchMode="contains">
+                                            <h:outputText  value ="#{parroquia.canId.proId.proNombre}"/> 
+                                        </p:column>
+                                        <p:column headerText="Parroquia" style="white-space: pre-line" sortBy="#{parroquia.prqNombre}" filterBy="#{parroquia.prqNombre}" filterMatchMode="contains">
+                                            <h:outputText  value ="#{parroquia.prqNombre}"/> 
+                                        </p:column>
+                                        <p:column headerText="Seleccione" width="70" style="text-align: center">
+                                            <p:selectBooleanCheckbox value="#{parroquia.selected}"></p:selectBooleanCheckbox>
+                                        </p:column>
+                                    </p:dataTable>   
+
+                                </p:fieldset>
+
+                                <h:panelGrid columns="2" rendered="#{reportesProgramasController.filtroReporte==null}" style="width: 100%;">
+                                    <p:commandButton value="Generar Reporte" title="Generar Reporte" 
+                                                     update=":formPrincipal:panelReportesProgramas" 
+                                                     action ="#{reportesProgramasController.generarReporte}"
+                                                     onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                    </p:commandButton>
+                                    <h:commandLink target="_blank" title="Exportar a Excel" style="float: right">
+                                        <p:graphicImage url="../../resources/images/excel2.png" width="33"/>
+                                        <p:dataExporter type="xls" target="dtProyectosReporte" fileName="cars" pageOnly="false" />
+                                    </h:commandLink>
+                                </h:panelGrid>
+
+
+                                <p:dataTable id="dtProyectosReporte" widgetVar="dtProyectosReporte" value="#{reportesProgramasController.proyectosReporteList}" var="proy" 
+                                             paginator="true" rows="5" rowIndexVar="index" resizableColumns="true"
+                                             scrollable="true" scrollHeight="400" scrollWidth="1300"
+                                             rendered="#{reportesProgramasController.filtroReporte==null}"
+                                             emptyMessage="No se encontraron resultados"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                             currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                             rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                                    <p:ajax event="sort" listener="#{reportesProgramasController.detectSortEvent}"></p:ajax>
+                                    <p:column rendered="false" headerText="Nro." width="20" style="text-align: center">
+                                        <h:outputText value="#{index + 1}" />
+                                    </p:column> 
+                                    <p:column id="colPrograma" headerText="Programa" width="200" style="white-space: pre-line" sortBy="#{proy.programa}" >
+                                        <h:outputText  value ="#{proy.programa}" /> 
+                                    </p:column>
+                                    <p:column id="colProyecto" headerText="Proyecto" width="300" style="white-space: pre-line" sortBy="#{proy.nombre}" >
+                                        <h:outputText  value ="#{proy.nombre}"/> 
+                                    </p:column>
+                                    <p:column id="colCodigoProyecto" headerText="Cód. Proyecto" width="92" style="white-space: pre-line" sortBy="#{proy.codigo}" >
+                                        <h:outputText  value ="#{proy.codigo}"/> 
+                                    </p:column>
+                                    <p:column id="colEstado" headerText="Estado" width="100" style="white-space: pre-line" sortBy="#{proy.estado.descripcion}" >
+                                        <h:outputText  value ="#{proy.estado.descripcion}"/> 
+                                    </p:column>
+                                    <p:column id="colTipoProyecto" headerText="Tipo Proyecto" width="120" style="white-space: pre-line" sortBy="#{proy.tipo}">
+                                        <h:outputText  value ="#{proy.tipo=='C'?'GASTO PERMANENTE':'GASTO NO PERMANENTE'}"/>  
+                                    </p:column>                                    
+                                    <p:column id="colDirector"  headerText="Director" style="white-space: pre-line" width="120" sortBy="#{proy.director.usuario.nombresCompletos}" >
+                                        <h:outputText  value ="#{proy.director.usuario.nombresCompletos}"/> 
+                                    </p:column>
+                                    <p:column id="colCampus"  headerText="Campus" style="white-space: pre-line" width="120" sortBy="#{proy.director.campus.stvcampDesc}" >
+                                        <h:outputText  value ="#{proy.director.campus.stvcampDesc}"/> 
+                                    </p:column>
+                                    <p:column id="colDepartamento"  headerText="Departamento" style="white-space: pre-line" width="120" sortBy="#{proy.director.departamento.stvsubjDesc}" >
+                                        <h:outputText  value ="#{proy.director.departamento.stvsubjDesc}"/> 
+                                    </p:column>
+                                    <p:column id="colCobertura" headerText="Cobertura" width="70" style="white-space: pre-line" sortBy="#{proy.cobertura}" >
+                                        <h:outputText  value ="#{proy.cobertura}"/> 
+                                    </p:column>
+                                    <p:column id="colCampusParticipante" rendered="#{reportesProgramasController.visualizarCampusParticipante}" headerText="Campus Participante" width="200" style="white-space: pre-line" sortBy="#{proy.campusParticipante.stvcampDesc}" >
+                                        <h:outputText  value ="#{proy.campusParticipante.stvcampDesc}"/> 
+                                    </p:column>
+                                    <p:column id="colDepartamentoParticipante" rendered="#{reportesProgramasController.visualizarDepartamentoParticipante}" headerText="Departamento Participante" width="200" style="white-space: pre-line" sortBy="#{proy.departamentoParticipante.stvsubjDesc}" >
+                                        <h:outputText  value ="#{proy.departamentoParticipante.stvsubjDesc}"/> 
+                                    </p:column>
+                                    <p:column id="colCarrera" rendered="#{reportesProgramasController.visualizarCarrera}" headerText="Carrera" width="200" style="white-space: pre-line" sortBy="#{proy.carrera.stvmajrDesc}" >
+                                        <h:outputText  value ="#{proy.carrera.stvmajrDesc}"/> 
+                                    </p:column>
+                                    <p:column id="colLineaInvestigacion" rendered="#{reportesProgramasController.visualizarLineaInvestigacion}" headerText="Línea de Investigación" width="200" style="white-space: pre-line" sortBy="#{proy.lineaInvestigacion.descripcionCompleta}" >
+                                        <h:outputText  value ="#{proy.lineaInvestigacion.descripcionCompleta}"/> 
+                                    </p:column>
+                                    <p:column id="colProvincia" rendered="#{reportesProgramasController.visualizarProvincia}" headerText="Provincia" width="100" style="white-space: pre-line" sortBy="#{proy.provincia.proNombre}" >
+                                        <h:outputText  value ="#{proy.provincia.proNombre}"/> 
+                                    </p:column>
+                                    <p:column id="colCanton" rendered="#{reportesProgramasController.visualizarCanton}" headerText="Cantón" width="100" style="white-space: pre-line" sortBy="#{proy.canton.canNombre}" >
+                                        <h:outputText  value ="#{proy.canton.canNombre}"/> 
+                                    </p:column>
+                                    <p:column id="colParroquia" rendered="#{reportesProgramasController.visualizarParroquia}" headerText="Parroquia" width="100" style="white-space: pre-line" sortBy="#{proy.parroquia.prqNombre}" >
+                                        <h:outputText  value ="#{proy.parroquia.prqNombre}"/> 
+                                    </p:column>
+                                    <p:column id="colDocenteCedula" rendered="#{reportesProgramasController.visualizarDocenteParticipante}" headerText="Cédula docente participante" width="70" style="white-space: pre-line; text-align: center" >
+                                        <h:outputText  value ="#{proy.docenteParticipante.usuario.usuCc}"
+                                                       rendered="#{proy.docenteParticipante.id!=-1}"/> 
+                                    </p:column>
+                                    <p:column id="colDocente" rendered="#{reportesProgramasController.visualizarDocenteParticipante}" headerText="Nombre docente participante" width="100" style="white-space: pre-line" sortBy="#{proy.docenteParticipante.usuario.nombresCompletos}" >
+                                        <h:outputText  value ="#{proy.docenteParticipante.usuario.nombresCompletos} (#{proy.docenteParticipante.tipoResponsable.descripcion})"
+                                                       rendered="#{proy.docenteParticipante.id!=-1}"/> 
+                                    </p:column>
+                                    <p:column id="colDocenteNroHoras" rendered="#{reportesProgramasController.visualizarDocenteParticipante}" headerText="Horas dedicación docente" width="50" style="white-space: pre-line; text-align: center" >
+                                        <h:outputText  value ="#{proy.docenteParticipante.totalHorasDedicadas}"
+                                                       rendered="#{proy.docenteParticipante.id!=-1}"/> 
+                                    </p:column>
+
+                                    <p:column id="colEstudianteCedula" rendered="#{reportesProgramasController.visualizarEstudianteParticipante}" headerText="Cédula estudiante participante" width="70" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.estudianteParticipante.usuario.usuCc}"
+                                                       rendered="#{proy.estudianteParticipante.id!=-1}"/> 
+                                    </p:column>
+                                    <p:column id="colEstudiante" rendered="#{reportesProgramasController.visualizarEstudianteParticipante}" headerText="Nombre estudiante participante" width="100" style="white-space: pre-line" sortBy="#{proy.estudianteParticipante.usuario.nombresCompletos}" >
+                                        <h:outputText  value ="#{proy.estudianteParticipante.usuario.nombresCompletos}"
+                                                       rendered="#{proy.estudianteParticipante.id!=-1}"/> 
+                                    </p:column>
+                                    <p:column id="colEstudianteNroHoras" rendered="#{reportesProgramasController.visualizarEstudianteParticipante}" headerText="Horas dedicación estudiante" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.estudianteParticipante.totalHorasDedicadas}"
+                                                       rendered="#{proy.estudianteParticipante.id!=-1}"/> 
+                                    </p:column>
+                                    <p:column id="colEvaluacionPertinencia" rendered="#{reportesProgramasController.visualizarEvaluacionFinal}" headerText="Puntaje Pertinencia" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.evaluacionPertinencia}"/> 
+                                    </p:column>
+                                    <p:column id="colEvaluacionEficacia" rendered="#{reportesProgramasController.visualizarEvaluacionFinal}" headerText="Puntaje Eficacia" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.evaluacionEficacia}"/> 
+                                    </p:column>
+                                    <p:column id="colEvaluacionEficiencia" rendered="#{reportesProgramasController.visualizarEvaluacionFinal}" headerText="Puntaje Eficiencia" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.evaluacionEficiencia}"/> 
+                                    </p:column>
+                                    <p:column id="colEvaluacionSostenibilidad" rendered="#{reportesProgramasController.visualizarEvaluacionFinal}" headerText="Puntaje Sostenibilidad" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.evaluacionSostenibilidad}"/> 
+                                    </p:column>
+                                    <p:column id="colEvaluacionTotal" rendered="#{reportesProgramasController.visualizarEvaluacionFinal}" headerText="Puntaje Total" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.evaluacionTotal} / #{proy.evaluacionSobre}"
+                                                       rendered="#{proy.evaluacionTotal!=null}"/> 
+                                    </p:column>
+                                    <p:column id="colBenefDirectosHombres" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Beneficiarios Directos Hombres (Planificado)" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.nroBeneficiariosDirectosHombres}"> 
+                                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                                        </h:outputText>
+
+                                    </p:column>
+                                    <p:column id="colBenefDirectosMujeres" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Beneficiarios Directos Mujeres (Planificado)" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.nroBeneficiariosDirectosMujeres}"> 
+                                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                                        </h:outputText>
+
+                                    </p:column>
+                                    <p:column id="colBenefDirectosNinios" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Beneficiarios Directos Niños (Planificado)" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.nroBeneficiariosDirectosNinios}"> 
+                                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                                        </h:outputText>
+
+                                    </p:column>
+                                    <p:column id="colBenefDirectosDiscapacidad" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Beneficiarios Personas con Discapacidad (Planificado)" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.nroBeneficiariosDirectosDiscapac}"> 
+                                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                                        </h:outputText>
+
+                                    </p:column>
+                                    <p:column id="colBenefIndirectos" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Beneficiarios Indirectos (Planificado)" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.nroBeneficiariosIndirectos}"> 
+                                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column id="colBenefDirectosHombresEjec" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Beneficiarios Directos Hombres (Ejecutado)" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.nroBeneficiariosDirectosHombresEjec}" rendered="#{proy.nroBeneficiariosDirectosHombres!=null}"> 
+                                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                                        </h:outputText>
+
+                                    </p:column>
+                                    <p:column id="colBenefDirectosMujeresEjec" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Beneficiarios Directos Mujeres (Ejecutado)" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.nroBeneficiariosDirectosMujeresEjec}" rendered="#{proy.nroBeneficiariosDirectosHombres!=null}"> 
+                                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                                        </h:outputText>
+
+                                    </p:column>
+                                    <p:column id="colBenefDirectosNiniosEjec" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Beneficiarios Directos Niños (Ejecutado)" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.nroBeneficiariosDirectosNiniosEjec}" rendered="#{proy.nroBeneficiariosDirectosHombres!=null}">
+                                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                                        </h:outputText>
+
+                                    </p:column>
+                                    <p:column id="colBenefDirectosDiscapacidadEjec" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Beneficiarios Personas con Discapacidad (Ejecutado)" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.nroBeneficiariosDirectosDiscapacEjec}" rendered="#{proy.nroBeneficiariosDirectosHombres!=null}"> 
+                                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                                        </h:outputText>
+
+                                    </p:column>
+                                    <p:column id="colBenefIndirectosEjec" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Beneficiarios Indirectos (Ejecutado)" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.nroBeneficiariosIndirectosEjec}" rendered="#{proy.nroBeneficiariosDirectosHombres!=null}"> 
+                                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                                        </h:outputText>
+
+                                    </p:column>
+                                    <p:column id="colBenefPlanif" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Total Beneficiarios (Planificado)" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.totalBeneficiariosPlanificados}" rendered="#{proy.nroBeneficiariosDirectosHombres!=null}"> 
+                                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column id="colBenefEjec" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Total Beneficiarios (Ejecutado)" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.totalBeneficiariosEjecutados}" rendered="#{proy.nroBeneficiariosDirectosHombres!=null}"> 
+                                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column id="colPoblUrbanoMarginal" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Población Beneficiaria Urbano Marginal" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.poblacionBeneficiariaUrbanoMarginal?'SI':'NO'}"/> 
+                                    </p:column>
+                                    <p:column id="colPoblRural" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Población Beneficiaria Rural" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.poblacionBeneficiariaRural?'SI':'NO'}"/> 
+                                    </p:column>
+                                    <p:column id="colPoblGrupoAtencionPrior" rendered="#{reportesProgramasController.visualizarBeneficiarios}" headerText="Población Beneficiaria Grupo de Atención Prioritaria" width="50" style="white-space: pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.poblacionBeneficiariaGrupoAtencionPrioritaria?'SI':'NO'}"/> 
+                                    </p:column>
+                                    <p:column id="colPresupuestoPartida" rendered="#{reportesProgramasController.visualizarPresupuesto}" headerText="Presupuesto Partida/Bien/Servicio" sortBy="#{proy.presupuestoProyecto.nombrePartida}" width="280" style="white-space: pre-line; ">
+                                        <h:outputText  value ="#{proy.presupuestoProyecto.nombrePartida}"></h:outputText>
+                                    </p:column>
+                                    <p:column id="colPresupuestoTipo" rendered="#{reportesProgramasController.visualizarPresupuesto}" headerText="Tipo" sortBy="#{proy.presupuestoProyecto.tipoStr}" width="120" style="white-space: pre-line; ">
+                                        <h:outputText  value ="#{proy.presupuestoProyecto.tipoStr}"></h:outputText>
+                                    </p:column>
+                                    <p:column id="colPresupuestoTipoGasto" rendered="#{reportesProgramasController.visualizarPresupuesto}" headerText="Tipo Gasto" sortBy="#{proy.presupuestoProyecto.tipoGastoStr}" width="80" style="white-space: pre-line; "> 
+                                        <h:outputText  value ="#{proy.presupuestoProyecto.tipoGastoStr}" rendered="#{proy.presupuestoProyecto.id!=-1}"></h:outputText>
+                                    </p:column>
+                                    
+                                    <p:column id="colPresupuestoCantidad" rendered="#{reportesProgramasController.visualizarPresupuesto}" headerText="Cantidad" width="50" style="white-space: pre-line; ">
+                                        <h:outputText  value ="#{proy.presupuestoProyecto.cantidad}" style="float: right"> 
+                                            <f:convertNumber locale="es"  pattern="#,###,##0" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column id="colPresupuestoValor" rendered="#{reportesProgramasController.visualizarPresupuesto}" headerText="Valor Unitario" width="60" style="white-space: pre-line; ">
+                                        <h:outputText  value ="#{proy.presupuestoProyecto.valor}" style="float: right"> 
+                                            <f:convertNumber locale="es"  pattern="#,###,##0.00" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column id="colPresupuestoValorTotal" rendered="#{reportesProgramasController.visualizarPresupuesto}" headerText="Valor Total" width="60" style="white-space: pre-line; ">
+                                        <h:outputText  value ="#{proy.presupuestoProyecto.total}" style="float: right"
+                                                       rendered="#{proy.presupuestoProyecto.id!=-1}"> 
+                                            <f:convertNumber locale="es"  pattern="#,###,##0.00" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column id="colTotalPresupuestoPlanificado" rendered="#{reportesProgramasController.visualizarPresupuesto}" headerText="Total Presupuesto Proyecto Planificado" width="60" style="white-space: pre-line; ">
+                                        <h:outputText  value ="#{proy.presupuestoTotalPlanificado}" style="float: right"
+                                                       rendered="#{proy.presupuestoProyecto.id!=-1}"> 
+                                            <f:convertNumber locale="es"  pattern="#,###,##0.00" /> 
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column id="colTotalPresupuestoEjecutado" rendered="#{reportesProgramasController.visualizarPresupuesto}" headerText="Total Presupuesto Proyecto Ejecutado" width="60" style="white-space: pre-line;">
+                                        <h:outputText  value ="#{proy.presupuestoTotalEjecutado}" style="float: right"
+                                                       rendered="#{proy.presupuestoProyecto.id!=-1}"> 
+                                            <f:convertNumber locale="es"  pattern="#,###,##0.00" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column id="colAvanceActividad" rendered="#{reportesProgramasController.visualizarAvance}" headerText="Actividad" width="200" style="white-space:pre-line;">
+                                        <h:outputText value="COMPONENTE: #{proy.avanceActividad.actividad.svinObjetivoPadre.svopObjetivoProy} **** ACTIVIDAD: #{proy.avanceActividad.actividad.svopObjetivoProy}" style="white-space: pre-line"
+                                                      rendered="#{proy.avanceActividad.actividad!=null}"/>
+                                    </p:column>
+                                    <p:column id="colAvancePorcentaje" rendered="#{reportesProgramasController.visualizarAvance}" headerText="Avance (%)" width="60" style="white-space:pre-line; text-align: center">
+                                        <h:outputText value="#{proy.avanceActividad.porcentajeAvance}" style="white-space: pre-line"/>
+                                    </p:column>
+                                    <p:column id="colDocumentacionPerfil" rendered="#{reportesProgramasController.visualizarDocumentacion}" headerText="Documentación (Perfil Proyecto)" width="80" style="white-space:pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.documentacionPerfil?'SI':'NO'}"/> 
+                                    </p:column>
+                                    <p:column id="colDocumentacionCronograma" rendered="#{reportesProgramasController.visualizarDocumentacion}" headerText="Documentación (Cronograma)" width="80" style="white-space:pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.documentacionCronograma?'SI':'NO'}"/> 
+                                    </p:column>
+                                    <p:column id="colDocumentacionCosteo" rendered="#{reportesProgramasController.visualizarDocumentacion}" headerText="Documentación (Costeo Proyecto)" width="80" style="white-space:pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.documentacionCosteo?'SI':'NO'}"/> 
+                                    </p:column>
+                                    <p:column id="colDocumentacionCompromisoParticipacion" rendered="#{reportesProgramasController.visualizarDocumentacion}" headerText="Documentación (Compromiso Participación Comunidad)" width="80" style="white-space:pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.documentacionCompromisoParticipacion?'SI':'NO'}"/> 
+                                    </p:column>
+                                    <p:column id="colDocumentacionBeneficiarios" rendered="#{reportesProgramasController.visualizarDocumentacion}" headerText="Documentación (Número Beneficiarios)" width="80" style="white-space:pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.documentacionBeneficiarios?'SI':'NO'}"/> 
+                                    </p:column>
+                                    <p:column id="colDocumentacionNroDocentes" rendered="#{reportesProgramasController.visualizarDocumentacion}" headerText="Documentación (Designación docentes)" width="80" style="white-space:pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.documentacionNroDocentes?'SI':'NO'}"/> 
+                                    </p:column>
+                                    <p:column id="colDocumentacionNroEstudiantes" rendered="#{reportesProgramasController.visualizarDocumentacion}" headerText="Documentación (Designación estudiantes)" width="80" style="white-space:pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.documentacionNroEstudiantes?'SI':'NO'}"/> 
+                                    </p:column>
+                                    <p:column id="colDocumentacionAvance" rendered="#{reportesProgramasController.visualizarDocumentacion}" headerText="Documentación (Informes Avance)" width="80" style="white-space:pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.documentacionAvance?'SI':'NO'}"/> 
+                                    </p:column>
+                                    <p:column id="colDocumentacionHorasDocentes" rendered="#{reportesProgramasController.visualizarDocumentacion}" headerText="Documentación (Horas Docentes)" width="80" style="white-space:pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.documentacionHorasDocentes?'SI':'NO'}"/> 
+                                    </p:column>
+                                    <p:column id="colDocumentacionHorasEstudiantes" rendered="#{reportesProgramasController.visualizarDocumentacion}" headerText="Documentación (Horas Estudiantes)" width="80" style="white-space:pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.documentacionHorasEstudiantes?'SI':'NO'}"/> 
+                                    </p:column>
+                                    <p:column id="colDocumentacionCierre" rendered="#{reportesProgramasController.visualizarDocumentacion}" headerText="Documentación (Cierre Proyecto)" width="80" style="white-space:pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.documentacionCierre?'SI':'NO'}"/> 
+                                    </p:column>
+                                    <p:column id="colDocumentacionEvaluacionFinal" rendered="#{reportesProgramasController.visualizarDocumentacion}" headerText="Documentación (Evaluación Final)" width="80" style="white-space:pre-line; text-align: center">
+                                        <h:outputText  value ="#{proy.documentacionEvaluacionFinal?'SI':'NO'}"/> 
+                                    </p:column>
+
+                                    <p:summaryRow rendered="#{reportesProgramasController.columnaOrdenada!=null}">
+                                        <p:column style="text-align:right" colspan="#{reportesProgramasController.colspan}">
+                                            <h:outputText value="Items: "></h:outputText>
+                                            <h:outputText value="#{reportesProgramasController.getTotalItems(proy,1)}"/>
+                                            <h:outputText value=",  Proyectos: "></h:outputText>
+                                            <h:outputText value="#{reportesProgramasController.getTotalItems(proy,2)}"/>
+
+                                        </p:column>
+                                    </p:summaryRow>
+                                </p:dataTable>                                        
+
+
+
+                            </h:panelGrid>
+                        </p:panel>
+
+                    </p:panel>
+                </p:panel>
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

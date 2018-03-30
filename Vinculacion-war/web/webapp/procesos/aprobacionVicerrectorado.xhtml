@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:body>    
+        <ui:composition template="/vista/template-sistema2.xhtml">
+            <ui:define name="content">
+
+                <style>
+                    .ui-panel .ui-panel-content {
+                        padding: 0;
+                    }            
+                </style>        
+
+                <p:tabView scrollable="false" dynamic="true" id="tabP">
+                    <p:tab title="Aprobación Vicerrectorado" id="tabP1" >
+                        <h:panelGrid id="panelAprobacion">
+                            <h:panelGrid columns="4">
+                                <h:outputLabel value="Filtrar por estado aprobación:"></h:outputLabel>
+                                <p:selectOneMenu value="#{aprobacionVicerrectoradoController.estadoAprobacionVicerrectorado}">
+                                    <f:selectItem itemLabel="Pendiente" itemValue="P"/>
+                                    <f:selectItem itemLabel="Aprobado" itemValue="A"/>
+                                    <f:selectItem itemLabel="Negado" itemValue="N"/>
+                                    <p:ajax event="change" update=":formPrincipal:tabP:panelAprobacion"  listener="#{aprobacionVicerrectoradoController.onChangeEstado}" 
+                                            onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()" />
+                                </p:selectOneMenu>                                    
+                                <p:commandButton id="btnGrabarAprobacionVicerrectorado" value="Grabar Aprobaciones" title="Grabar Información" icon="ui-icon-locked" 
+                                                 update=":formPrincipal:tabP, :formPrincipal:message1" 
+                                                 disabled="#{!aprobacionVicerrectoradoController.permitirAprobacion}"
+                                                 action ="#{aprobacionVicerrectoradoController.grabarAprobacionVicerrectorado()}"
+                                                 onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                </p:commandButton>
+                                <p:commandButton value="Generar Acta" title="Generar Acta" icon="ui-icon-check"
+                                                 update=":formPrincipal:tabP, :formPrincipal:message1" 
+                                                 onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                 disabled="#{!aprobacionVicerrectoradoController.permitirGenerarActa}"
+                                                 action="#{aprobacionVicerrectoradoController.generarActa}" 
+                                                 >
+                                </p:commandButton>
+
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1" style="width: 100%; margin-bottom: 10px">
+                                <h:panelGrid columns="2">
+                                    <p:commandLink rendered="false" ajax="false" title="Exportar a Excel">  
+                                        <p:graphicImage value="/resources/images/excel2.png" width="33"/>  
+                                        <f:setPropertyActionListener value="true" target="#{exporterController.customExporter}" />  
+                                        <pe:exporter type="xlsx" target="dtProyectosAprobacionVicerrectorado" fileName="dynamicColumnsTable" postProcessor="#{aprobacionVicerrectoradoController.postProcessXLSX}"/>  
+                                    </p:commandLink>                                                 
+                                    <p:commandLink id="xls1" ajax="false" title="Exportar a Excel">  
+                                        <p:graphicImage value="/resources/images/excel2.png" width="33"/>  
+                                        <f:setPropertyActionListener value="true" target="#{exporterController.customExporter}" />  
+                                        <p:dataExporter type="xls" target="dtProyectosAprobacionVicerrectorado" fileName="dynamicColumnsTable" postProcessor="#{aprobacionVicerrectoradoController.postProcessXLS}"/>  
+                                    </p:commandLink>                                                 
+                                    
+                                </h:panelGrid>
+                                <p:dataTable id="dtProyectosAprobacionVicerrectorado" widgetVar="dtProyectosAprobacionVicerrectorado"
+                                             value="#{aprobacionVicerrectoradoController.proyectoList}" var="proy"
+                                             rowIndexVar="index" sortBy="#{proy.consolidacionCalificacionUltimaList[0].totalPuntaje}" 
+                                             resizableColumns="false"
+                                             style="margin-bottom: 40px;width: 100%" expandedRow="false" emptyMessage="No existen registros."  >
+                                    <p:column width="45" headerText="Ver Detalle Calificación" exportable="false">
+                                        <p:rowToggler/>
+                                    </p:column>
+                                    <p:column headerText="Nro." width="20" style="text-align: center">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Nro."/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{index + 1}"/>
+                                    </p:column>
+                                    <p:column headerText="Programa" width="350" sortBy="#{proy.programa.nombre}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Programa"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.programa.nombre}"/>  
+                                    </p:column>
+                                    <p:column headerText="Proyecto" width="350" sortBy="#{proy.nombre}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Proyecto"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.nombre}"/>  
+                                    </p:column>
+                                    <p:column headerText="Tipo Proyecto" width="70" sortBy="#{proy.tipo}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Tipo Proyecto"/>  
+                                        </f:facet> 
+                                        <h:outputText  value ="#{proy.tipo=='C'?'GASTO PERMANENTE':'GASTO NO PERMANENTE'}"/>  
+                                    </p:column>
+                                    <p:column headerText="Objetivo" width="350" sortBy="#{proy.objetivoGeneral.svopObjetivoProy}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Objetivo"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.objetivoGeneral.svopObjetivoProy}"/>  
+                                    </p:column>
+                                    <p:column headerText="Director Proyecto" width="100" sortBy="#{proy.director.usuario.usuNombres.concat(' ').concat(proy.director.usuario.usuApellidos)}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Director Proyecto"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.director.usuario.usuNombres.concat(' ').concat(proy.director.usuario.usuApellidos)}"/>  
+                                    </p:column>
+                                    <p:column headerText="Departamento" width="100" sortBy="#{proy.departamento.stvsubjDesc}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Departamento"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.departamento.stvsubjDesc}"/>  
+                                    </p:column>
+                                    <p:column headerText="Sede" width="100" sortBy="#{proy.campus.stvcampDesc}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Sede"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.campus.stvcampDesc}"/>  
+                                    </p:column>
+                                    <p:column headerText="Fecha Inicio Planificada" width="50" sortBy="#{proy.fechaInicio}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Fecha Inicio Planificada"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.fechaInicio}">  
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Fecha Fin Planificada" width="50" sortBy="#{proy.fechaFinalizacion}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Fecha Fin Planificada"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.fechaFinalizacion}">  
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column headerText="Aporte de la ESPE Gasto No Permanente" width="50" sortBy="#{proy.totalPresupuestoUniversidadGastoNoPermanente}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Aporte de la ESPE Gasto No Permanente"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.totalPresupuestoUniversidadGastoNoPermanente}">  
+                                            <f:convertNumber locale="es"  pattern="###,###,##0.00" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Aporte de la ESPE Gasto Permanente" width="50" sortBy="#{proy.totalPresupuestoUniversidadGastoPermanente}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Aporte de la ESPE Gasto Permanente"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.totalPresupuestoUniversidadGastoPermanente}">  
+                                            <f:convertNumber locale="es"  pattern="###,###,##0.00" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Total Aporte ESPE" width="50" sortBy="#{proy.totalPresupuestoUniversidad}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Total Aporte ESPE"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.totalPresupuestoUniversidad}">  
+                                            <f:convertNumber locale="es"  pattern="###,###,##0.00" />
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column headerText="Aporte Patrocinador" width="60" sortBy="#{proy.totalPresupuestoEntidadAuspiciante}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Aporte Patrocinador"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.totalPresupuestoEntidadAuspiciante}">
+                                            <f:convertNumber locale="es"  pattern="###,###,##0.00" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Aporte de la Comunidad Beneficiaria" width="50" sortBy="#{proy.totalPresupuestoComunidadBeneficiaria}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Aporte de la Comunidad Beneficiaria"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.totalPresupuestoComunidadBeneficiaria}">  
+                                            <f:convertNumber locale="es"  pattern="###,###,##0.00" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Monto Total" width="50" sortBy="#{proy.totalPresupuesto}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Monto Total"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.totalPresupuesto}">  
+                                            <f:convertNumber locale="es"  pattern="###,###,##0.00" />
+                                        </h:outputText> 
+                                    </p:column>
+
+                                    <p:column headerText="Total Puntaje" width="50" sortBy="#{proy.consolidacionCalificacionUltimaList[0].totalPuntaje}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Total Puntaje"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.consolidacionCalificacionUltimaList[0].totalPuntaje}">  
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Porcentaje cumplimiento" width="60" sortBy="#{proy.consolidacionCalificacionUltimaList[0].totalPuntaje/proy.configuracionParametrosEvaluacion.puntajeMaximoEvaluacion}">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Porcentaje cumplimiento"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.consolidacionCalificacionUltimaList[0].totalPuntaje/proy.configuracionParametrosEvaluacion.puntajeMaximoEvaluacion}">  
+                                            <f:convertNumber locale="es"  pattern="###0.00%" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Comisión Evaluadora" width="200" style="white-space: pre-line;">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Comisión Evaluadora"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.comisionCalificacion.descripcion}"/>
+                                    </p:column>
+                                    
+                                    <p:column headerText="Aprobación Vicerrectorado"  exportable="false" width="160" style="text-align: center">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Aprobación Vicerrectorado"/>  
+                                        </f:facet> 
+                                        <p:selectOneMenu value="#{proy.aprobadoVicerrectorado}"
+                                                         rendered="#{proy.estadoAprobVicerrectorado=='P'}">
+                                            <f:selectItem itemLabel="[[-Seleccione una opción-]]" noSelectionOption="true"></f:selectItem>
+                                            <f:selectItem itemLabel="APROBADO" itemValue="348"></f:selectItem>
+                                            <f:selectItem itemLabel="NEGADO" itemValue="347"></f:selectItem>
+                                        </p:selectOneMenu>
+                                        <h:outputText value="#{proy.estadoAprobVicerrectorado=='P'?'PENDIENTE':(proy.estadoAprobVicerrectorado=='A'?'APROBADO':'NEGADO')}"
+                                                      rendered="#{proy.estadoAprobVicerrectorado!='P'}"/>  
+                                    </p:column>
+                                    <p:column headerText="Observaciones" width="300">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Observaciones"/>  
+                                        </f:facet> 
+                                        <p:inputTextarea rendered="#{proy.estadoAprobVicerrectorado=='P'}" 
+                                                         value="#{proy.observacionAprobacionVicerrectorado}" style="width: 100%" maxlength="250"/>
+                                        <h:outputText value="#{proy.observacionAprobacionVicerrectorado}" rendered="#{proy.estadoAprobVicerrectorado!='P'}" />  
+                                    </p:column>
+                                    <p:column headerText="Nro. Acta Aprobación" width="70" style="white-space: pre-line; text-align: center">
+                                        <f:facet name="header">  
+                                            <h:outputText value="Nro. Acta Aprobación"/>  
+                                        </f:facet> 
+                                        <h:outputText value="#{proy.actaAprobacionVicerrectorado.secuencialStr}"
+                                                      rendered="#{proy.actaAprobacionVicerrectorado!=null}"/>
+                                    </p:column>
+                                    
+                                    <p:rowExpansion >
+                                        <p:panel style="border:hidden;width:800px; padding-left: 30px"  >
+                                            <h:outputLabel value="Detalle de calificación:" style="font-weight: bold"/>
+                                            <p:dataTable value="#{proy.consolidacionCalificacionUltimaList[0].detalleCalificacionProyectoConsolidado}" var="detalleUltConsolidacion"
+                                                         rendered="#{not empty proy.consolidacionCalificacionUltimaList[0].detalleCalificacionProyectoConsolidado}"
+                                                         rowIndexVar="index">
+                                                <p:column headerText="Nro." style="width:20px">
+                                                    <h:outputText value="#{index + 1}"/>
+                                                </p:column>
+                                                <p:column headerText="Parámetro" style="white-space:pre-line">
+                                                    <h:outputText value="#{detalleUltConsolidacion.parametroEvaluacion.descripcion}" style="white-space: pre-line;"/>
+                                                </p:column>
+                                                <p:column headerText="Respuesta" width="120">
+                                                    <h:outputText value="#{detalleUltConsolidacion.valoracionParametroPromedio.descripcion}" style="white-space: pre-line"></h:outputText>
+                                                </p:column>
+                                                <p:column headerText="Puntaje" width="70" style="text-align: center">
+                                                    <h:outputText value="#{detalleUltConsolidacion.valoracionParametroPromedio.puntaje}"/>
+                                                </p:column>
+                                                <p:columnGroup type="footer">
+                                                    <p:row>
+                                                        <p:column colspan="3" style="text-align:right" footerText="Total:" />
+                                                        <p:column footerText="#{proy.consolidacionCalificacionUltimaList[0].totalPuntaje}" style="text-align: center" >
+                                                        </p:column>
+                                                    </p:row>
+                                                    <p:row>
+                                                        <p:column colspan="3" style="text-align:right" footerText="Mínimo requerido:" />
+                                                        <p:column footerText="#{proy.configuracionParametrosEvaluacion.puntajeMinimoRequerido}" style="text-align: center" >
+                                                        </p:column>
+                                                    </p:row>
+                                                </p:columnGroup>                                                 
+
+                                            </p:dataTable>
+                                        </p:panel>                                            
+                                    </p:rowExpansion>                                        
+
+                                </p:dataTable>
+                            </h:panelGrid>
+                        </h:panelGrid>
+
+
+                    </p:tab>                    
+                    <p:tab title="Actas de Aprobación" id="tabP2" >
+                        <p:fieldset legend="EDICIÓN DE ACTA DE APROBACIÓN" rendered="#{aprobacionVicerrectoradoController.actaAprobacionVicerrectoradoSelected!=null}" style="margin-top: 20px">
+                            <h:panelGrid columns="2" style="margin-top: 10px">
+                                <p:commandButton id="btnGrabarActaAprobacion" icon="ui-icon-locked" value="Grabar" action="#{aprobacionVicerrectoradoController.grabarActa}"
+                                                 update=":formPrincipal:tabP, :formPrincipal:message1"
+                                                 onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"></p:commandButton>
+                                <p:commandButton icon="ui-icon-arrowreturnthick-1-w" value="Cancelar" action="#{aprobacionVicerrectoradoController.cancelarActa}"
+                                                 update=":formPrincipal:tabP"></p:commandButton>
+
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" style="margin-top: 10px">
+                                <p:outputLabel value="Nro. Acta:" style="font-weight: bold"></p:outputLabel>
+                                <p:outputLabel value="#{aprobacionVicerrectoradoController.actaAprobacionVicerrectoradoSelected.secuencialStr}"></p:outputLabel>
+
+                                <p:outputLabel value="Fecha creación:" style="font-weight: bold"></p:outputLabel>
+                                <p:outputLabel value="#{aprobacionVicerrectoradoController.actaAprobacionVicerrectoradoSelected.fechaCreacion}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                </p:outputLabel>
+
+                                <p:outputLabel value="Creado por:" style="font-weight: bold"></p:outputLabel>
+                                <p:outputLabel value="#{aprobacionVicerrectoradoController.actaAprobacionVicerrectoradoSelected.usuario.usuCc}-#{aprobacionVicerrectoradoController.actaAprobacionVicerrectoradoSelected.usuario.nombresCompletos}"></p:outputLabel>
+
+                                <p:outputLabel value="* Acta con firmas:" style="font-weight: bold"/>
+                                <h:panelGrid columns="3">
+                                    <h:panelGrid columns="1">
+                                        <p:fileUpload id="fileActaFirmado" fileUploadListener="#{aprobacionVicerrectoradoController.subirDocActaFirmas}" 
+                                                      mode="advanced"
+                                                      label="Seleccionar"
+                                                      invalidFileMessage="Tipo de archivo incorrecto: "
+                                                      invalidSizeMessage="Tamaño del archivo seleccionado excede el límite permitido (10MB): "
+                                                      update=":formPrincipal:tabP:lblNomActaFirmado, :formPrincipal:tabP:hidNomActaFirmado, :formPrincipal:message1" auto="true" sizeLimit="10240000" allowTypes="/(\.|\/)(pdf)$/" />
+                                        <p:message for="fileActaFirmado"></p:message>
+                                        <p:message for="hidNomActaFirmado"></p:message>
+                                    </h:panelGrid>   
+                                    <p:outputLabel id="lblNomActaFirmado" value="#{aprobacionVicerrectoradoController.actaAprobacionVicerrectoradoSelected.documentoFirmadoNombre}"/>                                        
+                                    <h:inputHidden id="hidNomActaFirmado" value="#{aprobacionVicerrectoradoController.actaAprobacionVicerrectoradoSelected.documentoFirmadoNombre}"
+                                                   required="#{not empty param['formPrincipal:btnGrabarActaAprobacion']}" ></h:inputHidden> 
+                                    
+                                </h:panelGrid>
+
+
+                            </h:panelGrid>
+                        </p:fieldset>
+
+
+                        <p:dataTable value="#{aprobacionVicerrectoradoController.actaAprobacionVicerrectoradoList}" var="acta"
+                                     style="margin-bottom: 40px"
+                                     emptyMessage="No existen registros">
+                            <p:column width="40" headerText="Ver Proyectos">
+                                <p:rowToggler/>
+                            </p:column>
+                            <p:column headerText="Nro. Acta" width="100" style="text-align: center">
+                                <h:outputText value="#{acta.secuencialStr}"/>
+                            </p:column>
+                            <p:column headerText="Fecha Creación" width="100" style="text-align: center">
+                                <h:outputText value="#{acta.fechaCreacion}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Creado por" style="white-space: pre-line; ">
+                                <h:outputText  value ="#{acta.usuario.usuCc.concat('-').concat(acta.usuario.usuNombres).concat(' ').concat(acta.usuario.usuApellidos)}"/> 
+                            </p:column>
+                            <p:column headerText="Editar" width="50" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil"
+                                                 title="Editar el registro"
+                                                 update=":formPrincipal:tabP"
+                                                 >
+                                    <f:setPropertyActionListener value="#{acta}" target="#{aprobacionVicerrectoradoController.actaAprobacionVicerrectoradoSelected}"/>
+                                </p:commandButton>
+
+                            </p:column>                 
+                            <p:column headerText="Eliminar" width="50" style ="text-align: center">
+                                <p:commandButton title="Eliminar el registro" icon="ui-icon-trash" 
+                                                 onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                                 action="#{aprobacionVicerrectoradoController.eliminarActa(acta)}"
+                                                 update=":formPrincipal:tabP, :formPrincipal:message1 ">
+                                    <p:confirm header="Confirmación" message="Confirma que desea eliminar el item seleccionado?" icon="ui-icon-alert" />
+                                </p:commandButton>  
+                            </p:column>
+
+                            <p:column headerText="Imprimir Acta" width="60" style="text-align: center">
+                                <h:commandLink  target="_blank" actionListener="#{aprobacionVicerrectoradoController.imprimirActa(acta)}"
+                                                title="Imprimir Acta"
+                                                >
+                                    <p:graphicImage url="../../resources/images/pdf.png" width="25"/>
+                                </h:commandLink>  
+                            </p:column>
+                            <p:column headerText="Imprimir Acta con firmas" width="60" style="text-align: center">
+                                <h:commandLink target="_blank" actionListener="#{aprobacionVicerrectoradoController.prepararActaDownload(acta)}"
+                                               title="Imprimir Acta con firmas" rendered="#{acta.documentoFirmadoNombre!=null}"
+                                               >
+                                    <p:fileDownload value="#{aprobacionVicerrectoradoController.archivoActaAprobacion}" />
+                                    <p:graphicImage url="../../resources/images/pdf.png" width="25"/>
+                                </h:commandLink>
+                            </p:column>
+
+                            <p:rowExpansion >
+                                <p:panelGrid columns="1" style="border:hidden;width:95%; "  >
+                                    <p:dataTable value="#{acta.proyectoList}" var="p"
+                                                 emptyMessage="No existen registros."
+                                                 rowIndexVar="index2" style="width: 90%; padding-left: 60px">
+                                        <p:column headerText="Nro." style="width:20px; text-align: center">
+                                            <h:outputText value="#{index2 + 1}" />
+                                        </p:column>
+                                        <p:column headerText="Proyecto">
+                                            <h:outputText value="#{p.nombre}" />
+                                        </p:column>
+                                        <p:column headerText="Estado" style="width: 70px">
+                                            <h:outputText value="#{p.estadoNoAprobadoVicerrectorado?'NEGADO':'APROBADO'}" />
+                                        </p:column>
+                                        <p:column headerText="Observaciones" style="width: 180px; white-space: pre-line">
+                                            <h:outputText value="#{p.observacionAprobacionVicerrectorado}" />
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:panelGrid>
+                            </p:rowExpansion>
+
+                        </p:dataTable>
+
+                    </p:tab>
+
+                </p:tabView>
+
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

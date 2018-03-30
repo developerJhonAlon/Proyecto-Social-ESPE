@@ -1,0 +1,46 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ec.edu.espe_innovativa.controller;
+
+import ec.edu.espe_ctt.vinculacion.entity.SvinProgramaV;
+import ec.edu.espe_ctt.vinculacion.session.SvinProgramaVFacade;
+import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+/**
+ *
+ * @author Administrador
+ */
+@ManagedBean
+@ViewScoped
+public class ListadoProgramasController implements Serializable {
+
+    @EJB
+    private SvinProgramaVFacade programaFacade;
+
+    @PostConstruct
+    public void init() {
+        /*FacesContext context = FacesContext.getCurrentInstance();
+        usuario = (SegUsuario) context.getExternalContext().getSessionMap().get("usu_login");
+        SegUsuPerfil perfil = (SegUsuPerfil) context.getExternalContext().getSessionMap().get("usu_perfil");*/
+        programaList = programaFacade.findXEstado("A");
+    }
+
+    private List<SvinProgramaV> programaList;
+
+    public List<SvinProgramaV> getProgramaList() {
+        return programaList;
+    }
+
+    public void setProgramaList(List<SvinProgramaV> programaList) {
+        this.programaList = programaList;
+    }
+
+}

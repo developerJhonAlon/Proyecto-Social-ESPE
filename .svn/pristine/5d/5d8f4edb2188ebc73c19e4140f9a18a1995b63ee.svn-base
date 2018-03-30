@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="aprobacionProyectoCabecera" language="groovy" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0844b7b9-ba78-45c1-8044-4c5448c94f82">
+	<property name="ireport.zoom" value="1.9487171000000043"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoProyecto" class="java.lang.Integer"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="puntajeMinimoRequerido" class="java.lang.Integer"/>
+	<parameter name="puntajeMaximoEvaluacion" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT dep.stvsubj_desc departamento, CAM.STVCAMP_DESC campus
+ FROM SZDTAVDOCPARTI prodep
+INNER JOIN STVSUBJ  dep ON prodep.STVSUBJ_CODE  = dep.STVSUBJ_CODE
+INNER JOIN STVCAMP  cam ON prodep.STVCAMP_CODE  = cam.STVCAMP_CODE
+where SZTVPROYEC_CODE = $P{codigoProyecto}]]>
+	</queryString>
+	<field name="fechaConsolidacion" class="java.util.Date"/>
+	<field name="observaciones" class="java.lang.String"/>
+	<field name="detalleCalificacionProyectoConsolidado" class="java.util.List"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="28">
+			<staticText>
+				<reportElement x="0" y="0" width="532" height="15" uuid="be7bf399-33aa-4dd2-a5db-483292177373"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalle de aprobación:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="15" width="88" height="13" uuid="e74abb94-10f9-4db9-b5fd-50157a868925"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha consolidación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="88" y="15" width="444" height="13" uuid="c00c9ba2-899d-4ac9-b68f-586d2595025a"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Observaciones]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="13" splitType="Prevent">
+			<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()!=0)]]></printWhenExpression>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="88" height="13" uuid="a5e323b8-903d-481a-a008-1dc97ab89ffd"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaConsolidacion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToTallestObject" x="88" y="0" width="444" height="13" uuid="3bb2d4f7-ed61-4c02-bc79-cd36e9b88b00"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="33">
+			<subreport runToBottom="false">
+				<reportElement positionType="Float" x="0" y="0" width="532" height="33" uuid="ba7bb1b6-f11d-4fa7-bee0-c470554393da"/>
+				<subreportParameter name="puntajeMaximoEvaluacion">
+					<subreportParameterExpression><![CDATA[$P{puntajeMaximoEvaluacion}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="puntajeMinimoRequerido">
+					<subreportParameterExpression><![CDATA[$P{puntajeMinimoRequerido}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{detalleCalificacionProyectoConsolidado})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "aprobacionProyectoDetalle.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

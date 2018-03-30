@@ -1,0 +1,1081 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="proyectosResultados" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4bbfdc44-6e61-4d91-81db-bec0723057ab">
+	<property name="ireport.zoom" value="1.3310000000000022"/>
+	<property name="ireport.x" value="168"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dirPhoto" class="java.lang.String">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\imagenes\\banner_SSD.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pathAplicacion" class="java.lang.String">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\build\\web\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="codigo" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[nombre]]></fieldDescription>
+	</field>
+	<field name="programa.nombre" class="java.lang.String"/>
+	<field name="tipo" class="java.lang.String"/>
+	<field name="fechaInicio" class="java.util.Date"/>
+	<field name="fechaFinalizacion" class="java.util.Date"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="nroBeneficiariosDirectosDiscapac" class="java.lang.Integer">
+		<fieldDescription><![CDATA[nroBeneficiariosDirectosDiscapac]]></fieldDescription>
+	</field>
+	<field name="totalDirectos" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalDirectos]]></fieldDescription>
+	</field>
+	<field name="totalBeneficiariosPlanificado" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalBeneficiariosPlanificado]]></fieldDescription>
+	</field>
+	<field name="nroBeneficiariosDirectosHombres" class="java.lang.Integer">
+		<fieldDescription><![CDATA[nroBeneficiariosDirectosHombres]]></fieldDescription>
+	</field>
+	<field name="nroBeneficiariosDirectosMujeres" class="java.lang.Integer">
+		<fieldDescription><![CDATA[nroBeneficiariosDirectosMujeres]]></fieldDescription>
+	</field>
+	<field name="nroBeneficiariosDirectosNinios" class="java.lang.Integer">
+		<fieldDescription><![CDATA[nroBeneficiariosDirectosNinios]]></fieldDescription>
+	</field>
+	<field name="nroBeneficiariosIndirectos" class="java.lang.Integer">
+		<fieldDescription><![CDATA[nroBeneficiariosIndirectos]]></fieldDescription>
+	</field>
+	<field name="totalDirectosEjecutados" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalDirectosEjecutados]]></fieldDescription>
+	</field>
+	<field name="totalBeneficiariosDirectosEjecutadosDiscapacidad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalBeneficiariosDirectosEjecutadosDiscapacidad]]></fieldDescription>
+	</field>
+	<field name="totalBeneficiariosDirectosEjecutadosHombres" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalBeneficiariosDirectosEjecutadosHombres]]></fieldDescription>
+	</field>
+	<field name="totalBeneficiariosDirectosEjecutadosMujeres" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalBeneficiariosDirectosEjecutadosMujeres]]></fieldDescription>
+	</field>
+	<field name="totalBeneficiariosDirectosEjecutadosNinios" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalBeneficiariosDirectosEjecutadosNinios]]></fieldDescription>
+	</field>
+	<field name="totalBeneficiariosIndirectosEjecutados" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalBeneficiariosIndirectosEjecutados]]></fieldDescription>
+	</field>
+	<field name="totalBeneficiariosEjecutados" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalBeneficiariosEjecutados]]></fieldDescription>
+	</field>
+	<field name="totalPresupuestoComunidadBeneficiaria" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalPresupuestoComunidadBeneficiaria]]></fieldDescription>
+	</field>
+	<field name="totalPresupuestoEjecutadoComunidadBeneficiaria" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalPresupuestoEjecutadoComunidadBeneficiaria]]></fieldDescription>
+	</field>
+	<field name="totalPresupuestoEjecutadoEntidadAuspiciante" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalPresupuestoEjecutadoEntidadAuspiciante]]></fieldDescription>
+	</field>
+	<field name="totalPresupuestoEntidadAuspiciante" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalPresupuestoEntidadAuspiciante]]></fieldDescription>
+	</field>
+	<field name="totalPresupuestoEjecutadoUniversidadGastoNoPermanente" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalPresupuestoEjecutadoUniversidadGastoNoPermanente]]></fieldDescription>
+	</field>
+	<field name="totalPresupuestoEjecutadoUniversidadGastoPermanente" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalPresupuestoEjecutadoUniversidadGastoPermanente]]></fieldDescription>
+	</field>
+	<field name="totalPresupuestoUniversidadGastoNoPermanente" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalPresupuestoUniversidadGastoNoPermanente]]></fieldDescription>
+	</field>
+	<field name="totalPresupuestoUniversidadGastoPermanente" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[totalPresupuestoUniversidadGastoPermanente]]></fieldDescription>
+	</field>
+	<field name="totalDocentesEjecutado" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalDocentesEjecutado]]></fieldDescription>
+	</field>
+	<field name="totalDocentesParticipantes" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalDocentesParticipantes]]></fieldDescription>
+	</field>
+	<field name="totalEstudiantesEjecutado" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalEstudiantesEjecutado]]></fieldDescription>
+	</field>
+	<field name="totalEstudiantesParticipantes" class="java.lang.Integer">
+		<fieldDescription><![CDATA[totalEstudiantesParticipantes]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="81" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="53" width="552" height="20" backcolor="#E2E0E0" uuid="7900f3e5-d364-4a94-b218-3f20bcd0bc5d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE RESULTADOS DE PROYECTOS]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="167" height="45" uuid="e1b617da-2201-49cd-81b2-da1fc67c5b22"/>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/logoEspeReportePerfil.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="498" y="0" width="48" height="48" uuid="63f33669-fdbf-4159-bb4a-f6a0781de32d"/>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/logoVinculacionReportePerfil.png"]]></imageExpression>
+			</image>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Prevent">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="178" y="20" width="116" height="15" uuid="343d7543-47b4-4c4a-b494-005941b297ef"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="415" y="0" width="60" height="20" backcolor="#CCCCCC" uuid="9eb6fd8d-faba-4a36-99c9-df8f60a3ebaa"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA FIN]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="20" width="58" height="15" uuid="dbe7957f-a02b-4207-b1f8-c9783d020fb4"/>
+				<box topPadding="0" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="475" y="0" width="77" height="20" backcolor="#CCCCCC" uuid="9dca4c6e-9091-4911-93ea-6535d50c6bbb"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="178" y="0" width="118" height="20" backcolor="#CCCCCC" uuid="023d6e1e-644c-4cdd-af5f-dcf307ec5f96"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROYECTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="58" height="20" backcolor="#CCCCCC" uuid="335c63e6-930d-4352-b989-2f20e28497a9"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CÓDIGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="355" y="0" width="60" height="20" backcolor="#CCCCCC" uuid="383e2701-c5fc-4514-a6ec-162a14559271"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA INICIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="294" y="0" width="61" height="20" backcolor="#CCCCCC" uuid="06302ae4-0d70-44e4-ab01-93ea18d27aed"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO GASTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="58" y="0" width="120" height="20" backcolor="#CCCCCC" uuid="390e0b08-1147-4811-bd91-9fafcda0273e"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROGRAMA]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="58" y="20" width="120" height="15" uuid="d43f6dec-5864-4e58-b3cf-b565b3a3e1af"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{programa.nombre}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="294" y="20" width="61" height="15" uuid="b5f31db7-1c84-452f-a55e-c8d9a92e4e30"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo}=="I"?"No Permanente":"Permanente"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToTallestObject" x="355" y="20" width="60" height="15" uuid="4003796b-757d-4d55-a42c-565212404c95"/>
+				<box topPadding="0" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaInicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToTallestObject" x="415" y="20" width="60" height="15" uuid="0a1e54d6-df5e-41d3-9ec3-8800dff2e4ed"/>
+				<box topPadding="0" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaFinalizacion}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="475" y="20" width="77" height="15" uuid="462bab39-aa73-4ab4-b350-53442535b4a8"/>
+				<box topPadding="0" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estado}=="CRE"?"Ingreso de Perfil":($F{estado}=="REV"?"Enviado a Revisión":($F{estado}=="CEP"?"En Evaluación por Comisión de Vinculación":($F{estado}=="CEC"?"En Consolidación de Evaluación Comisión de Vinculación":($F{estado}=="REC0"?"No aprobado por Comisión Vinculación":($F{estado}=="APR0"?"En aprobación por Vicerrectorado":($F{estado}=="REC1"?"No aprobado por Vicerrectorado":($F{estado}=="APR1"?"En aprobación por Consejo Académico":($F{estado}=="REC2"?"No aprobado por Consejo Académico":($F{estado}=="APR2"?"En Ejecución":($F{estado}=="CEE"?"En proceso de Cierre":($F{estado}=="CER"?"En proceso de Evaluación Final":"Finalizado")))))))))))]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="287">
+			<staticText>
+				<reportElement positionType="Float" x="43" y="4" width="164" height="14" uuid="dbb93b22-f47f-4ae2-ac8a-51ffe7286a0e"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Beneficiarios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="18" width="164" height="14" uuid="ee3fa22c-dc0f-4e01-b0a0-c51742e3e72e"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Directos Hombres:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="32" width="164" height="14" uuid="d51e9af3-932e-4af0-9ab0-b184788885ce"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Directos Mujeres:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="46" width="164" height="14" uuid="164fb396-bce8-45a0-b229-f3271262600f"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Directos Niños:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="60" width="164" height="14" uuid="b06f90f0-1e04-41da-8126-9415ac912f8a"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Directos Personas con discapacidad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="207" y="4" width="102" height="14" uuid="ea9e4fae-4286-42ec-879e-0f37bb094639"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Planificado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="309" y="4" width="102" height="14" uuid="d91d4cc2-f051-4d6a-a151-d73e95118232"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ejecutado]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="207" y="18" width="102" height="14" uuid="2b2f6ecd-5efb-42d7-a5bc-8bfe8ab8916a"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nroBeneficiariosDirectosHombres}==null?0:$F{nroBeneficiariosDirectosHombres}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="207" y="32" width="102" height="14" uuid="4a3eddd0-75c6-4b3c-8223-c8d20c200ed7"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nroBeneficiariosDirectosMujeres}==null?0:$F{nroBeneficiariosDirectosMujeres}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="207" y="46" width="102" height="14" uuid="6a8fb883-d4dc-4457-a439-adb118eed6db"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nroBeneficiariosDirectosNinios}==null?0:$F{nroBeneficiariosDirectosNinios}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="207" y="60" width="102" height="14" uuid="02fc14f8-10d4-41bf-801b-2f0af07015da"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nroBeneficiariosDirectosDiscapac}==null?0:$F{nroBeneficiariosDirectosDiscapac}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="74" width="164" height="14" uuid="8c44f30c-9418-4bd7-a10f-8ab5dd357531"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Indirectos:]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="207" y="74" width="102" height="14" uuid="2703ee9d-4a91-4540-bf32-6a53f6d06547"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nroBeneficiariosIndirectos}==null?0:$F{nroBeneficiariosIndirectos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="88" width="164" height="14" uuid="6855ee77-c68e-4335-a4d3-e35a3a505ead"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="207" y="88" width="102" height="14" uuid="261f908e-8f49-4025-bbf7-4a703f88ae36"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalBeneficiariosPlanificado}==null?0:$F{totalBeneficiariosPlanificado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="309" y="18" width="102" height="14" uuid="39214f01-e316-45ad-ab45-389dde1b4f8b"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalBeneficiariosDirectosEjecutadosHombres}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="309" y="32" width="102" height="14" uuid="57501846-10bd-4078-a6a6-5e2a810bff4b"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalBeneficiariosDirectosEjecutadosMujeres}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="309" y="46" width="102" height="14" uuid="ab7e4e36-a524-414b-bcda-2c1e6e4820e8"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalBeneficiariosDirectosEjecutadosNinios}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="309" y="60" width="102" height="14" uuid="ce8d6573-0e46-4968-8a46-f9e662c7d39b"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalBeneficiariosDirectosEjecutadosDiscapacidad}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="309" y="74" width="102" height="14" uuid="449fd802-9072-47a1-8a83-65992670fbb9"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalBeneficiariosIndirectosEjecutados}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="309" y="88" width="102" height="14" uuid="65d12589-f0d7-45a1-9977-798338924ce3"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalBeneficiariosEjecutados}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="309" y="190" width="102" height="14" uuid="9d7f1f9e-2a0f-49e0-8f0f-f0d0c15c884b"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPresupuestoEjecutadoUniversidadGastoPermanente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="218" width="164" height="14" uuid="00a6296f-5507-49ac-9e4f-881662691d0f"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Aporte Entidad Auspiciante:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="309" y="232" width="102" height="14" uuid="b16b83ba-f02d-49c5-a2a4-546526c41396"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPresupuestoEjecutadoComunidadBeneficiaria}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="207" y="190" width="102" height="14" uuid="6e62aa1c-5560-4a97-b7df-bdd51f3e4a84"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPresupuestoUniversidadGastoPermanente}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="207" y="204" width="102" height="14" uuid="aef08f69-2b45-4cba-af46-fd17457224a5"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPresupuestoUniversidadGastoNoPermanente}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="207" y="246" width="102" height="14" uuid="db143344-e87d-40e0-9ead-437c1bc577df"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPresupuestoUniversidadGastoPermanente}+$F{totalPresupuestoUniversidadGastoNoPermanente}+$F{totalPresupuestoEntidadAuspiciante}+$F{totalPresupuestoComunidadBeneficiaria}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="207" y="232" width="102" height="14" uuid="0e05f357-f587-4c82-a8c6-80cdf02a405d"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPresupuestoComunidadBeneficiaria}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="190" width="164" height="14" uuid="39a4b46f-dc96-4a36-9347-c5f75f56ee1e"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Aporte Universidad (Gasto Permanente):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="232" width="164" height="14" uuid="24efccf8-b336-4809-80ab-639ecec55b8a"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Aporte Comunidad Beneficiaria:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="207" y="218" width="102" height="14" uuid="d0601749-4cc0-421e-9f48-299ecd028d71"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPresupuestoEntidadAuspiciante}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="309" y="246" width="102" height="14" uuid="7fdcfd07-c47f-4896-999a-f665f0033d82"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPresupuestoEjecutadoUniversidadGastoPermanente}+$F{totalPresupuestoEjecutadoUniversidadGastoNoPermanente}+$F{totalPresupuestoEjecutadoEntidadAuspiciante}+$F{totalPresupuestoEjecutadoComunidadBeneficiaria}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="309" y="204" width="102" height="14" uuid="8932854c-7692-456a-8102-5f3f2e1a70b3"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPresupuestoEjecutadoUniversidadGastoNoPermanente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="207" y="176" width="102" height="14" uuid="ed9084a9-7785-46b3-97c4-09bf30e194e4"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Planificado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="176" width="164" height="14" uuid="1ec3658d-8996-4236-aa2e-22f13ad10730"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Presupuesto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="246" width="164" height="14" uuid="82a391e5-758a-471b-9de3-7063ecbb048c"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement positionType="Float" x="309" y="218" width="102" height="14" uuid="23371661-5546-4df0-8e7e-7a2424eb7920"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalPresupuestoEjecutadoEntidadAuspiciante}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="204" width="164" height="14" uuid="584cdc69-d4c7-41d8-8b56-d2bd800b14b3"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Aporte Universidad (Gasto No Permanente):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="309" y="176" width="102" height="14" uuid="466d57af-cb9d-491e-9d64-7934aef638dc"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ejecutado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="111" width="164" height="14" uuid="73e951dd-1471-43ff-9003-778229af2c14"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Participantes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="125" width="164" height="14" uuid="dd02f6e1-e00d-465a-ad26-0314438b87f3"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Docentes:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="153" width="164" height="14" uuid="8232da24-40cc-4785-9e8a-91ca4f0be1f4"/>
+				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="309" y="125" width="102" height="14" uuid="076cdc4d-3d41-48a9-aec6-7c25952758e4"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalDocentesEjecutado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="309" y="111" width="102" height="14" uuid="498e1bd0-b8fb-46e7-b3fd-9db4667e0df0"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ejecutado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="43" y="139" width="164" height="14" uuid="800e3651-2c1a-433e-a0c4-2b8121f248ca"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Estudiantes:]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="207" y="139" width="102" height="14" uuid="ec201726-0f30-4e2f-9708-3702af5d16e3"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalEstudiantesParticipantes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="207" y="111" width="102" height="14" uuid="37698eec-7d59-4117-9ba3-fd79ff9a3cd8"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Planificado]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="207" y="125" width="102" height="14" uuid="0b25a463-26cc-400e-ab1e-38a5d2a751d0"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalDocentesParticipantes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="309" y="139" width="102" height="14" uuid="1fc60b25-42a8-4228-844e-f2e5a36e055f"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalEstudiantesEjecutado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="207" y="153" width="102" height="14" uuid="b4006ae6-a8aa-495b-8a41-c7ec7aa76b23"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalDocentesParticipantes}+$F{totalEstudiantesParticipantes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0">
+				<reportElement positionType="Float" x="309" y="153" width="102" height="14" uuid="c85c8726-4b16-4be1-beb5-89af57641f70"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="30">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalDocentesEjecutado}+$F{totalEstudiantesEjecutado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="36" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="506" y="6" width="40" height="20" uuid="0d2f4ecb-7e04-4ad4-a4be-a1a35937e0ed"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="426" y="6" width="80" height="20" uuid="5364442c-37b0-4350-8c43-e00d9e51d1a8"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="5" width="546" height="1" uuid="eb27baaa-d4fa-447d-8be7-7f063d4ae7ba"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="101" y="6" width="325" height="20" uuid="a004e50b-1962-4224-8d55-db8c6b1281d3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Unidad de Vinculación con la Sociedad"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

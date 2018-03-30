@@ -1,0 +1,756 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ec.edu.espe_innovativa.controller;
+/*
+import com.lowagie.text.PageSize;
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+*/
+import ar.com.fdvs.dj.core.DynamicJasperHelper;
+import ar.com.fdvs.dj.core.layout.ClassicLayoutManager;
+import ar.com.fdvs.dj.domain.DynamicReport;
+import ar.com.fdvs.dj.domain.Style;
+import ar.com.fdvs.dj.domain.builders.ColumnBuilder;
+import ar.com.fdvs.dj.domain.builders.DynamicReportBuilder;
+import ar.com.fdvs.dj.domain.constants.Font;
+import ar.com.fdvs.dj.domain.constants.HorizontalAlign;
+import ar.com.fdvs.dj.domain.constants.VerticalAlign;
+import ar.com.fdvs.dj.domain.entities.columns.AbstractColumn;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.BadElementException;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Image;
+import com.lowagie.text.Rectangle;
+import ec.edu.espe_ctt.saturno.entity.Stvcamp;
+import ec.edu.espe_ctt.saturno.entity.Stvmajr;
+import ec.edu.espe_ctt.saturno.entity.Stvsubj;
+import ec.edu.espe_ctt.saturno.session.StvcampFacade;
+import ec.edu.espe_ctt.saturno.session.StvmajrFacade;
+import ec.edu.espe_ctt.saturno.session.StvsubjFacade;
+import ec.edu.espe_ctt.vinculacion.entity.CarreraPrograma;
+import ec.edu.espe_ctt.vinculacion.entity.ConfiguracionParametrosEvaluacion;
+import ec.edu.espe_ctt.vinculacion.entity.DepartamentoProyecto;
+import ec.edu.espe_ctt.vinculacion.entity.ParametroEvaluacion;
+import ec.edu.espe_ctt.vinculacion.entity.Programa;
+import ec.edu.espe_ctt.vinculacion.entity.Proyecto;
+import ec.edu.espe_ctt.vinculacion.entity.SvinDepcenproy;
+import ec.edu.espe_ctt.vinculacion.entity.ValoracionParametroEvaluacion;
+import ec.edu.espe_ctt.vinculacion.session.CarreraProgramaFacade;
+import ec.edu.espe_ctt.vinculacion.session.ConfiguracionParametrosEvaluacionFacade;
+import ec.edu.espe_ctt.vinculacion.session.DepartamentoProyectoFacade;
+import ec.edu.espe_ctt.vinculacion.session.ProgramaFacade;
+import ec.edu.espe_ctt.vinculacion.session.ProyectoFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinDepcenproyFacade;
+import ec.edu.espe_ctt_investigacion.entity.SeaProvincia;
+import ec.edu.espe_ctt_investigacion.session.SeaProvinciaFacade;
+import ec.edu.espe_innovativa.util.DynamicColumnDataSource;
+import ec.edu.espe_innovativa.util.DynamicReportBuilder2;
+import ec.edu.espe_innovativa.util.FacesUtils;
+import ec.edu.espe_innovativa.util.JasperReportUtil;
+import static ec.edu.espe_innovativa.util.JasperReportUtil.PATHIMG;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
+
+/**
+ *
+ * @author Administrador
+ */
+@ManagedBean
+@ViewScoped
+public class ReportesController implements Serializable {
+
+    private TreeNode opcionesMenu;
+    private TreeNode opcionMenuSelected;
+    private List<ConfiguracionParametrosEvaluacion> configuracionParametrosEvaluacionList;
+    @EJB
+    private ConfiguracionParametrosEvaluacionFacade configuracionParametrosEvaluacionFacade;
+    @EJB
+    private StvsubjFacade departamentoFacade;
+    
+    @EJB
+    private ProgramaFacade programaFacade;
+    
+    @EJB
+    private StvmajrFacade carrerasFacade;
+    @EJB
+    private StvcampFacade sedesFacade;
+    @EJB
+    private SeaProvinciaFacade provinciasFacade;
+    
+    @EJB
+    private ProyectoFacade proyectoFacade;
+    
+    private ConfiguracionParametrosEvaluacion configuracionParametrosEvaluacionSelected;
+    private List<Stvsubj> departamentos;
+    private List<Programa> programas;
+    private List<Proyecto> proyectos;
+    private List<Stvmajr> carreras;
+    private List<Stvcamp> sedes;
+    private List<SeaProvincia> provincias;
+    
+    
+    
+
+    private Date fechaDesde;
+    private Date fechaHasta;
+    private String codigoDepartamento;
+    private String codigoCarrera;
+    private Integer codigoPrograma;
+    private Integer codigoProyecto;
+    private String codigoProvincia;
+    private String codigoCanton;
+    private String codigoParroquia;
+     private String codigoSede;
+     private String codigoReporte;
+     
+    
+    
+    
+    
+    
+    
+            
+    
+    public ReportesController() {
+    }
+
+    @PostConstruct
+    public void init() {
+        Calendar cal = Calendar.getInstance();
+        this.fechaDesde=new Date();
+        this.fechaHasta=new Date();
+        this.fechaHasta.setTime(cal.getTime().getTime());
+        cal.add(Calendar.YEAR, -1);
+        this.fechaDesde.setTime(cal.getTime().getTime());
+        
+        this.codigoCanton="";
+        this.codigoCarrera = "";
+        this.codigoDepartamento="";
+        this.codigoParroquia="";
+        this.codigoPrograma=0;
+        this.codigoProvincia="";
+        this.codigoSede="";
+        this.codigoReporte = "1";
+        this.departamentos=departamentoFacade.findAll();
+        this.programas=programaFacade.findAll();
+        this.carreras=carrerasFacade.findAll();
+        this.sedes=sedesFacade.findAll();
+        this.provincias=provinciasFacade.findAll();
+        this.proyectos=proyectoFacade.findAll();
+        inicializarOpcionesMenu();
+        configuracionParametrosEvaluacionList = configuracionParametrosEvaluacionFacade.findXProyPendientesAprobacionVicerrectorado();
+    }
+
+    public ConfiguracionParametrosEvaluacion getConfiguracionParametrosEvaluacionSelected() {
+        return configuracionParametrosEvaluacionSelected;
+    }
+
+    public void setConfiguracionParametrosEvaluacionSelected(ConfiguracionParametrosEvaluacion ConfiguracionParametrosEvaluacionSelected) {
+        this.configuracionParametrosEvaluacionSelected = ConfiguracionParametrosEvaluacionSelected;
+    }
+
+    public List<ConfiguracionParametrosEvaluacion> getConfiguracionParametrosEvaluacionList() {
+        return configuracionParametrosEvaluacionList;
+    }
+
+    public void setConfiguracionParametrosEvaluacionList(List<ConfiguracionParametrosEvaluacion> configuracionParametrosEvaluacionList) {
+        this.configuracionParametrosEvaluacionList = configuracionParametrosEvaluacionList;
+    }
+
+    public TreeNode getOpcionesMenu() {
+        return opcionesMenu;
+    }
+
+    public void setOpcionesMenu(TreeNode opcionesMenu) {
+        this.opcionesMenu = opcionesMenu;
+    }
+
+    public TreeNode getOpcionMenuSelected() {
+        return opcionMenuSelected;
+    }
+
+    public void setOpcionMenuSelected(TreeNode opcionMenuSelected) {
+        this.opcionMenuSelected = opcionMenuSelected;
+    }
+
+    public String getOpcionMenuCodeSelected() {
+        if (opcionMenuSelected != null) {
+            return ((OpcionMenu) opcionMenuSelected.getData()).getCodigo();
+        } else {
+            return "";
+        }
+    }
+
+    
+
+    public void inicializarOpcionesMenu() {
+        opcionesMenu = new DefaultTreeNode("Root", null);
+        TreeNode node1 = new DefaultTreeNode(new OpcionMenu("1", "1. Proyectos pendientes de evaluación por Vicerrectorado"), opcionesMenu);
+        node1.setExpanded(true);
+        node1.setSelected(true);
+        seleccionarConfiguracionParametrosEvaluacion();
+        //TreeNode node2 = new DefaultTreeNode(new OpcionMenu("2", "2. Reporte 2"), opcionesMenu);
+        TreeNode node3 = new DefaultTreeNode(new OpcionMenu("3", "2. Reportes Generales"), opcionesMenu);
+    }
+
+    public void onMenuSelect(NodeSelectEvent event) {
+        OpcionMenu opcionMenu = (OpcionMenu) opcionMenuSelected.getData();
+        switch (opcionMenu.getCodigo()) {
+            case "1":
+                seleccionarConfiguracionParametrosEvaluacion();
+                break;
+            case "2":
+                break;
+            case "1.1.2":
+                break;
+        }
+
+    }
+
+    private List<Proyecto> proyectoList;
+
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
+    }
+
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
+    }
+
+    private List<String> cols;
+    private List<ValoracionParametroEvaluacion> cols2;
+
+    public List<ValoracionParametroEvaluacion> getCols2() {
+        return cols2;
+    }
+
+    public void setCols2(List<ValoracionParametroEvaluacion> cols2) {
+        this.cols2 = cols2;
+    }
+
+    public void setCols(List<String> cols) {
+        this.cols = cols;
+    }
+
+    public List<String> getCols() {
+        /*List<String> cols = new ArrayList<>();
+         if (proyectoList!=null && !proyectoList.isEmpty()){
+         for (ParametroEvaluacion par : proyectoList.get(0).getConfiguracionParametrosEvaluacion().getParametroEvaluacionList()) {
+         cols.add(par.getDescripcion());
+         }
+         }
+         cols.add("TOTAL");*/
+        return cols;
+    }
+
+    private Map<String, Integer> colsSpan;
+
+    public void setColsSpan(Map<String, Integer> colsSpan) {
+        this.colsSpan = colsSpan;
+    }
+
+    public Map<String, Integer> getColsSpan() {
+        /*Map<String, Integer> m= new HashMap<>();
+         for (String col : getCols()) {
+         m.put(col, 3);
+         }*/
+        return colsSpan;
+    }
+    private Integer colspanParametrosEvaluacion;
+
+    public void setColspanParametrosEvaluacion(Integer colspanParametrosEvaluacion) {
+        this.colspanParametrosEvaluacion = colspanParametrosEvaluacion;
+    }
+
+    public Integer getColspanParametrosEvaluacion() {
+        /*int cont = 0;
+        if (configuracionParametrosEvaluacionSelected == null) {
+            return 0;
+        }
+        for (ParametroEvaluacion par : configuracionParametrosEvaluacionSelected.getParametroEvaluacionList()) {
+            cont = cont + par.getValoracionList().size();
+        }
+        return cont + 1;*/
+        return colspanParametrosEvaluacion;
+    }
+
+    public String seleccionarConfiguracionParametrosEvaluacion() {
+
+        colspanParametrosEvaluacion = 0;
+        if (configuracionParametrosEvaluacionSelected != null) {
+            proyectoList = proyectoFacade.findByPorAutorizarVicerrectorado(configuracionParametrosEvaluacionSelected.getId());
+            colsSpan = new HashMap<>();
+            cols = new ArrayList<>();
+            cols2 = new ArrayList<>();
+            if (proyectoList != null && !proyectoList.isEmpty()) {
+                for (ParametroEvaluacion par : proyectoList.get(0).getConfiguracionParametrosEvaluacion().getParametroEvaluacionList()) {
+                    cols.add(par.getDescripcion());
+                    colsSpan.put(par.getDescripcion(), par.getValoracionList().size());
+                    colspanParametrosEvaluacion = colspanParametrosEvaluacion + par.getValoracionList().size();
+                    for (ValoracionParametroEvaluacion val : par.getValoracionList()) {
+                        cols2.add(val);
+                    }
+                }
+            }
+            colspanParametrosEvaluacion = colspanParametrosEvaluacion + 3;
+            //cols.add("TOTAL");
+        }
+        return "";
+    }
+
+    public void generarReportePDF() {
+        if (this.codigoReporte.equals("1"))
+            generarReporteProgramasAnio(JasperReportUtil.TIPO_PDF);
+        else if (this.codigoReporte.equals("2"))
+            generarReporteAvancePrograma(JasperReportUtil.TIPO_PDF);
+        else if (this.codigoReporte.equals("3"))
+            generarReporteAvanceProyecto(JasperReportUtil.TIPO_PDF);
+        //this.generarReporte(JasperReportUtil.TIPO_PDF);
+        //generarReporteProyectosPorAprobarVicerrectorado(JasperReportUtil.TIPO_PDF);
+    }
+
+    public void generarReporteExcel() {
+        generarReporteProgramasAnio(JasperReportUtil.TIPO_XLS);
+        //generarReporteProyectosPorAprobarVicerrectorado(JasperReportUtil.TIPO_XLS);
+    }
+
+    private void generarReporte(String tipoReporte) {
+        try {
+            Map<String, Object> parametros = new HashMap<String, Object>();
+            //parametros.put("as_hclinica", this.turnoSeleccionado.getDpaHclinica().getDpaHclinica());
+            parametros.put("simbologia", JasperReportUtil.PATHSIMBOLOGIA);
+            parametros.put("PATH", JasperReportUtil.PATH);
+            parametros.put("PATH_IMG", JasperReportUtil.PATHIMG);
+            parametros.put("PATH_IMG_1", JasperReportUtil.PATHIMG);
+            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+            jasperBean.jasperReport(JasperReportUtil.PATH_REPORTE_REPORT1, tipoReporte, null, parametros);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private void generarReporteProgramasAnio(String tipoReporte) {
+        try {
+            Map<String, Object> parametros = new HashMap<String, Object>();
+            //parametros.put("as_hclinica", this.turnoSeleccionado.getDpaHclinica().getDpaHclinica());
+            //parametros.put("simbologia", JasperReportUtil.PATHSIMBOLOGIA);
+            //parametros.put("PATH", JasperReportUtil.PATH);
+            parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+            parametros.put("dirPhoto",JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+            parametros.put("codigoDepartamento", this.codigoDepartamento);
+            parametros.put("codigoCarrera", this.codigoCarrera);
+            parametros.put("fechaDesde", this.fechaDesde);
+            parametros.put("fechaHasta", this.fechaHasta);
+            parametros.put("codigoSede", this.codigoSede);
+            if (this.codigoPrograma == -1)
+                parametros.put("codigoPrograma", "%");
+            else
+                parametros.put("codigoPrograma", this.codigoPrograma.toString());
+            parametros.put("codigoProvincia", this.codigoProvincia);
+            parametros.put("codigoCanton", this.codigoCanton);
+            parametros.put("codigoParroquia", this.codigoParroquia);
+            
+            
+            //parametros.put("PATH_IMG_1", JasperReportUtil.PATHIMG);
+            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+            jasperBean.jasperReport(JasperReportUtil.PATH_REPORTE_PROGRAMA_ANIO, tipoReporte, null, parametros);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+     private void generarReporteAvancePrograma(String tipoReporte) {
+        try {
+            Map<String, Object> parametros = new HashMap<String, Object>();
+            
+            parametros.put("dirPhoto",JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+            
+            parametros.put("codigoDepartamento", this.codigoDepartamento);
+            
+                parametros.put("fechaDesde", this.fechaDesde);
+            
+            parametros.put("fechaHasta", this.fechaHasta);
+            if (this.codigoPrograma == -1)
+                parametros.put("codigoPrograma", "%");
+            else
+                parametros.put("codigoPrograma", this.codigoPrograma.toString());
+            
+            
+            //parametros.put("PATH_IMG_1", JasperReportUtil.PATHIMG);
+            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+            jasperBean.jasperReport(JasperReportUtil.PATH_REPORTE_AVANCE_PROGRAMA, tipoReporte, null, parametros);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+     
+     private void generarReporteAvanceProyecto(String tipoReporte) {
+        try {
+            Map<String, Object> parametros = new HashMap<String, Object>();
+            
+            parametros.put("dirPhoto",JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+            
+            parametros.put("codigoDepartamento", this.codigoDepartamento);
+            
+                parametros.put("fechaDesde", this.fechaDesde);
+            
+            parametros.put("fechaHasta", this.fechaHasta);
+            if (this.codigoPrograma == -1)
+                parametros.put("codigoPrograma", "%");
+            else
+                parametros.put("codigoPrograma", this.codigoPrograma.toString());
+            
+            if (this.codigoProyecto == -1)
+                parametros.put("codigoProyecto", "%");
+            else
+                parametros.put("codigoProyecto", this.codigoProyecto.toString());
+            
+            
+            //parametros.put("PATH_IMG_1", JasperReportUtil.PATHIMG);
+            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+            jasperBean.jasperReport(JasperReportUtil.PATH_REPORTE_AVANCE_PROYECTO, tipoReporte, null, parametros);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /*public void dynamicJasper() {
+        try {
+
+            FastReportBuilder drb = new FastReportBuilder();
+            DynamicReport dr = drb.addColumn("State", "state", String.class.getName(), 30)
+                    .addColumn("Branch", "branch", String.class.getName(), 30)
+                    .addColumn("Product Line", "productLine", String.class.getName(), 50)
+                    .addColumn("Item", "item", String.class.getName(), 50)
+                    .addColumn("Item Code", "id", Long.class.getName(), 30, true)
+                    .addColumn("Quantity", "quantity", Long.class.getName(), 60, true)
+                    .addColumn("Amount", "amount", Float.class.getName(), 70, true)
+                    .addGroups(2)
+                    .setTitle("November 2006 sales report")
+                    .setSubtitle("This report was generated at " + new Date())
+                    .setPrintBackgroundOnOddRows(true)
+                    .setUseFullPageWidth(true)
+                    .build();
+
+            //JRDataSource ds = new JRBeanCollectionDataSource(TestRepositoryProducts.getDummyCollection());
+            JasperPrint jp = DynamicJasperHelper.generateJasperPrint(dr, new ClassicLayoutManager(), ds);
+            JasperViewer.viewReport(jp);    //finally display the report report
+        } catch (Exception e) {
+        }
+    }
+    
+    
+     */
+    private void generarReporteProyectosPorAprobarVicerrectorado(String tipo) {
+        try {
+            //This is rather boring data -- you would have something much more interesting in a real application.
+            // Try changing this method to build the report with more columns.  All you need to change is the columnHeaders
+            // and rows collections.
+            List<String> columnHeaders = Arrays.asList(new String[]{"Col1", "Col2", "Col3", "Col4", "Col5", "Col6", "Col7", "Col8", "Col9", "Col10"});
+            List<List<String>> rows = new ArrayList<List<String>>();
+            List<String> row1 = Arrays.asList(new String[]{"Data1", "Data2", "Data3", "Data4", "Otro campo", "Col6", "Col7", "Col8", "Col9", "Col10"});
+            List<String> row2 = Arrays.asList(new String[]{"Data5", "Data6", "Data7", "Data8", "Otro campo", "Col6", "Col7", "Col8", "Col9", "Col10"});
+            List<String> row3 = Arrays.asList(new String[]{"Data9", "Data10", "Data11", "Data12", "Otro campo", "Col6", "Col7", "Col8", "Col9", "Col10"});
+
+            rows.add(row1);
+            rows.add(row2);
+            rows.add(row3);
+            runReport(columnHeaders, rows);
+            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+            jasperBean.jasperReport(jasperPrint, tipo);
+
+        } catch (Exception e) {
+        }
+    }
+
+    private JasperPrint jasperPrint;
+
+    public void runReport(List<String> columnHeaders, List<List<String>> rows) throws JRException {
+
+        System.out.println("Loading the .jrxml");
+        //InputStream is = getClass().getResourceAsStream("../../../DynamicColumns.jrxml");
+        InputStream is = getClass().getResourceAsStream("../../../../../../../web/jrxml/DynamicColumns.jrxml");
+        //InputStream is = getClass().getResourceAsStream(JasperReportUtil.PATH_REPORTE_DINAMICO);
+        JasperDesign jasperReportDesign = JRXmlLoader.load(is);
+
+        System.out.println("Adding the dynamic columns");
+        DynamicReportBuilder2 reportBuilder = new DynamicReportBuilder2(jasperReportDesign, columnHeaders.size());
+        reportBuilder.addDynamicColumns();
+
+        System.out.println("Compiling the report");
+        JasperReport jasperReport = JasperCompileManager.compileReport(jasperReportDesign);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("REPORT_TITLE", "Sample Dynamic Columns Report");
+        DynamicColumnDataSource pdfDataSource = new DynamicColumnDataSource(columnHeaders, rows);
+        System.out.println("Filling the report");
+
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params, pdfDataSource);
+
+        //System.out.println("Exporting the report to pdf");
+        //JasperExportManager.exportReportToPdfFile(jasperPrint, "/tmp/DynamicColumns.pdf");
+        //JasperExportManager.exportReportToPdfFile(jasperPrint, "E:/temp/DynamicColumns.pdf");
+    }
+
+    protected JasperPrint jp;
+    protected JasperReport jr;
+    protected Map params = new HashMap();
+    protected DynamicReport dr;
+
+    protected JRDataSource getDataSource() {
+// Generate dummy data to show in the report.
+        List records = new ArrayList();
+        for (int i = 1; i < 10; i++) {
+
+            Map columns = new HashMap();
+            for (int j = 1; j <= 10; j++) {
+// The HashMap Key must save with ColumnProperty Name
+                columns.put("Column" + j, "Record " + i + " Column " + j + " data.");
+            }
+            records.add(columns);
+        }
+        JRDataSource ds = new JRMapCollectionDataSource(records);
+        return ds;
+    }
+
+    public void buildReport() throws Exception {
+        params.put("ReportTitle1", "Report Title");
+        DynamicReportBuilder drb = new DynamicReportBuilder();
+        Font font = new Font(10, "Sarif", true);
+        Style headerStyle = new Style();
+        headerStyle.setFont(font);
+        headerStyle.setHorizontalAlign(HorizontalAlign.LEFT);
+        headerStyle.setVerticalAlign(VerticalAlign.MIDDLE);
+        font = new Font(8, "Sarif", false);
+        Style detailStyle = new Style();
+        detailStyle.setFont(font);
+        detailStyle.setHorizontalAlign(HorizontalAlign.LEFT);
+        detailStyle.setVerticalAlign(VerticalAlign.MIDDLE);
+        for (int i = 1; i <= 10; i++) {
+            AbstractColumn column = ColumnBuilder.getInstance()
+                    .setColumnProperty("Column" + i, String.class.getName())
+                    .setTitle("Column " + i + " Title").setWidth(200)
+                    .setStyle(detailStyle).setHeaderStyle(headerStyle).build();
+            drb.addColumn(column);
+        }
+        drb.setUseFullPageWidth(true);
+// Pass the JasperReport Template to DynamicJasper
+        drb.setTemplateFile("C:/DynamicJasperTemplate.jrxml");
+        DynamicReport dr = drb.build();
+        JRDataSource ds = getDataSource();
+        jr = DynamicJasperHelper.generateJasperReport(dr, new ClassicLayoutManager(), params);
+        if (ds != null) {
+            jp = JasperFillManager.fillReport(jr, params, ds);
+        } else {
+            jp = JasperFillManager.fillReport(jr, params);
+        }
+        JasperExportManager.exportReportToPdfFile(jp, "C:/report-out.pdf");
+    }
+    
+ public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
+        Document pdf = (Document) document;
+        pdf.open();
+        pdf.setPageSize(PageSize.A0);
+        pdf.setPageSize(new Rectangle(5000, 1000));
+ 
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        //String logo = externalContext.getRealPath("") + File.separator + "resources" + File.separator + "demo" + File.separator + "images" + File.separator + "prime_logo.png";
+         
+        //pdf.add(Image.getInstance(logo));
+    }
+
+    public Date getFechaDesde() {
+        return fechaDesde;
+    }
+
+    public void setFechaDesde(Date fechaDesde) {
+        this.fechaDesde = fechaDesde;
+    }
+
+    public Date getFechaHasta() {
+        return fechaHasta;
+    }
+
+    public void setFechaHasta(Date fechaHasta) {
+        this.fechaHasta = fechaHasta;
+    }
+
+    public String getCodigoDepartamento() {
+        return codigoDepartamento;
+    }
+
+    public void setCodigoDepartamento(String codigoDepartamento) {
+        this.codigoDepartamento = codigoDepartamento;
+    }
+
+    public String getCodigoCarrera() {
+        return codigoCarrera;
+    }
+
+    public void setCodigoCarrera(String codigoCarrera) {
+        this.codigoCarrera = codigoCarrera;
+    }
+
+    public Integer getCodigoPrograma() {
+        return codigoPrograma;
+    }
+
+    public void setCodigoPrograma(Integer codigoPrograma) {
+        this.codigoPrograma = codigoPrograma;
+    }
+
+    public String getCodigoProvincia() {
+        return codigoProvincia;
+    }
+
+    public void setCodigoProvincia(String codigoProvincia) {
+        this.codigoProvincia = codigoProvincia;
+    }
+
+    public String getCodigoCanton() {
+        return codigoCanton;
+    }
+
+    public void setCodigoCanton(String codigoCanton) {
+        this.codigoCanton = codigoCanton;
+    }
+
+    public String getCodigoParroquia() {
+        return codigoParroquia;
+    }
+
+    public void setCodigoParroquia(String codigoParroquia) {
+        this.codigoParroquia = codigoParroquia;
+    }
+
+    public String getCodigoSede() {
+        return codigoSede;
+    }
+
+    public void setCodigoSede(String codigoSede) {
+        this.codigoSede = codigoSede;
+    }
+
+    public List<Stvsubj> getDepartamentos() {
+        return departamentos;
+    }
+
+    public void setDepartamentos(List<Stvsubj> departamentos) {
+        this.departamentos = departamentos;
+    }
+
+    public List<Programa> getProgramas() {
+        return programas;
+    }
+
+    public void setProgramas(List<Programa> programas) {
+        this.programas = programas;
+    }
+
+    public List<Stvmajr> getCarrerasPrograma() {
+        return carreras;
+    }
+
+    public void setCarrerasPrograma(List<Stvmajr> carrerasPrograma) {
+        this.carreras = carrerasPrograma;
+    }
+
+    public List<Stvmajr> getCarreras() {
+        return carreras;
+    }
+
+    public void setCarreras(List<Stvmajr> carreras) {
+        this.carreras = carreras;
+    }
+
+    public List<Stvcamp> getSedes() {
+        return sedes;
+    }
+
+    public void setSedes(List<Stvcamp> sedes) {
+        this.sedes = sedes;
+    }
+
+    public List<SeaProvincia> getProvincias() {
+        return provincias;
+    }
+
+    public void setProvincias(List<SeaProvincia> provincias) {
+        this.provincias = provincias;
+    }
+
+    public String getCodigoReporte() {
+        return codigoReporte;
+    }
+
+    public void setCodigoReporte(String codigoReporte) {
+        this.codigoReporte = codigoReporte;
+    }
+
+    public Integer getCodigoProyecto() {
+        return codigoProyecto;
+    }
+
+    public void setCodigoProyecto(Integer codigoProyecto) {
+        this.codigoProyecto = codigoProyecto;
+    }
+
+    public List<Proyecto> getProyectos() {
+        return proyectos;
+    }
+
+    public void setProyectos(List<Proyecto> proyectos) {
+        this.proyectos = proyectos;
+    }
+
+   
+ 
+ 
+ 
+}

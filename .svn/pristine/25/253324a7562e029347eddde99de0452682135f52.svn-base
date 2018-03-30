@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="avanceProgramaComponente" language="groovy" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0844b7b9-ba78-45c1-8044-4c5448c94f82">
+	<property name="ireport.zoom" value="1.7715610000000044"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoPrograma" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[97]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select obj.*,
+(select detAvance.SZTVDETACTPROY_RESULTADO from SZDTAVDETACTPROY detAvance where detAvance.SZTVACTPROY_CODE =(
+select max(SZTVACTPROY_CODE) from SZDTAVACTPROY avance, SZDTAVOBJETIVO_PROGRAMA obj
+where obj.SPRV_ID = $P{codigoPrograma}
+and avance.SVOP_ID = obj.SVOP_ID)
+and DETAVANCE.SVOP_ID=obj.SVOP_ID) resultadoAvance,
+(select detAvance.SZTVDETACTPROY_PORCENT from SZDTAVDETACTPROY detAvance where detAvance.SZTVACTPROY_CODE =(
+select max(SZTVACTPROY_CODE) from SZDTAVACTPROY avance, SZDTAVOBJETIVO_PROGRAMA obj
+where obj.SPRV_ID = $P{codigoPrograma}
+and avance.SVOP_ID = obj.SVOP_ID)
+and DETAVANCE.SVOP_ID=obj.SVOP_ID) porcentajeAvance
+from SZDTAVOBJETIVO_PROGRAMA obj
+where obj.SPRV_ID = $P{codigoPrograma} and OBJ.SVOP_TIPO=3]]>
+	</queryString>
+	<field name="SVOP_ID" class="java.math.BigDecimal"/>
+	<field name="SVOP_INDICADOR" class="java.lang.String"/>
+	<field name="SVOP_MVERIFICA" class="java.lang.String"/>
+	<field name="SVOP_SUPUESTOS" class="java.lang.String"/>
+	<field name="SPRV_ID" class="java.math.BigDecimal"/>
+	<field name="SVOP_OBJETIVO_PROY" class="java.lang.String"/>
+	<field name="SVOP_TIPO" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_CODE" class="java.math.BigDecimal"/>
+	<field name="SVOP_ID_PADRE" class="java.math.BigDecimal"/>
+	<field name="SVOP_ORDEN" class="java.math.BigDecimal"/>
+	<field name="SVOP_FEC_INI" class="java.sql.Timestamp"/>
+	<field name="SVOP_FEC_FIN" class="java.sql.Timestamp"/>
+	<field name="SVOP_INDICADOR_TIPO" class="java.math.BigDecimal"/>
+	<field name="SVOP_INDICADOR_VALOR" class="java.math.BigDecimal"/>
+	<field name="SVOP_INDICADOR_VALOR_EJE" class="java.math.BigDecimal"/>
+	<field name="RESULTADOAVANCE" class="java.lang.String"/>
+	<field name="PORCENTAJEAVANCE" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="168" height="22" uuid="be7bf399-33aa-4dd2-a5db-483292177373"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Componente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="168" y="0" width="170" height="22" uuid="6ac80f36-e20e-4bab-8c5e-0d67069b0785"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resultado esperado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="338" y="0" width="162" height="22" uuid="3407a032-4922-4cd4-83cf-700ffe616eb0"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resultado ejecutado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="500" y="0" width="46" height="22" uuid="c4fc0deb-4d2b-4767-9ca0-bf7862c0d115"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Porcentaje Avance]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="10" splitType="Prevent">
+			<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()!=0)]]></printWhenExpression>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="168" height="10" uuid="a5e323b8-903d-481a-a008-1dc97ab89ffd"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SVOP_OBJETIVO_PROY}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="168" y="0" width="170" height="10" uuid="582cc383-fa80-4d18-b779-b9076623b737"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SVOP_INDICADOR}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="338" y="0" width="162" height="10" uuid="2d0a3769-5130-497d-a2af-7949af2dd5d1"/>
+				<box topPadding="0" leftPadding="5" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RESULTADOAVANCE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0 %" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="500" y="0" width="46" height="10" uuid="b3736b6a-e020-429a-b61d-c14028e60470"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PORCENTAJEAVANCE}==null?0:$F{PORCENTAJEAVANCE}/100]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

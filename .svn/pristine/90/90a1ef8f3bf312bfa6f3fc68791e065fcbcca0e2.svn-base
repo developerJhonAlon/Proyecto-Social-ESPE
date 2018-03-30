@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="./template-sistema.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:define name="content">  
+        <script type="text/javascript">
+            var countDownTime;
+            var sessionTime = 20 * 60 * 1000;//in miliseconds
+            function countDownInit() {
+                countDownTime = (new Date()).getTime();
+            }
+            function checkCountDown() {
+                if (countDownTime == null) {
+                    countDownTime = (new Date()).getTime();
+                }
+                var now = (new Date()).getTime();
+                if (now - countDownTime > (sessionTime)) {
+                    PF('dlgSesion').show();
+                }
+            }
+            window.setInterval(checkCountDown, 1000);
+        </script>
+        <h:form id="formPrincipal" >
+            <p:idleMonitor timeout="#{session.maxInactiveInterval * 1000}" onidle="PF('dlgSesion').show();"  />
+            <!--<p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();countDownInit();"/>  -->
+            <pe:blockUI widgetVar="blockUIWidget">  
+                <h:panelGrid columns="2">  
+                    <p:graphicImage value="/resources/images/ajax-loader1.gif" style="margin-right: 12px; vertical-align: middle;" />  
+                    <h:outputText value="Procesando... Por favor espere..." style="white-space: nowrap;"/>  
+                </h:panelGrid>   
+            </pe:blockUI>              
+            <p:dialog id="dlgForm01" modal="true" widgetVar="statusDialog" header="msg.procesando"   minimizable="false" showHeader="false"
+                      draggable="false" closable="false" maximizable="false" width="240">  
+                <h:panelGrid columns="2">  
+                    <p:graphicImage value="/resources/images/ajax-loader1.gif" style="margin-right: 12px; vertical-align: middle;" />  
+                    <h:outputText value="Procesando... Por favor espere..." style="white-space: nowrap;"/>  
+                </h:panelGrid>  
+            </p:dialog> 
+
+            <p:confirmDialog id="dlgSesion"
+                             header="Sesión expirada" severity="alert" widgetVar="dlgSesion"
+                             appendTo="@(body)" closable="false"
+                             >
+                <f:facet name="message">
+                    <h:outputText value="Estimado usuario,"/><br/>
+                    <h:outputText value="por su seguridad su sesión ha sido expirada ..."/><br/>
+                    <h:outputText value="Esto ocurre cuando el sistema no ha sido usado por un lapso de "/>
+                    <h:outputText value="#{session.maxInactiveInterval/60}">
+                        <f:convertNumber locale="es_ES" pattern="###" />
+                    </h:outputText>
+                    <h:outputText value=" minutos."/><br/>
+                    <h:outputText value="Por favor vuelva a ingresar al sistema."/>
+                </f:facet>
+                <center>
+                    <input id="confirmBackToLogin" type="button" value="Aceptar" style="cursor: pointer"
+                           onclick="window.location = '#{facesContext.externalContext.requestContextPath}';" />
+                </center>
+            </p:confirmDialog>
+            <p:growl id="message" showDetail="false"></p:growl>
+            <p:layout style="min-width:800px;min-height:500px;">
+                <p:layoutUnit position="center" size="200" minSize="40" maxSize="200" id="central">
+                    <ui:include src="#{navegacionController.selectedIncludePath}"/>
+                    <ui:include src="/WEB-INF/includes/commonMenu1.xhtml"/>
+
+                </p:layoutUnit> 
+            </p:layout>
+        </h:form>
+    </ui:define>
+</ui:composition>

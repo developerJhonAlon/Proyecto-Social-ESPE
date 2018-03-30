@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      >
+    <h:body>    
+        <ui:composition template="/vista/template-sistema2.xhtml">
+            <ui:define name="content">
+                <style>
+                        .foo td {
+                        vertical-align: top;
+                    }  
+                
+                    .foo2{
+                        width: 150px;
+                    }
+
+                    .ui-panel .ui-panel-content {
+                        padding: 0;
+                    }            
+                    .col1_datos_generales {
+                        width: 65px;
+                    }
+                    .col1_adquisicion {
+                        width: 95px;
+                    }
+                    .col1_objetivos {
+                        width: 80px;
+                    }
+                    .col1_presupuesto {
+                        width: 125px;
+                    }
+                    .col1_identificacionPoblacion {
+                        width: 70px;
+                        text-align: left;
+                        border: solid;
+                        border-width: 1px;
+                    }
+                    .col2_identificacionPoblacion {
+                        width: 70px;
+                        text-align: center;
+                        border: solid;
+                        border-width: 1px;
+                    }
+                    .col1_acta_concejo_departamento{
+                        width: 200px;
+                    }
+                    .hide-column-names table thead tr {
+                        display: none;
+                    }
+                    .button {
+
+                        background-color: Transparent;background-repeat:no-repeat;border: none;cursor:pointer;overflow: hidden;
+
+                    }            
+                </style>                
+
+                <p:panel header="Proyectos Vinculación" style="border: hidden">
+                </p:panel>
+
+                <h:panelGrid id="panelBase" style="margin-bottom: 35px">
+                    
+                    <p:commandButton id="btnAgregarProyecto" value="Agregar Proyecto" icon="ui-icon-plus" 
+                                     title="Agregar Información"  action="#{listadoProyectosController.agregarProyecto}"  
+                                     disabled="#{!listadoProyectosController.permitirAgregarProyecto}"
+                                     update=":formPrincipal:panelBase, :formPrincipal:message1"
+                                     onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                    </p:commandButton>
+
+                    <h:outputLabel value="Listado de Proyectos:"/>
+
+                    <p:dataTable id="dtProyectos" widgetVar="dtProyectos" value="#{listadoProyectosController.proyectoList}" var="d" 
+                                 paginator="true" rows="5" rowIndexVar="index" resizableColumns="true"
+                                 emptyMessage="No se encontraron resultados"
+                                                                
+                                 paginatorPosition="top"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                 rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                        <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{d.id}">
+                            <h:outputText value="#{index + 1}" />
+                        </p:column>
+
+                                                
+                        <p:column headerText="Código" width="90" style="white-space: pre-line" sortBy="#{d.codigo}" filterBy="#{d.codigo}" filterMatchMode="contains">
+                            <h:outputText  value ="#{d.codigo}"/> 
+                        </p:column>
+                        <p:column headerText="Nombre" width="420" style="white-space: pre-line" sortBy="#{d.nombre}" filterBy="#{d.nombre}" filterMatchMode="contains">
+                            <h:outputText  value ="#{d.nombre}"/> 
+                        </p:column>
+                        <p:column headerText="Estado" width="90" style="white-space: pre-line" sortBy="#{d.estadoStr}" filterBy="#{d.estado.prdId}" filterMatchMode="exact">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('dtProyectos').filter()" >
+                                    <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{listadoProyectosController.estadoList}" var="estado" itemLabel="#{estado.prdDescripcion}" itemValue="#{estado.prdId}"/>
+                                </p:selectOneMenu>
+                            </f:facet>                            
+                            <h:outputText  value ="#{d.estadoStr}"/> 
+                        </p:column>                        
+                        <p:column headerText="Director" style="white-space: pre-line" width="140"
+                                  sortBy="#{d.director.usuario.usuNombres.concat(' ').concat(d.director.usuario.usuApellidos)}" 
+                                  filterBy="#{d.director.usuario.usuCc.concat('-').concat(d.director.usuario.usuNombres).concat(' ').concat(d.director.usuario.usuApellidos)}" filterMatchMode="contains">
+                            <h:outputText  value ="#{d.director.usuario.usuCc.concat('-').concat(d.director.usuario.usuNombres).concat(' ').concat(d.director.usuario.usuApellidos)}"/> 
+                        </p:column>
+                        <p:column headerText="Campus" width="100" style="white-space: pre-line" sortBy="#{d.campus.stvcampDesc}" filterBy="#{d.campus.stvcampDesc}" filterMatchMode="contains">
+                            <h:outputText  value ="#{d.campus.stvcampDesc}"/> 
+                        </p:column>
+                        <p:column headerText="Departamento" width="100" style="white-space: pre-line" sortBy="#{d.departamento.stvsubjDesc}" filterBy="#{d.departamento.stvsubjDesc}" filterMatchMode="contains">
+                            <h:outputText  value ="#{d.departamento.stvsubjDesc}"/> 
+                        </p:column>
+                        <p:column headerText="Tipo" width="90" style="white-space: pre-line" sortBy="#{d.tipo}" filterBy="#{d.tipo}" filterMatchMode="exact">
+                            <h:outputText  value ="#{d.tipo=='C'?'Gasto Permanente':'Gasto No Permanente'}"/>  
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('dtProyectos').filter()" >
+                                    <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Gasto Permanente" itemValue="C"/>
+                                    <f:selectItem itemLabel="Gasto No Permanente" itemValue="I"/>
+                                </p:selectOneMenu>
+                            </f:facet>                                  
+                        </p:column>
+
+                        <p:column headerText="Seleccione" width="50" style="text-align: center">
+                            <p:button outcome="proyecto" icon="ui-icon-circle-check">
+                                <f:param name="idProyecto" value="#{d.id}" />
+                            </p:button>                                    
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

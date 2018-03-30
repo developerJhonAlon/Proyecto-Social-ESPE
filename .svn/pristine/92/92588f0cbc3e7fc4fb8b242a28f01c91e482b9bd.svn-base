@@ -1,0 +1,40 @@
+/*$(document).on("paste", "#formPrincipal\\:formPrincipal1\\:tabViewPrincipal\\:tabViewPerfil\\:resProg", function() {
+    setTimeout(function(){$("#formPrincipal\\:formPrincipal1\\:tabViewPrincipal\\:tabViewPerfil\\:resProg").trigger("keyup");}, 0);
+});
+*/
+
+$(document).on("keyup", "#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtPresupuestoUniv_input", function() {
+    $("#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtPresupuestoUniv_input").trigger("change");
+});
+$(document).on("keyup", "#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtPresupuestoUnivValorado_input", function() {
+    $("#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtPresupuestoUnivValorado_input").trigger("change");
+});
+$(document).on("keyup", "#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtPresupuestoEntidadAuspiciante_input", function() {
+    $("#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtPresupuestoEntidadAuspiciante_input").trigger("change");
+});
+$(document).on("keyup", "#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtPresupuestoContraparte_input", function() {
+    $("#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtPresupuestoContraparte_input").trigger("change");
+});
+
+
+
+
+$(document).on("keyup", "#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtDirectosHombres_input", function() {
+    $("#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtDirectosHombres_input").trigger("change");
+});
+$(document).on("keyup", "#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtDirectosMujeres_input", function() {
+    $("#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtDirectosMujeres_input").trigger("change");
+});
+$(document).on("keyup", "#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtDirectosDiscapac_input", function() {
+    $("#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtDirectosDiscapac_input").trigger("change");
+});
+
+$(document).on("keyup", "#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtIndirectosHombres_input", function() {
+    $("#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtIndirectosHombres_input").trigger("change");
+});
+$(document).on("keyup", "#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtIndirectosMujeres_input", function() {
+    $("#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtIndirectosMujeres_input").trigger("change");
+});
+$(document).on("keyup", "#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtIndirectosDiscapac_input", function() {
+    $("#formPrincipal\\:tabViewPrincipal\\:tabViewPerfil\\:txtIndirectosDiscapac_input").trigger("change");
+});

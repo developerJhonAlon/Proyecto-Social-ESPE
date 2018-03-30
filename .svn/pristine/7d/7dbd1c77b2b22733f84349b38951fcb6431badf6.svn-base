@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <body>
+        <ui:composition>
+            <div id="cabecera" class="cabecera">
+                <div class="borde_izquierdo"></div>
+                <div class="centro_transp">
+                    <h:form>
+                        <h:panelGrid width="100%" columns="2" cellpadding="0" cellspacing="0" border="0" style="background-color: #F5F3E5">
+                            <h:panelGroup>
+                                <h:graphicImage value="/resources/images/banner_SVS.png" height="90%" width="90%"
+                                                style=" margin-left:10%; margin-top:5px;"/>
+                            </h:panelGroup>
+                            <h:panelGroup style="margin-top: 5px">
+                                <h:commandButton image="/resources/images/close-session.png" action="#{navegacionController.cerrar_session}"
+                                                 style="float:right; text-align:right; margin-left:5px; margin-top:5px;" alt="Cerrar Sesión"/>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </h:form>
+                </div>
+                <div class="borde_derecho"></div>
+            </div>
+        </ui:composition>
+    </body>
+</html>

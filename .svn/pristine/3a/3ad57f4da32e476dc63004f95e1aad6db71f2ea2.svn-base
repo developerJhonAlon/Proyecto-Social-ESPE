@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="certificadoEstudiante" language="groovy" pageWidth="595" pageHeight="842" columnWidth="435" leftMargin="80" rightMargin="80" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="1.2100000000000033"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="220"/>
+	<parameter name="idParticipante" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[26]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nroHoras" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[80]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nroHorasTexto" class="java.lang.String">
+		<defaultValueExpression><![CDATA["ochenta"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaDesde" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1 de enero de 2015"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaHasta" class="java.lang.String">
+		<defaultValueExpression><![CDATA["30 de abril de 2015"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaActual" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Sangolquí, 5 de enero de 2016"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pathAplicacion" class="java.lang.String">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\build\\web\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select USU.SPBPERS_SEX, USU.USU_CC, USU.SPBPERS_NAME_PREFIX, USU.USU_NOMBRES, USU.USU_APELLIDOS, CAR.STVMAJR_DESC, PROY.SZTVPROYEC_NOMBRE,
+(select  usu.usu_nombres || ' ' || usu.usu_apellidos
+from SZDTAVRESPONSABLE_PROG dir inner join  seg_usuario usu on dir.usu_id_docente = usu.usu_id
+where dir.sztvtipres_code = 1 and DIR.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE AND DIR.SRESPROG_ESTADO = 'A') DIRECTOR,
+(select  SPBPERS_SEX
+from SZDTAVRESPONSABLE_PROG dir inner join  seg_usuario usu on dir.usu_id_docente = usu.usu_id
+where dir.sztvtipres_code = 1 and DIR.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE AND DIR.SRESPROG_ESTADO = 'A') DIRECTOR_SEXO,
+(select  SPBPERS_NAME_PREFIX
+from SZDTAVRESPONSABLE_PROG dir inner join  seg_usuario usu on dir.usu_id_docente = usu.usu_id
+where dir.sztvtipres_code = 1 and DIR.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE AND DIR.SRESPROG_ESTADO = 'A') DIRECTOR_TITULO,
+(SELECT VICERRECTOR_NOM FROM SZDTAVCONFIGURACION WHERE ROWNUM=1) VICERRECTOR_NOM,
+(SELECT VICERRECTOR_APE FROM SZDTAVCONFIGURACION WHERE ROWNUM=1) VICERRECTOR_APE,
+(SELECT VICERRECTOR_ABREV FROM SZDTAVCONFIGURACION WHERE ROWNUM=1) VICERRECTOR_ABREV,
+(SELECT VICERRECTOR_GRADO_MIL FROM SZDTAVCONFIGURACION WHERE ROWNUM=1) VICERRECTOR_GRADO_MIL,
+(SELECT DIRECTOR_UNID_VINCU_NOM FROM SZDTAVCONFIGURACION WHERE ROWNUM=1) DIRECTOR_UNID_VINCU_NOM,
+(SELECT DIRECTOR_UNID_VINCU_APE FROM SZDTAVCONFIGURACION WHERE ROWNUM=1) DIRECTOR_UNID_VINCU_APE,
+(SELECT DIRECTOR_UNID_VINCU_ABREV FROM SZDTAVCONFIGURACION WHERE ROWNUM=1) DIRECTOR_UNID_VINCU_ABREV,
+(SELECT DIRECTOR_UNID_VINCU_GRADO_MIL FROM SZDTAVCONFIGURACION WHERE ROWNUM=1) DIRECTOR_UNID_VINCU_GRADO_MIL
+from SZDTAVRESPONSABLE_PROG RES, SEG_USUARIO USU, STVMAJR CAR, SZDTAVPROYEC PROY
+where RES.SRESPROG_ID = $P{idParticipante}
+AND RES.USU_ID_DOCENTE = USU.USU_ID
+AND RES.STVMAJR_CODE = CAR.STVMAJR_CODE
+AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
+	</queryString>
+	<field name="SPBPERS_SEX" class="java.lang.String"/>
+	<field name="USU_CC" class="java.lang.String"/>
+	<field name="SPBPERS_NAME_PREFIX" class="java.lang.String"/>
+	<field name="USU_NOMBRES" class="java.lang.String"/>
+	<field name="USU_APELLIDOS" class="java.lang.String"/>
+	<field name="STVMAJR_DESC" class="java.lang.String"/>
+	<field name="SZTVPROYEC_NOMBRE" class="java.lang.String"/>
+	<field name="DIRECTOR" class="java.lang.String"/>
+	<field name="DIRECTOR_SEXO" class="java.lang.String"/>
+	<field name="DIRECTOR_TITULO" class="java.lang.String"/>
+	<field name="VICERRECTOR_NOM" class="java.lang.String"/>
+	<field name="VICERRECTOR_APE" class="java.lang.String"/>
+	<field name="VICERRECTOR_ABREV" class="java.lang.String"/>
+	<field name="VICERRECTOR_GRADO_MIL" class="java.lang.String"/>
+	<field name="DIRECTOR_UNID_VINCU_NOM" class="java.lang.String"/>
+	<field name="DIRECTOR_UNID_VINCU_APE" class="java.lang.String"/>
+	<field name="DIRECTOR_UNID_VINCU_ABREV" class="java.lang.String"/>
+	<field name="DIRECTOR_UNID_VINCU_GRADO_MIL" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="643" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="127" width="435" height="24" uuid="c82ae144-92b6-41ef-878f-0fe2326d2e30"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIVERSIDAD DE LAS FUERZAS ARMADAS ESPE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="151" width="435" height="24" uuid="9d920aa2-02b0-4b62-bf4e-de599cb19c19"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VICERRECTORADO DE INVESTIGACIÓN, INNOVACIÓN Y]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="175" width="435" height="24" uuid="8041c846-2af1-4d32-abb3-8a6846a59dc3"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TRANSFERENCIA DE TECNOLOGÍA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="199" width="435" height="24" uuid="9d944bcf-6804-46e7-a5e2-7038d9a8fcbc"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIDAD DE VINCULACIÓN CON LA SOCIEDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="223" width="435" height="38" uuid="ea530f4f-e510-441d-ad0e-87c4fca2da68"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CERTIFICADO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="306" width="435" height="16" uuid="464ecf01-cb85-475c-bcbd-3f7260cc755b"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="html">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{SPBPERS_SEX}==null?"Señor/Señorita":($F{SPBPERS_SEX}=="M"?"Señor":"Señorita")) +" <b>" + $F{USU_APELLIDOS} + " " + $F{USU_NOMBRES}+ "</b>, con cédula de ciudadanía, " + $F{USU_CC} + ", Estudiante de la Carrera de " + $F{STVMAJR_DESC} + "."]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="341" width="435" height="16" uuid="8b1a6bef-3360-4539-a681-e18d20cf1c6e"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="html">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Quien participó en el Proyecto de Vinculación con la Sociedad, <b>" + $F{SZTVPROYEC_NOMBRE} + "</b>, cumpliendo con un total de " + $P{nroHorasTexto} + " (" + $P{nroHoras} + ") horas de servicio a la comunidad, a partir del " + $P{fechaDesde} + " hasta el " + $P{fechaHasta} + (($F{DIRECTOR_SEXO}==null || $F{DIRECTOR_TITULO}==null)?", bajo la dirección de ":(($F{DIRECTOR_SEXO}=="M" && $F{DIRECTOR_TITULO}!=null)?", bajo la dirección del ":(($F{DIRECTOR_SEXO}=="F" && $F{DIRECTOR_TITULO}!=null)?", bajo la dirección de la ":", bajo la dirección de "  ))) + ($F{DIRECTOR_TITULO}!=null?($F{DIRECTOR_TITULO}+" "):"") + $F{DIRECTOR} + (($F{DIRECTOR_SEXO}==null || $F{DIRECTOR_SEXO}== "M")?", Director del Proyecto.":", Directora del Proyecto.")]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="388" width="435" height="16" uuid="60c49cd6-3779-4cca-bb56-da5e3ad6ac9f"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle" markup="html">
+					<font size="12" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaActual}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement positionType="Float" x="0" y="471" width="435" height="146" uuid="6f67ea4b-6d1b-4594-98be-488ebd870373"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="223" y="77" width="210" height="16" uuid="d9bd5678-d45f-47ea-adde-525d320a8adf"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($F{VICERRECTOR_ABREV}!=null && $F{VICERRECTOR_ABREV}!="")?$F{VICERRECTOR_ABREV}:"") + " " + $F{VICERRECTOR_NOM} + " " + $F{VICERRECTOR_APE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="223" y="0" width="210" height="70" uuid="f9ca1e7f-c092-4dff-9c45-d648370fa0c8"/>
+					<box leftPadding="0">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="0" y="77" width="210" height="16" uuid="c8b64912-b3f4-4437-a7b6-85ec602d516e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($F{DIRECTOR_UNID_VINCU_ABREV}!=null && $F{DIRECTOR_UNID_VINCU_ABREV}!="")?$F{DIRECTOR_UNID_VINCU_ABREV}:"") + " " + $F{DIRECTOR_UNID_VINCU_NOM} + " " + $F{DIRECTOR_UNID_VINCU_APE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="0" y="0" width="210" height="70" uuid="e22887d9-6606-40d8-aa3e-44a912284d3e"/>
+					<box leftPadding="0">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0" lineStyle="Dotted"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="223" y="107" width="210" height="30" uuid="31672f22-c317-4d46-8112-0dd383cfbc8c">
+						<printWhenExpression><![CDATA[$F{VICERRECTOR_GRADO_MIL}!=null && $F{VICERRECTOR_GRADO_MIL}!=""]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="0">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[VICERRECTOR DE INVESTIGACIÓN, INNOVACIÓN Y TRANSFERENCIA DE TECNOLOGÍA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="20" y="107" width="169" height="30" uuid="468b1f6e-5e9e-4376-b17a-7ce795a09604">
+						<printWhenExpression><![CDATA[$F{DIRECTOR_UNID_VINCU_GRADO_MIL}!=null && $F{DIRECTOR_UNID_VINCU_GRADO_MIL}!=""]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="0">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DIRECTORA DE LA UNIDAD DE VINCULACION CON LA SOCIEDAD]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="0" y="92" width="210" height="16" uuid="c571e63a-8284-4616-8c5b-40483b477ace">
+						<printWhenExpression><![CDATA[$F{DIRECTOR_UNID_VINCU_GRADO_MIL}!=null && $F{DIRECTOR_UNID_VINCU_GRADO_MIL}!=""]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DIRECTOR_UNID_VINCU_GRADO_MIL}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="223" y="92" width="210" height="16" uuid="49bd1f0f-38f5-466d-9895-5a038462b10d">
+						<printWhenExpression><![CDATA[$F{VICERRECTOR_GRADO_MIL}!=null && $F{VICERRECTOR_GRADO_MIL}!=""]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{VICERRECTOR_GRADO_MIL}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="20" y="93" width="169" height="30" uuid="4f38cf9b-44e5-47a7-b4a6-f373a2f0dcbf">
+						<printWhenExpression><![CDATA[$F{DIRECTOR_UNID_VINCU_GRADO_MIL}==null || $F{DIRECTOR_UNID_VINCU_GRADO_MIL}==""]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="0">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DIRECTORA DE LA UNIDAD DE VINCULACION CON LA SOCIEDAD]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="225" y="93" width="210" height="30" uuid="5668c43a-0515-458e-b831-1d52749de9a7">
+						<printWhenExpression><![CDATA[$F{VICERRECTOR_GRADO_MIL}==null || $F{VICERRECTOR_GRADO_MIL}==""]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="0">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[VICERRECTOR DE INVESTIGACIÓN, INNOVACIÓN Y TRANSFERENCIA DE TECNOLOGÍA]]></text>
+				</staticText>
+			</frame>
+			<image hAlign="Center">
+				<reportElement x="0" y="32" width="433" height="86" uuid="aad65c0a-5747-48ab-abdf-d7347929fd5e"/>
+				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/Logo_ESPE.png"]]></imageExpression>
+			</image>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="271" width="435" height="21" uuid="82acc0d1-b4f2-4a5b-a1f2-b704ac8e6e19"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="16" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{SPBPERS_SEX}==null || $F{SPBPERS_SEX}=="M")?"Que se otorga al:":"Que se otorga a la:"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

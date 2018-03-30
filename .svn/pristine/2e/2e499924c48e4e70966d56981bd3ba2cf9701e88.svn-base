@@ -1,0 +1,709 @@
+/* 
+    Document   : sistema
+    Created on : 05-mar-2012, 15:16:56
+    Author     : Tics1
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+BODY {
+    margin:                 0 auto;
+    padding:                0;
+    background-image: url(../images/page_g.jpg);
+    background-repeat:      repeat-x;
+    height:                 500px;
+    position:               absolute;
+    top:                    0;
+    width:                  100%;
+    background-color:       #aab1a9;
+}
+/*ESTILO DE LA HOJA BORDES CON SOMBRA*/
+body, p
+{
+    margin: 0.5em 0;
+    font-family: Verdana, Geneva, Arial, Helvetica, Sans-Serif;
+    font-size: 11px;
+    text-align: left;
+}
+h1, h2, h3, h4, h5, h6,
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover
+h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited,
+.art-postheader, .art-postheader a, .art-postheader a:link, .art-postheader a:visited, .art-postheader a:hover,
+.art-blockheader .t, .art-vmenublockheader .t, .art-logo-text, .art-logo-text a,
+h1.art-logo-name, h1.art-logo-name a, h1.art-logo-name a:link, h1.art-logo-name a:visited, h1.art-logo-name a:hover
+{
+    font-weight: normal;
+    font-style: normal;
+    text-decoration: none;
+    font-family: "Trebuchet MS", Arial, Helvetica, Sans-Serif;
+    font-size: 29px;
+}
+
+a,
+.art-post li a
+{
+    text-decoration: none;
+    color: #30556E;
+}
+
+a:link,
+.art-post li a:link
+{
+    text-decoration: none;
+    color: #000000;
+}
+
+a:visited, a.visited,
+.art-post li a:visited, .art-post li a.visited
+{
+
+    color: #0000ff;
+}
+
+a:hover, a.hover,
+.art-post li a:hover, .art-post li a.hover
+{
+
+
+    color: #ff0000;
+}
+
+h1, h1 a, h1 a:link, h1 a:visited, h1 a:hover
+{
+    margin: 0.67em 0;
+
+    color: #30556E;
+}
+
+h2, h2 a, h2 a:link, h2 a:visited, h2 a:hover
+{
+    margin: 0.2em 0;
+    font-size: 22px;
+    color: #30556E;
+}
+
+h3, h3 a, h3 a:link, h3 a:visited, h3 a:hover
+{
+    margin: 1em 0;
+    font-size: 17px;
+    color: #4F4F4F;
+}
+
+h4, h4 a, h4 a:link, h4 a:visited, h4 a:hover
+{
+    margin: 1.25em 0;
+    font-size: 14px;
+    color: #363636;
+}
+
+h5, h5 a, h5 a:link, h5 a:visited, h5 a:hover
+{
+    margin: 1.67em 0;
+    font-size: 12px;
+    color: #363636;
+}
+
+h6, h6 a, h6 a:link, h6 a:visited, h6 a:hover
+{
+    margin: 2.33em 0;
+    font-size: 10px;
+    color: #363636;
+}
+
+h1 a, h1 a:link, h1 a:visited, h1 a:hover,
+h2 a, h2 a:link, h2 a:visited, h2 a:hover,
+h3 a, h3 a:link, h3 a:visited, h3 a:hover,
+h4 a, h4 a:link, h4 a:visited, h4 a:hover,
+h5 a, h5 a:link, h5 a:visited, h5 a:hover,
+h6 a, h6 a:link, h6 a:visited, h6 a:hover
+{
+    margin:0;
+}
+
+#art-main
+{
+    position: relative;
+    width: 100%;
+    left: 0;
+    top: 0;
+    cursor:default;
+}
+
+
+#art-page-background-gradient
+{
+    position: absolute;
+    background-image: url(../images/page_g.jpg);
+    background-repeat: repeat-x;
+    top: 0;
+    width: 100%;
+    height: 500px;
+
+}
+
+
+#art-page-background-simple-gradient
+{
+    position: absolute;
+    background-image: url(../images/page_sg.jpg);
+    background-repeat: repeat-x;
+    top: 0;
+    width: 100%;
+    height: 500px;
+}
+
+.cleared
+{
+    float: none;
+    clear: both;
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-size: 1px;
+}
+
+form
+{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+table.position
+{
+    position: relative;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.art-sheet
+{
+    position: relative;
+    z-index: 0;
+    margin: 0 auto;
+    /* width: 1160px;*/
+    width: 1225px;
+    min-width: 51px;
+    min-height: 51px;
+}
+
+.art-sheet-body
+{
+    position: relative;
+    z-index: 1;
+    padding: 11px;
+}
+
+.art-sheet-tr, .art-sheet-tl, .art-sheet-br, .art-sheet-bl, .art-sheet-tc, .art-sheet-bc,.art-sheet-cr, .art-sheet-cl
+{
+    position: absolute;
+    z-index: -1;
+}
+
+.art-sheet-tr, .art-sheet-tl, .art-sheet-br, .art-sheet-bl  {
+    background-image:       url(../images/sheet_s.png);
+    height:                 76px;
+    width:                  78px;
+}
+
+
+.art-sheet-tl
+{
+    top: 0;
+    left: 0;
+    clip: rect(auto, 39px, 39px, auto);
+}
+
+
+.art-sheet-tr
+{
+    top: 0;
+    right: 0;
+    clip: rect(auto, auto, 39px, 39px);
+}
+
+
+.art-sheet-bl
+{
+    bottom: 0;
+    left: 0;
+    clip: rect(39px, 39px, auto, auto);
+}
+
+.art-sheet-br
+{
+    bottom: 0;
+    right: 0;
+    clip: rect(39px, auto, auto, 39px);
+}
+
+.art-sheet-tc, .art-sheet-bc  {
+    background-image:       url(../images/sheet_h.png);
+    height:                 76px;
+    left:                   39px;
+    right:                  39px;
+}
+
+.art-sheet-tc
+{
+    top: 0;
+    clip: rect(auto, auto, 39px, auto);
+}
+
+
+
+.art-sheet-bc
+{
+    bottom: 0;
+    clip: rect(39px, auto, auto, auto);
+}
+
+
+
+.art-sheet-cr, .art-sheet-cl  {
+    background-image:       url(../images/sheet_v.png);
+    bottom:                 15px;
+    top:                    39px;
+    width:                  78px;
+}
+
+.art-sheet-cr
+{
+    right: 0;
+    clip: rect(auto, auto, auto, 39px);
+}
+
+.art-sheet-cl
+{
+    left: 0;
+    clip: rect(auto, 39px, auto, auto);
+}
+
+.art-sheet-cc
+{
+    position: absolute;
+    z-index: -1;
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    background-color: #FFFFFF;
+}
+
+.art-sheet
+{
+    margin-top: 10px !important;
+    cursor:auto;
+}
+
+#art-page-background-simple-gradient, #art-page-background-gradient, #art-page-background-glare
+{
+    min-width: 900px;
+}
+
+/* FIN DISEÑO DE LA PAGINA BORDES */
+/*colores:
+        GRIS: #F0F4F9
+        GRIS MEDIO: #e3eaf0
+        GRIS OBSCURO: #787878
+        CELESTE: #bbcad9
+        PLOMO: #666666
+        VERDE OBSCURO: #004236
+*/
+
+.art-menu
+{
+    padding: 12px 6px 0 6px;
+}
+
+.art-nav
+{
+    position: relative;
+    height: 0px;/*cambio de height: 0px*/
+    z-index: 100;
+}
+
+.art-nav .l, .art-nav .r
+{
+    position: absolute;
+    z-index: -1;
+    top: -41px;/*cambio de top: -41px*/
+    height: 22px;/*cambio de height: 22px*/
+    /*background-image: url(../images/nav.png);*/
+}
+
+.art-nav .l
+{
+    left: 0;
+    right: 0;
+}
+
+.art-nav .r
+{
+    right: 0;
+    width: 1129px;
+    clip: rect(auto, auto, auto, 968px);
+}
+
+
+/* end Menu */
+
+
+/* begin Footer */
+.art-footer
+{
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.art-footer-b
+{
+    position: absolute;
+    left:0px;
+    right:0px;
+    bottom:0;
+    height:50px;
+    background-image: url(../images/footer_b.png);
+}
+
+
+.art-footer-t
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 50px;
+    /* background-color: #FCFDFD; /*#B8D0E0;*/
+    background-image:       url(../images/footer_t.png);
+}
+
+.art-footer-body
+{
+    position:relative;
+    padding: 16px;
+}
+
+
+.art-footer-text, .art-footer-text p
+{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.art-footer,
+.art-footer p,
+.art-footer a,
+.art-footer a:link,
+.art-footer a:visited,
+.art-footer a:hover
+{
+    color: #ffffff;
+
+}
+
+.art-footer-text
+{
+    margin: 0 10px 0 10px;
+}
+
+.art-footer a,
+.art-footer a:link
+{
+    color: #CEE3F6;
+    text-decoration: none;
+}
+
+.art-footer a:visited
+{
+    color: #BB3047;
+
+}
+
+.art-footer a:hover
+{
+    color: #ffffff;
+
+
+}/* end Footer */
+
+/* begin PageFooter */
+.art-page-footer, .art-page-footer a, .art-page-footer a:link, .art-page-footer a:visited, .art-page-footer a:hover
+{
+    font-family: Arial;
+    font-size: 10px;
+    letter-spacing: normal;
+    word-spacing: normal;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: underline;
+    color: #ffffff;
+    /*#4E89B1;*/
+}
+
+.art-page-footer
+{
+    height:10px;
+    margin: -1em;
+    text-align: center;
+    text-decoration: none;
+    color: #000000;/*#808080;*/
+}
+/* end PageFooter */
+/*----------------------------- begin Flash */
+#art-flash-area
+{
+    /*position: absolute;
+    top: 16px;
+    left: 15px;*/
+    width: 1194px;
+    height: 110px;
+    overflow: hidden;
+}
+
+#art-flash-container
+{
+    position: absolute;
+    top: 0;
+    left: -13px;
+    width: 900px;
+    height: 225px;
+}
+
+#art-flash-container div.art-flash-alt
+{
+    position: relative;
+    width: 110px;
+    height: 30px;
+    margin: 0 auto;
+    top: 0;
+}
+/* ------------------------------------------end Flash */
+
+
+/*********************** LINKS ***************************/
+a {
+    font: bold 11px Verdana, Arial, Helvetica, sans-serif;
+    text-decoration:underline;
+    /*cursor: hand;*/
+    color: #bbcad9;
+}
+a:hover {
+    font: bold 11px Verdana, Arial, Helvetica, sans-serif;
+    color: #045491;
+    text-decoration:underline;
+    font-style:italic;
+}
+a:active {
+    font: 11px Verdana, Arial, Helvetica, sans-serif;
+    text-transform: none;
+    color: #666666;
+    text-decoration: none
+}
+/*********************** FIN LINKS ***************************/
+
+div.clearer {
+    clear:both;
+    height:0px;
+    visibility: hidden;
+    line-height:.01em;
+    padding:0;
+    margin:0;
+}
+/*TITULO DE LAS PAGINAS*/
+.tituloWindow{
+    font: 14px Verdana, Arial, Helvetica, sans-serif;
+    color: white;
+    line-height:26px;
+    letter-spacing:.21em;
+}
+
+/********* CAMBIO DE CLAVE cambiarclave.xhtml **********/
+.corePopupCambioClave {
+    position: absolute;
+    z-index: 1001;
+    width: 300px;
+    height: 175px;
+    top: 60%;
+    left: 40%;
+}
+.corePopupCambioClave table {
+    width: 100%;
+}
+.popupBodyCambioClave {
+    margin-top: 15px;
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/********* FIN CAMBIO DE CLAVE cambiarclave.xhtml **********/
+
+/* mensajes de error*/
+.msgError{
+    font-size: 11px;
+    font-weight: bold;
+    color:red; 
+    line-height:200%;
+    background: url('../../xmlhttp/css/rime/css-images/bullet.gif' ) no-repeat 0 3px;
+    padding-left:15px;
+}
+
+/* END  mensajes de error */
+
+/************LOGIN*******/
+.centrarLogin {
+    position: absolute;
+    /*nos posicionamos en el centro del navegador*/
+    top:52%;
+    left:25%;
+    /*determinamos una anchura*/
+    width:350px;
+    /*indicamos que el margen izquierdo, es la mitad de la anchura*/
+    margin-left:-150px;
+    /*determinamos una altura*/
+    height:300px;
+    /*indicamos que el margen superior, es la mitad de la altura*/
+    margin-top:-150px;
+    /*border:1px solid #808080;*/
+    padding:10px;
+
+}
+
+table.ensayo {
+    border: 0px solid #fff;
+    text-align: left;
+    width: 375px;
+    margin: 0px auto;
+    padding-left: 15px;
+    padding-right: 54px;
+    padding-top: 70px;
+    background: url('../images/fondologinseg.png') no-repeat  ;
+
+}  
+
+/********** FIN LOGIN **********/
+
+/***********BARRA DE CONTROL********************/
+
+.titulo_sistema {
+    font-weight: bold; font-size: 12px; color: #BB3047; font-family: Arial, Helvetica, sans-serif; text-decoration: none;
+}
+
+.barraControl{
+    /*margin-top: 0px;
+    padding-top: 0px;*/
+    float:right;
+    width: auto;
+}
+/***********FIN BARRA DE CONTROL********************/
+
+/***********BARRA DE MENU********************/
+.toolbarPipe {
+    color: white;
+    padding-right: 10px;
+}
+
+#titMenu {
+    font-size:14px;
+    text-align: center;
+    width: 99%;
+    height: 99%;
+    background-color: #00688B;
+    border-style: outset;
+    border-width: thin;
+}
+
+/*controla el desplazamiento del panel izquierdo*/
+.icePnlDvrSpt {
+    background-color: #EFEFEF;
+    border-left: 0 solid #ABABAB;
+    border-right: 0 solid #ABABAB;
+    cursor: none;
+    display: inline;
+    float: left;
+    height: 100%;
+    width: 2px;
+}
+/***********FIN BARRA DE MENU********************/
+
+/********** INICIO Botones Operacion ********************/
+
+.iceCmdBtnOper {
+    width: 75px;font-size: 12px;
+}
+.iceCmdBtnOper-dis {
+    width: 75px;font-size: 12px;
+}
+/************ FIN Botones Operacion****/
+
+/********** INICIO Listados ********************/
+/*.iceDatTblRow2 {
+    background: none repeat scroll 0 0 #EFF8FB;
+    border-left: 1px solid #81BEF7;
+}*/
+
+.iceDatTbl {
+    border-color: #81BEF7 #81BEF7;
+    border-style: inset;
+    border-width: 2px 2px 2px 2px;
+    margin: 0 0 0 2px;
+}
+
+.iceDatTblColHdr, .iceDatTblColHdr1, .iceDatTblColHdr2, .iceDatTblColGrpHdrCol, .iceDatTblFtr {
+    border: 1px solid #81BEF7;
+    font: bold 11px tahoma;
+    padding: 4px;
+}
+/********** FIN Listados ********************/
+
+/********* POPUP ELIMINACION **********/
+.popUpIcon{
+    float: right;
+}
+.popUpTexto{
+    text-align: justify;
+    font-weight: bold;
+}
+/********* FIN POPUP ELIMINACION **********/
+/********* POPUP EDICION **********/
+.etiquetaEdit{
+    text-align: right;
+}
+.campoEdit{
+    text-align: left;
+    width: 500px;    
+}
+.campoNormal {
+    font: 10px Verdana, Arial, Helvetica, sans-serif;
+    text-align: left;
+    text-transform: uppercase;
+}
+.campoAnchoCero {
+    width: auto;
+}
+
+.campoObligatorio {
+    font: 10px Verdana, Arial, Helvetica, sans-serif;
+    text-align: left;
+    text-transform: uppercase;
+    background-color: beige;    
+}
+.comboObligatorio {
+    font: 10px Verdana, Arial, Helvetica, sans-serif;
+    background-color:beige;
+    font-weight: bold;
+    width: auto;
+    color: blue;
+    border-style: inset;
+    border-width: thin;    
+    border-color: #777733;
+}
+
+/********* FIN POPUP EDICION **********/

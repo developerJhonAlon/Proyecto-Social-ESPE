@@ -1,0 +1,35 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="./template-sistema.xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:define name="content">  
+        <h:form id="formPrincipal" >
+            <p:growl id="message"></p:growl>
+            <p:layout style="min-width:800px;min-height:500px;">
+<!--                <p:layoutUnit position="south" resizable="true"    size="40" minSize="20" maxSize="40">
+                    <ui:include src="/WEB-INF/includes/commonMenu.xhtml"/>
+   
+                </p:layoutUnit>-->
+
+                <p:layoutUnit position="center" size="200" minSize="40" maxSize="200" id="central">
+                    <ui:include src="#{navegacionController.selectedIncludePath}"/>
+                    <ui:include src="/WEB-INF/includes/commonMenu1.xhtml"/>
+
+                </p:layoutUnit> 
+
+
+              
+
+              
+              
+
+            </p:layout>
+
+        </h:form>
+    </ui:define>
+
+
+</ui:composition>

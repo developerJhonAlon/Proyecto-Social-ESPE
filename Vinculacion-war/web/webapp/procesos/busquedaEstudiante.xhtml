@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <h:head>
+        <title>Búsqueda de Estudiantes</title>
+        <h:outputStylesheet name="theme_sistema_SVS.css" library="css" />    
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <p:growl id="message1" widgetVar="message1" showDetail="true" life="3000"></p:growl>      
+            <h:panelGrid columns="1">
+
+                <p:dataTable id="dtEstudiantes" var="est" value="#{busquedaEstudianteController}"
+                             paginator="true" rows="5" rowIndexVar="index"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                             currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                             rowsPerPageTemplate="5,10,15,20,30,50,100" lazy="true">
+                    <p:column headerText="Cédula" sortBy="#{est.usuario.usuCc}" filterBy="#{est.usuario.usuCc}" filterFunction="startsWith">
+                        <h:outputText value="#{est.usuario.usuCc}" />
+                    </p:column>
+                    <p:column headerText="Apellidos" sortBy="#{est.usuario.usuApellidos}" filterBy="#{est.usuario.usuApellidos}" filterMatchMode="contains">
+                        <h:outputText value="#{est.usuario.usuApellidos}" />
+                    </p:column>
+                    <p:column headerText="Nombres" sortBy="#{est.usuario.usuNombres}" filterBy="#{est.usuario.usuNombres}" filterMatchMode="contains">
+                        <h:outputText value="#{est.usuario.usuNombres}" />
+                    </p:column>
+                    <p:column headerText="Carrera" sortBy="#{est.carrera.stvmajrDesc}" filterBy="#{est.carrera.stvmajrDesc}" filterMatchMode="contains">
+                        <h:outputText value="#{est.carrera.stvmajrDesc}" />
+                    </p:column>
+                    <p:column headerText="Departamento" sortBy="#{est.departamento.stvsubjDesc}" filterBy="#{est.departamento.stvsubjDesc}" filterMatchMode="contains">
+                        <h:outputText value="#{est.departamento.stvsubjDesc}" />
+                    </p:column>
+                    <p:column headerText="Período" sortBy="#{est.periodo.stvtermCode.concat('-').concat(est.periodo.stvtermDesc)}">
+                        <h:outputText value="#{est.periodo.stvtermCode.concat('-').concat(est.periodo.stvtermDesc)}" />
+                    </p:column>
+
+                    <p:column headerText="Seleccionar" width="50" style="text-align: center">
+                        <p:commandButton icon="ui-icon-check" actionListener="#{busquedaEstudianteController.selectEstudianteFromDialog(est)}" update=":j_idt6:message1, :j_idt6" />
+                    </p:column>
+                </p:dataTable>
+            </h:panelGrid>
+            <pe:blockUI widgetVar="blockUIWidget">  
+                <h:panelGrid columns="2">  
+                    <p:graphicImage value="/resources/images/ajax-loader1.gif" style="margin-right: 12px; vertical-align: middle;" />  
+                    <h:outputText value="Procesando... Por favor espere..." style="white-space: nowrap;"/>  
+                </h:panelGrid>   
+            </pe:blockUI>   
+        </h:form>
+    </h:body>
+
+</html>

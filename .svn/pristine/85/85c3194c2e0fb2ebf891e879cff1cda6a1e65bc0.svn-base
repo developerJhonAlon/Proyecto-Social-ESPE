@@ -1,0 +1,639 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ec.edu.espe_ctt.convocatoria.controller;
+
+import ec.edu.espe_ctt.vinculacion.entity.Proyecto;
+import ec.edu.espe_ctt.vinculacion.entity.Proyecto_;
+import ec.edu.espe_ctt.vinculacion.entity.SvinObjetivoPrograma;
+import ec.edu.espe_ctt.vinculacion.entity.SvinProgramaV;
+import ec.edu.espe_ctt.vinculacion.entity.SvinZonaDetalle;
+import ec.edu.espe_ctt.vinculacion.session.ProyectoFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinObjetivoProgramaFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinProgramaVFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinZonaDetalleFacade;
+import ec.edu.espe_ctt_investigacion.entity.SeaCanton;
+import ec.edu.espe_ctt_investigacion.entity.SeaParametros;
+import ec.edu.espe_ctt_investigacion.entity.SeaParametrosDet;
+import ec.edu.espe_ctt_investigacion.entity.SeaParroquia;
+import ec.edu.espe_ctt_investigacion.entity.SeaProvincia;
+import ec.edu.espe_ctt_investigacion.session.SeaParametrosDetFacade;
+import ec.edu.espe_ctt_investigacion.session.SeaProvinciaFacade;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.event.TabChangeEvent;
+import org.primefaces.model.CheckboxTreeNode;
+import org.primefaces.model.TreeNode;
+
+/**
+ *
+ * @author Administrador
+ */
+@ManagedBean
+@ViewScoped
+public class ProyectoController implements Serializable {
+
+    private boolean botonInicio = true;
+    private Proyecto proyectoSelected;
+    private List<Proyecto> proyectoList;
+    @EJB
+    private SeaParametrosDetFacade parametrosDetFacade;
+    private List<SeaParametrosDet> paramTipoPoblacionList;
+    private Long codTipoProblacionSelected;
+    private Integer codProgramaSelected;
+    private boolean controlGrabar;
+    private boolean datosCompletos;
+    @EJB
+    private SvinProgramaVFacade programaFacade;
+    @EJB
+    private ProyectoFacade proyectoFacade;
+    private int indiceTabActivo;
+    private SeaParametrosDet tipoPoblacionSelected;
+    private SvinProgramaV programaSelected;
+    @EJB
+    private SvinZonaDetalleFacade vinZonaDetalleFacade;
+    private List<SvinZonaDetalle> svinZonaDetalleList;
+    private List<SvinZonaDetalle> svinZonaDetalleList2;
+
+    public ProyectoController() {
+        tipoPoblacionSelected = new SeaParametrosDet();
+        svinZonaDetalleList = new ArrayList<>();
+        svinZonaDetalleList2 = new ArrayList<>();
+        objetivoProgramaSelected = new SvinObjetivoPrograma();
+        datosCompletos = false;
+        controlGrabar = false;
+    }
+
+    @PostConstruct
+    public void init() {
+        programaList = programaFacade.findXEstado(SvinProgramaVFacade.ESTADO_ACTIVO);
+        paramTipoPoblacionList = parametrosDetFacade.findByCodigoParametro(SeaParametrosDetFacade.PARAM_TIPO_POBLACION);
+        provinciaList = provinciaFacade.findAllOrdenados();
+    }
+
+    public boolean isBotonInicio() {
+        return botonInicio;
+    }
+
+    public void setBotonInicio(boolean botonInicio) {
+        this.botonInicio = botonInicio;
+    }
+
+    public String inicioProgramas() {
+        if (botonInicio) {
+            init();
+        } else {
+            proyectoSelected = new Proyecto();
+        }
+        return "";
+    }
+
+    public String getNombreProySeleccionado() {
+        if (proyectoSelected != null && proyectoSelected.getNombre() != null) {
+            return ("PROYECTO: " + proyectoSelected.getNombre());
+        } else {
+            return "";
+        }
+    }
+
+    public Proyecto getProyectoSelected() {
+        return proyectoSelected;
+    }
+
+    public void setProyectoSelected(Proyecto proyectoSelected) {
+        this.proyectoSelected = proyectoSelected;
+    }
+
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
+    }
+
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
+    }
+
+    public String seleccionarPrograma() {
+        proyectoList = proyectoFacade.findByPrograma(codProgramaSelected);
+        for (SvinProgramaV prog : programaList) {
+            if (prog.getSprvId().equals(codProgramaSelected)) {
+                programaSelected = prog;
+            }
+        }
+        return "";
+    }
+
+    public String seleccionarProyecto() {
+        botonInicio = false;
+        indiceTabActivo = 0;
+        if (proyectoSelected.getTipoPoblacion() == null) {
+            proyectoSelected.setTipoPoblacion(new SeaParametrosDet());
+        }
+        return "";
+    }
+
+    public Integer getCodProgramaSelected() {
+        return codProgramaSelected;
+    }
+
+    public void setCodProgramaSelected(Integer codProgramaSelected) {
+        this.codProgramaSelected = codProgramaSelected;
+    }
+
+    private List<SvinProgramaV> programaList;
+
+    public List<SvinProgramaV> getProgramaList() {
+        return programaList;
+    }
+
+    public void setProgramaList(List<SvinProgramaV> programaList) {
+        this.programaList = programaList;
+    }
+
+    public int getIndiceTabActivo() {
+        return indiceTabActivo;
+    }
+
+    public void setIndiceTabActivo(int indiceTabActivo) {
+        this.indiceTabActivo = indiceTabActivo;
+    }
+
+    public void cambiarTabPerfil(TabChangeEvent e) {
+        try {
+            datosCompletos = false;
+            if (e.getTab() != null) {
+                String[] aux = e.getTab().getClientId().split(":");
+                if (aux[aux.length - 1].equals("tabP1")) {//tab1: Datos Generales
+                    //cancelarP1();
+                } else if (aux[aux.length - 1].equals("tabP3")) {//tab3: Cobertura y Localización
+                    cancelarP3();
+                } else if (aux[aux.length - 1].equals("tabP15")) {//tab15: Objetivos del Programa
+                    cancelarP15();
+                }
+
+
+            }
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+        }
+
+    }
+
+    public void cancelarP3() {
+        svinZonaDetalleList = vinZonaDetalleFacade.findXProyecto(proyectoSelected.getId());
+        svinZonaDetalleList2 = vinZonaDetalleFacade.findXProyecto(proyectoSelected.getId());
+        Collections.sort(svinZonaDetalleList2);
+        root3 = crearArbol();
+
+        datosCompletos = false;
+    }
+
+    public boolean isDatosCompletos() {
+        return datosCompletos;
+    }
+
+    public void setDatosCompletos(boolean datosCompletos) {
+        this.datosCompletos = datosCompletos;
+    }
+
+    public String registraP1() {
+        try {
+            if (proyectoSelected.getId() == null) {
+                proyectoSelected.setPrograma(programaSelected);
+                proyectoFacade.create(proyectoSelected);
+            } else {
+                proyectoFacade.edit(proyectoSelected);
+            }
+            datosCompletos = false;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    public boolean validarVaciosP1() {
+        datosCompletos = true;
+        if (proyectoSelected.getNombre() == null || proyectoSelected.getNombre().trim().isEmpty()
+                || proyectoSelected.getFechaPresentacion() == null
+                || proyectoSelected.getFechaInicio() == null
+                || proyectoSelected.getFechaFinalizacion() == null
+                || proyectoSelected.getTipoPoblacion() == null || proyectoSelected.getTipoPoblacion().getPrdId() == null) {
+            datosCompletos = false;
+        }
+        return datosCompletos;
+    }
+
+    public void eliminarProyecto() {
+        //proyectoSelected.setSprvEstado("I");
+        proyectoFacade.edit(proyectoSelected);
+        proyectoList = proyectoFacade.findByPrograma(codProgramaSelected);
+    }
+
+    public List<SeaParametrosDet> getParamTipoPoblacionList() {
+        return paramTipoPoblacionList;
+    }
+
+    public void setParamTipoPoblacionList(List<SeaParametrosDet> paramTipoPoblacionList) {
+        this.paramTipoPoblacionList = paramTipoPoblacionList;
+    }
+
+    public Long getCodTipoProblacionSelected() {
+        return codTipoProblacionSelected;
+    }
+
+    public void setCodTipoProblacionSelected(Long codTipoProblacionSelected) {
+        this.codTipoProblacionSelected = codTipoProblacionSelected;
+    }
+
+    public void seleccionarTipoPoblacion(ValueChangeEvent event) {
+        Long a = (Long) event.getNewValue();
+        if (proyectoSelected.getTipoPoblacion() == null || proyectoSelected.getTipoPoblacion().getPrdId() == null || !proyectoSelected.getTipoPoblacion().getPrdId().equals(a)) {
+            for (SeaParametrosDet par : paramTipoPoblacionList) {
+                if (par.getPrdId().equals(a)) {
+                    proyectoSelected.setTipoPoblacion(par);
+                }
+            }
+        }
+        validarVaciosP1();
+    }
+
+    public SeaParametrosDet getTipoPoblacionSelected() {
+        return tipoPoblacionSelected;
+    }
+
+    public void setTipoPoblacionSelected(SeaParametrosDet tipoPoblacionSelected) {
+        this.tipoPoblacionSelected = tipoPoblacionSelected;
+    }
+
+    private TreeNode root3;
+    private TreeNode[] selectedNodes2;
+
+    public TreeNode getRoot3() {
+        return root3;
+    }
+
+    public void setRoot3(TreeNode root3) {
+        this.root3 = root3;
+    }
+
+    public TreeNode[] getSelectedNodes2() {
+        return selectedNodes2;
+    }
+
+    public void setSelectedNodes2(TreeNode[] selectedNodes2) {
+        this.selectedNodes2 = selectedNodes2;
+    }
+
+    @EJB
+    private SeaProvinciaFacade provinciaFacade;
+    private List<SeaProvincia> provinciaList;
+
+    public TreeNode crearArbol() {
+        TreeNode root = new CheckboxTreeNode(new SvinZonaDetalle(), null);
+        for (SeaProvincia provincia : provinciaList) {
+            TreeNode nodoProvincia = new CheckboxTreeNode(new SvinZonaDetalle(provincia), root);
+            for (SeaCanton canton : provincia.getSeaCantonList()) {
+                TreeNode nodoCanton = new CheckboxTreeNode(new SvinZonaDetalle(canton), nodoProvincia);
+                for (SeaParroquia parroquia : canton.getSeaParroquiaList()) {
+                    SvinZonaDetalle svinZonaDetalle = new SvinZonaDetalle(parroquia);
+                    TreeNode nodoParroquia = new CheckboxTreeNode(svinZonaDetalle, nodoCanton);
+                    if (buscarSvinZonaDetalleBD(svinZonaDetalle)) {
+                        nodoParroquia.setSelected(true);
+                    }
+                }
+            }
+        }
+        return root;
+    }
+
+    private boolean buscarSvinZonaDetalleBD(SvinZonaDetalle svinZonaDetalleBuscar) {
+        for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+            boolean encontro = svinZonaDetalle.comparar(svinZonaDetalleBuscar);
+            if (encontro) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private List<SvinZonaDetalle> listaIngresar;
+    private List<SvinZonaDetalle> listaEliminar;
+
+    public String registraP3() {
+        try {
+            listaIngresar = verificarNuevos();
+            listaEliminar = verificarEliminados();
+
+            vinZonaDetalleFacade.guardar(listaIngresar, listaEliminar);
+            cancelarP3();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    private List<SvinZonaDetalle> verificarNuevos() {
+        List<SvinZonaDetalle> listaTemp = new ArrayList<>();
+        String codProvincia = "";
+        String codCanton = "";
+
+        for (TreeNode node : selectedNodes2) {
+            SvinZonaDetalle seleccionado = (SvinZonaDetalle) node.getData();
+            System.out.println(seleccionado.getNombre());
+            if (seleccionado.getParroquia() != null) {
+                SvinZonaDetalle nuevo = null;
+                if (!seleccionado.getProvincia().getProId().equals(codProvincia)) {
+                    codProvincia = seleccionado.getProvincia().getProId();
+                    nuevo = new SvinZonaDetalle(seleccionado.getProvincia());
+                    if (!buscarSvinZonaDetalleBD(nuevo)) {
+                        nuevo.setProyecto(proyectoSelected);
+                        listaTemp.add(nuevo);
+                    }
+                }
+                if (!seleccionado.getCanton().getCanId().equals(codCanton)) {
+                    codCanton = seleccionado.getCanton().getCanId();
+                    nuevo = new SvinZonaDetalle(seleccionado.getCanton());
+                    if (!buscarSvinZonaDetalleBD(nuevo)) {
+                        nuevo.setProyecto(proyectoSelected);
+                        listaTemp.add(nuevo);
+                    }
+                }
+                nuevo = new SvinZonaDetalle(seleccionado.getParroquia());
+                if (!buscarSvinZonaDetalleBD(nuevo)) {
+                    nuevo.setProyecto(proyectoSelected);
+                    listaTemp.add(nuevo);
+                }
+            }
+        }
+        return listaTemp;
+    }
+
+    private List<SvinZonaDetalle> verificarEliminados() {
+        List<SvinZonaDetalle> listaTemp = new ArrayList<>();
+        String codProvincia = "";
+        String codCanton = "";
+
+        for (SvinZonaDetalle seleccionado : svinZonaDetalleList) {
+
+            if (codCanton.equals("")) {
+                if (seleccionado.getCanton() != null) {
+                    codCanton = seleccionado.getCanton().getCanId();
+                }
+            } else {
+                if (seleccionado.getCanton() != null && !seleccionado.getCanton().getCanId().equals(codCanton)) {
+                    verificarEliminarCanton(codCanton, listaTemp);
+                    codCanton = seleccionado.getCanton().getCanId();
+                }
+            }
+            if (codProvincia.equals("")) {
+                codProvincia = seleccionado.getProvincia().getProId();
+            } else {
+                if (!seleccionado.getProvincia().getProId().equals(codProvincia)) {
+                    verificarEliminarProvincia(codProvincia, listaTemp);
+                    codProvincia = seleccionado.getProvincia().getProId();
+                }
+            }
+            if (seleccionado.getParroquia() != null) {
+
+                SvinZonaDetalle eliminar = new SvinZonaDetalle(seleccionado.getParroquia());
+                if (!buscarSvinZonaDetalleMemoria(eliminar)) {
+                    SvinZonaDetalle eliminarParroquia = getParroquiaEliminar(seleccionado.getParroquia().getPrqId());
+                    listaTemp.add(eliminarParroquia);
+                }
+            }
+        }
+        verificarEliminarCanton(codCanton, listaTemp);
+        verificarEliminarProvincia(codProvincia, listaTemp);
+
+        return listaTemp;
+    }
+
+    private boolean buscarSvinZonaDetalleMemoria(SvinZonaDetalle svinZonaDetalleBuscar) {
+        for (TreeNode node : selectedNodes2) {
+            SvinZonaDetalle svinZonaDetalle = (SvinZonaDetalle) node.getData();
+            boolean encontro = svinZonaDetalle.comparar(svinZonaDetalleBuscar);
+            if (encontro) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void verificarEliminarCanton(String codCanton, List<SvinZonaDetalle> listaTemp) {
+        int cont = 0;
+        for (SvinZonaDetalle svinZonaDetalle : listaTemp) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getCanton().getCanId().equals(codCanton)) {
+                cont++;
+            }
+        }
+        for (SvinZonaDetalle nuevo : listaIngresar) {
+            if (nuevo.getParroquia() != null && nuevo.getCanton().getCanId().equals(codCanton)) {
+                cont--;
+            }
+        }
+        if (cont > 0) {
+            SvinZonaDetalle eliminarCanton = getCantonEliminar(codCanton, cont);
+            if (eliminarCanton != null) {
+                listaTemp.add(eliminarCanton);
+            }
+        }
+    }
+
+    private void verificarEliminarProvincia(String codProvincia, List<SvinZonaDetalle> listaTemp) {
+        int cont = 0;
+        for (SvinZonaDetalle svinZonaDetalle : listaTemp) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getProvincia().getProId().equals(codProvincia)) {
+                cont++;
+            }
+        }
+        for (SvinZonaDetalle nuevo : listaIngresar) {
+            if (nuevo.getParroquia() != null && nuevo.getProvincia().getProId().equals(codProvincia)) {
+                cont--;
+            }
+        }
+
+        if (cont > 0) {
+            SvinZonaDetalle eliminarProvincia = getProvinciaEliminar(codProvincia, cont);
+            if (eliminarProvincia != null) {
+                listaTemp.add(eliminarProvincia);
+            }
+        }
+    }
+
+    private SvinZonaDetalle getProvinciaEliminar(String codProvincia, int contVerificar) {
+        int cont = 0;
+        for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getProvincia().getProId().equals(codProvincia)) {
+                cont++;
+            }
+        }
+        if (cont == contVerificar) {
+            for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+                if (svinZonaDetalle.getProvincia() != null && svinZonaDetalle.getCanton() == null && svinZonaDetalle.getParroquia() == null
+                        && svinZonaDetalle.getProvincia().getProId().equals(codProvincia)) {
+                    return svinZonaDetalle;
+                }
+            }
+        }
+        return null;
+    }
+
+    private SvinZonaDetalle getCantonEliminar(String codCanton, int contVerificar) {
+        int cont = 0;
+        for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getCanton().getCanId().equals(codCanton)) {
+                cont++;
+            }
+        }
+
+        if (cont == contVerificar) {
+            for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+                if (svinZonaDetalle.getCanton() != null && svinZonaDetalle.getParroquia() == null
+                        && svinZonaDetalle.getCanton().getCanId().equals(codCanton)) {
+                    return svinZonaDetalle;
+                }
+            }
+        }
+        return null;
+    }
+
+    private SvinZonaDetalle getParroquiaEliminar(String codParroquia) {
+        for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getParroquia().getPrqId().equals(codParroquia)) {
+                return svinZonaDetalle;
+            }
+        }
+        return null;
+    }
+
+    public String validarVaciosP3() {
+        datosCompletos = true;
+
+        if (selectedNodes2.length == 0) {
+            datosCompletos = false;
+        }
+        return "";
+    }
+
+    public void validarFechaInicio() {
+        if (proyectoSelected.getFechaFinalizacion() != null && proyectoSelected.getFechaFinalizacion().compareTo(proyectoSelected.getFechaInicio()) <= 0) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La fecha de inicio debe ser menor que la fecha de finalización"));
+            proyectoSelected.setFechaInicio(null);
+        }
+        validarVaciosP1();
+    }
+
+    public void validarFechaFin() {
+        if (proyectoSelected.getFechaInicio() != null && proyectoSelected.getFechaFinalizacion().compareTo(proyectoSelected.getFechaInicio()) <= 0) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La fecha de finalización debe ser mayor que la fecha de inicio"));
+            proyectoSelected.setFechaFinalizacion(null);
+        }
+        validarVaciosP1();
+
+    }
+
+    @EJB
+    private SvinObjetivoProgramaFacade objetivoProgramaFacade;
+    private SvinObjetivoPrograma objetivoProgramaSelected;
+    private List<SvinObjetivoPrograma> objetivoProgramaList;
+
+    public String agregarP15() {
+        objetivoProgramaSelected = new SvinObjetivoPrograma(proyectoSelected);
+        controlGrabar = true;
+        return "";
+    }
+
+    public void cancelarP15() {
+        controlGrabar = false;
+        datosCompletos = false;
+        objetivoProgramaList = objetivoProgramaFacade.findObjetivosProyecto(proyectoSelected.getId());
+    }
+
+    public SvinObjetivoPrograma getObjetivoProgramaSelected() {
+        return objetivoProgramaSelected;
+    }
+
+    public void setObjetivoProgramaSelected(SvinObjetivoPrograma objetivoProgramaSelected) {
+        this.objetivoProgramaSelected = objetivoProgramaSelected;
+    }
+
+    public List<SvinObjetivoPrograma> getObjetivoProgramaList() {
+        return objetivoProgramaList;
+    }
+
+    public void setObjetivoProgramaList(List<SvinObjetivoPrograma> objetivoProgramaList) {
+        this.objetivoProgramaList = objetivoProgramaList;
+    }
+
+    public boolean isControlGrabar() {
+        return controlGrabar;
+    }
+
+    public void setControlGrabar(boolean controlGrabar) {
+        this.controlGrabar = controlGrabar;
+    }
+
+    public String registraP15() {
+        try {
+            if (objetivoProgramaSelected.getSvopId() == null) {
+                objetivoProgramaFacade.create(objetivoProgramaSelected);
+            } else {
+                objetivoProgramaFacade.edit(objetivoProgramaSelected);
+            }
+            cancelarP15();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    public boolean validarVaciosP15() {
+        datosCompletos = true;
+        if (objetivoProgramaSelected.getSvopTipo() == null
+                || objetivoProgramaSelected.getSvopIndicador() == null || objetivoProgramaSelected.getSvopIndicador().trim().isEmpty()
+                || objetivoProgramaSelected.getSvopMverifica() == null || objetivoProgramaSelected.getSvopMverifica().trim().isEmpty()
+                || objetivoProgramaSelected.getSvopObjetivoProy() == null || objetivoProgramaSelected.getSvopObjetivoProy().trim().isEmpty()
+                || objetivoProgramaSelected.getSvopSupuestos() == null || objetivoProgramaSelected.getSvopSupuestos().trim().isEmpty()) {
+            datosCompletos = false;
+        }
+        return datosCompletos;
+    }
+
+    public String seleccionarP15() {
+        controlGrabar = true;
+        datosCompletos = false;
+        return "";
+    }
+
+    public void eliminarP15() {
+        try {
+            objetivoProgramaFacade.remove(objetivoProgramaSelected);
+            cancelarP15();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        }
+    }
+
+    public void actionListener(ActionEvent event) {
+        objetivoProgramaSelected = new SvinObjetivoPrograma(proyectoSelected);
+        controlGrabar = true;
+
+    }
+}

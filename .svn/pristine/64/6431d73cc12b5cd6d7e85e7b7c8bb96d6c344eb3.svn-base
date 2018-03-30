@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyectoObjetivosPLNBV" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="1.6105100000000037"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idProyecto" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[102]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[Select distinct OBJ_PADRE.SVOBVI_ID, OBJ_PADRE.SVOBVI_DESCRIPCION, OBJ_PADRE.SVOBVI_ORDEN
+from SZDTAVPROG_OBJ, SZDTAVOBJETIVO_B_VIVIR OBJ_PADRE, SZDTAVOBJETIVO_B_VIVIR OBJ_HIJO
+where SZTVPROYEC_CODE = $P{idProyecto}
+and SZDTAVPROG_OBJ.SVOBVI_ID = OBJ_HIJO.SVOBVI_ID
+AND OBJ_HIJO.SVOBVI_ID_PADRE = OBJ_PADRE.SVOBVI_ID
+order by OBJ_PADRE.SVOBVI_ORDEN]]>
+	</queryString>
+	<field name="SVOBVI_ID" class="java.math.BigDecimal"/>
+	<field name="SVOBVI_DESCRIPCION" class="java.lang.String"/>
+	<field name="SVOBVI_ORDEN" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="14">
+			<staticText>
+				<reportElement x="0" y="0" width="532" height="14" uuid="169e91ba-6343-4850-8e21-09a67d9f6cff"/>
+				<box topPadding="1" leftPadding="5" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Objetivos del Plan Nacional del Buen Vivir:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="37" splitType="Prevent">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="532" height="16" uuid="fd5b7bcf-e6a1-4017-803d-d31fe74f67f3"/>
+				<box topPadding="1" leftPadding="5" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SVOBVI_ORDEN}+ ". " + $F{SVOBVI_DESCRIPCION}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="16" width="532" height="21" uuid="42f0ba73-d48d-4856-a7d0-1bfe9dda4163"/>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idObjetivo">
+					<subreportParameterExpression><![CDATA[$F{SVOBVI_ID}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoObjetivosPLNBVPoliticas.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

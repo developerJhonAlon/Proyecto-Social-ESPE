@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>Información</title>
+        <h:outputStylesheet name="theme_sistema_SVS.css" library="css" />        
+        <style>
+            .foo{
+                width: 151px;
+            }
+
+            .foo td {
+                vertical-align: top;
+            }
+
+            .ui-panel .ui-panel-content {
+                padding: 0;
+            }            
+            .col1_datos_generales {
+                width: 65px;
+            }
+            .col1_adquisicion {
+                width: 95px;
+            }
+            .col1_objetivos {
+                width: 80px;
+            }
+            .col1_presupuesto {
+                width: 125px;
+            }
+            .col1_identificacionPoblacion {
+                width: 70px;
+                text-align: left;
+                border: solid;
+                border-width: 1px;
+            }
+            .col2_identificacionPoblacion {
+                width: 70px;
+                text-align: center;
+                border: solid;
+                border-width: 1px;
+            }
+            .col1_acta_concejo_departamento{
+                width: 200px;
+            }
+            .hide-column-names table thead tr {
+                display: none;
+            }
+            .button {
+
+                background-color: Transparent;background-repeat:no-repeat;border: none;cursor:pointer;overflow: hidden;
+            }            
+            .estilo1{
+                text-align: center;
+            }                    
+        </style>    
+
+        <script type="text/javascript">
+            function onrangechange1() {
+                var range = PF('timelineHitos').getVisibleRange();
+                PF('timelineActividades').setVisibleRange(range.start, range.end);
+            }
+
+            function onrangechange2() {
+                var range = PF('timelineActividades').getVisibleRange();
+                PF('timelineHitos').setVisibleRange(range.start, range.end);
+            }
+        </script>            
+    </h:head>
+
+    <h:body>
+        <h:form id="formPrincipal">
+            <p:growl id="message1" widgetVar="message1" showDetail="true" life="3000"></p:growl>            
+
+            <p:fieldset legend="1.1. Datos Generales" rendered="#{reportePorOpcionController.opcionMenu=='1.1'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5" >
+
+                    <h:panelGrid columns="3" cellpadding="0" cellspacing="0" styleClass="foo, foo, foo" style="width: 100%">
+                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0">
+                            <h:panelGrid id="pInput1" columns="2" cellspacing="5" columnClasses="col1_datos_generales">
+                                <p:outputLabel value="Código:" style="font-weight: bold"/>
+                                <p:outputLabel value="#{reportePorOpcionController.proyectoSelected.codigo}"/>
+
+                                <p:outputLabel value="Nombre:" style="font-weight: bold"/>
+                                <p:outputLabel value="#{reportePorOpcionController.proyectoSelected.nombre}"/>
+
+
+                                <p:outputLabel value="Tipo Proyecto:" style="font-weight: bold"/>
+                                <h:panelGrid columns="2">
+                                    <p:selectOneRadio value="#{reportePorOpcionController.proyectoSelected.tipo}" 
+                                                      disabled="#{reportePorOpcionController.proyectoSelected.id!=null}"
+                                                      >
+                                        <f:selectItem itemLabel="Gasto Permanente" itemValue="C"/>
+                                        <f:selectItem itemLabel="Gasto No Permanente" itemValue="I"/>
+                                    </p:selectOneRadio>
+                                </h:panelGrid>
+
+                                <p:outputLabel value="Convocatoria:" style="font-weight: bold" rendered="#{reportePorOpcionController.proyectoSelected.tipo=='I'}"/>
+                                <h:panelGrid columns="2" rendered="#{reportePorOpcionController.proyectoSelected.tipo=='I'}">
+                                    <p:outputLabel value="#{(reportePorOpcionController.proyectoSelected.convocatoria==null and reportePorOpcionController.proyectoSelected.tipo=='I')?'No existe una convocatoria abierta':reportePorOpcionController.proyectoSelected.convocatoria.nombre.concat(' (').concat(reportePorOpcionController.proyectoSelected.convocatoria.fechaInicioTexto).concat(' - ').concat(reportePorOpcionController.proyectoSelected.convocatoria.fechaFinTexto).concat(')')}" 
+                                                   style="#{(reportePorOpcionController.proyectoSelected.convocatoria==null and reportePorOpcionController.proyectoSelected.tipo=='I')?'color:red':''}"/>
+                                </h:panelGrid>
+
+                                <p:outputLabel value="Departamento:" style="font-weight: bold"/>
+                                <p:outputLabel value="#{reportePorOpcionController.proyectoSelected.departamento.stvsubjDesc}"/>
+
+                                <p:outputLabel value="Población Beneficiaria:" style="font-weight: bold"/>
+                                <h:panelGrid columns="2">
+                                    <p:selectManyCheckbox disabled="true"
+                                                          value="#{reportePorOpcionController.tipoPoblacionSelectedList}" 
+                                                          converter="omnifaces.SelectItemsConverter">
+                                        <f:selectItems value="#{reportePorOpcionController.tipoPoblacionList}" var="tipoPob" itemLabel="#{tipoPob.prdDescripcion}" itemValue="#{tipoPob}" />
+                                    </p:selectManyCheckbox>
+                                </h:panelGrid>
+
+                            </h:panelGrid>
+
+
+                            <p:spacer height="10"></p:spacer>
+                            <h:outputText value="PLAZO DE EJECUCIÓN" style="font-size: 14px; font-weight: bold"/>
+                            <h:panelGrid  columns="2" cellpadding="2" >
+                                <p:outputLabel value="Fecha de Inicio (dd/mm/aaaa):" style="font-weight: bold"/>
+                                <p:outputLabel value="#{reportePorOpcionController.proyectoSelected.fechaInicio}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                </p:outputLabel>
+
+                                <p:outputLabel value="Fecha de Finalización (dd/mm/aaaa):" style="font-weight: bold"/>
+                                <p:outputLabel value="#{reportePorOpcionController.proyectoSelected.fechaFinalizacion}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                </p:outputLabel>
+
+                                <h:outputLabel value="Duración:" style="font-weight: bold"/>
+                                <h:outputLabel value="#{reportePorOpcionController.proyectoSelected.duracion}"/>
+
+                                <p:spacer height="15"></p:spacer>
+                            </h:panelGrid>
+
+
+                        </h:panelGrid>
+                        <p:spacer height="1" width="25"></p:spacer>
+                        <h:panelGrid columns="1">
+
+                            <h:panelGrid columns="1">
+                                <p:outputLabel value="DATOS DEL DIRECTOR" style="font-size: 14px; font-weight: bold"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" cellpadding="2" > 
+                                <p:outputLabel value="Nombres:" style="font-weight: bold"/>
+                                <p:outputLabel value="#{reportePorOpcionController.docenteSelected.usuario.usuNombres}" />
+
+                                <p:outputLabel value="Apellidos:" style="text-align: left; font-weight: bold"/>
+                                <p:outputLabel value="#{reportePorOpcionController.docenteSelected.usuario.usuApellidos}" />
+
+                                <p:outputLabel value="Cargo:" style="text-align: left; font-weight: bold"/>
+                                <p:outputLabel value="#{reportePorOpcionController.docenteSelected.cargo}" />
+
+                                <p:outputLabel value="Departamento:" style="text-align: left; font-weight: bold"/>
+                                <p:outputLabel value="#{reportePorOpcionController.docenteSelected.departamento}"/>
+
+                                <p:outputLabel value="Correo Electrónico:" style="text-align: left; font-weight: bold"/>
+                                <p:outputLabel value="#{reportePorOpcionController.docenteSelected.usuario.usuEmail}"/>
+
+                                <p:outputLabel for="telefUsu" value="Teléfono:" style="white-space: pre-line; font-weight: bold" /> 
+                                <p:outputLabel value="#{reportePorOpcionController.docenteSelected.usuario.usuTelefonoFijo}"/>
+                            </h:panelGrid>                                         
+
+                        </h:panelGrid>
+
+
+
+                    </h:panelGrid>
+
+                </h:panelGrid>
+            </p:fieldset>
+
+
+            <p:fieldset legend="1.2. Cobertura y Localización" rendered="#{reportePorOpcionController.opcionMenu=='1.2'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5" >
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="Cobertura:" for="selCobertura" style="font-weight: bold"/>
+                        <h:panelGrid columns="2">
+                            <p:selectOneRadio id="selCobertura" value="#{reportePorOpcionController.proyectoSelected.cobertura2.prdId}" 
+                                              disabled="true"
+                                              style="font-weight: normal"
+                                              >
+<f:selectItems value="#{reportePorOpcionController.coberturaList}" var="cobertura" itemLabel="#{cobertura.prdDescripcion}" itemValue="#{cobertura.prdId}"/>                                 
+                            </p:selectOneRadio>
+                        </h:panelGrid>
+                    </h:panelGrid>                    
+                    <p:dataTable id="dataTableCobertura" value="#{reportePorOpcionController.proyectoSelected.parroquiasCobertura}" var="parroquiaCobertura"
+                                 style="width: 100%" paginator="true" rows="10" rowIndexVar="index"  resizableColumns="true" 
+                                 rendered="#{!reportePorOpcionController.proyectoSelected.coberturaNacional}"
+                                 emptyMessage="No se encontraron resultados">
+
+                        <p:column headerText="Nro." width="5">
+                            <h:outputText value="#{index + 1}"/>
+                        </p:column>
+                        <p:column headerText="Provincia" style="white-space:pre-line" sortBy="#{parroquiaCobertura.nomProvincia}">
+                            <h:outputText value="#{parroquiaCobertura.nomProvincia}" style="white-space: pre-line;"/>
+                        </p:column>
+                        <p:column headerText="Cantón" style="white-space:pre-line" sortBy="#{parroquiaCobertura.nomCanton}"
+                                  rendered="#{reportePorOpcionController.proyectoSelected.coberturaCantonal or reportePorOpcionController.proyectoSelected.coberturaParroquial}">
+                            <h:outputText value="#{parroquiaCobertura.nomCanton}" style="white-space: pre-line; "/>
+                        </p:column>
+                        <p:column headerText="Parroquia" style="white-space:pre-line" sortBy="#{parroquiaCobertura.nomParroquia}"
+                                  rendered="#{reportePorOpcionController.proyectoSelected.coberturaParroquial}">
+                            <h:outputText value="#{parroquiaCobertura.nomParroquia}" style="white-space: pre-line; "/>
+                        </p:column>
+                    </p:dataTable>    
+                </h:panelGrid>            
+            </p:fieldset>
+
+            <p:fieldset legend="1.3. Origen de los fondos" rendered="#{reportePorOpcionController.opcionMenu=='1.3'}" style="margin-right: 10px">
+                <h:panelGrid columns="2" cellpadding="5" >
+                    <p:outputLabel value="Presupuesto Aporte Universidad (asignación presupuestaria):" style="font-weight: bold"/>
+                    <p:outputLabel value="#{reportePorOpcionController.proyectoSelected.presupuestoAporteUniv!=null?reportePorOpcionController.proyectoSelected.presupuestoAporteUniv:'0.00'}" >
+                        <f:convertNumber pattern="###,##0.00" locale="ES"/>
+                    </p:outputLabel>
+
+
+                    <p:outputLabel value="Presupuesto Aporte Universidad Valorado (sin asignación presupuestaria):" style="font-weight: bold"/>
+                    <p:outputLabel value="#{reportePorOpcionController.proyectoSelected.presupuestoAporteUnivValorado!=null?reportePorOpcionController.proyectoSelected.presupuestoAporteUnivValorado:'0.00'}" >
+                        <f:convertNumber pattern="###,##0.00" locale="ES"/>
+                    </p:outputLabel>
+
+                    <p:outputLabel value="Presupuesto Entidad Auspiciante:" style="font-weight: bold"/>
+                    <p:outputLabel value="#{reportePorOpcionController.proyectoSelected.presupuestoEntidadAuspiciante!=null?reportePorOpcionController.proyectoSelected.presupuestoEntidadAuspiciante:'0.0'}" >
+                        <f:convertNumber pattern="###,##0.00" locale="ES"/>
+                    </p:outputLabel>
+
+                    <p:outputLabel value="Presupuesto contraparte - Comunidad beneficiaria:" style="font-weight: bold"/>
+                    <p:outputLabel value="#{reportePorOpcionController.proyectoSelected.presupuestoContraparte!=null?reportePorOpcionController.proyectoSelected.presupuestoContraparte:'0.00'}">
+                        <f:convertNumber pattern="###,##0.00" locale="ES"/>
+                    </p:outputLabel>
+
+
+                    <p:outputLabel value="Presupuesto Total:" style="font-weight: bold" />
+                    <p:outputLabel value="#{reportePorOpcionController.proyectoSelected.presupuestoTotal}">
+                        <f:convertNumber pattern="###,##0.00" locale="ES"/>
+                    </p:outputLabel>
+                </h:panelGrid>
+            </p:fieldset>
+
+            <p:fieldset legend="1.4. Detalle de entregables del proyecto" rendered="#{reportePorOpcionController.opcionMenu=='1.4'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5" id="pInput4">
+                    <p:outputLabel id="lblBienes" value="Bienes:" for="txtBienes" style="font-weight: bold"/>
+                    <pe:ckEditor id="txtBienes" value="#{reportePorOpcionController.proyectoSelected.bienes}" 
+                                 readonly="true"
+                                 width="100%"
+                                 height="100"
+                                 toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
+                                 >  
+                    </pe:ckEditor>
+
+                    <p:outputLabel value="Servicios:" for="txtServicios" style="font-weight: bold"/>
+                    <pe:ckEditor id="txtServicios" value="#{reportePorOpcionController.proyectoSelected.servicios}" 
+                                 readonly="true"
+                                 width="100%"
+                                 height="100"
+                                 toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
+                                 >  
+                    </pe:ckEditor>
+
+                    <p:outputLabel value="Bienes y Servicios" for="txtBienesServicios" style="font-weight: bold"/>
+                    <pe:ckEditor id="txtBienesServicios" value="#{reportePorOpcionController.proyectoSelected.bienesServicios}" 
+                                 readonly="true"
+                                 width="100%"
+                                 height="100"
+                                 toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
+                                 >  
+                    </pe:ckEditor>
+                </h:panelGrid> 
+            </p:fieldset>
+            <p:fieldset legend="2.1. Diagnóstico y Problema" rendered="#{reportePorOpcionController.opcionMenu=='2.1'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="2" >
+                    <p:outputLabel value="Descripción de la situación actual del área de intervención del proyecto:" for="txtAreaIntervencion" style="font-weight: bold"/>
+                    <pe:ckEditor id="txtAreaIntervencion" value="#{reportePorOpcionController.proyectoSelected.areaIntervencion2}" 
+                                 readonly="true"
+                                 width="100%"
+                                 height="100"
+                                 toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
+                                 >  
+                    </pe:ckEditor>
+
+                    <p:outputLabel value="Identificación, descripción y diagnóstico del problema:" for="txtDiagnosticoProblema" style="font-weight: bold"/>
+                    <pe:ckEditor id="txtDiagnosticoProblema" value="#{reportePorOpcionController.proyectoSelected.diagnosticoProblema2}" 
+                                 readonly="true"
+                                 width="100%"
+                                 height="100"
+                                 toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
+                                 >  
+                    </pe:ckEditor>
+
+                    <p:outputLabel value="Línea Base del proyecto:" for="txtLineaBase" style="font-weight: bold"/>
+                    <pe:ckEditor id="txtLineaBase" value="#{reportePorOpcionController.proyectoSelected.lineaBase}" 
+                                 readonly="true"
+                                 width="100%"
+                                 height="100"
+                                 toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
+                                 >  
+                    </pe:ckEditor>
+
+                    <p:outputLabel value="Factores críticos de éxito:" for="txtFactoresCriticos" style="font-weight: bold"/>
+                    <pe:ckEditor id="txtFactoresCriticos" value="#{reportePorOpcionController.proyectoSelected.factoresCriticos}" 
+                                 readonly="true"
+                                 width="100%"
+                                 height="100"
+                                 toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
+                                 >  
+                    </pe:ckEditor>
+
+                    <p:outputLabel value="Restricciones/Supuestos::" for="txtRestricciones" style="font-weight: bold"/>
+                    <pe:ckEditor id="txtRestricciones" value="#{reportePorOpcionController.proyectoSelected.restricciones}" 
+                                 readonly="true"
+                                 width="100%"
+                                 height="100"
+                                 toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
+                                 >  
+                    </pe:ckEditor>
+                </h:panelGrid>                
+
+            </p:fieldset>
+
+            <p:fieldset legend="2.2. Identificación de Población" rendered="#{reportePorOpcionController.opcionMenu=='2.2'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" style="margin-bottom: 10px">
+                    <h:outputLabel value="Identificación y caracterización de la población objetivo (beneficiarios):" style="font-weight: bold"/>
+                    <h:panelGrid columns="6" cellpadding="0" cellspacing="0" columnClasses="col1_identificacionPoblacion,col2_identificacionPoblacion, col2_identificacionPoblacion, col2_identificacionPoblacion, col2_identificacionPoblacion, col2_identificacionPoblacion">
+
+                        <p:spacer height="1"></p:spacer>
+                        <p:outputLabel value="Hombres" style="font-weight: bold"/>
+                        <p:outputLabel value="Mujeres" style="font-weight: bold"/>
+                        <p:outputLabel value="Niños" style="font-weight: bold"/>
+                        <p:outputLabel value="Personas con capacidades especiales" style="font-weight: bold"/>
+                        <p:outputLabel value="Total" style="font-weight: bold"/>
+
+                        <p:outputLabel value="DIRECTOS" style="font-weight: bold"/>
+                        <p:outputLabel value="#{reportePorOpcionController.proyectoSelected.nroBeneficiariosDirectosHombres}" >
+                            <f:convertNumber pattern="###,##0" locale="ES"/>
+                        </p:outputLabel>
+                        <p:outputLabel value="#{reportePorOpcionController.proyectoSelected.nroBeneficiariosDirectosMujeres}" >
+                            <f:convertNumber pattern="###,##0" locale="ES"/>
+                        </p:outputLabel>
+                        <p:outputLabel value="#{reportePorOpcionController.proyectoSelected.nroBeneficiariosDirectosNinios}" >
+                            <f:convertNumber pattern="###,##0" locale="ES"/>
+                        </p:outputLabel>
+                        <p:outputLabel id="txtDirectosDiscapac" value="#{reportePorOpcionController.proyectoSelected.nroBeneficiariosDirectosDiscapac}" >
+                            <f:convertNumber pattern="###,##0" locale="ES"/>
+                        </p:outputLabel>
+                        <p:outputLabel id="txtTotalDirectos" value="#{reportePorOpcionController.proyectoSelected.totalDirectos}" >
+                            <f:convertNumber pattern="###,##0" locale="ES"/>
+                        </p:outputLabel>
+
+                        <p:outputLabel value="INDIRECTOS" style="font-weight: bold"/>
+                        <p:spacer/>
+                        <p:spacer/>
+                        <p:spacer/>
+                        <p:spacer/>
+                        <p:outputLabel value="#{reportePorOpcionController.proyectoSelected.nroBeneficiariosIndirectos}" >
+                            <f:convertNumber pattern="###,##0" locale="ES"/>
+                        </p:outputLabel>
+                    </h:panelGrid>
+                </h:panelGrid>                
+            </p:fieldset>
+
+            <p:fieldset legend="2.3. Docentes participantes" rendered="#{reportePorOpcionController.opcionMenu=='2.3'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <p:dataTable id="dataTDocentesParticipantes" value="#{reportePorOpcionController.proyectoSelected.departamentoProyectoList}" var="docenteProyecto" paginator="true"
+                                 rows="10" rowIndexVar="index" resizableColumns="true"
+                                 emptyMessage="No se encontraron Resultados"> 
+                        <p:column headerText="Nro." width="1">
+                            <h:outputText value="#{index + 1}"/>
+                        </p:column>
+                        <p:column headerText="Departamento" sortBy="#{docenteProyecto.departamento.stvsubjDesc}">
+                            <h:outputText value="#{docenteProyecto.departamento.stvsubjDesc}" style="white-space: pre-line"/>                                    
+                        </p:column>
+                        <p:column headerText="Nro. docentes participantes" sortBy="#{docenteProyecto.nroDocentes}" width="20" style="white-space: pre-line; text-align: center ">
+                            <h:outputText value="#{docenteProyecto.nroDocentes}" style="white-space: pre-line;">  
+                                <f:convertNumber locale="es_ES"  pattern="#,##0" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column colspan="2" style="text-align:right" footerText="Total:" />
+                                <p:column footerText="#{reportePorOpcionController.proyectoSelected.totalDocentesParticipantes}" style="text-align: center" >
+                                </p:column>
+                            </p:row>
+                        </p:columnGroup>                                        
+                    </p:dataTable> 
+                </h:panelGrid>
+
+            </p:fieldset>
+
+            <p:fieldset legend="2.4. Estudiantes participantes" rendered="#{reportePorOpcionController.opcionMenu=='2.4'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <p:dataTable id="dataTEstudiantesParticipantes" value="#{reportePorOpcionController.proyectoSelected.carreraProyectoList}" var="carreraProyecto" paginator="true"
+                                 rows="10" rowIndexVar="index" resizableColumns="true"
+                                 emptyMessage="No se encontraron Resultados"> 
+                        <p:column headerText="Nro." width="1">
+                            <h:outputText value="#{index + 1}"/>
+                        </p:column>
+                        <p:column headerText="Carrera" sortBy="#{carreraProyecto.carrera.stvmajrDesc}">
+                            <h:outputText value="#{carreraProyecto.carrera.stvmajrDesc}" style="white-space: pre-line"/>                                    
+                        </p:column>
+                        <p:column headerText="Nro. estudiantes participantes" sortBy="#{carreraProyecto.nroEstudiantes}" width="20" style="white-space: pre-line">
+                            <h:outputText value="#{carreraProyecto.nroEstudiantes}" style="white-space: pre-line; float: right">     
+                                <f:convertNumber locale="es_ES"  pattern="#,##0" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column colspan="2" style="text-align:right" footerText="Total:" />
+                                <p:column footerText="#{reportePorOpcionController.proyectoSelected.totalEstudiantesParticipantes}" style="text-align: right" >
+                                </p:column>
+                            </p:row>
+                        </p:columnGroup>                                        
+
+                    </p:dataTable> 
+                </h:panelGrid>
+
+            </p:fieldset>
+            <p:fieldset legend="3.1. Objetivos PLNBV" rendered="#{reportePorOpcionController.opcionMenu=='3.1'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputLabel value="¿A qué objetivos del Plan Nacional del Buen Vivir se respalda el Proyecto?" style="font-weight: bold"/>
+                    <p:dataTable id="dataTableObjPlan" value="#{reportePorOpcionController.proyectoSelected.objetivoBVivirProyectoPadreList}" var="proObjPlan" paginator="true"
+                                 rows="10" rowIndexVar="index" resizableColumns="true" emptyMessage="No se encontraron resultados" expandedRow="true" >
+                        <p:column width="1">
+                            <p:rowToggler/>
+                        </p:column>
+                        <p:column headerText="Nro." width="1">
+                            <h:outputText value="#{index + 1}"/>
+                        </p:column>
+                        <p:column headerText="Objetivos del Plan Nacional del Buen Vivir">
+                            <h:outputText value="#{proObjPlan.objetivoBVivir.ordenDescripcion}" style="white-space: pre-line" />
+                        </p:column>
+
+                        <p:rowExpansion >
+                            <p:panelGrid columns="1" style="border:hidden;width:95%; "  >
+                                <p:dataTable id="dtSubObj" value="#{proObjPlan.svinProgObjHijos}" var="subObjl"
+                                             rendered="#{not empty proObjPlan.svinProgObjHijos}"
+                                             rowIndexVar="index" style="width: 90%; padding-left: 60px">
+                                    <p:column headerText="Nro." style="width:20px">
+                                        <h:outputText value="#{index + 1}" />
+                                    </p:column>
+                                    <p:column headerText="Políticas" sortBy="#{subObjl.objetivoBVivir.svobviDescripcion}">
+                                        <h:outputText value="#{subObjl.objetivoBVivir.ordenDescripcion}" style="white-space: pre-line;width: 250px"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panelGrid>
+                        </p:rowExpansion>
+                    </p:dataTable>
+                </h:panelGrid>
+            </p:fieldset>
+
+
+            <p:fieldset legend="3.2. Objetivos Provinciales, Cantonales o Parroquiales" rendered="#{reportePorOpcionController.opcionMenu=='3.2'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <p:dataTable id="dataTableObjParroquiales" value="#{reportePorOpcionController.proyectoSelected.objetivosProvCanParr}" var="ob"
+                                 editable="true" style="width: 100%" paginator="true" rows="10" rowIndexVar="index"  resizableColumns="true" 
+                                 emptyMessage="No se encontraron resultados">
+
+                        <p:column headerText="Nro." width="1">
+                            <h:outputText value="#{index + 1}"/>
+                        </p:column>
+                        <p:column headerText="Provincia" style="white-space:pre-line" sortBy="#{ob.nomProvincia}">
+                            <h:outputText value="#{ob.nomProvincia}" style="white-space: pre-line; width: 100%"/>
+                        </p:column>
+                        <p:column headerText="Cantón" style="white-space:pre-line" sortBy="#{ob.nomCanton}">
+                            <h:outputText value="#{ob.nomCanton}" style="white-space: pre-line; width: 100%"/>
+                        </p:column>     
+                        <p:column headerText="Parroquia" style="white-space:pre-line" sortBy="#{ob.nomParroquia}">                               
+                            <h:outputText value="#{ob.nomParroquia}" style="white-space: pre-line; width: 100%"/>
+                        </p:column>
+                        <p:column headerText="Objetivo" style="white-space:pre-line" sortBy="#{ob.objetivos}">
+                            <h:outputText value="#{ob.objetivos}" style="white-space: pre-line; width: 100%" />
+                        </p:column>                         
+                    </p:dataTable> 
+                </h:panelGrid>
+            </p:fieldset>
+
+            <p:fieldset legend="3.3. Objetivos Estratégicos Institucionales" rendered="#{reportePorOpcionController.opcionMenu=='3.3'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputLabel for="dataTableObjEstInt" value="¿A qué objetivos Estratégicos Institucionales apunta el Proyecto?:" style="font-weight: bold; width: 100%"/>
+                    <p:dataTable id="dataTableObjEstInt" value="#{reportePorOpcionController.proyectoSelected.perspectivaList}" var="perspectivaProyecto"
+                                 rowIndexVar="index"  resizableColumns="true" expandedRow="true" 
+                                 emptyMessage="No se encontraron resultados">
+                        <p:column width="1">
+                            <p:rowToggler/>
+                        </p:column>
+                        <p:column headerText="Nro." width="1">
+                            <h:outputText value="#{index + 1}"/>
+                        </p:column>
+                        <p:column headerText="Perspectiva" style="white-space:pre-line">
+                            <h:outputText value="#{perspectivaProyecto.descripcion}" style="white-space: pre-line; "/>
+                        </p:column>
+                        <p:rowExpansion >
+                            <p:panel style="border:hidden; width:95%; padding-left: 40px">
+                                <h:outputLabel value="Objetivos:" style="font-weight: bold"/>
+                                <p:dataTable value="#{perspectivaProyecto.objetivoEstrategicoHijoList}" var="objetivoProyeto"
+                                             rendered="#{not empty perspectivaProyecto.objetivoEstrategicoHijoList}" expandedRow="true" 
+                                             rowIndexVar="index" style="width: 98%">
+                                    <p:column style="width: 20px">
+                                        <p:rowToggler/>
+                                    </p:column>
+                                    <p:column headerText="Nro." style="width:20px">
+                                        <h:outputText value="#{index + 1}"/>
+                                    </p:column>
+                                    <p:column headerText="Objetivo" style="white-space:pre-line">
+                                        <h:outputText value="#{objetivoProyeto.descripcion}" style="white-space: pre-line; "/>
+                                    </p:column>
+                                    <p:rowExpansion >
+                                        <p:panel style="border:hidden; width:95%; padding-left: 40px">
+                                            <h:outputLabel rendered="#{not empty objetivoProyeto.indicadorList}" value="Indicadores:" style="font-weight: bold"/>
+                                            <p:dataTable value="#{objetivoProyeto.indicadorList}" var="indicadorProyeto"
+                                                         rendered="#{not empty objetivoProyeto.indicadorList}"
+                                                         rowIndexVar="index" style="width: 98%">
+                                                <p:column headerText="Nro." style="width:20px">
+                                                    <h:outputText value="#{index + 1}"/>
+                                                </p:column>
+                                                <p:column headerText="Indicador" style="white-space:pre-line">
+                                                    <h:outputText value="#{indicadorProyeto.descripcion}" style="white-space: pre-line; "/>
+                                                </p:column>
+                                            </p:dataTable>
+                                            <h:outputLabel rendered="#{not empty objetivoProyeto.estrategiaList}" value="Estrategias:" style="font-weight: bold"/>
+                                            <p:dataTable value="#{objetivoProyeto.estrategiaList}" var="estrategiaProyeto"
+                                                         rendered="#{not empty objetivoProyeto.estrategiaList}"
+                                                         rowIndexVar="index" style="width: 98%">
+                                                <p:column headerText="Nro." style="width:20px">
+                                                    <h:outputText value="#{index + 1}"/>
+                                                </p:column>
+                                                <p:column headerText="Estrategia" style="white-space:pre-line">
+                                                    <h:outputText value="#{estrategiaProyeto.descripcion}" style="white-space: pre-line; "/>
+                                                </p:column>
+                                            </p:dataTable>
+
+                                        </p:panel>
+                                    </p:rowExpansion>                                                    
+
+                                </p:dataTable>
+                            </p:panel>
+                        </p:rowExpansion>
+
+                    </p:dataTable>                     
+
+                </h:panelGrid>
+            </p:fieldset>
+
+
+            <p:fieldset legend="3.4. Matriz del Marco Lógico" rendered="#{reportePorOpcionController.opcionMenu=='3.4'}" style="margin-right: 10px">
+                <h:panelGrid columns="2" cellpadding="5" >
+                    <p:dataTable id="dataTObjetivos" value="#{reportePorOpcionController.proyectoSelected.objetivoProyectoPadreList}" var="objetivoProyecto" paginator="false"
+                                 expandedRow="#{objetivoProyecto.expanded}" rows="10" rowIndexVar="index" resizableColumns="false"
+                                 emptyMessage="No se encontraron Resultados"> 
+                        <p:ajax event="rowToggle" listener="#{reportePorOpcionController.onRowToggleObjetivoProyecto}"/> 
+                        <p:column style="width: 20px" rendered="false">
+                            <p:rowToggler rendered="#{objetivoProyecto.svopTipo!=1}"/>
+                        </p:column>
+                        <p:column headerText="Nro." width="20" rendered="false" >
+                            <h:outputText value="#{objetivoProyecto.svopOrden}"/>
+                        </p:column>
+                        <p:column headerText="" width="70">
+                            <h:outputText value="#{objetivoProyecto.tipoStr}" style="white-space: pre-line"/>
+                        </p:column>
+                        <p:column headerText="Descripción" width="140"> 
+                            <h:outputText value="#{objetivoProyecto.svopObjetivoProy}" style="white-space: pre-line;"/>
+                        </p:column>
+                        <p:column headerText="Indicador" width="140">
+                            <h:outputText value="#{objetivoProyecto.svopIndicador}" style="white-space: pre-line;"/>
+                        </p:column>
+                        <p:column headerText="Medio de verificación" width="140">
+                            <h:outputText value="#{objetivoProyecto.svopMverifica}" style="white-space: pre-line;"/>
+                        </p:column>
+                        <p:column headerText="Supuestos">
+                            <h:outputText value="#{objetivoProyecto.svopSupuestos}" style="white-space: pre-line;"/>
+                        </p:column>
+                        <p:rowExpansion  rendered="#{objetivoProyecto.svopTipo!=1}">
+                            <p:panel style="border:hidden; width:95%; padding-left: 40px" rendered="#{objetivoProyecto.svopTipo!=1}">
+                                <h:outputLabel value="Componentes (objetivos específicos):" style="font-weight: bold"/>
+                                <p:dataTable id="dataTComponentes" value="#{objetivoProyecto.svinObjetivoHijoList}" var="componente"
+                                             expandedRow="#{componente.expanded}" rowIndexVar="index" styleClass="hide-column-names"
+                                             emptyMessage="No existen registros"> 
+                                    <p:ajax event="rowToggle" listener="#{reportePorOpcionController.onRowToggleObjetivoProyecto}"/>
+                                    <p:column style="width: 20px" rendered="false">
+                                        <p:rowToggler/> 
+                                    </p:column>
+                                    <p:column headerText="Nro." style="width:20px;">
+                                        <h:outputText value="#{componente.svopOrden}" />
+                                    </p:column>
+                                    <p:column headerText="Descripción" style="width: 180px"> 
+                                        <h:outputText value="#{componente.svopObjetivoProy}" style="white-space: pre-line;"/>
+                                    </p:column>
+                                    <p:column headerText="Indicador" style="width: 140px">
+                                        <h:outputText value="#{componente.svopIndicador}" style="white-space: pre-line;"/>
+                                    </p:column>
+                                    <p:column headerText="Medio de verificación" style="width: 140px">
+                                        <h:outputText value="#{componente.svopMverifica}" style="white-space: pre-line;"/>
+                                    </p:column>
+                                    <p:column headerText="Supuestos">
+                                        <h:outputText value="#{componente.svopSupuestos}" style="white-space: pre-line;"/>
+                                    </p:column>
+                                    <p:rowExpansion >
+                                        <p:panel style="border:hidden;width:98%; padding-left: 30px"  >
+                                            <h:outputLabel value="Actividades:" style="font-weight: bold"/>
+                                            <p:dataTable id="dataTActividades" value="#{componente.svinObjetivoHijoList}" var="actividad"
+                                                         emptyMessage="No existen registros"
+                                                         rowIndexVar="index">
+                                                <p:ajax event="rowToggle" listener="#{reportePorOpcionController.onRowToggleObjetivoProyecto}"/>
+                                                <p:column headerText="Nro." style="width:20px;">
+                                                    <h:outputText value="#{actividad.svopOrden}" />
+                                                </p:column>
+                                                <p:column headerText="Descripción" style="width: 120px"> 
+                                                    <h:outputText value="#{actividad.svopObjetivoProy}" style="white-space: pre-line;"/>
+                                                </p:column>
+                                                <p:column headerText="Indicador" style="width: 140px">
+                                                    <h:outputText value="#{actividad.svopIndicador}" style="white-space: pre-line;"/>
+                                                </p:column>
+                                                <p:column headerText="Medio de verificación" style="width: 140px">
+                                                    <h:outputText value="#{actividad.svopMverifica}" style="white-space: pre-line;"/>
+                                                </p:column>
+                                                <p:column headerText="Supuestos">
+                                                    <h:outputText value="#{actividad.svopSupuestos}" style="white-space: pre-line;"/>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </p:panel>
+                                    </p:rowExpansion>                                                        
+                                </p:dataTable>
+                            </p:panel>
+                        </p:rowExpansion>                                        
+                    </p:dataTable>                    
+                </h:panelGrid>
+            </p:fieldset>
+
+            <p:fieldset legend="4. Viabilidad y Plan de Sostenibilidad" rendered="#{reportePorOpcionController.opcionMenu=='4'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5" >
+                    <h:panelGrid columns="1" cellpadding="1" id="pInput13">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel  for="viaTecnica" value="Viabilidad Técnica:" style="font-weight: bold"/>
+                            <p:message for="viaTecnica"></p:message>
+                        </h:panelGrid>
+                        <pe:ckEditor id="viaTecnica" value="#{reportePorOpcionController.proyectoSelected.viabilidadTecnica}" 
+                                     readonly="true"
+                                     width="100%"
+                                     height="100"
+                                     toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
+                                     >  
+                        </pe:ckEditor>
+
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="perdPais" value="¿Qué perdería el país si el proyecto no se ejecuta en este periodo?:" style="font-weight: bold"/>
+                            <p:message for="perdPais"></p:message>
+                        </h:panelGrid>
+                        <pe:ckEditor id="perdPais" value="#{reportePorOpcionController.proyectoSelected.perderiaPais}" 
+                                     readonly="true"
+                                     width="100%"
+                                     height="100"
+                                     toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
+                                     >  
+                        </pe:ckEditor>
+
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="resulImp" value="¿Cuáles son los resultados o impactos esperados del proyecto?:" style="font-weight: bold"/>
+                            <p:message for="resulImp"></p:message>
+                        </h:panelGrid>
+                        <pe:ckEditor id="resulImp" value="#{reportePorOpcionController.proyectoSelected.resultadosEsperados}" 
+                                     readonly="true"
+                                     width="100%"
+                                     height="100"
+                                     toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
+                                     >  
+                        </pe:ckEditor>
+
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="impactoAmb" value="¿Análisis de impacto ambiental?:" style="font-weight: bold"/>
+                            <p:message for="impactoAmb"></p:message>
+                        </h:panelGrid>
+                        <pe:ckEditor id="impactoAmb" value="#{reportePorOpcionController.proyectoSelected.impactoAmbiental}" 
+                                     readonly="true"                                     
+                                     width="100%"
+                                     height="100"
+                                     toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
+                                     >  
+                        </pe:ckEditor>
+
+
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="sostenibilidadSocial" value="Sostenibilidad social: equidad, género, participación ciudadana:" style="font-weight: bold"/>
+                            <p:message for="sostenibilidadSocial"></p:message>
+                        </h:panelGrid>
+                        <pe:ckEditor id="sostenibilidadSocial" value="#{reportePorOpcionController.proyectoSelected.sostenibilidadSocial}" 
+                                     readonly="true"
+                                     width="100%"
+                                     height="100"
+                                     toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
+                                     >  
+                        </pe:ckEditor>
+
+                    </h:panelGrid>                     
+                </h:panelGrid>
+            </p:fieldset>
+
+            <p:fieldset legend="5. Presupuesto Detallado y Fuentes de Financiamiento" rendered="#{reportePorOpcionController.opcionMenu=='5'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5" >
+                    <p:dataTable id="dataTPresupuestoPartidas" value="#{reportePorOpcionController.proyectoSelected.presupuestoProyectoList}" var="presupuestoProyecto" paginator="true"
+                                 rows="10" rowIndexVar="index" resizableColumns="true"
+                                 emptyMessage="No se encontraron Resultados"> 
+                        <p:column headerText="Nro." width="20">
+                            <h:outputText value="#{index + 1}"/>
+                        </p:column>
+                        <p:column headerText="Partida Presupuestaria" width="200" sortBy="#{presupuestoProyecto.partidaPresupuestaria.scpNombre}">
+                            <h:outputText value="#{presupuestoProyecto.partidaPresupuestaria.scpId}-#{presupuestoProyecto.partidaPresupuestaria.scpNombre}" style="white-space: pre-line"/>                                    
+                        </p:column>
+                        <p:column headerText="Tipo Gasto" sortBy="#{presupuestoProyecto.tipoGastoStr}" width="100">
+                            <h:outputText value="#{presupuestoProyecto.tipoGastoStr}" style="white-space: pre-line"/>     
+                        </p:column>
+
+                        <p:column headerText="Especificaciones Técnicas" sortBy="#{presupuestoProyecto.especificacionesTecnicas}">
+                            <h:outputText value="#{presupuestoProyecto.especificacionesTecnicas}" style="white-space: pre-line"/>     
+                        </p:column>
+                        <p:column headerText="Valor (USD)" sortBy="#{presupuestoProyecto.valor}" width="70">
+                            <h:outputText value="#{presupuestoProyecto.valor}" style="white-space: pre-line; float: right">
+                                <f:convertNumber locale="es_ES"  pattern="#,##0.00" />
+                            </h:outputText>
+                        </p:column>
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column colspan="4" style="text-align:right" footerText="Total:" />
+                                <p:column footerText="#{reportePorOpcionController.proyectoSelected.totalPresupuesto}" style="text-align: right" >
+                                </p:column>
+                            </p:row>
+                        </p:columnGroup>                                               
+                    </p:dataTable>                    
+                </h:panelGrid>
+            </p:fieldset>
+
+            <p:fieldset legend="6. Estrategia de Ejecución-Cronograma" rendered="#{reportePorOpcionController.opcionMenu=='6'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5" style="width: 100%">
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Seleccione el Componente:" for="selComponenteHito" style="font-weight: bold"/>  
+                        <p:selectOneMenu id="selComponenteHito"
+                                         value="#{reportePorOpcionController.objetivoProyectoSelected}"
+                                         converter="omnifaces.SelectItemsConverter"
+                                         >
+                            <f:selectItem itemLabel="[[-Seleccione un item-]]" noSelectionOption="true"/>
+                            <f:selectItems value="#{reportePorOpcionController.proyectoSelected.componentes}" var="comp" itemLabel="#{comp.svopObjetivoProy}" itemValue="#{comp}"/>
+                            <p:ajax event="change" update=":formPrincipal:timelineHitos, :formPrincipal:timelineActividades" 
+                                    listener="#{reportePorOpcionController.cancelarP8(true)}" 
+                                    onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                    />                                                    
+                        </p:selectOneMenu>  
+                        <p:message for="selComponenteHito"></p:message>
+
+
+                    </h:panelGrid>
+                    <p:outputLabel value="Hitos:" style="font-weight: bold"></p:outputLabel>
+                    <pe:timeline id="timelineHitos"
+                                 value="#{reportePorOpcionController.modelHitos}"  
+                                 var="hitoCronograma"
+                                 varGroup="hitoCronogramaGrupo"
+                                 zoomMin="518400000"
+                                 zoomMax="378432000000"
+                                 editable="false"  
+                                 zoomable="#{reportePorOpcionController.objetivoProyectoSelected!=null}"
+                                 moveable="#{reportePorOpcionController.objetivoProyectoSelected!=null}"
+                                 timeChangeable="false"
+                                 groupsChangeable="false"
+                                 widgetVar="timelineHitos"
+                                 eventMargin="10" 
+                                 eventMarginAxis="0"  
+                                 locale="es"
+                                 showNavigation="#{reportePorOpcionController.objetivoProyectoSelected!=null}"  
+                                 showButtonNew="false"  
+                                 axisOnTop="true" 
+                                 stackEvents="true"
+                                 height="140px"
+                                 width="100%"
+                                 start="#{reportePorOpcionController.start}"
+                                 end="#{reportePorOpcionController.end}"
+
+                                 > 
+
+                        <pe:javascript event="rangechange" execute="onrangechange1()"/>
+                        <f:facet name="group" rendered="false">
+                            <h:panelGrid columns="1" style="width: 100px" rendered="false">
+                                <h:outputText value="Hitos" rendered="false"/>
+                            </h:panelGrid>
+                        </f:facet> 
+                        <h:panelGrid columns="1">
+                            <p:outputLabel value="#{hitoCronograma.descripcion}"></p:outputLabel>
+                        </h:panelGrid>        
+                    </pe:timeline>   
+
+
+                    <p:outputLabel value="Actividades:" style="font-weight: bold"></p:outputLabel>
+                    <pe:timeline id="timelineActividades"
+                                 value="#{reportePorOpcionController.modelActividades}"  
+                                 var="actividadCronograma"
+                                 varGroup="actividadCronogramaGrupo"
+                                 zoomMin="518400000"
+                                 zoomMax="378432000000"
+                                 editable="false"  
+                                 zoomable="#{reportePorOpcionController.objetivoProyectoSelected!=null}"
+                                 moveable="#{reportePorOpcionController.objetivoProyectoSelected!=null}"
+                                 timeChangeable="false"
+                                 groupsChangeable="false"                                                         
+                                 widgetVar="timelineActividades"
+                                 eventMargin="10" 
+                                 eventMarginAxis="0"  
+                                 locale="es"
+                                 showNavigation="#{reportePorOpcionController.objetivoProyectoSelected!=null}"  
+                                 showButtonNew="false"  
+                                 axisOnTop="true" 
+                                 stackEvents="true"
+                                 width="100%"
+                                 start="#{reportePorOpcionController.start}"
+                                 end="#{reportePorOpcionController.end}"
+
+                                 > 
+                        <pe:javascript event="rangechange" execute="onrangechange2()"/> 
+                        <p:ajax event="rangechanged" listener="#{reportePorOpcionController.onRangeChanged}"/>
+                        <f:facet name="group" rendered="false"> 
+                            <h:panelGrid columns="1" style="width: 100px" rendered="false">  
+                                <h:outputText value="Actividad: #{actividadCronogramaGrupo.svopObjetivoProy}" rendered="false"/>
+                            </h:panelGrid>                                                            
+                        </f:facet>  
+                        <h:panelGrid columns="1">   
+                            <h:outputText value="#{actividadCronograma.svopOrden}. #{actividadCronograma.svopObjetivoProy}" style="white-space: pre-line"/>
+                        </h:panelGrid>        
+                    </pe:timeline>
+                </h:panelGrid>            
+            </p:fieldset>
+            <h:panelGrid style="width: 100%; text-align: center; margin-top: 10px">
+                <p:commandButton value="Cerrar" actionListener="#{reportePorOpcionController.closeDialog()}" style="float: "/>
+            </h:panelGrid>
+            
+
+
+
+
+            <pe:blockUI widgetVar="blockUIWidget">  
+                <h:panelGrid columns="2">  
+                    <p:graphicImage value="/resources/images/ajax-loader1.gif" style="margin-right: 12px; vertical-align: middle;" />  
+                    <h:outputText value="Procesando... Por favor espere..." style="white-space: nowrap;"/>  
+                </h:panelGrid>   
+            </pe:blockUI>   
+        </h:form>
+    </h:body>
+
+</html>

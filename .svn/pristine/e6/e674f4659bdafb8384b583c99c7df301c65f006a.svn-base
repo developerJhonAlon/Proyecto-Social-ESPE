@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <h:head>
+        <title>Búsqueda de Estudiantes</title>
+        <h:outputStylesheet name="theme_sistema_SVS.css" library="css" />    
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <p:growl id="message1" widgetVar="message1" showDetail="true" life="3000"></p:growl>      
+            <h:panelGrid columns="1">
+                <h:panelGrid id="h1" columns="6" >
+                    <p:outputLabel value="Cédula" for="txtCedula"></p:outputLabel>
+                    <p:inputText id="txtCedula" value="#{busquedaEstudianteController.cedula}" maxlength="10" style="width: 80px">
+                        <pe:keyFilter regEx="/[\d\-]/"/>  
+                    </p:inputText>
+                    <p:outputLabel value="Nombres:" for="txtNombres"></p:outputLabel>
+                    <p:inputText id="txtNombres" value="#{busquedaEstudianteController.nombres}" maxlength="30" style="width: 140px">
+                    </p:inputText>
+                    <p:outputLabel value="Apellidos:" for="txtApellidos"></p:outputLabel>
+                    <p:inputText id="txtApellidos" value="#{busquedaEstudianteController.apellidos}" maxlength="30" style="width: 140px">
+                    </p:inputText>
+                </h:panelGrid>
+
+                <p:commandButton value="Buscar" icon="ui-icon-search" 
+                                 title="Buscar" update="dtEstudiantes, message1, h1" 
+                                 action="#{busquedaEstudianteController.buscar}"
+                                 onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                </p:commandButton>
+
+                <p:dataTable id="dtEstudiantes" var="est" value="#{busquedaEstudianteController.estudianteList}"
+                             paginator="true" rows="5" rowIndexVar="index">
+                    <p:column headerText="Cédula">
+                        <h:outputText value="#{est.usuario.usuCc}" />
+                    </p:column>
+                    <p:column headerText="Apellidos">
+                        <h:outputText value="#{est.usuario.usuApellidos}" />
+                    </p:column>
+                    <p:column headerText="Nombres">
+                        <h:outputText value="#{est.usuario.usuNombres}" />
+                    </p:column>
+                    <p:column headerText="Carrera">
+                        <h:outputText value="#{est.carrera.stvmajrDesc}" />
+                    </p:column>
+                    <p:column headerText="Departamento">
+                        <h:outputText value="#{est.departamento.stvsubjDesc}" />
+                    </p:column>
+                    <p:column headerText="Período">
+                        <h:outputText value="#{est.periodo.stvtermCode.concat('-').concat(est.periodo.stvtermDesc)}" />
+                    </p:column>
+
+                    <p:column headerText="Seleccionar" width="50" style="text-align: center">
+                        <p:commandButton icon="ui-icon-check" actionListener="#{busquedaEstudianteController.selectEstudianteFromDialog(est)}" update=":j_idt6:message1, :j_idt6" />
+                    </p:column>
+                </p:dataTable>
+            </h:panelGrid>
+            <pe:blockUI widgetVar="blockUIWidget">  
+                <h:panelGrid columns="2">  
+                    <p:graphicImage value="/resources/images/ajax-loader1.gif" style="margin-right: 12px; vertical-align: middle;" />  
+                    <h:outputText value="Procesando... Por favor espere..." style="white-space: nowrap;"/>  
+                </h:panelGrid>   
+            </pe:blockUI>   
+        </h:form>
+    </h:body>
+
+</html>

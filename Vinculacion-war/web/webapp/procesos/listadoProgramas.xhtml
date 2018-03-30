@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>    
+        <ui:composition template="/vista/template-sistema2.xhtml">
+            <ui:define name="content">
+                <style>
+                    .foo td {
+                        vertical-align: top;
+                    }
+                </style>                
+
+
+                <p:panel header="Programas Vinculación" style="border: hidden">
+                </p:panel>
+                <h:panelGrid id="panelBase" style="margin-bottom: 35px">
+
+                    <p:button outcome="programa" icon="ui-icon-plus" value="Agregar Programa" title="Agregar Programa"
+                              disabled="#{!listadoProgramasController.permitirAgregarPrograma}">
+                    </p:button>  
+                    <h:outputLabel value="Listado de Programas:"/>
+
+                    <p:dataTable id="dtProgramaVinculacion" widgetVar="dtProgramaVinculacion" value="#{listadoProgramasController.programaList}" var="progr" 
+                                 paginator="true" rows="5" rowIndexVar="index" resizableColumns="true"
+                                 emptyMessage="No se encontraron resultados"
+                                 paginatorPosition="top"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
+                                 rowsPerPageTemplate="5,10,15,20,30,50,100" >
+                        <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{progr.id}">
+                            <h:outputText value="#{index + 1}" />
+                        </p:column>
+                        <p:column headerText="Nombre" style="white-space: pre-line" sortBy="#{progr.nombre}" filterBy="#{progr.nombre}" filterMatchMode="contains">
+                            <h:outputText  value ="#{progr.nombre}"/> 
+                        </p:column>
+                        <p:column headerText="Creado por" width="250" style="white-space: pre-line" sortBy="#{progr.creador.usuario.usuNombres.concat(' ').concat(progr.creador.usuario.usuApellidos)}" filterBy="#{progr.creador.usuario.usuNombres.concat(' ').concat(progr.creador.usuario.usuApellidos)}" filterMatchMode="contains">
+                            <h:outputText  value ="#{progr.creador.usuario.usuCc.concat('-').concat(progr.creador.usuario.usuNombres).concat(' ').concat(progr.creador.usuario.usuApellidos)}"/> 
+                        </p:column>
+                        <p:column headerText="Director" width="250" style="white-space: pre-line" sortBy="#{progr.director.usuario.usuNombres.concat(' ').concat(progr.director.usuario.usuApellidos)}" filterBy="#{progr.director.usuario.usuNombres.concat(' ').concat(progr.director.usuario.usuApellidos)}" filterMatchMode="contains">
+                            <h:outputText  value ="#{progr.director.usuario.usuCc.concat('-').concat(progr.director.usuario.usuNombres).concat(' ').concat(progr.director.usuario.usuApellidos)}"/> 
+                        </p:column>
+                        <p:column headerText="Estado" width="120" style="white-space: pre-line" sortBy="#{progr.estadoStr}" filterBy="#{progr.estado}" filterMatchMode="exact">
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('dtProgramaVinculacion').filter()" >
+                                    <f:selectItem itemLabel="[[-Seleccione-]]" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Ingreso de Perfil" itemValue="CRE"/>
+                                    <f:selectItem itemLabel="Seguimiento" itemValue="CEP"/>
+                                    <f:selectItem itemLabel="En proceso de Cierre" itemValue="CES"/>
+                                    <f:selectItem itemLabel="En proceso de Evaluación Final" itemValue="CER"/>
+                                    <f:selectItem itemLabel="Finalizado" itemValue="EVA"/>
+                                </p:selectOneMenu>
+                            </f:facet>                            
+                            <h:outputText  value ="#{progr.estadoStr}"/> 
+                        </p:column>
+                        <p:column headerText="Seleccione" width="70" style="text-align: center">
+                            <p:button outcome="programa" icon="ui-icon-circle-check">
+                                <f:param name="idPrograma" value="#{progr.id}" />
+                            </p:button>  
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      >
+    <h:body>    
+        <ui:composition template="/vista/template-sistema2.xhtml">
+            <ui:define name="content">
+
+                <style>
+                    .foo{
+                        width: 151px;
+                        vertical-align: top;
+                    }
+
+                    .foo td {
+                        vertical-align: top;
+                    }
+
+                    .foo2{
+                        width: 150px;
+                    }
+
+                    .ui-panel .ui-panel-content {
+                        padding: 0;
+                    }            
+                    .col1_datos_generales {
+                        width: 65px;
+                    }
+                    .col1_adquisicion {
+                        width: 95px;
+                    }
+                    .col1_objetivos {
+                        width: 80px;
+                    }
+                    .col1_presupuesto {
+                        width: 125px;
+                    }
+                    .col1_identificacionPoblacion {
+                        width: 70px;
+                        text-align: left;
+                        border: solid;
+                        border-width: 1px;
+                    }
+                    .col2_identificacionPoblacion {
+                        width: 70px;
+                        text-align: center;
+                        border: solid;
+                        border-width: 1px;
+                    }
+                    .col1_acta_concejo_departamento{
+                        width: 200px;
+                    }
+                    .hide-column-names table thead tr {
+                        display: none;
+                    }
+                    .button {
+
+                        background-color: Transparent;background-repeat:no-repeat;border: none;cursor:pointer;overflow: hidden;
+
+                    }           
+                    .inputNumber2 input
+                    {
+                        width: 25px;
+                    }
+
+                </style>                
+
+                <p:panel header="Configuraciones" style="border: hidden;">
+                    <h:panelGrid columns="3" columnClasses="foo" style="width: 100%">
+                        <h:panelGrid id="panelMenu" columns="1" styleClass="foo" style="margin-top: 10px">
+                            <p:tree id="treeMenu" value="#{configuracionesController.opcionesMenu}" var="opcion"
+                                    selectionMode="single"
+                                    selection="#{configuracionesController.opcionMenuSelected}"
+                                    style="width: 201px"
+                                    >
+                                <p:ajax event="select" listener="#{configuracionesController.onMenuSelect}" update=":formPrincipal:panelCentral"
+                                        onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"/>
+                                <p:treeNode styleClass="foo2">
+                                    <h:outputText value="#{opcion.nombre}" style="white-space: pre-line" />
+                                </p:treeNode>
+                            </p:tree>
+
+                        </h:panelGrid>
+
+                        <p:panel id="panelCentral" style="width: 100%; border: hidden ">
+
+                            <!--panelParametrosEvaluacion-->
+                            <p:panel id="panelParametroEvaluacion" rendered="#{configuracionesController.opcionMenuCodeSelected=='1'}" style="border: hidden; margin-left: 20px;">
+                                <h:panelGrid id="panelEdicionParametroEvaluacion" columns="1" style="width: 100%; margin-bottom: 10px">
+                                    <h:panelGrid columns="1" rendered="#{configuracionesController.parametroEvaluacionSelected==null and configuracionesController.valoracionParametroEvaluacionSelected ==null}">
+                                        <p:commandButton value="Agregar" title="Agregar Parámetro de Evaluación" icon="ui-icon-plus" 
+                                                         update=":formPrincipal:panelEdicionParametroEvaluacion"
+                                                         actionListener="#{configuracionesController.nuevoParametroEvaluacion}" 
+                                                         >
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                    <h:panelGrid cellspacing="5" columns="1" style="width: 100%"
+                                                 rendered="#{configuracionesController.parametroEvaluacionSelected !=null and configuracionesController.valoracionParametroEvaluacionSelected ==null}">
+                                        <p:fieldset 
+                                            legend="#{configuracionesController.parametroEvaluacionSelected.id==null ? 'NUEVO PARAMETRO DE EVALUACION':'EDICION DE PARAMETRO DE EVALUACION'}">
+                                            <h:panelGrid columns="2" cellpadding="0" cellspacing="5" style="margin-top: 10px; margin-bottom: 10px">
+                                                <p:commandButton id="btnGrabarParametroEvaluacion" value="Grabar" title="Grabar Información" icon="ui-icon-locked" 
+                                                                 update=":formPrincipal:panelParametroEvaluacion, :formPrincipal:message1" 
+                                                                 action ="#{configuracionesController.grabarParametroEvaluacion}"
+                                                                 onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                                </p:commandButton>
+                                                <p:commandButton value="Cancelar" title="Cancela Información" icon="ui-icon-arrowreturnthick-1-w" 
+                                                                 process="@this"
+                                                                 update=":formPrincipal:panelParametroEvaluacion" 
+                                                                 action="#{configuracionesController.cancelarEdicionParametroEvaluacion(true)}">
+                                                </p:commandButton>
+                                            </h:panelGrid>                                          
+
+                                            <h:panelGrid columns="2" cellpadding="0" cellspacing="0" style="margin-bottom: 10px">
+                                                <p:outputLabel for="txtDescripcionParamEvaluacion" value="Descripción:" style="font-weight: bold"></p:outputLabel>
+                                                <h:panelGrid columns="2">
+                                                    <p:inputTextarea id="txtDescripcionParamEvaluacion" value="#{configuracionesController.parametroEvaluacionSelected.descripcion}"
+                                                                     cols="100" rows="3" maxlength="500"
+                                                                     required="#{not empty param['formPrincipal:btnGrabarParametroEvaluacion']}">
+                                                    </p:inputTextarea>
+                                                    <p:message for="txtDescripcionParamEvaluacion"></p:message>
+                                                </h:panelGrid>
+                                            </h:panelGrid>
+                                        </p:fieldset>
+
+                                    </h:panelGrid>
+
+                                    <h:panelGrid cellspacing="5" columns="1" style="width: 100%"
+                                                 rendered="#{configuracionesController.parametroEvaluacionSelected !=null and configuracionesController.valoracionParametroEvaluacionSelected!=null}">
+                                        <p:fieldset legend="#{configuracionesController.valoracionParametroEvaluacionSelected.id ==null ? 'NUEVA VALORACION DE PARAMETRO DE EVALUACION':'EDICION DE VALORACION DE PARAMETRO DE EVALUACION'}">
+                                            <h:panelGrid columns="2" cellpadding="0" cellspacing="5" style="margin-top: 10px; margin-bottom: 10px">
+                                                <p:commandButton id="btnGrabarValoracionParametro" value="Grabar" title="Grabar Información" icon="ui-icon-locked" 
+                                                                 update=":formPrincipal:panelParametroEvaluacion, :formPrincipal:message1" 
+                                                                 action ="#{configuracionesController.grabarValoracionParametro()}"
+                                                                 onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                                                </p:commandButton>
+                                                <p:commandButton value="Cancelar" title="Cancela Información" icon="ui-icon-arrowreturnthick-1-w" 
+                                                                 process="@this"
+                                                                 update=":formPrincipal:panelParametroEvaluacion" 
+                                                                 action="#{configuracionesController.cancelarEdicionParametroEvaluacion(true)}">
+                                                </p:commandButton>
+                                            </h:panelGrid>                                          
+
+                                            <h:panelGrid columns="2" cellpadding="0" cellspacing="0" style="margin-bottom: 10px">
+                                                <p:outputLabel for="txtDescripcionValoracionParam" value="Descripción:" style="font-weight: bold"></p:outputLabel>
+                                                <h:panelGrid columns="2">
+                                                    <p:inputText id="txtDescripcionValoracionParam" style="width: 300px" maxlength="50"
+                                                                 value="#{configuracionesController.valoracionParametroEvaluacionSelected.descripcion}"
+                                                                 required="#{not empty param['formPrincipal:btnGrabarValoracionParametro']}"></p:inputText>
+                                                    <p:message for="txtDescripcionValoracionParam"></p:message>
+                                                </h:panelGrid>
+
+                                                <p:outputLabel for="txtPuntajeValoracionParam" value="Puntaje:" style="font-weight: bold"></p:outputLabel>
+                                                <h:panelGrid columns="2">
+                                                    <pe:inputNumber id="txtPuntajeValoracionParam" value="#{configuracionesController.valoracionParametroEvaluacionSelected.puntaje}" 
+                                                                    decimalPlaces="0" minValue="0" maxlength="2" maxValue="99" styleClass="inputNumber2"
+                                                                    required="#{not empty param['formPrincipal:btnGrabarValoracionParametro']}">
+                                                    </pe:inputNumber>
+                                                    <p:message for="txtPuntajeValoracionParam"></p:message>
+                                                </h:panelGrid>
+
+                                            </h:panelGrid>
+                                        </p:fieldset>
+
+                                    </h:panelGrid>                                    
+                                </h:panelGrid>
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel value="Listado de parámetros de evaluación:" style="font-weight: bold"/>
+                                    <p:dataTable id="dtParametroEvaluacion" value="#{configuracionesController.parametroEvaluacionList}" var="paramEvaluacion"
+                                                 expandedRow="#{paramEvaluacion.expanded}"
+                                                 resizableColumns="true"
+                                                 emptyMessage="No se encontraron Resultados"> 
+                                        <p:ajax event="rowToggle" listener="#{configuracionesController.onRowToggleParametroEvaluacion}"/>
+                                        <p:column width="40">
+                                            <p:rowToggler/>
+                                        </p:column>
+                                        <p:column headerText="Ord." width="40">
+                                            <table style="width: 40px">
+                                                <tr>
+                                                    <td style="padding: 0px; text-align: center; border: hidden">
+                                                        <h:outputText value="#{paramEvaluacion.orden}" />
+                                                    </td>
+                                                    <td style="padding: 0px; border: hidden">
+                                                        <table style="width: 20px">
+                                                            <tr>
+                                                                <td style="padding: 0px; border: hidden">
+                                                                    <p:commandButton icon="ui-icon-triangle-1-n"
+                                                                                     disabled="#{paramEvaluacion.orden==1}"
+                                                                                     style="width: 20px; height: 15px"
+                                                                                     title="Cambiar orden(Subir)" action="#{configuracionesController.cambiarOrdenParametroEvaluacion(-1)}" 
+                                                                                     update=":formPrincipal:dtParametroEvaluacion, :formPrincipal:message1"
+                                                                                     >
+                                                                        <f:setPropertyActionListener value="#{paramEvaluacion}" target="#{configuracionesController.parametroEvaluacionSelected}"/>
+                                                                    </p:commandButton>                         
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding: 0px; border: hidden">
+                                                                    <p:commandButton icon="ui-icon-triangle-1-s"
+                                                                                     disabled="#{paramEvaluacion.orden==configuracionesController.parametroEvaluacionList.size()}"
+                                                                                     style="width: 20px; height: 15px"
+                                                                                     title="Cambiar orden(Bajar)" action="#{configuracionesController.cambiarOrdenParametroEvaluacion(1)}"
+                                                                                     update=":formPrincipal:dtParametroEvaluacion, :formPrincipal:message1"
+                                                                                     >
+                                                                        <f:setPropertyActionListener value="#{paramEvaluacion}" target="#{configuracionesController.parametroEvaluacionSelected}"/>
+                                                                    </p:commandButton>                                                        
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>                                                                    
+                                        </p:column>
+                                        <p:column headerText="Descripción" >
+                                            <h:outputText value="#{paramEvaluacion.descripcion}" style="white-space: pre-line"></h:outputText>
+                                        </p:column>
+
+                                        <p:column headerText="Editar" width="35" style ="text-align: center">
+                                            <p:commandButton icon="ui-icon-pencil"
+                                                             title="Editar el registro"
+                                                             update=":formPrincipal:panelEdicionParametroEvaluacion"
+                                                             >
+                                                <f:setPropertyActionListener value="#{paramEvaluacion}" target="#{configuracionesController.parametroEvaluacionSelected}"/>
+                                            </p:commandButton>
+
+                                        </p:column>                                         
+
+                                        <p:column headerText="Eliminar " style="width: 50px; text-align: center" >
+                                            <p:commandButton style="margin: 0" title="Eliminar el registro" icon="ui-icon-trash" 
+                                                             process="@this"
+                                                             action="#{configuracionesController.eliminarParametroEvaluacion()}"
+                                                             update="formPrincipal:panelParametroEvaluacion, :formPrincipal:message1 ">
+                                                <f:setPropertyActionListener value="#{paramEvaluacion}" target="#{configuracionesController.parametroEvaluacionSelected}" />
+                                                <p:confirm header="Confirmación" message="Confirma que desea eliminar el parámetro de evaluación seleccionado?" icon="ui-icon-alert" />
+                                            </p:commandButton>  
+                                        </p:column>
+
+
+
+                                        <p:rowExpansion >
+                                            <p:panel style="border:hidden;width:98%; padding-left: 30px"  >
+                                                <h:outputLabel value="Opciones de respuesta:" style="font-weight: bold"/>
+                                                <p:commandButton value="" title="Agregar" icon="ui-icon-plus"
+                                                                 style="width: 30px; height: 20px"
+                                                                 oncomplete="document.getElementById('formPrincipal:txtDescripcionValoracionParam').focus();"
+                                                                 actionListener="#{configuracionesController.nuevoValoracionParametro}"
+                                                                 update=":formPrincipal:panelEdicionParametroEvaluacion"
+                                                                 >
+                                                    <f:setPropertyActionListener value="#{paramEvaluacion}" target="#{configuracionesController.parametroEvaluacionSelected}"/>
+                                                </p:commandButton>
+
+                                                <p:dataTable value="#{paramEvaluacion.valoracionList}" var="valoracionParam"
+                                                             rendered="#{not empty paramEvaluacion.valoracionList}"
+                                                             rowIndexVar="index" style="width: 50%; padding-left: 30px">
+                                                    <p:column headerText="Ord." style="width:40px">
+                                                        <table style="width: 40px">
+                                                            <tr>
+                                                                <td style="padding: 0px; text-align: center; border: hidden">
+                                                                    <h:outputText value="#{valoracionParam.orden}" />
+                                                                </td>
+                                                                <td style="padding: 0px; border: hidden">
+                                                                    <table style="width: 20px">
+                                                                        <tr>
+                                                                            <td style="padding: 0px; border: hidden">
+                                                                                <p:commandButton icon="ui-icon-triangle-1-n"
+                                                                                                 disabled="#{valoracionParam.orden==1}"
+                                                                                                 style="width: 20px; height: 15px"
+                                                                                                 title="Cambiar orden(Subir)" action="#{configuracionesController.cambiarOrdenValoracionParametroEvaluacion(-1)}" 
+                                                                                                 update=":formPrincipal:dtParametroEvaluacion, :formPrincipal:message1"
+                                                                                                 >
+                                                                                    <f:setPropertyActionListener value="#{valoracionParam}" target="#{configuracionesController.valoracionParametroEvaluacionSelected}"/>
+                                                                                </p:commandButton>                         
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="padding: 0px; border: hidden">
+                                                                                <p:commandButton icon="ui-icon-triangle-1-s"
+                                                                                                 disabled="#{valoracionParam.orden==paramEvaluacion.valoracionList.size()}"
+                                                                                                 style="width: 20px; height: 15px"
+                                                                                                 title="Cambiar orden(Bajar)" action="#{configuracionesController.cambiarOrdenValoracionParametroEvaluacion(1)}"
+                                                                                                 update=":formPrincipal:dtParametroEvaluacion, :formPrincipal:message1"
+                                                                                                 >
+                                                                                    <f:setPropertyActionListener value="#{valoracionParam}" target="#{configuracionesController.valoracionParametroEvaluacionSelected}"/>
+                                                                                </p:commandButton>                                                        
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>                                                                    
+                                                    </p:column>
+                                                    <p:column headerText="Descripción">
+                                                        <h:outputText value="#{valoracionParam.descripcion}" style="white-space: pre-line"></h:outputText>
+                                                    </p:column>
+                                                    <p:column headerText="Puntaje" width="50" style="text-align: center">
+                                                        <h:outputText value="#{valoracionParam.puntaje}" style="white-space: pre-line"></h:outputText>
+                                                    </p:column>
+
+                                                    <p:column headerText="Editar" width="35" style ="text-align: center">
+                                                        <p:commandButton icon="ui-icon-pencil"
+                                                                         title="Editar el registro"
+                                                                         update=":formPrincipal:panelEdicionParametroEvaluacion"
+                                                                         >
+                                                            <f:setPropertyActionListener value="#{paramEvaluacion}" target="#{configuracionesController.parametroEvaluacionSelected}"/>
+                                                            <f:setPropertyActionListener value="#{valoracionParam}" target="#{configuracionesController.valoracionParametroEvaluacionSelected}"/>
+                                                        </p:commandButton>
+
+                                                    </p:column>                                         
+
+                                                    <p:column headerText="Eliminar " style="width: 50px; text-align: center" >
+                                                        <p:commandButton style="margin: 0" title="Eliminar el registro" icon="ui-icon-trash" 
+                                                                         process="@this"
+                                                                         action="#{configuracionesController.eliminarValoracionParametroEvaluacion}"
+                                                                         update="formPrincipal:panelParametroEvaluacion, :formPrincipal:message1 ">
+                                                            <f:setPropertyActionListener value="#{paramEvaluacion}" target="#{configuracionesController.parametroEvaluacionSelected}" />
+                                                            <f:setPropertyActionListener value="#{valoracionParam}" target="#{configuracionesController.valoracionParametroEvaluacionSelected}" />
+                                                            <p:confirm header="Confirmación" message="Está seguro que desea eliminar?" icon="ui-icon-alert" />
+                                                        </p:commandButton>  
+                                                    </p:column>
+
+                                                </p:dataTable>
+                                            </p:panel>                                            
+                                        </p:rowExpansion>                                        
+
+                                    </p:dataTable>                                  
+
+                                </h:panelGrid>                              
+
+
+                            </p:panel>
+
+                        </p:panel>
+
+
+                    </h:panelGrid>
+
+                </p:panel>
+
+
+                <p:dialog id="dlgEliminarParametroEvaluacion" header="Confirmación" widgetVar="dlgEliminarParametroEvaluacion" resizable="false" width="400" modal="true" closeOnEscape="true" style=" text-align: left; font-weight: bold" appendTo="@(body)">
+                    <h:form>
+                        <p:outputPanel>
+                            <center>
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel value="¿Está seguro que desea eliminar el registro de seguimiento seleccionado?" style=" text-align: center"/>
+                                </h:panelGrid>
+                            </center>
+                            <p:spacer height="10"></p:spacer>
+                            <center>
+                                <p:commandButton value="Aceptar" style="margin:0" onclick="PF('dlgEliminarParametroEvaluacion').hide();">
+                                    <p:ajax update="formPrincipal:panelParametroEvaluacion, :formPrincipal:message1 " listener ="#{configuracionesController.eliminarParametroEvaluacion()}" />
+                                </p:commandButton>
+                                <p:spacer width="10" ></p:spacer>
+                                <p:commandButton value="Cancelar" style="margin:0" onclick="PF('dlgEliminarParametroEvaluacion').hide();"></p:commandButton>
+                            </center>
+                        </p:outputPanel>
+                    </h:form>
+                </p:dialog>                  
+
+            </ui:define>
+        </ui:composition>
+
+
+
+
+
+
+        // This script should be included after the Timeline component, e.g. close at the body tag  
+        <h:outputScript id="timelineJS" target="body">  
+            /* <![CDATA[ */      
+            $(function() {  
+            onrangechange1();  // to set the range equal initially on page load  
+            });  
+            /* ]]> */  
+        </h:outputScript>  
+    </h:body>
+</html>
+

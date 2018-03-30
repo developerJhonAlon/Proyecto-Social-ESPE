@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyectoCronogramaActividad" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="1.3310000000000015"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="cronograma" uuid="7d393808-1940-41fe-97f3-c2856cb7d1be">
+		<parameter name="parameter1" class="java.math.BigDecimal"/>
+		<queryString>
+			<![CDATA[select
+OBJ.SVOP_OBJETIVO_PROY,
+OBJ.SVOP_FEC_INI,
+OBJ.SVOP_FEC_FIN
+from SZDTAVOBJETIVO_PROGRAMA OBJ
+where OBJ.SVOP_ID_PADRE =$P{parameter1}
+order by obj.SVOP_ORDEN]]>
+		</queryString>
+		<field name="SVOP_OBJETIVO_PROY" class="java.lang.String"/>
+		<field name="SVOP_FEC_INI" class="java.sql.Timestamp"/>
+		<field name="SVOP_FEC_FIN" class="java.sql.Timestamp"/>
+		<variable name="nroActividad" class="java.lang.String">
+			<variableExpression><![CDATA["Actividad "+ $V{REPORT_COUNT}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="idObjetivo" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[102]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecInicial" class="java.sql.Timestamp"/>
+	<parameter name="fecFinal" class="java.sql.Timestamp"/>
+	<parameter name="fecFinal2" class="java.sql.Timestamp"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+OBJ.SVOP_OBJETIVO_PROY,
+OBJ.SVOP_FEC_INI,
+OBJ.SVOP_FEC_FIN
+from SZDTAVOBJETIVO_PROGRAMA OBJ
+where OBJ.SVOP_ID_PADRE =$P{idObjetivo}
+order by obj.SVOP_ORDEN]]>
+	</queryString>
+	<field name="SVOP_OBJETIVO_PROY" class="java.lang.String"/>
+	<field name="SVOP_FEC_INI" class="java.sql.Timestamp"/>
+	<field name="SVOP_FEC_FIN" class="java.sql.Timestamp"/>
+	<variable name="nroActividad" class="java.lang.String">
+		<variableExpression><![CDATA["Actividad "+$V{REPORT_COUNT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="17">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="0" width="376" height="17" uuid="44c1b583-08df-41d7-80d3-7f31eb02083a"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="376" y="0" width="63" height="17" uuid="30937075-8789-4904-a2f0-6143b4d382a4"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="439" y="0" width="63" height="17" uuid="a62d2658-5422-4423-a863-88ed587fc2e8"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Fin]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="16" splitType="Prevent">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="376" height="16" uuid="0397f488-515b-4590-bd83-e566a94eceb5"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}+". "+$F{SVOP_OBJETIVO_PROY}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToTallestObject" x="376" y="0" width="63" height="16" uuid="2f454162-1cab-41d8-bbbe-89d75c5ceda3"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SVOP_FEC_INI}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToTallestObject" x="439" y="0" width="63" height="16" uuid="9f842f8b-b202-41c2-a658-3a0102e00984"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SVOP_FEC_FIN}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="31">
+			<subreport>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="3" width="0" height="24" uuid="9da0c8d0-ffc2-4bde-abcf-e89289ac1dd8"/>
+				<subreportParameter name="idObjetivo">
+					<subreportParameterExpression><![CDATA[$P{idObjetivo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoCronogramaActividad2.jasper"]]></subreportExpression>
+			</subreport>
+			<rectangle>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="502" height="31" uuid="390d5720-8d7c-4516-9223-930b7f086b64"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</rectangle>
+			<ganttChart>
+				<chart isShowLegend="false" customizerClass="ec.edu.espe_ctt.customchart.TestTick">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="4" width="502" height="24" isPrintWhenDetailOverflows="true" uuid="1aab593c-2f5a-4105-ace4-1e6a0c647387"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Left">
+						<font size="8"/>
+					</chartLegend>
+				</chart>
+				<ganttDataset>
+					<dataset>
+						<datasetRun subDataset="cronograma" uuid="58a0b9e7-799a-4674-8124-348514ae6b0c">
+							<datasetParameter name="parameter1">
+								<datasetParameterExpression><![CDATA[$P{idObjetivo}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<ganttSeries>
+						<seriesExpression><![CDATA["Planificado"]]></seriesExpression>
+						<taskExpression><![CDATA[$V{nroActividad}]]></taskExpression>
+						<subtaskExpression><![CDATA[$V{nroActividad}]]></subtaskExpression>
+						<startDateExpression><![CDATA[$F{SVOP_FEC_INI}]]></startDateExpression>
+						<endDateExpression><![CDATA[$F{SVOP_FEC_FIN}]]></endDateExpression>
+					</ganttSeries>
+				</ganttDataset>
+				<barPlot isShowLabels="true" isShowTickLabels="true" isShowTickMarks="true">
+					<plot labelRotation="0.0"/>
+					<itemLabel>
+						<font size="8"/>
+					</itemLabel>
+					<categoryAxisFormat labelRotation="0.0">
+						<axisFormat verticalTickLabels="true">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat tickLabelMask="MMM-yyyy" verticalTickLabels="true">
+							<labelFont>
+								<font size="8"/>
+							</labelFont>
+							<tickLabelFont>
+								<font size="8"/>
+							</tickLabelFont>
+						</axisFormat>
+					</valueAxisFormat>
+					<rangeAxisMinValueExpression><![CDATA[$P{fecInicial}]]></rangeAxisMinValueExpression>
+					<rangeAxisMaxValueExpression><![CDATA[$P{fecFinal}>$P{fecFinal2}?$P{fecFinal}:$P{fecFinal2}]]></rangeAxisMaxValueExpression>
+				</barPlot>
+			</ganttChart>
+		</band>
+	</summary>
+</jasperReport>

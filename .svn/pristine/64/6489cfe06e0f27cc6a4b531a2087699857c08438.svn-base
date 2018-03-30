@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteProyectosDirectores" language="groovy" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b5bac6c4-6d93-43e6-a42e-ae6879474c6f">
+	<property name="ireport.zoom" value="3.4522712143931056"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoPrograma" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[select  proy.SZTVPROYEC_NOMBRE nombre_proyecto, CONCAT(usuario.usu_nombres, ' ' || usuario.usu_apellidos) director  from SVIN_RESPONSABLE_PROG responsable
+inner join SZTVPROYEC proy on responsable.sztvproyec_code = proy.sztvproyec_code
+inner join  seg_usuario usuario on responsable.usu_id_docente = usuario.usu_id
+where responsable.sztvtipres_code = 1 and proy.SPRV_ID = $P{codigoPrograma}]]>
+	</queryString>
+	<field name="NOMBRE_PROYECTO" class="java.lang.String"/>
+	<field name="DIRECTOR" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="2" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="d68b23f7-4712-4e82-aaac-da15b9924175" x="15" y="20" width="180" height="15"/>
+				<textElement>
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Proyecto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7ded4208-5473-4877-8e3a-5bd96e07be8a" x="198" y="20" width="100" height="15"/>
+				<textElement>
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Director]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ec9dd13f-3eda-4641-86c4-bfb9795e1192" x="15" y="5" width="180" height="15"/>
+				<textElement>
+					<font size="8" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Proyectos:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="e9b0567e-e849-4533-b3bb-563c65712a3d" x="0" y="3" width="502" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()!=0)]]></printWhenExpression>
+			<textField>
+				<reportElement uuid="b74155ed-37b7-4a1c-a132-75497cdf2794" x="15" y="0" width="180" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRE_PROYECTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4326640f-a10c-40bf-93ea-d43fe2155ba0" x="198" y="0" width="208" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIRECTOR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

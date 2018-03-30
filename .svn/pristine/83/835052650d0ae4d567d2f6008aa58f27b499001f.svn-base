@@ -1,0 +1,73 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package ec.edu.espe_ctt.convocatoria.controller;
+ 
+import ec.edu.espe_ctt.saturno.entity.Sfrstcr;
+import ec.edu.espe_ctt.saturno.session.SfrstcrFacade;
+import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import org.primefaces.context.RequestContext;
+ 
+@ManagedBean(name = "busquedaEstudianteController")
+@ViewScoped
+public class BusquedaEstudianteController implements Serializable {
+    
+    @EJB
+    private SfrstcrFacade estudianteFacade;
+    private List<Sfrstcr> estudianteList;
+    private String cedula;
+    private String nombres;
+    private String apellidos;
+ 
+    @PostConstruct
+    public void init() {
+    }
+     
+    public void selectEstudianteFromDialog(Sfrstcr estudiante) {
+        RequestContext.getCurrentInstance().closeDialog(estudiante);
+    }
+
+    public List<Sfrstcr> getEstudianteList() {
+        return estudianteList;
+    }
+
+    public void setEstudianteList(List<Sfrstcr> estudianteList) {
+        this.estudianteList = estudianteList;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+    public String buscar() {
+        estudianteList= estudianteFacade.buscarXCedNomApe(cedula, nombres, apellidos);
+        return "";
+    }
+}

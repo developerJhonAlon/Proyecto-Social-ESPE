@@ -1,0 +1,40 @@
+/*$(document).on("paste", "#formPrincipal\\:formPrincipal1\\:resProg", function() {
+    setTimeout(function(){$("#formPrincipal\\:formPrincipal1\\:resProg").trigger("keyup");}, 0);
+});
+*/
+
+$(document).on("keyup", "#formPrincipal\\:txtPresupuestoUniv_input", function() {
+    $("#formPrincipal\\:txtPresupuestoUniv_input").trigger("change");
+});
+$(document).on("keyup", "#formPrincipal\\:txtPresupuestoUnivValorado_input", function() {
+    $("#formPrincipal\\:txtPresupuestoUnivValorado_input").trigger("change");
+});
+$(document).on("keyup", "#formPrincipal\\:txtPresupuestoEntidadAuspiciante_input", function() {
+    $("#formPrincipal\\:txtPresupuestoEntidadAuspiciante_input").trigger("change");
+});
+$(document).on("keyup", "#formPrincipal\\:txtPresupuestoContraparte_input", function() {
+    $("#formPrincipal\\:txtPresupuestoContraparte_input").trigger("change");
+});
+
+
+
+
+$(document).on("keyup", "#formPrincipal\\:txtDirectosHombres_input", function() {
+    $("#formPrincipal\\:txtDirectosHombres_input").trigger("change");
+});
+$(document).on("keyup", "#formPrincipal\\:txtDirectosMujeres_input", function() {
+    $("#formPrincipal\\:txtDirectosMujeres_input").trigger("change");
+});
+$(document).on("keyup", "#formPrincipal\\:txtDirectosDiscapac_input", function() {
+    $("#formPrincipal\\:txtDirectosDiscapac_input").trigger("change");
+});
+
+$(document).on("keyup", "#formPrincipal\\:txtIndirectosHombres_input", function() {
+    $("#formPrincipal\\:txtIndirectosHombres_input").trigger("change");
+});
+$(document).on("keyup", "#formPrincipal\\:txtIndirectosMujeres_input", function() {
+    $("#formPrincipal\\:txtIndirectosMujeres_input").trigger("change");
+});
+$(document).on("keyup", "#formPrincipal\\:txtIndirectosDiscapac_input", function() {
+    $("#formPrincipal\\:txtIndirectosDiscapac_input").trigger("change");
+});

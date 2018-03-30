@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      >
+    <h:body>    
+        <ui:composition template="/vista/template-sistema2.xhtml">
+            <ui:define name="content">
+                <style>
+                    .col1_edicion{
+                        width: 82px;
+                    }
+
+                    .col2_edicion{
+                        width: 110px;
+                    }
+                </style>                
+
+                <p:panel id="panelBase" header="Convocatorias" style="border: hidden; margin-bottom: 35px">
+
+                    <h:panelGrid columns="1" cellpadding="0" cellspacing="0" style="width: 100%">
+                        <h:panelGrid columns="3" cellpadding="7" id="h1">
+                            <p:commandButton id="btnGrabar" value="Grabar" icon="ui-icon-locked" 
+                                             title="Graba Información" update=":formPrincipal:pDatos, :formPrincipal:message1" 
+                                             action="#{convocatoriaController.grabar}"
+                                             onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                            </p:commandButton>
+                            <p:button outcome="listadoConvocatorias" icon="ui-icon-plus" value="Cancelar" title="Cancelar Información"></p:button>
+                        </h:panelGrid>
+
+                        <h:panelGrid id="pInput1" columns="1" style="width: 100%" cellpadding="0" cellspacing="0">
+
+                            <h:panelGrid id="pDatos"  columns="3" cellpadding="0" cellspacing="0">
+                                <h:panelGrid columns="2" cellspacing="5" columnClasses="col1_edicion" style="width: 100%">
+                                    <p:outputLabel value="* Nombre:" for="txtNombre" style="font-weight: bold"/>
+                                    <h:panelGrid columns="2">
+                                        <p:inputTextarea id="txtNombre" value="#{convocatoriaController.convocatoriaSelected.nombre}" maxlength="100" rows="2" cols="80" required="#{not empty param['formPrincipal:btnGrabar']}"></p:inputTextarea>
+                                        <p:message for="txtNombre"></p:message>
+                                    </h:panelGrid>
+
+                                    <p:outputLabel value="Descripción:" for="txtObservacion" style="font-weight: bold"/>
+                                    <h:panelGrid columns="2">
+                                        <p:inputTextarea id="txtObservacion" value="#{convocatoriaController.convocatoriaSelected.observacion}" maxlength="400" rows="2" cols="80" ></p:inputTextarea>
+                                        <p:message for="txtObservacion"></p:message>
+                                    </h:panelGrid>
+
+
+                                </h:panelGrid>
+                                <p:spacer width="30"></p:spacer>
+
+                                <h:panelGrid columns="2" cellspacing="5" columnClasses="col2_edicion" style="width: 100%">
+
+                                    <p:outputLabel value="* Fecha Inicio:" for="txtFechaInicio" style="font-weight: bold"/>
+                                    <h:panelGrid columns="2" cellpadding="0" cellspacing="0">
+                                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0">
+                                            <p:calendar id="txtFechaInicio" navigator="true" value="#{convocatoriaController.convocatoriaSelected.fechaInicio}" yearRange="2015:2030" size="10" locale="es" pattern="dd/MM/yyyy"
+                                                        required="#{not empty param['formPrincipal:btnGrabar']}">
+                                            </p:calendar>
+                                            <p:outputLabel value="(dd/mm/aaaa)" for="txtFechaInicio" style="font-weight: bold"/>
+                                        </h:panelGrid>
+                                        <p:message for="txtFechaInicio"></p:message>
+                                    </h:panelGrid>
+
+                                    <p:outputLabel value="* Fecha Finalización:" for="txtFechaFin" style="font-weight: bold"/>
+                                    <h:panelGrid columns="2">
+                                        <h:panelGrid columns="1" cellpadding="0" cellspacing="0">
+                                            <p:calendar id="txtFechaFin" navigator="true" value="#{convocatoriaController.convocatoriaSelected.fechaFin}" yearRange="2015:2030" size="10" locale="es" pattern="dd/MM/yyyy"
+                                                        required="#{not empty param['formPrincipal:btnGrabar']}">
+                                            </p:calendar>
+                                            <p:outputLabel value="(dd/mm/aaaa)" for="txtFechaFin" style="font-weight: bold"/>
+                                        </h:panelGrid>
+
+                                        <p:message for="txtFechaFin"></p:message>
+                                    </h:panelGrid>
+
+                                </h:panelGrid>
+                            </h:panelGrid>         
+
+                            <h:panelGrid columns="2" cellpadding="0" cellspacing="0" columnClasses="col1_edicion" style="width: 100%">
+
+                                <p:outputLabel value="Documento (.pdf):" style="font-weight: bold"/>
+                                <h:panelGrid columns="2">
+                                    <h:panelGrid columns="1" cellpadding="0" cellspacing="0">
+                                        <p:outputLabel id="lblNombreDocumento" value="#{convocatoriaController.convocatoriaSelected.nombreDocumentoSeleccionado}"/>
+                                        <p:fileUpload id="fileDocumento" fileUploadListener="#{convocatoriaController.subirArchivo}" 
+                                                      mode="advanced"
+                                                      label="Seleccionar"
+                                                      invalidFileMessage="Tipo de archivo incorrecto: "
+                                                      invalidSizeMessage="Tamaño del archivo seleccionado excede el límite permitido (10MB): "
+                                                      update=":formPrincipal:lblNombreDocumento, :formPrincipal:docvBases, :formPrincipal:message1" auto="true" sizeLimit="10240000" allowTypes="/(\.|\/)(pdf)$/" />
+
+                                    </h:panelGrid>
+                                    <p:message for="fileDocumento"></p:message>
+                                </h:panelGrid>
+
+
+                                <p:spacer height="1" width="1"></p:spacer>
+                                <pe:documentViewer id="docvBases" height="500" url="#{convocatoriaController.convocatoriaSelected.urlFinalDocumento}"
+                                                   style="width: 100%"/>
+
+                            </h:panelGrid>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

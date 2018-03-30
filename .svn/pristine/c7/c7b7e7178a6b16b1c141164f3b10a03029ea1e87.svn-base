@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyectoMatrizMarcoLogicoComponenteActividad" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="2.853116706110005"/>
+	<property name="ireport.x" value="907"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idObjetivo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[102]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select  obj.SVOP_TIPO,
+OBJ.SVOP_OBJETIVO_PROY,
+(CASE SVOP_INDICADOR_TIPO WHEN 2 THEN 'Porcentaje' ELSE 'Valor' END) INDICADOR_TIPO,
+OBJ.SVOP_INDICADOR_VALOR,
+OBJ.SVOP_INDICADOR,
+OBJ.SVOP_MVERIFICA,
+OBJ.SVOP_SUPUESTOS
+from SZDTAVOBJETIVO_PROGRAMA OBJ
+where OBJ.SVOP_ID_PADRE =$P{idObjetivo}
+order by obj.SVOP_ORDEN]]>
+	</queryString>
+	<field name="SVOP_TIPO" class="java.math.BigDecimal"/>
+	<field name="SVOP_OBJETIVO_PROY" class="java.lang.String"/>
+	<field name="INDICADOR_TIPO" class="java.lang.String"/>
+	<field name="SVOP_INDICADOR_VALOR" class="java.math.BigDecimal"/>
+	<field name="SVOP_INDICADOR" class="java.lang.String"/>
+	<field name="SVOP_MVERIFICA" class="java.lang.String"/>
+	<field name="SVOP_SUPUESTOS" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="41">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="0" width="476" height="17" uuid="d0bb5a42-8e8a-412a-aafa-7f5b90e9bd6f"/>
+				<box leftPadding="0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actividades:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="17" width="105" height="24" uuid="169e91ba-6343-4850-8e21-09a67d9f6cff"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="105" y="17" width="40" height="24" uuid="aece4dea-0df4-4904-8fa4-3f3298b1dd2d"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Indicador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="145" y="17" width="39" height="24" uuid="c913ba4b-30a4-4ff3-8f90-c75f85ab5817"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Indicador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="184" y="17" width="124" height="24" uuid="2e929540-7bb2-4a6b-babc-2cd9b44328e0"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción Indicador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="17" width="100" height="24" uuid="1d60a268-49f6-4778-84d3-fec64a14a987"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Medio de Verificación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="408" y="17" width="68" height="24" uuid="f87d1a6a-6769-4ca0-9a50-17709866f634"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Supuestos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Prevent">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="105" height="20" isPrintWhenDetailOverflows="true" uuid="fd5b7bcf-e6a1-4017-803d-d31fe74f67f3"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SVOP_OBJETIVO_PROY}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="105" y="0" width="40" height="20" uuid="261931ee-3ffc-4826-b265-0d1bbfad5860"/>
+				<box topPadding="5" bottomPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{INDICADOR_TIPO}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="145" y="0" width="39" height="20" uuid="4439436d-d041-4b43-b94e-2430bb4bbf41"/>
+				<box topPadding="5" bottomPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SVOP_INDICADOR_VALOR}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="184" y="0" width="124" height="20" uuid="c8a7aeb6-ad3a-4ed6-99ea-aea844507cdc"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SVOP_INDICADOR}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="308" y="0" width="100" height="20" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="7c1326f3-7080-48ac-a722-84cb4aed706a"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SVOP_MVERIFICA}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="408" y="0" width="68" height="20" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="07221d5c-817e-4e17-bdaf-44f60e82d359"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SVOP_SUPUESTOS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

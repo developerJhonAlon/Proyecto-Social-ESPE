@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:body>    
+        <ui:composition template="/vista/template-sistema2.xhtml">
+            <ui:define name="content">
+                <style>
+                    .foo td {
+                        vertical-align: top;
+                    }
+                </style>                
+
+
+                <p:panel id="panelBase" header="Programas Vinculación" style="border: hidden;">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="Filtrar por Estado:" for="selEstado"/>
+                        <p:selectOneMenu id="selEstado" value="#{listadoProgramasController.estado}">
+                            <f:selectItem itemLabel="[[-TODOS-]]" itemValue=""/>
+                            <f:selectItem itemLabel="Ingreso de Perfil" itemValue="CRE"/>
+                            <f:selectItem itemLabel="En proceso de Cierre" itemValue="CEP"/>
+                            <f:selectItem itemLabel="En proceso de Evaluación Final" itemValue="CER"/>
+                            <f:selectItem itemLabel="Finalizado" itemValue="EVA"/>
+                        </p:selectOneMenu>
+                        <p:spacer></p:spacer>
+                        <h:panelGrid columns="2">
+                            <p:commandButton value="Listar Programas" icon="ui-icon-search" 
+                                             title="Listar Programas"  action="#{listadoProgramasController.listarProgramas}"  
+                                             update=":formPrincipal:dtProgramaVinculacion"
+                                             onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                            </p:commandButton>
+
+                            <p:button outcome="programa" icon="ui-icon-plus" value="Agregar Programa" title="Agregar Programa">                        </p:button>  
+                        </h:panelGrid>
+
+                    </h:panelGrid>                     
+                    <h:outputLabel value="Listado de Programas"/>
+                    <p:dataTable id="dtProgramaVinculacion" value="#{listadoProgramasController.programaList}" var="progr" paginator="true" rows="15" rowIndexVar="index" resizableColumns="true"
+                                 emptyMessage="No se encontraron resultados">
+                        <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{progr.id}">
+                            <h:outputText value="#{index + 1}" />
+                        </p:column>
+                        <p:column headerText="Nombre" style="white-space: pre-line" sortBy="#{progr.nombre}">
+                            <h:outputText  value ="#{progr.nombre}"/> 
+                        </p:column>
+                        <p:column headerText="Creado por" width="200" style="white-space: pre-line" sortBy="#{progr.creador.usuario.usuNombres.concat(' ').concat(progr.creador.usuario.usuApellidos)}">
+                            <h:outputText  value ="#{progr.creador.usuario.usuNombres.concat(' ').concat(progr.creador.usuario.usuApellidos)}"/> 
+                        </p:column>
+                        <p:column headerText="Director" width="200" style="white-space: pre-line" sortBy="#{progr.director.usuario.usuNombres.concat(' ').concat(progr.director.usuario.usuApellidos)}">
+                            <h:outputText  value ="#{progr.director.usuario.usuNombres.concat(' ').concat(progr.director.usuario.usuApellidos)}"/> 
+                        </p:column>
+                        <p:column headerText="Estado" width="120" style="white-space: pre-line" sortBy="#{progr.estadoStr}">
+                            <h:outputText  value ="#{progr.estadoStr}"/> 
+                        </p:column>
+                        <p:column headerText="Seleccione" width="70" style="text-align: center">
+                            <p:button outcome="programa" icon="ui-icon-circle-check">
+                                <f:param name="idPrograma" value="#{progr.id}" />
+                            </p:button>  
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

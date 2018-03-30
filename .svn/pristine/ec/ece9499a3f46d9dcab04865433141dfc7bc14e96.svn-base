@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteDepartamentosPrograma" language="groovy" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="0844b7b9-ba78-45c1-8044-4c5448c94f82">
+	<property name="ireport.zoom" value="2.853116706110004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoPrograma" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[SELECT  DEP.STVSUBJ_CODE codigo_departamento, dep.stvsubj_desc descripcion_departamento, SPRV_ID codigo_programa
+ FROM SVIN_DEPCENPROY prodep
+INNER JOIN STVSUBJ  dep ON prodep.STVSUBJ_CODE_DEPTO  = dep.STVSUBJ_CODE
+where SPRV_ID = $P{codigoPrograma}]]>
+	</queryString>
+	<field name="CODIGO_DEPARTAMENTO" class="java.lang.String"/>
+	<field name="DESCRIPCION_DEPARTAMENTO" class="java.lang.String"/>
+	<field name="CODIGO_PROGRAMA" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="3baa4779-840a-45af-95ef-d93d9ec0837f" x="13" y="15" width="100" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="35cfebe7-d9bf-42a2-903f-6302a1853d83" x="117" y="15" width="100" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Departamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="be7bf399-33aa-4dd2-a5db-483292177373" x="13" y="0" width="100" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Departamentos:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()!=0)]]></printWhenExpression>
+			<textField>
+				<reportElement uuid="a5e323b8-903d-481a-a008-1dc97ab89ffd" x="117" y="1" width="100" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIPCION_DEPARTAMENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="569ec43f-ecd4-49d0-bf32-9b2d88b30e78" x="13" y="1" width="104" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CODIGO_DEPARTAMENTO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

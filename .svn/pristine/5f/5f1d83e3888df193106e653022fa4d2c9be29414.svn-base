@@ -1,0 +1,3401 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ec.edu.espe_ctt.convocatoria.controller;
+
+import ec.edu.espe_ctt.saturno.entity.Stvcamp;
+import ec.edu.espe_ctt.saturno.entity.Stvmajr;
+import ec.edu.espe_ctt.saturno.entity.Stvsubj;
+import ec.edu.espe_ctt.saturno.session.StvcampFacade;
+import ec.edu.espe_ctt.saturno.session.StvmajrFacade;
+import ec.edu.espe_ctt.saturno.session.StvsubjFacade;
+import ec.edu.espe_ctt.seguridades.entity.SegUsuPerfil;
+import ec.edu.espe_ctt.seguridades.entity.SegUsuario;
+import ec.edu.espe_ctt.seguridades.navegacion.MensajeController;
+import ec.edu.espe_ctt.seguridades.session.SegPerfilFacade;
+import ec.edu.espe_ctt.seguridades.session.SegUsuarioFacade;
+import ec.edu.espe_ctt.vinculacion.entity.ActividadPrograma;
+import ec.edu.espe_ctt.vinculacion.entity.CarreraPrograma;
+import ec.edu.espe_ctt.vinculacion.entity.DepartamentoPrograma;
+import ec.edu.espe_ctt.vinculacion.entity.Proyecto;
+import ec.edu.espe_ctt.vinculacion.entity.SvinCoberturaObjetivo;
+import ec.edu.espe_ctt.vinculacion.entity.SvinDepcenproy;
+import ec.edu.espe_ctt.vinculacion.entity.SvinEstrategiasVPlan;
+import ec.edu.espe_ctt.vinculacion.entity.SvinObjPlanVinvula;
+import ec.edu.espe_ctt.vinculacion.entity.SvinObjetivoBVivir;
+import ec.edu.espe_ctt.vinculacion.entity.SvinObjetivoPrograma;
+import ec.edu.espe_ctt.vinculacion.entity.SvinObjetivosEstraInsti;
+import ec.edu.espe_ctt.vinculacion.entity.SvinOpcionInstitucion;
+import ec.edu.espe_ctt.vinculacion.entity.SvinPlanVPrograma;
+import ec.edu.espe_ctt.vinculacion.entity.SvinProgObj;
+import ec.edu.espe_ctt.vinculacion.entity.SvinProgObjEstrategicos;
+import ec.edu.espe_ctt.vinculacion.entity.SvinProgramaEplanv;
+import ec.edu.espe_ctt.vinculacion.entity.SvinProgramaV;
+import ec.edu.espe_ctt.vinculacion.entity.SvinResponsableProg;
+import ec.edu.espe_ctt.vinculacion.entity.SvinZonaDetalle;
+import ec.edu.espe_ctt.vinculacion.entity.VCampusDeptoCarrera;
+import ec.edu.espe_ctt.vinculacion.entity.VDocenteVinculacion;
+import ec.edu.espe_ctt.vinculacion.session.ActividadProgramaFacade;
+import ec.edu.espe_ctt.vinculacion.session.CarreraProgramaFacade;
+import ec.edu.espe_ctt.vinculacion.session.DepartamentoProgramaFacade;
+import ec.edu.espe_ctt.vinculacion.session.ProyectoFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinCoberturaObjetivoFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinDepcenproyFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinEstrategiasVPlanFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinObjEspecProgramaFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinObjPlanVinvulaFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinObjetivoBVivirFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinObjetivoProgramaFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinObjetivosEstraInstiFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinOpcionInstitucionFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinPlanVProgramaFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinProgObjEstrategicosFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinProgObjFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinProgramaEplanvFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinProgramaVFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinResponsableProgFacade;
+import ec.edu.espe_ctt.vinculacion.session.SvinZonaDetalleFacade;
+import ec.edu.espe_ctt.vinculacion.session.VCampusDeptoCarreraFacade;
+import ec.edu.espe_ctt.vinculacion.session.VDocenteVinculacionFacade;
+import ec.edu.espe_ctt_investigacion.entity.SeaCanton;
+import ec.edu.espe_ctt_investigacion.entity.SeaParroquia;
+import ec.edu.espe_ctt_investigacion.entity.SeaProvincia;
+import ec.edu.espe_ctt_investigacion.session.SeaProvinciaFacade;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.component.UICommand;
+import javax.faces.component.UIData;
+import javax.faces.component.UIParameter;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TabChangeEvent;
+import org.primefaces.event.ToggleEvent;
+import org.primefaces.model.CheckboxTreeNode;
+import org.primefaces.model.DualListModel;
+import org.primefaces.model.TreeNode;
+import org.primefaces.model.Visibility;
+
+/**
+ *
+ * @author Administrador
+ */
+@ManagedBean
+@ViewScoped
+public class ProgramaVinculacionController implements Serializable {
+
+    //<editor-fold defaultstate="collapsed" desc="Declaracion de variables">
+    private List<SvinObjetivosEstraInsti> vinObjEstraInstList;
+    private List<SvinObjetivosEstraInsti> indicadObjEstInstList;
+    private List<SvinObjetivosEstraInsti> objEstraInstPrespList;
+    private List<SvinObjetivosEstraInsti> objEstraInstCantList;
+    private List<SvinObjetivosEstraInsti> indicadObjEstInstCantList;
+
+    private SegUsuario usuario;
+
+    private DualListModel<String> cities;
+
+    //datos generales
+    private boolean mostrarTabEvaluacionProg = true;
+    private boolean habilitaTab = true;
+    private boolean botonInicio = true;
+    private boolean controlGrabarP2 = false;
+    private boolean controlGrabarP4 = false;
+    private boolean controlGrabarP5 = false;
+    private boolean controlGrabarP6 = false;
+    private boolean controlGrabarP7 = false;
+    private boolean controlGrabarP10 = false;
+    private boolean controlGrabarP11 = false;
+    private boolean controlGrabarP15 = false;
+    private boolean controlGrabarP16 = false;
+    private boolean controlGrabarP18 = false;
+    private boolean validaVaciosP1 = true;
+    private boolean validaVaciosP4 = true;
+    private boolean validaVaciosP2 = true;
+    private boolean validaVaciosP5 = true;
+    private boolean validaVaciosP6 = true;
+    private boolean validaVaciosP7 = true;
+    private boolean validaVaciosP8 = true;
+    private boolean validaVaciosP9 = true;
+    private boolean validaVaciosP10 = true;
+    private boolean validaVaciosP11 = true;
+    private boolean validaVaciosP12 = true;
+    private boolean validaVaciosP13 = true;
+    private boolean validaVaciosP14 = true;
+    private boolean validaVaciosP15 = true;
+    private boolean validaVaciosP17 = true;
+    private boolean validaVaciosP18 = true;
+
+    /// Programas Vinculacion
+    @EJB
+    private SvinProgramaVFacade programaFacade;
+    @EJB
+    private SvinDepcenproyFacade svinDepcenproyFacade;
+    private List<SvinDepcenproy> departamentoCarreraProgramaList;
+    private List<SvinDepcenproy> campusProgramaList;
+
+    @EJB
+    SegPerfilFacade segPerfilFacade;
+    private List<SvinProgramaV> vinProgrList;
+    private SvinProgramaV programaSelected;
+    private String nombreProg = "";
+    private String codDepartamento = "";
+    private int meses;
+    private int anos;
+    private String duracion = "";
+    private Date fechaInicio;
+    private Date fechaFin;
+    private Date fechaFinReal;
+    private String fechaInicioS = "";
+    private int mes1;
+    private int mes2;
+    private String progResumen = "";
+    private String ubicGeografica = "";
+    private String idenDescDiagnostico = "";
+    private String lineaBase = "";
+    private String viabilidadTec = "";
+    private String perdidaPais = "";
+    private String resulImpacto = "";
+    private String metasProg = "";
+    private String politicasProg = "";
+    private String benefParticipantes = "";
+    private String factorCritico = "";
+
+    //Objetivo Plan nacional
+    @EJB
+    private SvinObjetivoBVivirFacade svinObjBVivirFacade;
+    private List<SvinObjetivoBVivir> objBVivirPadreList;
+    private List<SvinObjetivoBVivir> objBVivirHijoList;
+    private SvinObjetivoBVivir objBVivirPadre = new SvinObjetivoBVivir();
+    private SvinObjetivoBVivir objBVivirHijo = new SvinObjetivoBVivir();
+
+    //Objetivos del Plan por programa
+    @EJB
+    private SvinProgObjFacade svinProgObjFacade;
+    private SvinProgObj svinProgObjSelected;
+    private List<SvinProgObj> proObjList;
+
+    /// Campus
+    @EJB
+    private StvcampFacade campusFacade;
+    private List<Stvcamp> campusList;
+    private String codCampus = "";
+
+/// Departamento
+    @EJB
+    private VCampusDeptoCarreraFacade campusDepartamentoFacade;
+    private List<VCampusDeptoCarrera> campusDepartamentoList;
+    @EJB
+    private StvsubjFacade departamentoFacade;
+    private Stvsubj departamento;
+    private Stvsubj departamentoParticipante;
+    private List<Stvsubj> departamentoList;
+
+    ///Carreras
+    @EJB
+    private StvmajrFacade stvCarrerasFacade;
+    private Stvmajr stvCarreras;
+    private List<Stvmajr> stvCarrerasList;
+
+    ///Departamentos
+    private SvinDepcenproy svinDepcenproySelected;
+    @EJB
+    private CarreraProgramaFacade carreraProgramaFacade;
+    private CarreraPrograma carreraProgramaSelected;
+    private List<CarreraPrograma> carreraProgramaList;
+
+    ////
+    @EJB
+    private SvinOpcionInstitucionFacade entidadEjecutoraFacade;
+    private List<SvinOpcionInstitucion> entidadEjecutoraList;
+    private SvinOpcionInstitucion entidadEjecutoraSelected;
+
+    //Objetivos estrategicos institucionales
+    @EJB
+    private SvinObjetivosEstraInstiFacade svinObjEstraInstFacade;
+    private List<SvinObjetivosEstraInsti> perspectivasList;
+    private List<SvinObjetivosEstraInsti> objEstrategicosList;
+    private List<SvinObjetivosEstraInsti> indicadoresList;
+    private List<SvinObjetivosEstraInsti> estrategiasInstList;
+    private Integer codPerspectiva;
+    private Integer codObjEstrategico;
+    private Integer codIndicador;
+    private Integer codEstrategiaInstitucional;
+    @EJB
+    private SvinProgObjEstrategicosFacade svinProgObjEstratFacade;
+    private List<SvinProgObjEstrategicos> prgObjEstList;
+    private SvinProgObjEstrategicos progObjEstrategSelected;
+
+    //Objetivos del plan de Vinculacion
+    @EJB
+    private SvinObjPlanVinvulaFacade svinObjPlanVinculaFacade;
+    private List<SvinObjPlanVinvula> objPlanVinculaList;
+    private SvinObjPlanVinvula planProgramaV;
+
+    //Objetivos del plan de vinculacion por programa
+    @EJB
+    private SvinPlanVProgramaFacade svinPlanVProgramaFacade;
+    private List<SvinPlanVPrograma> svinPlanVProgList;
+    private SvinPlanVPrograma planVProgSelected;
+
+    //Estratégias del plan de vinculacion
+    @EJB
+    private SvinEstrategiasVPlanFacade svinEstrategiasVinculaFacade;
+    private List<SvinEstrategiasVPlan> estrategiasVinculaList;
+    private SvinEstrategiasVPlan estrategiaV;
+
+    //Estratégias del plan de vinculacion por programa
+    @EJB
+    private SvinProgramaEplanvFacade svinEstrategiaProgramaFacade;
+    private List<SvinProgramaEplanv> estrategiasProgramaList;
+    private SvinProgramaEplanv estrategiaProgSelected;
+
+    ///Provincia
+    @EJB
+    private SeaProvinciaFacade provinciaFacade;
+    private List<SeaProvincia> provinciaList;
+
+    /// Docentes    
+    @EJB
+    private VDocenteVinculacionFacade vistaDocenteFacade;
+    //private VDocenteVinculacion cargodocVinculacion = new VDocenteVinculacion();
+    private SegUsuario docente;
+
+    //Responsable del programa
+    /*@EJB
+     private SvinResponsableProgFacade svinResponsableProgFacade;*/
+    //private SvinResponsableProg svinResponsableProg;
+    @EJB
+    private SegUsuarioFacade usuarioFacade;
+    private String codDocente = "";
+    private String nomDocenteBusqueda = "";
+
+    //tab13(matriz Objetivos del Programa)
+    @EJB
+    private SvinObjetivoProgramaFacade svinObjetivoprogramaFacade;
+    private SvinObjetivoPrograma objPrograma;
+    private List<SvinObjetivoPrograma> objetivoProgramaList;
+    Integer tipoObjetivo = 0;
+    String objetivo = "";
+    String indicador = "";
+    String medioVerif = "";
+    String supuestos = "";
+
+    ///Localizacion y Cobertura
+    @EJB
+    private SvinCoberturaObjetivoFacade vinCoberturaObjetFacade;
+    private List<SvinCoberturaObjetivo> vinCoberturaObjetivoList;
+    private List<SvinCoberturaObjetivo> coberturaObjCantonList;
+    private SvinCoberturaObjetivo vinCoberturaObjetivoSelected;
+    private SvinCoberturaObjetivo coberturaCantonSelected;
+    private boolean controlGrabarP3 = false;
+    private boolean validaVaciosP3 = true;
+
+    ///Zona Detalle
+    @EJB
+    private SvinZonaDetalleFacade vinZonaDetalleFacade;
+    private List<SvinZonaDetalle> svinZonaDetalleList;
+    private List<SvinZonaDetalle> svinZonaDetalleList2;
+
+    @EJB
+    private SvinObjetivoProgramaFacade objetivoProgramaFacade;
+    private SvinObjetivoPrograma objetivoProgramaSelected;
+    private SvinObjetivoPrograma objetivoProgramaPadreSelected;
+
+    /**
+     * Creates a new instance of ProgramaVinculacionController
+     */
+    public ProgramaVinculacionController() {
+        svinZonaDetalleList = new ArrayList<>();
+        svinZonaDetalleList2 = new ArrayList<>();
+        entidadEjecutoraSelected = new SvinOpcionInstitucion();
+        objetivoProgramaSelected = new SvinObjetivoPrograma();
+    }
+
+    //</editor-fold>
+    @PostConstruct
+    public void init() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        usuario = (SegUsuario) context.getExternalContext().getSessionMap().get("usu_login");
+        SegUsuPerfil perfil = (SegUsuPerfil) context.getExternalContext().getSessionMap().get("usu_perfil");
+        mostrarTabEvaluacionProg = false;
+        if (perfil.getSegPerfil().getPerNombre().toUpperCase().contains("DIRECTOR")) {
+            mostrarTabEvaluacionProg = true;
+        }
+        checkIngreso();
+    }
+
+    public Integer getCodPerspectiva() {
+        return codPerspectiva;
+    }
+
+    public void setCodPerspectiva(Integer codPerspectiva) {
+        this.codPerspectiva = codPerspectiva;
+    }
+
+    public Integer getCodObjEstrategico() {
+        return codObjEstrategico;
+    }
+
+    public void setCodObjEstrategico(Integer codObjEstrategico) {
+        this.codObjEstrategico = codObjEstrategico;
+    }
+
+    public Integer getCodIndicador() {
+        return codIndicador;
+    }
+
+    public void setCodIndicador(Integer codIndicador) {
+        this.codIndicador = codIndicador;
+    }
+
+    public Integer getCodEstrategiaInstitucional() {
+        return codEstrategiaInstitucional;
+    }
+
+    public void setCodEstrategiaInstitucional(Integer codEstrategiaInstitucional) {
+        this.codEstrategiaInstitucional = codEstrategiaInstitucional;
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="Funciones">
+    void checkIngreso() {
+
+        campusList = campusFacade.findCampus();
+        Collections.sort(campusList);
+
+        provinciaList = provinciaFacade.findAllOrdenados();
+
+        stvCarrerasList = stvCarrerasFacade.findAll();
+
+        vinProgrList = programaFacade.findXEstado("A");
+        //objetivos buen vivir tab 4
+        objBVivirPadreList = svinObjBVivirFacade.findObjetivosPadre();
+        //tab 5
+        perspectivasList = svinObjEstraInstFacade.findPrespectivaEstraInst();
+
+        //tab 6
+        objPlanVinculaList = svinObjPlanVinculaFacade.findAll();
+
+        planProgramaV = new SvinObjPlanVinvula();
+        planProgramaV.setSvopviId(BigDecimal.ZERO);
+        //tab 7     
+        estrategiaV = new SvinEstrategiasVPlan();
+        // estrategiaV.setSvevId(BigDecimal.ZERO);
+        //tab 10        
+        departamentoParticipante = new Stvsubj();
+        //stvDepartPart.setStvsubjCode(BigDecimal.ZERO);
+        //tab11
+        stvCarreras = new Stvmajr();
+
+        estrategiasVinculaList = svinEstrategiasVinculaFacade.findAll();
+    }
+
+    public String seleccionaPrograma() {
+        botonInicio = false;
+        habilitaTab = false;
+        indiceTabActivo = 0;
+        campusList = campusFacade.findCampus();
+        Collections.sort(campusList);
+        //tab1
+
+        nombreProg = programaSelected.getSprvNombre();
+        cargaDatosDepartamentos();
+
+        if (programaSelected.getResponsableList() != null && !programaSelected.getResponsableList().isEmpty()) {
+            llenarDatosDocenteXUsuId(programaSelected.getResponsableList().get(0).getUsuId().getUsuId());
+        }
+
+        fechaInicio = programaSelected.getSprvFechaInicio();
+        fechaFin = programaSelected.getSprvFechaFin();
+        calculaDuracion();
+
+        //tab2            
+        //entidadEjecutoraList = entidadEjecutoraFacade.findOpcionInstitucion(programaSelected.getSprvId());
+        /// tabP3
+        provinciaList = provinciaFacade.findAllOrdenados();
+        vinCoberturaObjetivoList = vinCoberturaObjetFacade.findProvinciaByCodProy(programaSelected.getSprvId());
+        // tab de los objetivos de la cobertura 
+        
+        //tab4
+        llenarObjetivos();
+
+        //tab5
+        prgObjEstList = svinProgObjEstratFacade.findByPrograma(programaSelected.getSprvId());
+        //tab6
+        svinPlanVProgList = svinPlanVProgramaFacade.findObjetivosPlanVin(programaSelected.getSprvId());
+        //tab7
+        estrategiasProgramaList = svinEstrategiaProgramaFacade.findEstratPlanVinc(programaSelected.getSprvId());
+        //tab8
+        progResumen = programaSelected.getSprvResumen();
+        //tab9
+        ubicGeografica = programaSelected.getSprvUbicacion();
+        idenDescDiagnostico = programaSelected.getSprvDiagnostico();
+        lineaBase = programaSelected.getSprvLineaBase();
+        benefParticipantes = programaSelected.getSprvBeneficios();
+        //tab10            
+        llenarListadoDepartamentoPrograma();
+        //tab11
+        carreraProgramaList = carreraProgramaFacade.findByPrograma(programaSelected.getSprvId());
+        //tab12
+        factorCritico = programaSelected.getSprvFactorCExito();
+        //tab13
+        objetivoProgramaList = svinObjetivoprogramaFacade.findObjetivosPrograma(programaSelected.getSprvId());
+        //tab14
+        metasProg = programaSelected.getSprvMetas();
+        politicasProg = programaSelected.getSprvPoliticas();
+        //tab 15
+        resulImpacto = programaSelected.getSprvResultadosImpacto();
+        viabilidadTec = programaSelected.getSprvViavilidadTecnica();
+        perdidaPais = programaSelected.getSprvPerderiaNoEjecuta();
+
+        actividadProgramaList = actividadProgramaFacade.findXPrograma(programaSelected.getSprvId());
+        proyectoList = proyectoFacade.findByPrograma(programaSelected.getSprvId());
+
+        validaVaciosP1 = true;
+        return "";
+    }
+
+    public String inicioProgramas() {
+        if (botonInicio) {
+            /// regresa a la lista de programas
+            habilitaTab = true;
+            init();
+            //this.programaSelected = new SvinProgramaV();
+        } else {
+            /// es nuevo
+            cargaDatosProgramaNuevo();
+        }
+        return "";
+    }
+
+    public void cargaDatosDepartamentos() {
+
+        codDocente = null;
+        docente = new SegUsuario();
+
+        campusDepartamentoList = campusDepartamentoFacade.findDepartamentosByCampus(codCampus);
+        codDepartamento = "";
+        //validarVaciosP10();
+
+    }
+
+    public void cargaDatosProgramaNuevo() {
+        indiceTabActivo = 0;
+        nombreProg = "";
+        codCampus = "";
+        codDepartamento = "";
+        fechaInicio = null;
+        fechaFin = null;
+        docente = new SegUsuario();
+        nomDocenteBusqueda = "";
+        programaSelected = new SvinProgramaV();
+        codDocente = null;
+        duracion = null;
+        validaVaciosP1 = true;
+
+        habilitaTab = true;
+        //// tabP1
+        campusList = campusFacade.findCampus();
+        Collections.sort(campusList);
+
+    }
+
+    private void llenarObjetivos() {
+        proObjList = new ArrayList<>();
+        List<SvinProgObj> proObjListTemp = svinProgObjFacade.findByPrograma(programaSelected.getSprvId());
+
+        for (SvinProgObj svinProgObjHijo : proObjListTemp) {
+            boolean encontro = false;
+            for (SvinProgObj svinProgObjPadre : proObjList) {
+
+                if (svinProgObjHijo.getObjetivoBVivir().getSvobviIdPadre().getSvobviId().equals(svinProgObjPadre.getObjetivoBVivir().getSvobviId())) {
+                    svinProgObjPadre.getSvinProgObjHijos().add(svinProgObjHijo);
+                    encontro = true;
+                    break;
+                }
+            }
+            if (!encontro) {
+                SvinProgObj svinProgObjPadreNuevo = new SvinProgObj();
+                svinProgObjPadreNuevo.setPrograma(svinProgObjHijo.getPrograma());
+                svinProgObjPadreNuevo.setObjetivoBVivir(svinProgObjHijo.getObjetivoBVivir().getSvobviIdPadre());
+                svinProgObjPadreNuevo.getSvinProgObjHijos().add(svinProgObjHijo);
+                proObjList.add(svinProgObjPadreNuevo);
+
+            }
+        }
+        Collections.sort(proObjList);
+    }
+
+    private void agregarObjetivo(SvinProgObj svinProgObjHijo) {
+        boolean encontro = false;
+        for (SvinProgObj svinProgObjPadre : proObjList) {
+
+            if (svinProgObjHijo.getObjetivoBVivir().getSvobviIdPadre().getSvobviId().equals(svinProgObjPadre.getObjetivoBVivir().getSvobviId())) {
+                svinProgObjPadre.getSvinProgObjHijos().add(svinProgObjHijo);
+                encontro = true;
+                break;
+            }
+        }
+        if (!encontro) {
+            SvinProgObj svinProgObjPadreNuevo = new SvinProgObj();
+            svinProgObjPadreNuevo.setPrograma(svinProgObjHijo.getPrograma());
+            svinProgObjPadreNuevo.setObjetivoBVivir(svinProgObjHijo.getObjetivoBVivir().getSvobviIdPadre());
+            svinProgObjPadreNuevo.getSvinProgObjHijos().add(svinProgObjHijo);
+            proObjList.add(svinProgObjPadreNuevo);
+
+        }
+        Collections.sort(proObjList);
+    }
+
+    /// funciones tabP1
+    public void cancelarP1() {
+        nombreProg = programaSelected.getSprvNombre();
+        cargaDatosDepartamentos();
+        fechaInicio = programaSelected.getSprvFechaInicio();
+        fechaFin = programaSelected.getSprvFechaFin();
+        calculaDuracion();
+        if (programaSelected.getResponsableList() != null && !programaSelected.getResponsableList().isEmpty()) {
+            llenarDatosDocenteXUsuId(programaSelected.getResponsableList().get(0).getUsuId().getUsuId());
+        }
+        visualizarIngresoCampus = false;
+        validaVaciosP1 = true;
+    }
+
+    public boolean validarVaciosP1() {
+        validaVaciosP1 = false;
+
+        if (!fechaFin.after(fechaInicio)) {
+            FacesContext.getCurrentInstance().addMessage("formPrincipal:tabViewPrincipal:tabP:fechFin", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La fecha de finalización debe ser mayor que la fecha de inicio"));
+            validaVaciosP1 = true;
+        }
+        if (programaSelected.getSvinDepcenproyList() == null || programaSelected.getSvinDepcenproyList().isEmpty()
+                || programaSelected.getCampusList().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage("formPrincipal:tabViewPrincipal:tabP:dataTableCampus", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Campo obligatorio: Debe agregar al menos un campus"));
+            validaVaciosP1 = true;
+        }
+        if (docente.getUsuId() == null) {
+            FacesContext.getCurrentInstance().addMessage("formPrincipal:tabViewPrincipal:tabP:lblNombreDirector", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Campo obligatorio"));
+            validaVaciosP1 = true;
+        }
+        return validaVaciosP1;
+    }
+
+    public void eliminarCampus() {
+        programaSelected.eliminarSvinDepcenProy(svinDepcenproySelected);
+        //validarVaciosP1();
+    }
+    private boolean visualizarIngresoCampus;
+
+    public boolean isVisualizarIngresoCampus() {
+        return visualizarIngresoCampus;
+    }
+
+    public void setVisualizarIngresoCampus(boolean visualizarIngresoCampus) {
+        this.visualizarIngresoCampus = visualizarIngresoCampus;
+    }
+
+    private boolean habilitarAgregarCampus;
+
+    public boolean isHabilitarAgregarCampus() {
+        return habilitarAgregarCampus;
+    }
+
+    public void setHabilitarAgregarCampus(boolean habilitarAgregarCampus) {
+        this.habilitarAgregarCampus = habilitarAgregarCampus;
+    }
+
+    public void seleccionarCampus() {
+        if (codCampus == null) {
+            habilitarAgregarCampus = true;
+        } else {
+            habilitarAgregarCampus = false;
+        }
+    }
+
+    public String nuevoCampus() {
+        codCampus = null;
+        visualizarIngresoCampus = true;
+        return "";
+    }
+
+    public String cancelarCampus() {
+        visualizarIngresoCampus = false;
+        return "";
+    }
+
+    public String agregarCampus() {
+        for (SvinDepcenproy departamentoPrograma : programaSelected.getCampusList()) {
+            if (departamentoPrograma.getCampus().getStvcampCode().equals(codCampus)) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El Departamento seleccionado ya ha sido agregado"));
+                return null;
+            }
+        }
+        SvinDepcenproy campusPrograma = new SvinDepcenproy();
+        campusPrograma.setPrograma(programaSelected);
+        for (Stvcamp campus : campusList) {
+            if (campus.getStvcampCode().equals(codCampus)) {
+                campusPrograma.setCampus(campus);
+                programaSelected.agregarSvinDepcenProy(campusPrograma);
+                break;
+            }
+        }
+        cancelarCampus();
+        //validarVaciosP1();
+        return "";
+    }
+
+    public String registraP1() {
+        try {
+
+            if (!validarVaciosP1()) {
+                SegUsuario usu = usuarioFacade.find(docente.getUsuId());
+                usu.setUsuEmail(docente.getUsuEmail());
+                usu.setUsuTelefonoFijo(docente.getUsuTelefonoFijo());
+                usuarioFacade.edit(usu);
+                programaSelected.setSprvNombre(nombreProg);
+                programaSelected.setSprvDuracionAnios(BigInteger.valueOf(anos));
+                programaSelected.setSprvDiuracionMeses(BigInteger.valueOf(meses));
+                programaSelected.setSprvFechaInicio(fechaInicio);
+                programaSelected.setSprvFechaFin(fechaFin);
+                if (programaSelected.getSprvId() == null) {
+                    programaSelected.addObjetivoPrograma(new SvinObjetivoPrograma(programaSelected, SvinObjetivoPrograma.TIPO_FIN, 1));
+                    programaSelected.addObjetivoPrograma(new SvinObjetivoPrograma(programaSelected, SvinObjetivoPrograma.TIPO_PROPOSITO, 2));
+
+                    programaFacade.create(programaSelected);
+                } else {
+                    programaFacade.edit(programaSelected);
+                }
+                vinProgrList = programaFacade.findXEstado("A");
+                habilitaTab = false;
+
+                cancelarP1();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    //// funciones tabP2
+    public void eliminarP2() {
+        try {
+            entidadEjecutoraFacade.remove(entidadEjecutoraSelected);
+            cancelarP2();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        }
+
+    }
+
+    /*public void onRowEditP2(RowEditEvent event) {
+     SvinOpcionInstitucion vinOpcionInstEdit = (SvinOpcionInstitucion) event.getObject();
+     SeaProvincia obj = new SeaProvincia();
+     obj.setProId(vinOpcionInstEdit.getProvinciaEdit());
+     vinOpcionInstEdit.setProId(obj);
+     entidadEjecutoraFacade.edit(vinOpcionInstEdit);
+     entidadEjecutoraList = entidadEjecutoraFacade.findOpcionInstitucion(programaSelected.getSprvId());
+
+     }*/
+
+    /*public void onRowEditIniP2(RowEditEvent event) {
+
+     SvinOpcionInstitucion vinOpcionInstEdit = (SvinOpcionInstitucion) event.getObject();
+     vinOpcionInstEdit.setProvinciaEdit(vinOpcionInstEdit.getProId().getProId());
+
+     UIData table = (UIData) event.getComponent();
+     String updateClientId = table.getClientId() + ":" + table.getRowIndex() + ":aaa";
+     FacesContext.getCurrentInstance().getPartialViewContext().getRenderIds().add(updateClientId);
+     }*/
+    public String agregarP2() {
+        codProvinciaSelected = "";
+        entidadEjecutoraSelected = new SvinOpcionInstitucion();
+        controlGrabarP2 = true;
+        return "";
+    }
+    /*
+     public void seleccionarProvincia(ValueChangeEvent event) {
+     String idProvincia = (String) event.getNewValue();
+     if (idProvincia == null) {
+     entidadEjecutoraSelected.setProId(new SeaProvincia());
+     provinciaSelected = new SeaProvincia();
+     } else {
+     for (SeaProvincia prov : provinciaList) {
+     if (prov.getProId().equals(idProvincia)) {
+     entidadEjecutoraSelected.setProId(prov);
+     provinciaSelected=prov;
+     break;
+     }
+     }
+     }
+     validarVaciosP2();
+     }*/
+
+    public String registraP2() {
+        try {
+            if (entidadEjecutoraSelected.getProId() == null || !entidadEjecutoraSelected.getProId().getProId().equals(codProvinciaSelected)) {
+                for (SeaProvincia prov : provinciaList) {
+                    if (prov.getProId().equals(codProvinciaSelected)) {
+                        entidadEjecutoraSelected.setProId(prov);
+                        break;
+                    }
+                }
+            }
+            if (entidadEjecutoraSelected.getSopinId() == null) {
+                entidadEjecutoraSelected.setSprvId(programaSelected);
+                entidadEjecutoraFacade.create(entidadEjecutoraSelected);
+            } else {
+                entidadEjecutoraFacade.edit(entidadEjecutoraSelected);
+            }
+            validaVaciosP2 = true;
+            cancelarP2();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    public String seleccionarP2() {
+        codProvinciaSelected = entidadEjecutoraSelected.getProId().getProId();
+        controlGrabarP2 = true;
+        validaVaciosP2 = true;
+        return "";
+    }
+
+    public void seleccionarP2222(SvinOpcionInstitucion event) {
+        entidadEjecutoraSelected = event;
+        codProvinciaSelected = entidadEjecutoraSelected.getProId().getProId();
+        controlGrabarP2 = true;
+        validaVaciosP2 = true;
+    }
+
+    private String codProvinciaSelected;
+
+    public String getCodProvinciaSelected() {
+        return codProvinciaSelected;
+    }
+
+    public void setCodProvinciaSelected(String codProvinciaSelected) {
+        this.codProvinciaSelected = codProvinciaSelected;
+    }
+
+    public void cancelarP2() {
+        entidadEjecutoraList = entidadEjecutoraFacade.findOpcionInstitucion(programaSelected.getSprvId());
+        entidadEjecutoraSelected = new SvinOpcionInstitucion();
+        controlGrabarP2 = false;
+        validaVaciosP2 = true;
+    }
+
+    public boolean validarVaciosP2() {
+        validaVaciosP2 = false;
+        if (entidadEjecutoraSelected.getSopinNombre() == null || entidadEjecutoraSelected.getSopinNombre().trim().isEmpty()) {
+            validaVaciosP2 = true;
+        }
+        /*if (entidadEjecutoraSelected.getProId().getProId()==null) {
+         validaVaciosP2 = true;
+         }*/
+        if (codProvinciaSelected == null || codProvinciaSelected.isEmpty() || codProvinciaSelected.equals("0")) {
+            validaVaciosP2 = true;
+        }
+        if (entidadEjecutoraSelected.getSopinCiudad() == null || entidadEjecutoraSelected.getSopinCiudad().trim().isEmpty()) {
+            validaVaciosP2 = true;
+        }
+        if (entidadEjecutoraSelected.getSopinTelefono() == null || entidadEjecutoraSelected.getSopinTelefono().trim().isEmpty()) {
+            validaVaciosP2 = true;
+        }
+        if (entidadEjecutoraSelected.getSopinPaguinaWeb() == null || entidadEjecutoraSelected.getSopinPaguinaWeb().trim().isEmpty()) {
+            validaVaciosP2 = true;
+        }
+        if (entidadEjecutoraSelected.getSopinDireccion() == null || entidadEjecutoraSelected.getSopinDireccion().trim().isEmpty()) {
+            validaVaciosP2 = true;
+        }
+        return validaVaciosP2;
+    }
+
+    public void calculaDuracion() {
+
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(fechaFin);
+        c1.add(mes1, anos);
+
+        if (fechaFin != null && fechaInicio != null) {
+            SimpleDateFormat sdfIni = new SimpleDateFormat("dd/mm/yyyy");
+            SimpleDateFormat sdfFIn = new SimpleDateFormat("dd/mm/yyyy");
+            sdfIni.format(fechaInicio.getTime());
+            sdfFIn.format(fechaFin.getTime());
+            Calendar calendarInicio = Calendar.getInstance();
+            calendarInicio.setTime(this.fechaInicio);
+            Calendar calendarFin = Calendar.getInstance();
+            calendarFin.setTime(this.fechaFin);
+            if (calendarInicio.compareTo(calendarFin) == 1) {
+                //RequestContext.getCurrentInstance().execute("alert('La fecha de finalización no puede ser mayor que la fecha de inicio del programa.')");
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La fecha de finalización no puede ser mayor que la fecha de inicio del programa"));
+                fechaFin = null;
+            } else {
+                mes1 = calendarInicio.get(Calendar.MONTH);
+                mes2 = calendarFin.get(Calendar.MONTH);
+                if (mes1 > mes2) {
+                    meses = (12 - mes1) + mes2;
+                } else {
+                    meses = mes2 - mes1;
+                }
+                anos = calendarFin.get(Calendar.YEAR) - calendarInicio.get(Calendar.YEAR);
+                duracion = anos + " años y " + meses + " mes(es).";
+            }
+        }
+        //validarVaciosP1();
+    }
+
+    //funciones tab 3
+    private List<SvinZonaDetalle> listaIngresar;
+    private List<SvinZonaDetalle> listaEliminar;
+    private List<SvinZonaDetalle> listaParroquiasCobertura;
+
+    public List<SvinZonaDetalle> getListaParroquiasCobertura() {
+        return listaParroquiasCobertura;
+    }
+
+    public void setListaParroquiasCobertura(List<SvinZonaDetalle> listaParroquiasCobertura) {
+        this.listaParroquiasCobertura = listaParroquiasCobertura;
+    }
+
+    
+    public String editarP3() {
+        controlGrabar = true;
+        return "";
+    }
+
+    public String registraP3() {
+        listaIngresar = verificarNuevos();
+        listaEliminar = verificarEliminados();
+        listaParroquiasCobertura = new ArrayList<>();
+
+        vinZonaDetalleFacade.guardar(listaIngresar, listaEliminar);
+        svinZonaDetalleList = vinZonaDetalleFacade.findXPrograma(programaSelected.getSprvId());
+        svinZonaDetalleList2 = vinZonaDetalleFacade.findXPrograma(programaSelected.getSprvId());
+        for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+            if (svinZonaDetalle.getParroquia() != null) {
+                listaParroquiasCobertura.add(svinZonaDetalle);
+            }
+        }
+
+        Collections.sort(svinZonaDetalleList2);
+        Collections.sort(listaParroquiasCobertura);
+        root3 = createCheckboxDocuments();
+        validaVaciosP3 = true;
+        controlGrabar=false;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        return "";
+    }
+
+    private List<SvinZonaDetalle> verificarNuevos() {
+        List<SvinZonaDetalle> listaTemp = new ArrayList<>();
+        String codProvincia = "";
+        String codCanton = "";
+
+        for (TreeNode node : selectedNodes2) {
+            SvinZonaDetalle seleccionado = (SvinZonaDetalle) node.getData();
+            System.out.println(seleccionado.getNombre());
+            if (seleccionado.getParroquia() != null) {
+                SvinZonaDetalle nuevo = null;
+                if (!seleccionado.getProvincia().getProId().equals(codProvincia)) {
+                    codProvincia = seleccionado.getProvincia().getProId();
+                    nuevo = new SvinZonaDetalle(seleccionado.getProvincia());
+                    if (!buscarSvinZonaDetalleBD(nuevo)) {
+                        nuevo.setPrograma(programaSelected);
+                        listaTemp.add(nuevo);
+                    }
+                }
+                if (!seleccionado.getCanton().getCanId().equals(codCanton)) {
+                    codCanton = seleccionado.getCanton().getCanId();
+                    nuevo = new SvinZonaDetalle(seleccionado.getCanton());
+                    if (!buscarSvinZonaDetalleBD(nuevo)) {
+                        nuevo.setPrograma(programaSelected);
+                        listaTemp.add(nuevo);
+                    }
+                }
+                nuevo = new SvinZonaDetalle(seleccionado.getParroquia());
+                if (!buscarSvinZonaDetalleBD(nuevo)) {
+                    nuevo.setPrograma(programaSelected);
+                    listaTemp.add(nuevo);
+                }
+            }
+        }
+        return listaTemp;
+    }
+
+    private List<SvinZonaDetalle> verificarEliminados() {
+        List<SvinZonaDetalle> listaTemp = new ArrayList<>();
+        String codProvincia = "";
+        String codCanton = "";
+
+        for (SvinZonaDetalle seleccionado : svinZonaDetalleList) {
+
+            if (codCanton.equals("")) {
+                if (seleccionado.getCanton() != null) {
+                    codCanton = seleccionado.getCanton().getCanId();
+                }
+            } else {
+                if (seleccionado.getCanton() != null && !seleccionado.getCanton().getCanId().equals(codCanton)) {
+                    verificarEliminarCanton(codCanton, listaTemp);
+                    codCanton = seleccionado.getCanton().getCanId();
+                }
+            }
+            if (codProvincia.equals("")) {
+                codProvincia = seleccionado.getProvincia().getProId();
+            } else {
+                if (!seleccionado.getProvincia().getProId().equals(codProvincia)) {
+                    verificarEliminarProvincia(codProvincia, listaTemp);
+                    codProvincia = seleccionado.getProvincia().getProId();
+                }
+            }
+            if (seleccionado.getParroquia() != null) {
+
+                SvinZonaDetalle eliminar = new SvinZonaDetalle(seleccionado.getParroquia());
+                if (!buscarSvinZonaDetalleMemoria(eliminar)) {
+                    SvinZonaDetalle eliminarParroquia = getParroquiaEliminar(seleccionado.getParroquia().getPrqId());
+                    listaTemp.add(eliminarParroquia);
+                }
+            }
+        }
+        verificarEliminarCanton(codCanton, listaTemp);
+        verificarEliminarProvincia(codProvincia, listaTemp);
+
+        return listaTemp;
+    }
+
+    private void verificarEliminarProvincia(String codProvincia, List<SvinZonaDetalle> listaTemp) {
+        int cont = 0;
+        for (SvinZonaDetalle svinZonaDetalle : listaTemp) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getProvincia().getProId().equals(codProvincia)) {
+                cont++;
+            }
+        }
+        for (SvinZonaDetalle nuevo : listaIngresar) {
+            if (nuevo.getParroquia() != null && nuevo.getProvincia().getProId().equals(codProvincia)) {
+                cont--;
+            }
+        }
+
+        if (cont > 0) {
+            SvinZonaDetalle eliminarProvincia = getProvinciaEliminar(codProvincia, cont);
+            if (eliminarProvincia != null) {
+                listaTemp.add(eliminarProvincia);
+            }
+        }
+    }
+
+    private void verificarEliminarCanton(String codCanton, List<SvinZonaDetalle> listaTemp) {
+        int cont = 0;
+        for (SvinZonaDetalle svinZonaDetalle : listaTemp) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getCanton().getCanId().equals(codCanton)) {
+                cont++;
+            }
+        }
+        for (SvinZonaDetalle nuevo : listaIngresar) {
+            if (nuevo.getParroquia() != null && nuevo.getCanton().getCanId().equals(codCanton)) {
+                cont--;
+            }
+        }
+        if (cont > 0) {
+            SvinZonaDetalle eliminarCanton = getCantonEliminar(codCanton, cont);
+            if (eliminarCanton != null) {
+                listaTemp.add(eliminarCanton);
+            }
+        }
+    }
+
+    private SvinZonaDetalle getProvinciaEliminar(String codProvincia, int contVerificar) {
+        int cont = 0;
+        for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getProvincia().getProId().equals(codProvincia)) {
+                cont++;
+            }
+        }
+        if (cont == contVerificar) {
+            for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+                if (svinZonaDetalle.getProvincia() != null && svinZonaDetalle.getCanton() == null && svinZonaDetalle.getParroquia() == null
+                        && svinZonaDetalle.getProvincia().getProId().equals(codProvincia)) {
+                    return svinZonaDetalle;
+                }
+            }
+        }
+        return null;
+    }
+
+    private SvinZonaDetalle getCantonEliminar(String codCanton, int contVerificar) {
+        int cont = 0;
+        for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getCanton().getCanId().equals(codCanton)) {
+                cont++;
+            }
+        }
+
+        if (cont == contVerificar) {
+            for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+                if (svinZonaDetalle.getCanton() != null && svinZonaDetalle.getParroquia() == null
+                        && svinZonaDetalle.getCanton().getCanId().equals(codCanton)) {
+                    return svinZonaDetalle;
+                }
+            }
+        }
+        return null;
+    }
+
+    private SvinZonaDetalle getParroquiaEliminar(String codParroquia) {
+        for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+            if (svinZonaDetalle.getParroquia() != null && svinZonaDetalle.getParroquia().getPrqId().equals(codParroquia)) {
+                return svinZonaDetalle;
+            }
+        }
+        return null;
+    }
+
+    private boolean buscarSvinZonaDetalleBD(SvinZonaDetalle svinZonaDetalleBuscar) {
+        for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+            boolean encontro = svinZonaDetalle.comparar(svinZonaDetalleBuscar);
+            if (encontro) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean buscarSvinZonaDetalleMemoria(SvinZonaDetalle svinZonaDetalleBuscar) {
+        for (TreeNode node : selectedNodes2) {
+            SvinZonaDetalle svinZonaDetalle = (SvinZonaDetalle) node.getData();
+            boolean encontro = svinZonaDetalle.comparar(svinZonaDetalleBuscar);
+            if (encontro) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void cancelarP3() {
+        listaParroquiasCobertura= new ArrayList<>();
+        controlGrabar=false;
+        svinZonaDetalleList = vinZonaDetalleFacade.findXPrograma(programaSelected.getSprvId());
+        svinZonaDetalleList2 = vinZonaDetalleFacade.findXPrograma(programaSelected.getSprvId());
+        Collections.sort(svinZonaDetalleList2);
+        root3 = createCheckboxDocuments();
+        validaVaciosP3 = true;
+        for (SvinZonaDetalle svinZonaDetalle : svinZonaDetalleList) {
+            if (svinZonaDetalle.getParroquia() != null) {
+                listaParroquiasCobertura.add(svinZonaDetalle);
+            }
+        }
+        Collections.sort(listaParroquiasCobertura);
+    }
+
+    public boolean validarVaciosP3() {
+        validaVaciosP3 = false;
+
+        if (selectedNodes2.length == 0) {
+            validaVaciosP3 = true;
+        }
+        return validaVaciosP3;
+    }
+
+    //funciones tab 4
+    public String registraP4() {
+        try {
+            System.out.println("ingresa registro");
+            for (SvinProgObj svinProgObjPadre : proObjList) {
+                for (SvinProgObj svinProgObjHijo : svinProgObjPadre.getSvinProgObjHijos()) {
+                    if (svinProgObjHijo.getObjetivoBVivir().getSvobviId().equals(objBVivirHijo.getSvobviId())) {
+                        FacesContext.getCurrentInstance().addMessage("formPrincipal:tabViewPrincipal:tabP:subojPlan1", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El Sub Objetivo seleccionado ya ha sido agregado"));
+                        return null;
+                    }
+                }
+
+            }
+            svinProgObjSelected = new SvinProgObj();
+            SvinObjetivoBVivir svinObjetivoBVivirHijo = null;
+            for (SvinObjetivoBVivir svinObjetivoBVivir : objBVivirHijoList) {
+                if (svinObjetivoBVivir.getSvobviId().equals(objBVivirHijo.getSvobviId())) {
+                    svinObjetivoBVivirHijo = svinObjetivoBVivir;
+                    break;
+                }
+
+            }
+            svinProgObjSelected.setObjetivoBVivir(svinObjetivoBVivirHijo);
+            svinProgObjSelected.setPrograma(programaSelected);
+            svinProgObjFacade.create(svinProgObjSelected);
+            agregarObjetivo(svinProgObjSelected);
+            for (SvinObjetivoBVivir svinObjetivoBVivir : objBVivirPadreList) {
+                if (svinObjetivoBVivir.getSvobviId().equals(objBVivirPadre.getSvobviId())) {
+                    svinObjetivoBVivirHijo.setSvobviIdPadre(svinObjetivoBVivir);
+                    for (SvinProgObj svinProgObj : proObjList) {
+                        if (svinProgObj.getObjetivoBVivir().getSvobviId().equals(objBVivirPadre.getSvobviId())) {
+                            svinProgObj.setExpanded(true);
+                            break;
+                        }
+                    }
+                    break;
+                }
+
+            }
+            cancelarP4();
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    public String agregarP4() {
+        controlGrabarP4 = true;
+        return "";
+
+    }
+
+    public void cancelarP4() {
+        objBVivirPadre = new SvinObjetivoBVivir();
+        objBVivirPadre.setSvobviId(BigDecimal.ZERO);
+        objBVivirHijo = new SvinObjetivoBVivir();
+        objBVivirHijo.setSvobviId(BigDecimal.ZERO);
+        controlGrabarP4 = false;
+        validaVaciosP4 = true;
+    }
+
+    public boolean validarVaciosP4() {
+        validaVaciosP4 = false;
+        if (objBVivirHijo == null || objBVivirHijo.getSvobviId().equals(BigDecimal.ZERO)) {
+            validaVaciosP4 = true;
+        }
+        return validaVaciosP4;
+    }
+
+    public void eliminarP4() {
+        svinProgObjFacade.remove(svinProgObjSelected);
+        boolean eliminarPadre = false;
+        boolean eliminarHijo = false;
+        int posPadre = -1;
+        int posHijo = -1;
+        for (SvinProgObj svinProgObjPadre : proObjList) {
+            posPadre++;
+            posHijo = -1;
+            for (SvinProgObj svinProgObjHijo : svinProgObjPadre.getSvinProgObjHijos()) {
+                if (svinProgObjHijo.getObjetivoBVivir().getSvobviId().equals(svinProgObjSelected.getObjetivoBVivir().getSvobviId())) {
+                    posHijo++;
+                    eliminarHijo = true;
+                    break;
+                }
+            }
+            if (eliminarHijo) {
+                svinProgObjPadre.getSvinProgObjHijos().remove(posHijo);
+                if (svinProgObjPadre.getSvinProgObjHijos().isEmpty()) {
+                    eliminarPadre = true;
+                }
+                break;
+            }
+
+        }
+        if (eliminarPadre) {
+            proObjList.remove(posPadre);
+        }
+        cancelarP4();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+    }
+
+    public void onRowToggleLine(ToggleEvent event) {
+        SvinProgObj subObj = (SvinProgObj) event.getData();
+
+        if (event.getVisibility() == Visibility.VISIBLE) {
+            subObj.setExpanded(true);
+
+        } else {
+            subObj.setExpanded(false);
+        }
+    }
+
+    public void onRowEditP4(RowEditEvent event) {
+
+    }
+
+    public void onRowCancelP4(RowEditEvent event) {
+    }
+
+    public void onRowEditP41(RowEditEvent event) {
+    }
+
+    public void onRowCancelP41(RowEditEvent event) {
+    }
+
+    public String registraP41() {
+        System.out.println("ingresa registro");
+        return "";
+    }
+
+    public void bsqSubObjetivos() {
+        System.out.println(" ");
+        objBVivirHijoList = svinObjBVivirFacade.findObjXPadre(objBVivirPadre.getSvobviId());
+        //  objBVivirHijoList = svinObjBVivirFacade.findObjetivosPadre1();
+        System.out.println(" la lista es " + objBVivirHijoList.size());
+    }
+
+    //funciones tab 5
+    public String registraP5() {
+        try {
+            for (SvinProgObjEstrategicos svinProgObjEstrategicos : prgObjEstList) {
+                if (svinProgObjEstrategicos.getObjetivoEstrategico().getSoesiId().equals(codEstrategiaInstitucional)
+                        && svinProgObjEstrategicos.getPrograma().getSprvId().equals(programaSelected.getSprvId())) {
+                    FacesContext.getCurrentInstance().addMessage("formPrincipal:tabViewPrincipal:tabP:estInt", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El Objetivo seleccionado ya ha sido agregado"));
+
+                    return null;
+                }
+            }
+
+            progObjEstrategSelected = new SvinProgObjEstrategicos();
+            for (SvinObjetivosEstraInsti svinObjetivosEstraInsti : estrategiasInstList) {
+                if (svinObjetivosEstraInsti.getSoesiId().equals(codEstrategiaInstitucional)) {
+                    progObjEstrategSelected.setObjetivoEstrategico(svinObjetivosEstraInsti);
+                    break;
+                }
+            }
+            progObjEstrategSelected.setPrograma(programaSelected);
+
+            svinProgObjEstratFacade.create(progObjEstrategSelected);
+            prgObjEstList = svinProgObjEstratFacade.findByPrograma(programaSelected.getSprvId());
+            controlGrabarP5 = true;
+
+            validaVaciosP5 = true;
+            cancelarP5();
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    public void eliminarP5() {
+
+        if (progObjEstrategSelected != null) {
+            SvinProgObjEstrategicos eliminar = null;
+            for (int i = 0; i < prgObjEstList.size(); i++) {
+                SvinProgObjEstrategicos elemento = this.prgObjEstList.get(i);
+                if (progObjEstrategSelected.getObjetivoEstrategico() == prgObjEstList.get(i).getObjetivoEstrategico()) {
+                    eliminar = elemento;
+                    break;
+                }
+            }
+            if (eliminar != null) {
+                this.prgObjEstList.remove(eliminar);
+                svinProgObjEstratFacade.remove(eliminar);
+                cancelarP5();
+            }
+        }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+    }
+
+    public String agregarP5() {
+        controlGrabarP5 = true;
+        return "";
+    }
+
+    public void cancelarP5() {
+        codPerspectiva = null;
+        codObjEstrategico = null;
+        codIndicador = null;
+        codEstrategiaInstitucional = null;
+        controlGrabarP5 = false;
+        validaVaciosP5 = true;
+    }
+
+    public void onRowEditP5(RowEditEvent event) {
+
+    }
+
+    public void onRowCancelP5(RowEditEvent event) {
+    }
+
+    public boolean validarVaciosP5() {
+        validaVaciosP5 = false;
+        if (codEstrategiaInstitucional == null) {
+            validaVaciosP5 = true;
+        }
+        return validaVaciosP5;
+    }
+
+    public void bsqObjetivosEst() {
+        objEstrategicosList = svinObjEstraInstFacade.findObjetivoEstraInst(codPerspectiva);
+        codObjEstrategico = null;
+        codIndicador = null;
+        codEstrategiaInstitucional = null;
+        validaVaciosP5 = true;
+    }
+
+    public void bsqIndicadores() {
+        indicadoresList = svinObjEstraInstFacade.findObjetivoEstraInst(codObjEstrategico);
+        codIndicador = null;
+        codEstrategiaInstitucional = null;
+        validaVaciosP5 = true;
+    }
+
+    public void bsqEstrategiasInst() {
+        estrategiasInstList = svinObjEstraInstFacade.findObjetivoEstraInst(codIndicador);
+        codEstrategiaInstitucional = null;
+        validaVaciosP5 = true;
+    }
+
+    //funciones tab6
+    public String agregarP6() {
+        controlGrabarP6 = true;
+        return "";
+    }
+
+    public void onRowEditP6(RowEditEvent event) {
+
+    }
+
+    public void onRowCancelP6(RowEditEvent event) {
+    }
+
+    public void cancelarP6() {
+        planProgramaV = new SvinObjPlanVinvula();
+        planProgramaV.setSvopviId(BigDecimal.ZERO);
+        controlGrabarP6 = false;
+        validaVaciosP6 = true;
+    }
+
+    public String registraP6() {
+        try {
+            for (SvinPlanVPrograma svinPlanVPrograma : svinPlanVProgList) {
+                if (svinPlanVPrograma.getSprvId().getSprvId().equals(programaSelected.getSprvId())
+                        && svinPlanVPrograma.getSvopviId().getSvopviId().equals(planProgramaV.getSvopviId())) {
+                    FacesContext.getCurrentInstance().addMessage("formPrincipal:tabViewPrincipal:tabP:objPlanVin", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El Objetivo seleccionado ya ha sido agregado"));
+                    return null;
+                }
+            }
+
+            System.out.println("ingresa registro");
+            planVProgSelected = new SvinPlanVPrograma();
+            planVProgSelected.setSprvId(programaSelected);
+            planVProgSelected.setSvopviId(planProgramaV);
+            svinPlanVProgramaFacade.create(planVProgSelected);
+            svinPlanVProgList = svinPlanVProgramaFacade.findObjetivosPlanVin(programaSelected.getSprvId());
+            validaVaciosP6 = true;
+            cancelarP6();
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    public boolean validarVaciosP6() {
+        validaVaciosP6 = false;
+
+        if (planProgramaV == null || planProgramaV.getSvopviId().equals(BigDecimal.ZERO)) {
+            validaVaciosP6 = true;
+        }
+        return validaVaciosP6;
+    }
+
+    public void eliminarP6() {
+        if (planVProgSelected != null) {
+            SvinPlanVPrograma eliminar = null;
+            for (int i = 0; i < svinPlanVProgList.size(); i++) {
+                SvinPlanVPrograma elemento = this.svinPlanVProgList.get(i);
+                if (planVProgSelected.getSvpvpId() == svinPlanVProgList.get(i).getSvpvpId()) {
+                    eliminar = elemento;
+                    break;
+                }
+            }
+            if (eliminar != null) {
+                this.svinPlanVProgList.remove(eliminar);
+                svinPlanVProgramaFacade.remove(eliminar);
+                cancelarP6();
+            }
+        }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+    }
+
+    //funciones tab7
+    public String agregarP7() {
+        controlGrabarP7 = true;
+        return "";
+    }
+
+    public void onRowEditP7(RowEditEvent event) {
+
+    }
+
+    public void onRowCancelP7(RowEditEvent event) {
+    }
+
+    public void cancelarP7() {
+        estrategiaV = new SvinEstrategiasVPlan();
+        estrategiaV.setSvevplId(BigDecimal.ZERO);
+        controlGrabarP7 = false;
+        validaVaciosP7 = true;
+    }
+
+    public String registraP7() {
+        try {
+            for (SvinProgramaEplanv svinProgramaEplanv : estrategiasProgramaList) {
+                if (svinProgramaEplanv.getSvevplId().getSvevplId().equals(estrategiaV.getSvevplId())) {
+                    FacesContext.getCurrentInstance().addMessage("formPrincipal:tabViewPrincipal:tabP:estPlanVin", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La Estrategia seleccionada ya ha sido agregada"));
+                    return null;
+                }
+            }
+            estrategiaProgSelected = new SvinProgramaEplanv();
+            estrategiaProgSelected.setSprvId(programaSelected);
+            estrategiaProgSelected.setSvevplId(estrategiaV);
+            svinEstrategiaProgramaFacade.create(estrategiaProgSelected);
+            estrategiasProgramaList = svinEstrategiaProgramaFacade.findEstratPlanVinc(programaSelected.getSprvId());
+            validaVaciosP7 = true;
+            cancelarP7();
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+
+        return "";
+    }
+
+    public boolean validarVaciosP7() {
+        validaVaciosP7 = false;
+
+        if (estrategiaV == null || estrategiaV.getSvevplId().equals(BigDecimal.ZERO)) {
+            validaVaciosP7 = true;
+        }
+        return validaVaciosP7;
+    }
+
+    public void eliminarP7() {
+        if (estrategiaProgSelected != null) {
+            SvinProgramaEplanv eliminar = null;
+            for (int i = 0; i < estrategiasProgramaList.size(); i++) {
+                SvinProgramaEplanv elemento = this.estrategiasProgramaList.get(i);
+                if (estrategiaProgSelected.getSveeplId() == estrategiasProgramaList.get(i).getSveeplId()) {
+                    eliminar = elemento;
+                    break;
+                }
+            }
+            if (eliminar != null) {
+                this.estrategiasProgramaList.remove(eliminar);
+                svinEstrategiaProgramaFacade.remove(eliminar);
+                cancelarP7();
+            }
+        }
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+    }
+
+    //funciones tab8
+    public void cancelarP8() {
+        progResumen = programaSelected.getSprvResumen();
+        validaVaciosP8 = true;
+    }
+
+    public String registraP8() {
+        programaSelected.setSprvResumen(progResumen);
+        programaFacade.edit(programaSelected);
+        //RequestContext.getCurrentInstance().execute("alert('La información se guardó exitosamente.')");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        cancelarP8();
+        return "";
+    }
+
+    public boolean validarVaciosP8() {
+        validaVaciosP8 = false;
+        progResumen = progResumen.trim();
+
+        if (progResumen.isEmpty()) {
+            validaVaciosP8 = true;
+        }
+        return validaVaciosP8;
+    }
+
+    public boolean validarVaciosP82() {
+        System.out.println("aaaaaaa");
+        validaVaciosP8 = false;
+        progResumen = progResumen.trim();
+
+        if (progResumen.isEmpty()) {
+            validaVaciosP8 = true;
+        }
+        return validaVaciosP8;
+    }
+
+    //funciones tab9
+    public void cancelarP9() {
+        idenDescDiagnostico = programaSelected.getSprvDiagnostico();
+        benefParticipantes = programaSelected.getSprvBeneficios();
+        lineaBase = programaSelected.getSprvLineaBase();
+        ubicGeografica = programaSelected.getSprvUbicacion();
+        factorCritico = programaSelected.getSprvFactorCExito();
+        validaVaciosP9 = true;
+    }
+
+    public String registraP9() {
+        programaSelected.setSprvBeneficios(benefParticipantes);
+        programaSelected.setSprvDiagnostico(idenDescDiagnostico);
+        programaSelected.setSprvLineaBase(lineaBase);
+        programaSelected.setSprvUbicacion(ubicGeografica);
+        programaSelected.setSprvFactorCExito(factorCritico);
+        programaFacade.edit(programaSelected);
+        //RequestContext.getCurrentInstance().execute("alert('La información se guardó exitosamente.')");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        cancelarP9();
+        return "";
+    }
+
+    public boolean validarVaciosP9() {
+        validaVaciosP9 = false;
+        ubicGeografica = ubicGeografica.trim();
+        idenDescDiagnostico = idenDescDiagnostico.trim();
+        benefParticipantes = benefParticipantes.trim();
+        lineaBase = lineaBase.trim();
+        factorCritico = factorCritico.trim();
+
+        if (ubicGeografica.isEmpty()) {
+            validaVaciosP9 = true;
+        }
+        if (idenDescDiagnostico.isEmpty()) {
+            validaVaciosP9 = true;
+        }
+        if (lineaBase.isEmpty()) {
+            validaVaciosP9 = true;
+        }
+        if (benefParticipantes.isEmpty()) {
+            validaVaciosP9 = true;
+        }
+        if (factorCritico.isEmpty()) {
+            validaVaciosP9 = true;
+        }
+        return validaVaciosP9;
+    }
+
+    //funciones tab10
+    public String agregarP10() {
+        codCampus = "";
+        codDepartamento = "";
+
+        controlGrabarP10 = true;
+        return "";
+    }
+
+    public void cancelarP10() {
+        departamentoParticipante = new Stvsubj();
+        controlGrabarP10 = false;
+        validaVaciosP10 = true;
+
+    }
+
+    public String registraP10() {
+        for (SvinDepcenproy departamentoPrograma : departamentoCarreraProgramaList) {
+            if (departamentoPrograma.getDepartamento().getStvsubjCode().equals(codDepartamento)
+                    && departamentoPrograma.getCampus().getStvcampCode().equals(codCampus)) {
+                FacesContext.getCurrentInstance().addMessage("formPrincipal:tabViewPrincipal:tabP:selDepartamentoParticipante", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El Departamento seleccionado ya ha sido agregado"));
+                return null;
+            }
+        }
+        SvinDepcenproy departamentoPrograma = new SvinDepcenproy();
+        departamentoPrograma.setDepartamento(departamentoFacade.find(codDepartamento));
+        for (Stvcamp campus : campusList) {
+            if (campus.getStvcampCode().equals(codCampus)) {
+                departamentoPrograma.setCampus(campus);
+                break;
+            }
+        }
+        departamentoPrograma.setPrograma(programaSelected);
+        svinDepcenproyFacade.create(departamentoPrograma);
+        llenarListadoDepartamentoPrograma();
+        cancelarP10();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        return "";
+    }
+
+    private void llenarListadoDepartamentoPrograma() {
+        departamentoCarreraProgramaList = svinDepcenproyFacade.findDepartamentos(programaSelected.getSprvId());
+    }
+
+    public boolean validarVaciosP10() {
+        validaVaciosP10 = false;
+        if (codDepartamento == null || codDepartamento.isEmpty() || codDepartamento.equals("0")) {
+            validaVaciosP10 = true;
+        }
+        return validaVaciosP10;
+    }
+
+    public void eliminarP10() {
+
+        SvinDepcenproy eliminar = null;
+        for (int i = 0; i < departamentoCarreraProgramaList.size(); i++) {
+            SvinDepcenproy elemento = this.departamentoCarreraProgramaList.get(i);
+            if (svinDepcenproySelected.getId().equals(departamentoCarreraProgramaList.get(i).getId())) {
+                eliminar = elemento;
+                break;
+            }
+        }
+        departamentoCarreraProgramaList.remove(eliminar);
+        svinDepcenproyFacade.remove(eliminar);
+        cancelarP10();
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+    }
+
+    //funciones tab11
+    public String agregarP11() {
+        stvCarreras = new Stvmajr();
+        nomCarreraSeleccionada = "";
+
+        controlGrabarP11 = true;
+        return "";
+    }
+
+    public void cancelarP11() {
+        stvCarreras = new Stvmajr();
+        controlGrabarP11 = false;
+        validaVaciosP11 = true;
+    }
+
+    public String registraP11() {
+        try {
+            CarreraPrograma carreraPrograma = new CarreraPrograma();
+            String[] temp = nomCarreraSeleccionada.split("-");
+            String cod = temp[temp.length - 1];
+            carreraPrograma.setCarrera(stvCarrerasFacade.find(cod));
+            carreraPrograma.setProgramaVinculacion(programaSelected);
+            carreraProgramaFacade.create(carreraPrograma);
+            carreraProgramaList = carreraProgramaFacade.findByPrograma(programaSelected.getSprvId());
+            cancelarP11();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            try {
+                Throwable t = (Throwable) e;
+                while (t.getCause() != null) {
+                    t = t.getCause();
+                }
+                String msgError = "No fue posible grabar la información ingresada";
+                String controlMsgError = null;
+                if (t.getMessage().toUpperCase().contains("ORA-00001")) {
+                    msgError = "Ya existe un registro para la Carrera seleccionada";
+                    carreraProgramaList = carreraProgramaFacade.findByPrograma(programaSelected.getSprvId());
+                    RequestContext.getCurrentInstance().update("formPrincipal:tabViewPrincipal:tabP:dataTableCarrPart");
+                    controlMsgError = "formPrincipal:tabViewPrincipal:tabP:selCarrera";
+                }
+                FacesContext.getCurrentInstance().addMessage(controlMsgError, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msgError));
+            } catch (Exception e2) {
+            }
+        }
+        return "";
+    }
+
+    public void eliminarP11() {
+        try {
+            if (carreraProgramaSelected != null) {
+                CarreraPrograma eliminar = null;
+                for (int i = 0; i < carreraProgramaList.size(); i++) {
+                    CarreraPrograma elemento = carreraProgramaList.get(i);
+                    if (carreraProgramaSelected.getCodigo().equals(carreraProgramaList.get(i).getCodigo())) {
+                        eliminar = elemento;
+                        break;
+                    }
+                }
+                if (eliminar != null) {
+                    carreraProgramaFacade.remove(eliminar);
+                    carreraProgramaList.remove(eliminar);
+                }
+            }
+            cancelarP11();
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        }
+    }
+
+    public boolean validarVaciosP11() {
+        validaVaciosP11 = false;
+        if (stvCarreras == null || stvCarreras.getStvmajrCode() == null || stvCarreras.getStvmajrCode().equals("0")) {
+            validaVaciosP11 = true;
+        }
+        return validaVaciosP11;
+    }
+
+    //funciones tab12
+    public void cancelarP12() {
+        politicasProg = programaSelected.getSprvPoliticas();
+        metasProg = programaSelected.getSprvMetas();
+        validaVaciosP12 = true;
+    }
+
+    public String registraP12() {
+        programaSelected.setSprvMetas(metasProg);
+        programaSelected.setSprvPoliticas(politicasProg);
+        programaFacade.edit(programaSelected);
+        validaVaciosP12 = true;
+        //RequestContext.getCurrentInstance().execute("alert('La información se guardó exitosamente.')");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        return "";
+    }
+
+    public boolean validarVaciosP12() {
+        validaVaciosP12 = false;
+        metasProg = metasProg.trim();
+        politicasProg = politicasProg.trim();
+        if (metasProg.isEmpty()) {
+            validaVaciosP12 = true;
+        }
+        if (politicasProg.isEmpty()) {
+            validaVaciosP12 = true;
+        }
+        return validaVaciosP12;
+    }
+
+    //funciones tab13
+    public void cancelarP13() {
+        perdidaPais = programaSelected.getSprvPerderiaNoEjecuta();
+        resulImpacto = programaSelected.getSprvResultadosImpacto();
+        viabilidadTec = programaSelected.getSprvViavilidadTecnica();
+        validaVaciosP13 = true;
+    }
+
+    public String registraP13() {
+        programaSelected.setSprvPerderiaNoEjecuta(perdidaPais);
+        programaSelected.setSprvResultadosImpacto(resulImpacto);
+        programaSelected.setSprvViavilidadTecnica(viabilidadTec);
+        programaFacade.edit(programaSelected);
+        validaVaciosP13 = true;
+        //RequestContext.getCurrentInstance().execute("alert('La información se guardó exitosamente.')");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        return "";
+    }
+
+    public boolean validarVaciosP13() {
+        validaVaciosP13 = false;
+        perdidaPais = perdidaPais.trim();
+        viabilidadTec = viabilidadTec.trim();
+        resulImpacto = resulImpacto.trim();
+        if (perdidaPais.isEmpty()) {
+            validaVaciosP13 = true;
+        }
+        if (viabilidadTec.isEmpty()) {
+            validaVaciosP13 = true;
+        }
+        if (resulImpacto.isEmpty()) {
+            validaVaciosP13 = true;
+        }
+        return validaVaciosP13;
+    }
+
+    //funciones tab15
+    public boolean isDatosCompletos() {
+        return datosCompletos;
+    }
+
+    public void setDatosCompletos(boolean datosCompletos) {
+        this.datosCompletos = datosCompletos;
+    }
+
+    public boolean isControlGrabar() {
+        return controlGrabar;
+    }
+
+    public void setControlGrabar(boolean controlGrabar) {
+        this.controlGrabar = controlGrabar;
+    }
+
+    public void eliminarP15() {
+        try {
+            objetivoProgramaFacade.remove(objetivoProgramaSelected);
+            estadoExpandidoObjetivo.remove(objetivoProgramaSelected.getSvopId());
+            cancelarP15(true);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        }
+    }
+
+    public String agregarP15() {
+        objetivoProgramaSelected = new SvinObjetivoPrograma(programaSelected);
+        objetivoProgramaSelected.setSvopTipo(objetivoProgramaPadreSelected.getSvopTipo() + 1);
+        objetivoProgramaSelected.setSvinObjetivoPadre(objetivoProgramaPadreSelected);
+        controlGrabar = true;
+        return "";
+    }
+
+    public String registraP15() {
+        try {
+            if (objetivoProgramaSelected.getSvopId() == null) {
+                objetivoProgramaSelected.setSvopOrden(objetivoProgramaPadreSelected.getSvinObjetivoHijoList().size() + 1);
+                objetivoProgramaFacade.create(objetivoProgramaSelected);
+                objetivoProgramaSelected.setearEstadoExpanded();
+                estadoExpandidoObjetivo.put(objetivoProgramaSelected.getSvopId(), objetivoProgramaSelected.isExpanded());
+            } else {
+
+                objetivoProgramaFacade.edit(objetivoProgramaSelected);
+            }
+            cancelarP15(true);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    private boolean datosCompletos;
+    private boolean controlGrabar;
+
+    public void cancelarP15(boolean mantenerEstadoExpansion) {
+        controlGrabar = false;
+        datosCompletos = false;
+        programaSelected = programaFacade.find(programaSelected.getSprvId());
+        if (mantenerEstadoExpansion) {
+            for (SvinObjetivoPrograma obj : programaSelected.getObjetivoProgramaList()) {
+                Boolean expanded = estadoExpandidoObjetivo.get(obj.getSvopId());
+                if (expanded != null) {
+                    obj.setExpanded(expanded);
+                } else {
+                    obj.setExpanded(false);
+                }
+            }
+        } else {
+            estadoExpandidoObjetivo.clear();
+            for (SvinObjetivoPrograma obj : programaSelected.getObjetivoProgramaList()) {
+                obj.setearEstadoExpanded();
+                estadoExpandidoObjetivo.put(obj.getSvopId(), obj.isExpanded());
+            }
+
+        }
+    }
+
+    public boolean validarVaciosP15() {
+        datosCompletos = true;
+        if (objetivoProgramaSelected.getSvopTipo() == null
+                || objetivoProgramaSelected.getSvopIndicador() == null || objetivoProgramaSelected.getSvopIndicador().trim().isEmpty()
+                || objetivoProgramaSelected.getSvopMverifica() == null || objetivoProgramaSelected.getSvopMverifica().trim().isEmpty()
+                || objetivoProgramaSelected.getSvopObjetivoProy() == null || objetivoProgramaSelected.getSvopObjetivoProy().trim().isEmpty()
+                || objetivoProgramaSelected.getSvopSupuestos() == null || objetivoProgramaSelected.getSvopSupuestos().trim().isEmpty()) {
+            datosCompletos = false;
+        }
+        return datosCompletos;
+    }
+
+    public void onRowToggleObjetivoPrograma(ToggleEvent event) {
+        SvinObjetivoPrograma obj = (SvinObjetivoPrograma) event.getData();
+        estadoExpandidoObjetivo.put(obj.getSvopId(), event.getVisibility() == Visibility.VISIBLE);
+    }
+
+    public SvinObjetivoPrograma getObjetivoProgramaPadreSelected() {
+        return objetivoProgramaPadreSelected;
+    }
+
+    public void setObjetivoProgramaPadreSelected(SvinObjetivoPrograma objetivoProgramaPadreSelected) {
+        this.objetivoProgramaPadreSelected = objetivoProgramaPadreSelected;
+    }
+
+    private Map<BigDecimal, Boolean> estadoExpandidoObjetivo = new HashMap<BigDecimal, Boolean>();
+
+    public String cambiarOrdenActividad(Integer cambio) {
+        try {
+            objetivoProgramaSelected.cambiarOrdenObjetivo(cambio);
+            objetivoProgramaFacade.edit(objetivoProgramaSelected.getSvinObjetivoPadre());
+            cancelarP15(true);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+
+        return "";
+    }
+
+    public String seleccionarEdicion() {
+        controlGrabar = true;
+        datosCompletos = false;
+        return "";
+    }
+
+    public void onRowEditP16(RowEditEvent event) {
+    }
+
+    public void onRowCancelP16(RowEditEvent event) {
+    }
+
+    public String registraP16() {
+        try {
+            for (SvinZonaDetalle s : svinZonaDetalleList2) {
+                for (SvinZonaDetalle s2 : svinZonaDetalleList){
+                    if ( s.getId().equals(s2.getId()))
+                    {
+                        if(!s.getObjetivos().equals(s2.getObjetivos())
+                        && !(s.getObjetivos()==null && (s2.getObjetivos()==null || s2.getObjetivos().isEmpty())
+                            || s.getObjetivos().isEmpty() && (s2.getObjetivos()==null || s2.getObjetivos().isEmpty()))
+                        ){
+                            vinZonaDetalleFacade.edit(s);
+                        }
+                        break;
+                    }
+                }
+            }
+            cancelarP16();
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    public String editarP16() {
+        controlGrabarP16 = true;
+        return "";
+    }
+
+    public String cancelarP16() {
+        controlGrabarP16 = false;
+        svinZonaDetalleList = vinZonaDetalleFacade.findXPrograma(programaSelected.getSprvId());
+        svinZonaDetalleList2 = vinZonaDetalleFacade.findXPrograma(programaSelected.getSprvId());
+        Collections.sort(svinZonaDetalleList2);
+        return "";
+    }
+
+    public String registraP17() {
+        programaSelected.setSprvFechaFinReal(fechaFinReal);
+        programaFacade.edit(programaSelected);
+        //RequestContext.getCurrentInstance().execute("alert('La información se guardó exitosamente.')");
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+        return "";
+    }
+
+    public void cancelarP17() {
+        fechaFinReal = programaSelected.getSprvFechaFinReal();;
+        validaVaciosP17 = true;
+    }
+
+    public boolean validarVaciosP17() {
+        validaVaciosP17 = false;
+        if (fechaFinReal == null) {
+            validaVaciosP17 = true;
+        }
+        return validaVaciosP17;
+    }
+
+    public String agregarP18() {
+        actividadPrograma = new ActividadPrograma();
+        controlGrabarP18 = true;
+        return "";
+    }
+
+    public String seleccionarP18() {
+        nombreActividad = actividadPrograma.getDescripcion();
+        codProyectoActividad = actividadPrograma.getProyecto().getId();
+        fechaInicioActividad = actividadPrograma.getFechaInicio();
+        fechaFinActividad = actividadPrograma.getFechaFin();
+        presupuestoActividad = actividadPrograma.getPresupuesto();
+        nroBeneficiariosActividad = actividadPrograma.getNroBeneficiarios();
+        controlGrabarP18 = true;
+        validaVaciosP18 = false;
+        return "";
+    }
+
+    public String registraP18() {
+        try {
+            if (!validarVaciosP18()) {
+                actividadPrograma.setDescripcion(nombreActividad);
+                actividadPrograma.setFechaInicio(fechaInicioActividad);
+                actividadPrograma.setFechaFin(fechaFinActividad);
+                actividadPrograma.setPresupuesto(presupuestoActividad);
+                actividadPrograma.setNroBeneficiarios(nroBeneficiariosActividad);
+                actividadPrograma.setProyecto(new Proyecto(codProyectoActividad));
+                actividadPrograma.setPrograma(programaSelected);
+                if (actividadPrograma.getId() == null) {
+                    actividadProgramaFacade.create(actividadPrograma);
+                } else {
+                    actividadProgramaFacade.edit(actividadPrograma);
+                }
+                cancelarP18();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+
+            }
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible grabar la información ingresada"));
+        }
+        return "";
+    }
+
+    public void cancelarP18() {
+        actividadProgramaList = actividadProgramaFacade.findXPrograma(programaSelected.getSprvId());
+        nombreActividad = null;
+        codProyectoActividad = null;
+        fechaInicioActividad = null;
+        fechaFinActividad = null;
+        presupuestoActividad = null;
+        nroBeneficiariosActividad = null;
+
+        validaVaciosP18 = true;
+        controlGrabarP18 = false;
+    }
+
+    public boolean validarVaciosP18() {
+        validaVaciosP18 = false;
+        if (!fechaFinActividad.after(fechaInicioActividad)) {
+            FacesContext.getCurrentInstance().addMessage("formPrincipal:tabViewPrincipal:tabP:calFechaFinActividad", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La fecha fin debe ser mayor que la fecha inicio"));
+            validaVaciosP18 = true;
+        }
+        /*if (nombreActividad == null || nombreActividad.trim().isEmpty()) {
+         validaVaciosP18 = true;
+         }
+         if (codProyectoActividad == null) {
+         validaVaciosP18 = true;
+         }
+         if (fechaInicioActividad == null) {
+         validaVaciosP18 = true;
+         }
+         if (fechaFinActividad == null) {
+         validaVaciosP18 = true;
+         }
+         if (presupuestoActividad == null) {
+         validaVaciosP18 = true;
+         } else {
+         System.out.println("presupuestoActividad:" + presupuestoActividad);
+         }
+
+         if (nroBeneficiariosActividad == null) {
+         validaVaciosP18 = true;
+         System.out.println("nroBeneficiariosActividad:null");
+         } else {
+         System.out.println("nroBeneficiariosActividad:" + nroBeneficiariosActividad);
+         }
+         */
+        return validaVaciosP18;
+    }
+
+    public void eliminarP18() {
+        try {
+            actividadProgramaFacade.remove(actividadPrograma);
+            cancelarP18();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        }
+    }
+
+    //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="Getter and Setter">
+    /// get and set datos generales
+    public boolean isHabilitaTab() {
+        return habilitaTab;
+    }
+
+    public void setHabilitaTab(boolean habilitaTab) {
+        this.habilitaTab = habilitaTab;
+    }
+
+    public String getFechaInicioS() {
+        return fechaInicioS;
+    }
+
+    public void setFechaInicioS(String fechaInicioS) {
+        this.fechaInicioS = fechaInicioS;
+    }
+
+    public SegUsuario getDocente() {
+        return docente;
+    }
+
+    public void setDocente(SegUsuario docente) {
+        this.docente = docente;
+    }
+
+    public String getCodDocente() {
+        return codDocente;
+    }
+
+    public void setCodDocente(String codDocente) {
+        this.codDocente = codDocente;
+    }
+
+    public boolean isBotonInicio() {
+        return botonInicio;
+    }
+
+    public void setBotonInicio(boolean botonInicio) {
+        this.botonInicio = botonInicio;
+    }
+
+    public SvinProgramaV getProgramaSelected() {
+        return programaSelected;
+    }
+
+    public void setProgramaSelected(SvinProgramaV programaSelected) {
+        this.programaSelected = programaSelected;
+    }
+
+    public List<SvinProgramaV> getVinProgrList() {
+        return vinProgrList;
+    }
+
+    public void setVinProgrList(List<SvinProgramaV> vinProgrList) {
+        this.vinProgrList = vinProgrList;
+    }
+
+    public boolean isValidaVaciosP1() {
+
+        return validaVaciosP1;
+    }
+
+    public void setValidaVaciosP1(boolean validaVaciosP1) {
+        this.validaVaciosP1 = validaVaciosP1;
+    }
+
+    public int getMeses() {
+        return meses;
+    }
+
+    public void setMeses(int meses) {
+        this.meses = meses;
+    }
+
+    public int getAnos() {
+        return anos;
+    }
+
+    public void setAnos(int anos) {
+        this.anos = anos;
+    }
+
+    /// get and set tabP1
+    public String getNombreProg() {
+        return nombreProg;
+    }
+
+    public void setNombreProg(String nombreProg) {
+        this.nombreProg = nombreProg;
+    }
+
+    public String getCodDepartamento() {
+        return codDepartamento;
+    }
+
+    public String getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(String duracion) {
+        this.duracion = duracion;
+    }
+
+    public void setCodDepartamento(String codDepartamento) {
+        this.codDepartamento = codDepartamento;
+    }
+
+    public List<Stvsubj> getDepartamentoList() {
+        return departamentoList;
+    }
+
+    public void setDepartamentoList(List<Stvsubj> departamentoList) {
+        this.departamentoList = departamentoList;
+    }
+
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public Date getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    /// get and set tabP2
+    public boolean isControlGrabarP2() {
+        return controlGrabarP2;
+    }
+
+    public void setControlGrabarP2(boolean controlGrabarP2) {
+        this.controlGrabarP2 = controlGrabarP2;
+    }
+
+    public boolean isValidaVaciosP2() {
+        return validaVaciosP2;
+    }
+
+    public void setValidaVaciosP2(boolean validaVaciosP2) {
+        this.validaVaciosP2 = validaVaciosP2;
+    }
+
+    public List<SvinOpcionInstitucion> getEntidadEjecutoraList() {
+        return entidadEjecutoraList;
+    }
+
+    public void setEntidadEjecutoraList(List<SvinOpcionInstitucion> entidadEjecutoraList) {
+        this.entidadEjecutoraList = entidadEjecutoraList;
+    }
+
+    public SvinOpcionInstitucion getEntidadEjecutoraSelected() {
+        return entidadEjecutoraSelected;
+    }
+
+    public void setEntidadEjecutoraSelected(SvinOpcionInstitucion entidadEjecutoraSelected) {
+        this.entidadEjecutoraSelected = entidadEjecutoraSelected;
+    }
+
+    public List<SvinZonaDetalle> getSvinZonaDetalleList() {
+        return svinZonaDetalleList;
+    }
+
+    public void setSvinZonaDetalleList(List<SvinZonaDetalle> svinZonaDetalleList) {
+        this.svinZonaDetalleList = svinZonaDetalleList;
+    }
+
+    public List<SeaProvincia> getProvinciaList() {
+        return provinciaList;
+    }
+
+    public void setProvinciaList(List<SeaProvincia> provinciaList) {
+        this.provinciaList = provinciaList;
+    }
+
+    public boolean isControlGrabarP3() {
+        return controlGrabarP3;
+    }
+
+    public void setControlGrabarP3(boolean controlGrabarP3) {
+        this.controlGrabarP3 = controlGrabarP3;
+    }
+
+    public boolean isValidaVaciosP3() {
+        return validaVaciosP3;
+    }
+
+    public void setValidaVaciosP3(boolean validaVaciosP3) {
+        this.validaVaciosP3 = validaVaciosP3;
+    }
+
+    public List<SvinObjetivosEstraInsti> getVinObjEstraInstList() {
+        return vinObjEstraInstList;
+    }
+
+    public void setVinObjEstraInstList(List<SvinObjetivosEstraInsti> vinObjEstraInstList) {
+        this.vinObjEstraInstList = vinObjEstraInstList;
+    }
+
+    public List<SvinCoberturaObjetivo> getVinCoberturaObjetivoList() {
+        return vinCoberturaObjetivoList;
+    }
+
+    public void setVinCoberturaObjetivoList(List<SvinCoberturaObjetivo> vinCoberturaObjetivoList) {
+        this.vinCoberturaObjetivoList = vinCoberturaObjetivoList;
+    }
+
+    public List<SvinObjetivosEstraInsti> getIndicadObjEstInstList() {
+        return indicadObjEstInstList;
+    }
+
+    public void setIndicadObjEstInstList(List<SvinObjetivosEstraInsti> indicadObjEstInstList) {
+        this.indicadObjEstInstList = indicadObjEstInstList;
+    }
+
+    public List<SvinObjetivosEstraInsti> getObjEstraInstPrespList() {
+        return objEstraInstPrespList;
+    }
+
+    public void setObjEstraInstPrespList(List<SvinObjetivosEstraInsti> objEstraInstPrespList) {
+        this.objEstraInstPrespList = objEstraInstPrespList;
+    }
+
+    public SvinCoberturaObjetivo getVinCoberturaObjetivoSelected() {
+        return vinCoberturaObjetivoSelected;
+    }
+
+    public void setVinCoberturaObjetivoSelected(SvinCoberturaObjetivo vinCoberturaObjetivoSelected) {
+        this.vinCoberturaObjetivoSelected = vinCoberturaObjetivoSelected;
+    }
+
+    public List<SvinObjetivosEstraInsti> getObjEstraInstCantList() {
+        return objEstraInstCantList;
+    }
+
+    public void setObjEstraInstCantList(List<SvinObjetivosEstraInsti> objEstraInstCantList) {
+        this.objEstraInstCantList = objEstraInstCantList;
+    }
+
+    public List<SvinObjetivosEstraInsti> getIndicadObjEstInstCantList() {
+        return indicadObjEstInstCantList;
+    }
+
+    public void setIndicadObjEstInstCantList(List<SvinObjetivosEstraInsti> indicadObjEstInstCantList) {
+        this.indicadObjEstInstCantList = indicadObjEstInstCantList;
+    }
+
+    public List<SvinCoberturaObjetivo> getCoberturaObjCantonList() {
+        return coberturaObjCantonList;
+    }
+
+    public void setCoberturaObjCantonList(List<SvinCoberturaObjetivo> coberturaObjCantonList) {
+        this.coberturaObjCantonList = coberturaObjCantonList;
+    }
+
+    public SvinCoberturaObjetivo getCoberturaCantonSelected() {
+        return coberturaCantonSelected;
+    }
+
+    public void setCoberturaCantonSelected(SvinCoberturaObjetivo coberturaCantonSelected) {
+        this.coberturaCantonSelected = coberturaCantonSelected;
+    }
+
+    //tab 4
+    public List<SvinObjetivoBVivir> getObjBVivirPadreList() {
+        return objBVivirPadreList;
+    }
+
+    public void setObjBVivirPadreList(List<SvinObjetivoBVivir> objBVivirPadreList) {
+        this.objBVivirPadreList = objBVivirPadreList;
+    }
+
+    public List<SvinProgObj> getProObjList() {
+        return proObjList;
+    }
+
+    public void setProObjList(List<SvinProgObj> proObjList) {
+        this.proObjList = proObjList;
+    }
+
+    public boolean isValidaVaciosP4() {
+        return validaVaciosP4;
+    }
+
+    public void setValidaVaciosP4(boolean validaVaciosP4) {
+        this.validaVaciosP4 = validaVaciosP4;
+    }
+
+    public boolean isControlGrabarP4() {
+        return controlGrabarP4;
+    }
+
+    public void setControlGrabarP4(boolean controlGrabarP4) {
+        this.controlGrabarP4 = controlGrabarP4;
+    }
+
+    public SvinProgObj getSvinProgObjSelected() {
+        return svinProgObjSelected;
+    }
+
+    public void setSvinProgObjSelected(SvinProgObj svinProgObjSelected) {
+        this.svinProgObjSelected = svinProgObjSelected;
+    }
+
+    public SvinObjetivoBVivir getObjBVivirPadre() {
+        return objBVivirPadre;
+    }
+
+    public void setObjBVivirPadre(SvinObjetivoBVivir objBVivirPadre) {
+        this.objBVivirPadre = objBVivirPadre;
+    }
+
+    public List<SvinObjetivoBVivir> getObjBVivirHijoList() {
+        return objBVivirHijoList;
+    }
+
+    public void setObjBVivirHijoList(List<SvinObjetivoBVivir> objBVivirHijoList) {
+        this.objBVivirHijoList = objBVivirHijoList;
+    }
+
+    public SvinObjetivoBVivir getObjBVivirHijo() {
+        return objBVivirHijo;
+    }
+
+    public void setObjBVivirHijo(SvinObjetivoBVivir objBVivirHijo) {
+        this.objBVivirHijo = objBVivirHijo;
+    }
+
+    public List<SvinObjetivosEstraInsti> getPerspectivasList() {
+        return perspectivasList;
+    }
+
+    public void setPerspectivasList(List<SvinObjetivosEstraInsti> perspectivasList) {
+        this.perspectivasList = perspectivasList;
+    }
+
+    public List<SvinObjetivosEstraInsti> getObjEstrategicosList() {
+        return objEstrategicosList;
+    }
+
+    public void setObjEstrategicosList(List<SvinObjetivosEstraInsti> objEstrategicosList) {
+        this.objEstrategicosList = objEstrategicosList;
+    }
+
+    public List<SvinObjetivosEstraInsti> getIndicadoresList() {
+        return indicadoresList;
+    }
+
+    public void setIndicadoresList(List<SvinObjetivosEstraInsti> indicadoresList) {
+        this.indicadoresList = indicadoresList;
+    }
+
+    public List<SvinObjetivosEstraInsti> getEstrategiasInstList() {
+        return estrategiasInstList;
+    }
+
+    public void setEstrategiasInstList(List<SvinObjetivosEstraInsti> estrategiasInstList) {
+        this.estrategiasInstList = estrategiasInstList;
+    }
+
+    public boolean isControlGrabarP5() {
+        return controlGrabarP5;
+    }
+
+    public void setControlGrabarP5(boolean controlGrabarP5) {
+        this.controlGrabarP5 = controlGrabarP5;
+    }
+
+    public boolean isValidaVaciosP5() {
+        return validaVaciosP5;
+    }
+
+    public void setValidaVaciosP5(boolean validaVaciosP5) {
+        this.validaVaciosP5 = validaVaciosP5;
+    }
+
+    public SvinProgObjEstrategicos getProgObjEstrategSelected() {
+        return progObjEstrategSelected;
+    }
+
+    public void setProgObjEstrategSelected(SvinProgObjEstrategicos progObjEstrategSelected) {
+        this.progObjEstrategSelected = progObjEstrategSelected;
+    }
+
+    //get and set tab6
+    public List<SvinObjPlanVinvula> getObjPlanVinculaList() {
+        return objPlanVinculaList;
+    }
+
+    public void setObjPlanVinculaList(List<SvinObjPlanVinvula> objPlanVinculaList) {
+        this.objPlanVinculaList = objPlanVinculaList;
+    }
+
+    public boolean isControlGrabarP6() {
+        return controlGrabarP6;
+    }
+
+    public void setControlGrabarP6(boolean controlGrabarP6) {
+        this.controlGrabarP6 = controlGrabarP6;
+    }
+
+    public boolean isValidaVaciosP6() {
+        return validaVaciosP6;
+    }
+
+    public void setValidaVaciosP6(boolean validaVaciosP6) {
+        this.validaVaciosP6 = validaVaciosP6;
+    }
+
+    public List<SvinPlanVPrograma> getSvinPlanVProgList() {
+        return svinPlanVProgList;
+    }
+
+    public void setSvinPlanVProgList(List<SvinPlanVPrograma> svinPlanVProgList) {
+        this.svinPlanVProgList = svinPlanVProgList;
+    }
+
+    public SvinObjPlanVinvula getPlanProgramaV() {
+        return planProgramaV;
+    }
+
+    public void setPlanProgramaV(SvinObjPlanVinvula planProgramaV) {
+        this.planProgramaV = planProgramaV;
+    }
+
+    public SvinPlanVPrograma getPlanVProgSelected() {
+        return planVProgSelected;
+    }
+
+    public void setPlanVProgSelected(SvinPlanVPrograma planVProgSelected) {
+        this.planVProgSelected = planVProgSelected;
+    }
+
+    //get and set tab7
+    public List<SvinEstrategiasVPlan> getEstrategiasVinculaList() {
+        return estrategiasVinculaList;
+    }
+
+    public void setEstrategiasVinculaList(List<SvinEstrategiasVPlan> estrategiasVinculaList) {
+        this.estrategiasVinculaList = estrategiasVinculaList;
+    }
+
+    public boolean isControlGrabarP7() {
+        return controlGrabarP7;
+    }
+
+    public void setControlGrabarP7(boolean controlGrabarP7) {
+        this.controlGrabarP7 = controlGrabarP7;
+    }
+
+    public boolean isValidaVaciosP7() {
+        return validaVaciosP7;
+    }
+
+    public void setValidaVaciosP7(boolean validaVaciosP7) {
+        this.validaVaciosP7 = validaVaciosP7;
+    }
+
+    public SvinEstrategiasVPlan getEstrategiaV() {
+        return estrategiaV;
+    }
+
+    public void setEstrategiaV(SvinEstrategiasVPlan estrategiaV) {
+        this.estrategiaV = estrategiaV;
+    }
+
+    public List<SvinProgramaEplanv> getEstrategiasProgramaList() {
+        return estrategiasProgramaList;
+    }
+
+    public void setEstrategiasProgramaList(List<SvinProgramaEplanv> estrategiasProgramaList) {
+        this.estrategiasProgramaList = estrategiasProgramaList;
+    }
+
+    public SvinProgramaEplanv getEstrategiaProgSelected() {
+        return estrategiaProgSelected;
+    }
+
+    public void setEstrategiaProgSelected(SvinProgramaEplanv estrategiaProgSelected) {
+        this.estrategiaProgSelected = estrategiaProgSelected;
+    }
+
+    //get and set tab8
+    public boolean isValidaVaciosP8() {
+        return validaVaciosP8;
+    }
+
+    public void setValidaVaciosP8(boolean validaVaciosP8) {
+        this.validaVaciosP8 = validaVaciosP8;
+    }
+
+    public String getProgResumen() {
+        return progResumen;
+    }
+
+    public void setProgResumen(String progResumen) {
+        this.progResumen = progResumen;
+    }
+
+    //get and set tab9
+    public boolean isValidaVaciosP9() {
+        return validaVaciosP9;
+    }
+
+    public void setValidaVaciosP9(boolean validaVaciosP9) {
+        this.validaVaciosP9 = validaVaciosP9;
+    }
+
+    public String getUbicGeografica() {
+        return ubicGeografica;
+    }
+
+    public void setUbicGeografica(String ubicGeografica) {
+        this.ubicGeografica = ubicGeografica;
+    }
+
+    public String getIdenDescDiagnostico() {
+        return idenDescDiagnostico;
+    }
+
+    public void setIdenDescDiagnostico(String idenDescDiagnostico) {
+        this.idenDescDiagnostico = idenDescDiagnostico;
+    }
+
+    public String getLineaBase() {
+        return lineaBase;
+    }
+
+    public void setLineaBase(String lineaBase) {
+        this.lineaBase = lineaBase;
+    }
+
+    //get and set tab10
+    public boolean isControlGrabarP10() {
+        return controlGrabarP10;
+    }
+
+    public void setControlGrabarP10(boolean controlGrabarP10) {
+        this.controlGrabarP10 = controlGrabarP10;
+    }
+
+    public Stvsubj getDepartamentoParticipante() {
+        return departamentoParticipante;
+    }
+
+    public void setDepartamentoParticipante(Stvsubj departamentoParticipante) {
+        this.departamentoParticipante = departamentoParticipante;
+    }
+
+    public Stvmajr getStvCarreras() {
+        return stvCarreras;
+    }
+
+    public void setStvCarreras(Stvmajr stvCarreras) {
+        this.stvCarreras = stvCarreras;
+    }
+
+    public List<Stvmajr> getStvCarrerasList() {
+        return stvCarrerasList;
+    }
+
+    public void setStvCarrerasList(List<Stvmajr> stvCarrerasList) {
+        this.stvCarrerasList = stvCarrerasList;
+    }
+
+    public boolean isValidaVaciosP10() {
+        return validaVaciosP10;
+    }
+
+    public void setValidaVaciosP10(boolean validaVaciosP10) {
+        this.validaVaciosP10 = validaVaciosP10;
+    }
+
+    public String getBenefParticipantes() {
+        return benefParticipantes;
+    }
+
+    public void setBenefParticipantes(String benefParticipantes) {
+        this.benefParticipantes = benefParticipantes;
+    }
+
+    //get and set tab11  
+    public boolean isControlGrabarP11() {
+        return controlGrabarP11;
+    }
+
+    public void setControlGrabarP11(boolean controlGrabarP11) {
+        this.controlGrabarP11 = controlGrabarP11;
+    }
+
+    public boolean isValidaVaciosP11() {
+        return validaVaciosP11;
+    }
+
+    public void setValidaVaciosP11(boolean validaVaciosP11) {
+        this.validaVaciosP11 = validaVaciosP11;
+    }
+
+    //get and set tab12
+    public boolean isValidaVaciosP12() {
+        return validaVaciosP12;
+    }
+
+    public void setValidaVaciosP12(boolean validaVaciosP12) {
+        this.validaVaciosP12 = validaVaciosP12;
+    }
+
+    public String getMetasProg() {
+        return metasProg;
+    }
+
+    public void setMetasProg(String metasProg) {
+        this.metasProg = metasProg;
+    }
+
+    public String getPoliticasProg() {
+        return politicasProg;
+    }
+
+    public void setPoliticasProg(String PoliticasProg) {
+        this.politicasProg = PoliticasProg;
+    }
+
+    //get and set tab13
+    public boolean isValidaVaciosP13() {
+        return validaVaciosP13;
+    }
+
+    public void setValidaVaciosP13(boolean validaVaciosP13) {
+        this.validaVaciosP13 = validaVaciosP13;
+    }
+
+    public String getViabilidadTec() {
+        return viabilidadTec;
+    }
+
+    public void setViabilidadTec(String viabilidadTec) {
+        this.viabilidadTec = viabilidadTec;
+    }
+
+    public String getPerdidaPais() {
+        return perdidaPais;
+    }
+
+    public void setPerdidaPais(String perdidaPais) {
+        this.perdidaPais = perdidaPais;
+    }
+
+    public String getResulImpacto() {
+        return resulImpacto;
+    }
+
+    public void setResulImpacto(String resulImpacto) {
+        this.resulImpacto = resulImpacto;
+    }
+
+    public DualListModel<String> getCities() {
+        return cities;
+    }
+
+    public void setCities(DualListModel<String> cities) {
+        this.cities = cities;
+    }
+
+    //get and set tab14
+    public boolean isValidaVaciosP14() {
+        return validaVaciosP14;
+    }
+
+    public void setValidaVaciosP14(boolean validaVaciosP14) {
+        this.validaVaciosP14 = validaVaciosP14;
+    }
+
+    public String getFactorCritico() {
+        return factorCritico;
+    }
+
+    public void setFactorCritico(String factorCritico) {
+        this.factorCritico = factorCritico;
+    }
+
+    //////
+    public List<SvinProgObjEstrategicos> getPrgObjEstList() {
+        return prgObjEstList;
+    }
+
+    public void setPrgObjEstList(List<SvinProgObjEstrategicos> prgObjEstList) {
+        this.prgObjEstList = prgObjEstList;
+    }
+
+    public String getObjetivo() {
+        return objetivo;
+    }
+
+    public void setObjetivo(String objetivo) {
+        this.objetivo = objetivo;
+    }
+
+    public String getIndicador() {
+        return indicador;
+    }
+
+    public void setIndicador(String indicador) {
+        this.indicador = indicador;
+    }
+
+    public String getMedioVerif() {
+        return medioVerif;
+    }
+
+    public void setMedioVerif(String medioVerif) {
+        this.medioVerif = medioVerif;
+    }
+
+    public String getSupuestos() {
+        return supuestos;
+    }
+
+    public boolean isValidaVaciosP15_1() {
+        return validaVaciosP15;
+    }
+
+    public void setValidaVaciosP15_1(boolean validaVaciosP15_1) {
+        this.validaVaciosP15 = validaVaciosP15_1;
+    }
+
+    public void setSupuestos(String supuestos) {
+        this.supuestos = supuestos;
+    }
+
+    public SvinObjetivoPrograma getObjPrograma() {
+        return objPrograma;
+    }
+
+    public void setObjPrograma(SvinObjetivoPrograma objPrograma) {
+        this.objPrograma = objPrograma;
+    }
+
+    public boolean isControlGrabarP15() {
+        return controlGrabarP15;
+    }
+
+    public void setControlGrabarP15(boolean controlGrabarP15) {
+        this.controlGrabarP15 = controlGrabarP15;
+    }
+
+    //</editor-fold>
+    public CarreraPrograma getCarreraProgramaSelected() {
+        return carreraProgramaSelected;
+    }
+
+    public void setCarreraProgramaSelected(CarreraPrograma carreraProgramaSelected) {
+        this.carreraProgramaSelected = carreraProgramaSelected;
+    }
+
+    public List<CarreraPrograma> getCarreraProgramaList() {
+        return carreraProgramaList;
+    }
+
+    public void setCarreraProgramaList(List<CarreraPrograma> carreraProgramaList) {
+        this.carreraProgramaList = carreraProgramaList;
+    }
+
+    public List<SvinObjetivoPrograma> getObjetivoProgramaList() {
+        return objetivoProgramaList;
+    }
+
+    public void setObjetivoProgramaList(List<SvinObjetivoPrograma> objetivoProgramaList) {
+        this.objetivoProgramaList = objetivoProgramaList;
+    }
+
+    public boolean isValidaVaciosP15() {
+        return validaVaciosP15;
+    }
+
+    public void setValidaVaciosP15(boolean validaVaciosP15) {
+        this.validaVaciosP15 = validaVaciosP15;
+    }
+
+    public Integer getTipoObjetivo() {
+        return tipoObjetivo;
+    }
+
+    public void setTipoObjetivo(Integer tipoObjetivo) {
+        this.tipoObjetivo = tipoObjetivo;
+    }
+
+    public void changeListener(TabChangeEvent e) {
+        try {
+            if (e.getTab() != null) {
+                String[] aux = e.getTab().getClientId().split(":");
+                if (aux[aux.length - 1].equals("tabP1")) {//tab1: Datos Generales
+                    cancelarP1();
+                } else if (aux[aux.length - 1].equals("tabP2")) {//tab2: Entidad Ejecutora
+                    cancelarP2();
+                } else if (aux[aux.length - 1].equals("tabP3")) {//tab2: Cobertura y Localización
+                    cancelarP3();
+                } else if (aux[aux.length - 1].equals("tabP4")) {//tab4: Objetivos del Plan Nacional del Buen Vivir
+                    cancelarP4();
+                } else if (aux[aux.length - 1].equals("tabP5")) {//tab5: Objetivos Estratégicos Institucionales
+                    cancelarP5();
+                } else if (aux[aux.length - 1].equals("tabP6")) {//tab6: Objetivos del plan de vinculación
+                    cancelarP6();
+                } else if (aux[aux.length - 1].equals("tabP7")) {//tab7: Estrategias del plan de vinculación
+                    cancelarP7();
+                } else if (aux[aux.length - 1].equals("tabP8")) {//tab8: Resumen del programa
+                    progResumen = programaSelected.getSprvResumen();
+                } else if (aux[aux.length - 1].equals("tabP9")) {//tab9: Diagnóstico y Problemas
+                    cancelarP9();
+                } else if (aux[aux.length - 1].equals("tabP10")) {//tab9: Departamentos Participantes
+                    cancelarP10();
+                } else if (aux[aux.length - 1].equals("tabP11")) {//tab11: Carreras Participantes
+                    cancelarP11();
+                } else if (aux[aux.length - 1].equals("tabP12")) {//tab12: Estrategias para la Ejecución del Programa
+                    cancelarP12();
+                } else if (aux[aux.length - 1].equals("tabP13")) {//tab13: Viabilidad y Plan de Sostenibilidad
+                    cancelarP13();
+                    /*} else if (aux[aux.length - 1].equals("tabP14")) {//tab14: Factores críticos del éxito
+                     cancelarP14();*/
+                } else if (aux[aux.length - 1].equals("tabP15")) {//tab15: Matriz del Marco Lógico
+                    cancelarP15(false);
+                } else if (aux[aux.length - 1].equals("tabP16")) {//tab16: Objetivos Provinciales, Cantonales o Paroquiales
+                    cancelarP16();
+                    DataTable dataTable = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formPrincipal:tabViewPrincipal:tabP:dataTableObjParroquiales");
+                    dataTable.setFirst(0);
+                } else if (aux[aux.length - 1].equals("tabP17")) {//tab17: Evaluación del Programa
+                    cancelarP17();
+                } else if (aux[aux.length - 1].equals("tabP18")) {//tab18: Actividades
+                    cancelarP18();
+                }
+
+            }
+        } catch (Exception ex) {
+            //RequestContext.getCurrentInstance().execute("alert('" + ex.getMessage() + "')");
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+        }
+
+    }
+
+    public List<Stvcamp> getCampusList() {
+        return campusList;
+    }
+
+    public void setCampusList(List<Stvcamp> campusList) {
+        this.campusList = campusList;
+    }
+
+    public String getCodCampus() {
+        return codCampus;
+    }
+
+    public void setCodCampus(String codCampus) {
+        this.codCampus = codCampus;
+    }
+
+    public List<VCampusDeptoCarrera> getCampusDepartamentoList() {
+        return campusDepartamentoList;
+    }
+
+    public void setCampusDepartamentoList(List<VCampusDeptoCarrera> campusDepartamentoList) {
+        this.campusDepartamentoList = campusDepartamentoList;
+    }
+
+    public Date getFechaFinReal() {
+        return fechaFinReal;
+    }
+
+    public void setFechaFinReal(Date fechaFinReal) {
+        this.fechaFinReal = fechaFinReal;
+    }
+
+    public boolean isValidaVaciosP17() {
+        return validaVaciosP17;
+    }
+
+    public void setValidaVaciosP17(boolean validaVaciosP17) {
+        this.validaVaciosP17 = validaVaciosP17;
+    }
+
+    public boolean isMostrarTabEvaluacionProg() {
+        return mostrarTabEvaluacionProg;
+    }
+
+    public void setMostrarTabEvaluacionProg(boolean mostrarTabEvaluacionProg) {
+        this.mostrarTabEvaluacionProg = mostrarTabEvaluacionProg;
+    }
+
+    private TreeNode root3;
+    private TreeNode[] selectedNodes2;
+
+    public TreeNode getRoot3() {
+        return root3;
+    }
+
+    public void setRoot3(TreeNode root3) {
+        this.root3 = root3;
+    }
+
+    public TreeNode[] getSelectedNodes2() {
+        return selectedNodes2;
+    }
+
+    public void setSelectedNodes2(TreeNode[] selectedNodes2) {
+        this.selectedNodes2 = selectedNodes2;
+    }
+
+    public TreeNode createCheckboxDocuments() {
+        TreeNode root = new CheckboxTreeNode(new SvinZonaDetalle(), null);
+        for (SeaProvincia provincia : provinciaList) {
+            TreeNode nodoProvincia = new CheckboxTreeNode(new SvinZonaDetalle(provincia), root);
+            for (SeaCanton canton : provincia.getSeaCantonList()) {
+                TreeNode nodoCanton = new CheckboxTreeNode(new SvinZonaDetalle(canton), nodoProvincia);
+                for (SeaParroquia parroquia : canton.getSeaParroquiaList()) {
+                    SvinZonaDetalle svinZonaDetalle = new SvinZonaDetalle(parroquia);
+                    TreeNode nodoParroquia = new CheckboxTreeNode(svinZonaDetalle, nodoCanton);
+                    if (buscarSvinZonaDetalleBD(svinZonaDetalle)) {
+                        nodoParroquia.setSelected(true);
+                    }
+                }
+            }
+        }
+        return root;
+    }
+
+    public void eliminarPrograma() {
+        try {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+            System.out.println("eliminando programa");
+            programaSelected.setSprvEstado("I");
+            programaFacade.edit(programaSelected);
+            vinProgrList = programaFacade.findXEstado("A");
+            habilitaTab = true;
+            botonInicio = true;
+            programaSelected = null;
+            init();
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        }
+
+    }
+
+    public String getNombreProgSeleccionado() {
+        if (!botonInicio && programaSelected != null && programaSelected.getSprvNombre() != null && !programaSelected.getSprvNombre().isEmpty()) {
+            return ("PROGRAMA: " + programaSelected.getSprvNombre());
+        } else {
+            return "";
+        }
+    }
+
+    private int indiceTabActivo;
+
+    public int getIndiceTabActivo() {
+        return indiceTabActivo;
+    }
+
+    public void setIndiceTabActivo(int indiceTabActivo) {
+        this.indiceTabActivo = indiceTabActivo;
+    }
+
+    public List<SvinZonaDetalle> getSvinZonaDetalleList2() {
+        return svinZonaDetalleList2;
+    }
+
+    public void setSvinZonaDetalleList2(List<SvinZonaDetalle> svinZonaDetalleList2) {
+        this.svinZonaDetalleList2 = svinZonaDetalleList2;
+    }
+
+    public boolean isControlGrabarP16() {
+        return controlGrabarP16;
+    }
+
+    public void setControlGrabarP16(boolean controlGrabarP16) {
+        this.controlGrabarP16 = controlGrabarP16;
+    }
+
+    public boolean isControlGrabarP18() {
+        return controlGrabarP18;
+    }
+
+    public void setControlGrabarP18(boolean controlGrabarP18) {
+        this.controlGrabarP18 = controlGrabarP18;
+    }
+
+    public SegUsuarioFacade getUsuarioFacade() {
+        return usuarioFacade;
+    }
+
+    public void setUsuarioFacade(SegUsuarioFacade usuarioFacade) {
+        this.usuarioFacade = usuarioFacade;
+    }
+
+    @EJB
+    private ActividadProgramaFacade actividadProgramaFacade;
+    @EJB
+    private ProyectoFacade proyectoFacade;
+    private List<ActividadPrograma> actividadProgramaList;
+    private ActividadPrograma actividadPrograma;
+    private String nombreActividad;
+    private Integer codProyectoActividad;
+    private Date fechaInicioActividad;
+    private Date fechaFinActividad;
+    private BigDecimal presupuestoActividad;
+    private Integer nroBeneficiariosActividad;
+    private List<Proyecto> proyectoList;
+    private Integer codProyecto;
+
+    public Integer getCodProyectoActividad() {
+        return codProyectoActividad;
+    }
+
+    public void setCodProyectoActividad(Integer codProyectoActividad) {
+        this.codProyectoActividad = codProyectoActividad;
+    }
+
+    public boolean isValidaVaciosP18() {
+        return validaVaciosP18;
+    }
+
+    public void setValidaVaciosP18(boolean validaVaciosP18) {
+        this.validaVaciosP18 = validaVaciosP18;
+    }
+
+    public List<ActividadPrograma> getActividadProgramaList() {
+        return actividadProgramaList;
+    }
+
+    public void setActividadProgramaList(List<ActividadPrograma> actividadProgramaList) {
+        this.actividadProgramaList = actividadProgramaList;
+    }
+
+    public String getNombreActividad() {
+        return nombreActividad;
+    }
+
+    public void setNombreActividad(String nombreActividad) {
+        this.nombreActividad = nombreActividad;
+    }
+
+    public Date getFechaInicioActividad() {
+        return fechaInicioActividad;
+    }
+
+    public void setFechaInicioActividad(Date fechaInicioActividad) {
+        this.fechaInicioActividad = fechaInicioActividad;
+    }
+
+    public Date getFechaFinActividad() {
+        return fechaFinActividad;
+    }
+
+    public void setFechaFinActividad(Date fechaFinActividad) {
+        this.fechaFinActividad = fechaFinActividad;
+    }
+
+    public BigDecimal getPresupuestoActividad() {
+        return presupuestoActividad;
+    }
+
+    public void setPresupuestoActividad(BigDecimal presupuestoActividad) {
+        this.presupuestoActividad = presupuestoActividad;
+    }
+
+    public Integer getNroBeneficiariosActividad() {
+        return nroBeneficiariosActividad;
+    }
+
+    public void setNroBeneficiariosActividad(Integer nroBeneficiariosActividad) {
+        this.nroBeneficiariosActividad = nroBeneficiariosActividad;
+    }
+
+    public List<Proyecto> getProyectoList() {
+        return proyectoList;
+    }
+
+    public void setProyectoList(List<Proyecto> proyectoList) {
+        this.proyectoList = proyectoList;
+    }
+
+    public Integer getCodProyecto() {
+        return codProyecto;
+    }
+
+    public void setCodProyecto(Integer codProyecto) {
+        this.codProyecto = codProyecto;
+    }
+
+    public void validarFechaInicioActividad() {
+        if (fechaFinActividad != null && fechaFinActividad.compareTo(fechaInicioActividad) <= 0) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La fecha de inicio debe ser menor que la fecha de finalización"));
+            fechaInicioActividad = null;
+        }
+        validarVaciosP18();
+    }
+
+    public void validarFechaFinActividad() {
+        if (fechaInicioActividad != null && fechaFinActividad.compareTo(fechaInicioActividad) <= 0) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "La fecha de finalización debe ser mayor que la fecha de inicio"));
+            fechaFinActividad = null;
+        }
+        validarVaciosP18();
+    }
+
+    public ActividadPrograma getActividadPrograma() {
+        return actividadPrograma;
+    }
+
+    public void setActividadPrograma(ActividadPrograma actividadPrograma) {
+        this.actividadPrograma = actividadPrograma;
+    }
+
+    public List<String> completeText(String query) {
+        System.out.println(" el valor es tar " + query);
+        List<VDocenteVinculacion> doceVincuLista = vistaDocenteFacade.findByName(query);
+        System.out.println(" la lista es " + doceVincuLista.size());
+        List<String> results = new ArrayList<String>();
+        for (int i = 0; i < doceVincuLista.size(); i++) {
+            results.add(doceVincuLista.get(i).getUsuApellidos() + " " + doceVincuLista.get(i).getUsuNombres());
+        }
+        return results;
+    }
+
+    public void onItemSelect(SelectEvent event) {
+        System.out.println(" el evet es " + event.getObject());
+        llenarDatosDocenteXNombres(event.getObject().toString());
+        //validarVaciosP1();
+    }
+
+    private void llenarDatosDocenteXNombres(String nombresApellidos) {
+        List<VDocenteVinculacion> doceVincuLista = vistaDocenteFacade.findByName(nombresApellidos);
+        docente = usuarioFacade.findUsuarioByCodUsu(new BigDecimal(doceVincuLista.get(0).getUsuId()));
+        docente.setCargo(doceVincuLista.get(0).getNbrjobsDesc());
+        docente.setDepartamento(doceVincuLista.get(0).getStvsubjDesc());
+        programaSelected.asignarResponsable(docente);
+
+    }
+
+    private void llenarDatosDocenteXUsuId(BigDecimal usuId) {
+        VDocenteVinculacion vDocenteVinculacion = vistaDocenteFacade.findByUsuId(usuId);
+        docente = usuarioFacade.findUsuarioByCodUsu(new BigDecimal(vDocenteVinculacion.getUsuId()));
+        docente.setCargo(vDocenteVinculacion.getNbrjobsDesc());
+        docente.setDepartamento(vDocenteVinculacion.getStvsubjDesc());
+        nomDocenteBusqueda = docente.getUsuApellidos() + " " + docente.getUsuNombres();
+    }
+
+    public String getNomDocenteBusqueda() {
+        return nomDocenteBusqueda;
+    }
+
+    public void setNomDocenteBusqueda(String nomDocenteBusqueda) {
+        this.nomDocenteBusqueda = nomDocenteBusqueda;
+    }
+
+    public List<SvinDepcenproy> getDepartamentoCarreraProgramaList() {
+        return departamentoCarreraProgramaList;
+    }
+
+    public void setDepartamentoCarreraProgramaList(List<SvinDepcenproy> departamentoCarreraProgramaList) {
+        this.departamentoCarreraProgramaList = departamentoCarreraProgramaList;
+    }
+
+    public List<SvinDepcenproy> getCampusProgramaList() {
+        return campusProgramaList;
+    }
+
+    public void setCampusProgramaList(List<SvinDepcenproy> campusProgramaList) {
+        this.campusProgramaList = campusProgramaList;
+    }
+
+    public SvinDepcenproy getSvinDepcenproySelected() {
+        return svinDepcenproySelected;
+    }
+
+    public void setSvinDepcenproySelected(SvinDepcenproy svinDepcenproySelected) {
+        this.svinDepcenproySelected = svinDepcenproySelected;
+    }
+
+    public void onNodeSelect() {
+        validarVaciosP3();
+    }
+
+
+    /*private boolean controlGrabar;
+     private boolean datosCompletos;
+    
+     //<editor-fold defaultstate="collapsed" desc="Tab14-Carreras participantes">
+     public void eliminarP14() {
+     try {
+     svinDepcenproyFacade.remove(svinDepcenproySelected);
+     cancelarP14();
+     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+     } catch (Exception e) {
+     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+     }
+     }
+
+     public void cancelarP14() {
+     controlGrabar = false;
+     datosCompletos = false;
+     departamentoCarreraProgramaList = svinDepcenproyFacade.findCarreras(programaSelected.getSprvId());
+     }
+
+     public boolean validarVaciosP14() {
+     datosCompletos = true;
+     if (svinDepcenproySelected.getCarrera().getStvmajrCode()==null || svinDepcenproySelected.getCarrera().getStvmajrCode().trim().isEmpty()
+     ) {
+     datosCompletos = false;
+     }
+     return datosCompletos;
+     }
+
+     public void seleccionarCarrera(ValueChangeEvent event) {
+     String codSeleccionado = (String) event.getNewValue();
+     if (codSeleccionado.equals("0")) {
+     svinDepcenproySelected.setCarrera(new Stvmajr());
+     } else {
+     for (Stvmajr car : carreraList) {
+     if (car.getStvmajrCode().equals(codSeleccionado)) {
+     carreraProyectoSelected.setCarrera(car);
+     break;
+     }
+     }
+
+     }
+     validarVaciosP6();
+     }
+
+     public String registraP6() {
+     try {
+     if (carreraProyectoSelected.getId() == null) {
+     carreraProyectoFacade.create(carreraProyectoSelected);
+     } else {
+     carreraProyectoFacade.edit(carreraProyectoSelected);
+     }
+     cancelarP6();
+     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+     RequestContext.getCurrentInstance().update("formPrincipal:tabViewPrincipal:tabP:panel6");
+     } catch (Exception e) {
+     try {
+     Throwable t = (Throwable) e;
+     while (t.getCause() != null) {
+     t = t.getCause();
+     }
+     String msgError = "No fue posible grabar la información ingresada";
+     if (t.getMessage().toUpperCase().contains("ORA-00001")) {
+     msgError = "Ya existe un registro para la Carrera seleccionada";
+     carreraProyectoList = carreraProyectoFacade.findByProyecto(proyectoSelected.getId());
+     RequestContext.getCurrentInstance().update("formPrincipal:tabViewPrincipal:tabP:dataTEstudiantesParticipantes");
+     }
+     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msgError));
+     } catch (Exception e2) {
+     }
+     }
+     return "";
+     }
+
+     public void agregarP6(ActionEvent event) {
+     carreraProyectoSelected = new CarreraProyecto(proyectoSelected);
+     controlGrabar = true;
+
+     }
+
+     //</editor-fold>
+     */
+    public SvinObjetivoPrograma getObjetivoProgramaSelected() {
+        return objetivoProgramaSelected;
+    }
+
+    public void setObjetivoProgramaSelected(SvinObjetivoPrograma objetivoProgramaSelected) {
+        this.objetivoProgramaSelected = objetivoProgramaSelected;
+    }
+
+    private String nomCarreraSeleccionada;
+
+    public String getNomCarreraSeleccionada() {
+        return nomCarreraSeleccionada;
+    }
+
+    public void setNomCarreraSeleccionada(String nomCarreraSeleccionada) {
+        this.nomCarreraSeleccionada = nomCarreraSeleccionada;
+    }
+
+    public List<String> buscarCarrera(String query) {
+        stvCarrerasList = stvCarrerasFacade.findByNombre(query);
+        List<String> temp = new ArrayList<>();
+        for (Stvmajr car : stvCarrerasList) {
+            temp.add(car.getStvmajrDesc() + "-" + car.getStvmajrCode());
+        }
+        return temp;
+    }
+
+}

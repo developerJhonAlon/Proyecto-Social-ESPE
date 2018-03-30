@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyectoCronogramaHito" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="1.3310000000000026"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="cronograma" uuid="7d393808-1940-41fe-97f3-c2856cb7d1be">
+		<parameter name="parameter1" class="java.math.BigDecimal"/>
+		<queryString>
+			<![CDATA[select
+OBJ.SVOP_OBJETIVO_PROY,
+OBJ.SVOP_FEC_INI,
+OBJ.SVOP_FEC_FIN
+from SZDTAVOBJETIVO_PROGRAMA OBJ
+where OBJ.SVOP_ID_PADRE =$P{parameter1}
+order by obj.SVOP_ORDEN]]>
+		</queryString>
+		<field name="SVOP_OBJETIVO_PROY" class="java.lang.String"/>
+		<field name="SVOP_FEC_INI" class="java.sql.Timestamp"/>
+		<field name="SVOP_FEC_FIN" class="java.sql.Timestamp"/>
+		<variable name="nroActividad" class="java.lang.String">
+			<variableExpression><![CDATA["Actividad "+ $V{REPORT_COUNT}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="idObjetivo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select *
+from SZDTAVSEGUIM
+where SVOP_ID = $P{idObjetivo}]]>
+	</queryString>
+	<field name="SZTVSEGUIM_CODE" class="java.math.BigDecimal"/>
+	<field name="SZTVPROYEC_CODE" class="java.math.BigDecimal"/>
+	<field name="SZTVSEGUIM_DESCRIP" class="java.lang.String"/>
+	<field name="SVOP_ID" class="java.math.BigDecimal"/>
+	<field name="SZTVSEGUIM_FECHA_LOGRO" class="java.sql.Timestamp"/>
+	<field name="SZTVSEGUIM_LOGRO" class="java.lang.String"/>
+	<variable name="nroActividad" class="java.lang.String">
+		<variableExpression><![CDATA["Actividad "+$V{REPORT_COUNT}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="17">
+			<staticText>
+				<reportElement positionType="Float" x="0" y="0" width="206" height="17" uuid="3db9ec64-ede1-43ee-af13-11aca416211e"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="206" y="0" width="233" height="17" uuid="a70331bb-0fb5-4a41-8984-c1446881d3aa"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resultados esperados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="439" y="0" width="63" height="17" uuid="c7a11468-a72b-49ae-9fb1-65fc10195ece"/>
+				<box leftPadding="0">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="16" splitType="Prevent">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="206" height="16" uuid="e808ed18-9a2f-4749-b855-817b98254862"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVSEGUIM_DESCRIP}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="206" y="0" width="233" height="16" uuid="9053adf9-42c3-4e5c-a555-4400e766a61b"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVSEGUIM_LOGRO}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="439" y="0" width="63" height="16" uuid="65947018-6c55-4f4b-beb2-2e4ee94a1241"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVSEGUIM_FECHA_LOGRO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

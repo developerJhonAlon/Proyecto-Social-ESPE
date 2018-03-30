@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteUbicacionPrograma" language="groovy" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="0" topMargin="0" bottomMargin="0" uuid="23a56eb3-4e29-4f23-b22f-d96215ff13d1">
+	<property name="ireport.zoom" value="4.594972986357229"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoPrograma" class="java.math.BigDecimal"/>
+	<parameter name="paramSql" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{cobertura}==4?"SELECT SEA_PARROQUIA.PRQ_NOMBRE, SEA_CANTON.CAN_NOMBRE, SEA_PROVINCIA.PRO_NOMBRE FROM SZDTAVZONA_DETALLE, SEA_PARROQUIA, SEA_CANTON,SEA_PROVINCIA WHERE SZTVPROYEC_CODE=" + $P{idProyecto} + " AND(SZDTAVZONA_DETALLE.PRQ_ID = SEA_PARROQUIA.PRQ_ID) AND (SEA_PARROQUIA.CAN_ID = SEA_CANTON.CAN_ID)  AND (SEA_CANTON.PRO_ID = SEA_PROVINCIA.PRO_ID)":($P{cobertura}==3?"SELECT '' PRQ_NOMBRE, SEA_CANTON.CAN_NOMBRE, SEA_PROVINCIA.PRO_NOMBRE FROM SZDTAVZONA_DETALLE, SEA_CANTON,SEA_PROVINCIA WHERE SZTVPROYEC_CODE=" + $P{idProyecto} + " AND(SZDTAVZONA_DETALLE.CAN_ID= SEA_CANTON.CAN_ID)  AND (SEA_CANTON.PRO_ID = SEA_PROVINCIA.PRO_ID)":($P{cobertura}==2?"SELECT '' PRQ_NOMBRE, '' CAN_NOMBRE, SEA_PROVINCIA.PRO_NOMBRE FROM SZDTAVZONA_DETALLE, SEA_PROVINCIA WHERE SZTVPROYEC_CODE=" + $P{idProyecto} + " AND(SZDTAVZONA_DETALLE.PRO_ID= SEA_PROVINCIA.PRO_ID)":"SELECT SEA_PARROQUIA.PRQ_NOMBRE, SEA_CANTON.CAN_NOMBRE, SEA_PROVINCIA.PRO_NOMBRE FROM SZDTAVZONA_DETALLE, SEA_PARROQUIA, SEA_CANTON,SEA_PROVINCIA WHERE SZTVPROYEC_CODE=" + $P{idProyecto} + " AND('' = SEA_PARROQUIA.PRQ_ID) AND (SEA_PARROQUIA.CAN_ID = SEA_CANTON.CAN_ID)  AND (SEA_CANTON.PRO_ID = SEA_PROVINCIA.PRO_ID)"))]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select prov.pro_nombre, can.can_nombre, parr.prq_nombre  from SZDTAVZONA_DETALLE zona
+inner join sea_provincia prov on zona.pro_id = prov.pro_id
+inner join sea_canton can on zona.can_id = can.can_id
+inner join sea_parroquia parr on ZONA.PRQ_ID = parr.PRQ_ID
+where sprv_id = $P{codigoPrograma}]]>
+	</queryString>
+	<field name="PRO_NOMBRE" class="java.lang.String"/>
+	<field name="CAN_NOMBRE" class="java.lang.String"/>
+	<field name="PRQ_NOMBRE" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="15" width="190" height="15" uuid="44781136-5b39-496a-a203-e88adec9d5e6"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Provincia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="15" width="167" height="15" uuid="55341cde-fc47-474c-8383-43370ac4988b"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantón]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="357" y="15" width="175" height="15" uuid="627b1b8e-fa8d-49c5-a2bc-3d6b0a9748da"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parroquia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="532" height="15" uuid="5ebd4843-a864-4f43-a928-ed916222b92c"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ubicación:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()!=0)]]></printWhenExpression>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="190" height="13" uuid="c53ca990-7945-4ffa-945a-c1f472c4630d"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRO_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="190" y="0" width="167" height="13" uuid="24f8e85a-1b87-4d9f-952c-c5aa9aa56291"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CAN_NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="357" y="0" width="175" height="13" uuid="daec3410-3a3a-464f-b1aa-80d3b44c5cb2"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRQ_NOMBRE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

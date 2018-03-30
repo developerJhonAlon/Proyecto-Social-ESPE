@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subreporteCarrerasPrograma" language="groovy" pageWidth="555" pageHeight="802" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="915736a8-2c1d-4b09-8ded-0279332a36f4">
+	<property name="ireport.zoom" value="3.1384283767210044"/>
+	<property name="ireport.x" value="1044"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigoPrograma" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[select sprv_id, stvmajr_code from SZTVCAPROG
+where sprv_id = $P{codigoPrograma}]]>
+	</queryString>
+	<field name="SPRV_ID" class="java.math.BigDecimal"/>
+	<field name="STVMAJR_CODE" class="java.lang.String"/>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="3539f3a5-bbf6-4cb6-bd19-34f9c603af49" x="13" y="18" width="100" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Carrera]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c37ee3c5-3928-4789-9c97-1490935f793d" x="13" y="3" width="100" height="15"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Carreras:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="ee935360-b38e-480b-907e-490462493a91" x="0" y="2" width="502" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()!=0)]]></printWhenExpression>
+			<textField>
+				<reportElement uuid="84af9778-2e6c-4952-8542-099e83cf325e" x="13" y="0" width="100" height="13"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{STVMAJR_CODE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
