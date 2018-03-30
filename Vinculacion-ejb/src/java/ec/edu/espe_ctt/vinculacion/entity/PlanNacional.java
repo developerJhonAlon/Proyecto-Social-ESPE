@@ -49,6 +49,7 @@ public class PlanNacional implements Serializable, Comparable<PlanNacional> {
     @NotNull
     @Column(name = "SZTVPLAN_CODE")
     private Integer id;
+    
     @Size(max = 100)
     @Column(name = "SZTVPLAN_DESCRIPCION")
     private String descripcion;

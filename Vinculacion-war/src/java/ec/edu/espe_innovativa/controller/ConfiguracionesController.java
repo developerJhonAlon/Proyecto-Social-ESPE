@@ -642,7 +642,6 @@ public class ConfiguracionesController implements Serializable {
     public void setPoliticaPlanNacionalSelected(ObjetivoBVivir politicaPlanNacionalSelected) {
         this.politicaPlanNacionalSelected = politicaPlanNacionalSelected;
     }
-    
     ////----Fin Funciones de Configuracion PlanNacional
     
     public String cambiarOrdenValoracionParametroEvaluacion(ValoracionParametroEvaluacion valoracionParametroEvaluacion, Integer cambio) {
