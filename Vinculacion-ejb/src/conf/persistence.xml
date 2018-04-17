@@ -71,6 +71,7 @@
     <class>ec.edu.espe_ctt.vinculacion.entity.ParametroEvaluacion</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.ParametroEvaluacionFinalCabecera</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.PartidaPresupuestaria</class>
+    <class>ec.edu.espe_ctt.vinculacion.entity.PlanNacional</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.PresupuestoProyecto</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.Programa</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.Proyecto</class>
@@ -86,14 +87,12 @@
     <class>ec.edu.espe_ctt.vinculacion.entity.ValoracionParametroEvaluacion</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.VistaCampusDeptoCarrera</class>
     <class>ec.edu.espe_ctt_investigacion.entity.AprobacionDirectorDepartamento</class>
-    <class>ec.edu.espe_ctt_investigacion.entity.AvanceActividadInv</class>
-    <class>ec.edu.espe_ctt_investigacion.entity.AvanceComponenteInv</class>
     <class>ec.edu.espe_ctt_investigacion.entity.CalificacionComision</class>
     <class>ec.edu.espe_ctt_investigacion.entity.ConfiguracionParametrosEvaluacionInv</class>
     <class>ec.edu.espe_ctt_investigacion.entity.Cronograma</class>
     <class>ec.edu.espe_ctt_investigacion.entity.EvaluacionPar</class>
     <class>ec.edu.espe_ctt_investigacion.entity.EvaluacionParDetalle</class>
-    <class>ec.edu.espe_ctt_investigacion.entity.ObjetivoProyectoInv</class>
+    <class>ec.edu.espe_ctt_investigacion.entity.ObjetivoProyecto</class>
     <class>ec.edu.espe_ctt_investigacion.entity.ParametroEvaluacionInv</class>
     <class>ec.edu.espe_ctt_investigacion.entity.PresupuestoPartida</class>
     <class>ec.edu.espe_ctt_investigacion.entity.SeaAnalisisFormato</class>

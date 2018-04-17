@@ -274,8 +274,6 @@
                                             <p:selectBooleanCheckbox value="#{configParametrosEvaluacion.estadoActiva}" disabled="true">
                                             </p:selectBooleanCheckbox>
                                         </p:column>
-
-
                                         <p:column headerText="Crear Nueva Configuración (replicar)" width="80" style ="text-align: center;white-space: pre-line">
                                             <p:commandButton icon="ui-icon-plus"
                                                              title="Crear una nueva configuración a partir de ésta"
@@ -307,8 +305,6 @@
                                                 <p:confirm header="Confirmación" message="Confirma que desea eliminar la configuración seleccionada?" icon="ui-icon-alert" />
                                             </p:commandButton>  
                                         </p:column>
-
-
                                         <p:rowExpansion >
                                             <p:panel style="border:hidden;width:90%; padding-left: 30px"  >
                                                 <h:outputLabel value="Parámetros de evaluación:" style="font-weight: bold"/>
@@ -319,7 +315,6 @@
                                                                  >
                                                     <f:setPropertyActionListener value="#{configParametrosEvaluacion}" target="#{configuracionesController.configuracionParametrosEvaluacionSelected}"/>
                                                 </p:commandButton>
-
                                                 <p:dataTable id="dtParametroEvaluacion" value="#{configParametrosEvaluacion.parametroEvaluacionList}" var="paramEvaluacion"
                                                              expandedRow="#{paramEvaluacion.expanded}"
                                                              resizableColumns="true"
@@ -2499,7 +2494,7 @@
                                     <p:dataTable id="dtPlanNacional" value="#{configuracionesController.configuracionPlanNacionalList}" var="planNacional"
                                                  expandedRow="#{planNacional.expanded}" rowIndexVar="index" resizableColumns="true" style="margin-bottom: 10px;"
                                                  emptyMessage="No se encontraron resultados">         
-                                        <p:ajax event="rowToggle" listener="#{configuracionesController.onRowToggleConfigParametroEvaluacion}"/>
+                                        <p:ajax event="rowToggle" listener="#{configuracionesController.onRowTooglePlanNacional}"/>
                                         
                                         <p:column width="20">
                                             <p:rowToggler/>
@@ -2516,9 +2511,8 @@
                                             <h:outputText value="#{planNacional.descripcion}" style="white-space: pre-line;"/>
                                         </p:column>
                                         <p:column headerText="Activa" width="40" style="text-align: center;">
-                                            <p:selectBooleanCheckbox value="#{planNacional.estadoActiva}" disabled="true"></p:selectBooleanCheckbox>
-                                        </p:column>
-                                        
+                                            <p:selectBooleanCheckbox value="#{planNacional.estado}" disabled="true"></p:selectBooleanCheckbox>
+                                        </p:column>        
                                         <p:column headerText="Editar" width="35" style="text-align: center;">
                                             <p:commandButton icon="ui-icon-pencil" title="Editar el registro" 
                                                              update=":formPrincipal:panelEdicionPlanNacional, :formPrincipal:message1"
@@ -2527,8 +2521,7 @@
                                                 <f:setPropertyActionListener value="#{null}" target="#{configuracionesController.objetivoPlanNacionalSelected}"/>
                                                 <f:setPropertyActionListener value="#{null}" target="#{configuracionesController.politicaPlanNacionalSelected}"/>
                                             </p:commandButton>
-                                        </p:column>
-                                        
+                                        </p:column>                                       
                                         <p:column headerText="Eliminar" style="width: 50px; text-align: center;">
                                             <p:commandButton style="margin: 0;" title="Eliminar el registro" icon="ui-icon-trash" process="@this" 
                                                              onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()" 
@@ -2552,8 +2545,7 @@
                                                              expandedRow="#{objePlanNacional.expanded}"
                                                              resizableColumns="true"
                                                              emptyMessage="No se encontraron Resultados">
-                                                    <p:ajax event="rowToggle" listener="#{configuracionesController.onRowToggleObjetivoPlanNacional}" />
-                                                    
+                                                    <p:ajax event="rowToggle" listener="#{configuracionesController.onRowToggleObjetivoPlanNacional}" />                                                    
                                                     <p:column width="20">
                                                         <p:rowToggler/>
                                                     </p:column>
@@ -2579,7 +2571,7 @@
                                                                         <tr>
                                                                             <td style="padding: 0px; border: hidden;">
                                                                                 <p:commandButton icon="ui-icon-triangle-1-s"
-                                                                                                 disabled="#{objePlanNacional.orden==planNacional.parametroEvaluacionList.size()}"
+                                                                                                 disabled="#{objePlanNacional.orden==planNacional.objetivoBVivirList.size()}"
                                                                                                  style="width: 20px; height: 15px"
                                                                                                  onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
                                                                                                  title="Cambiar orden(Bajar)" action="#{configuracionesController.cambiarOrdenObjetivoPlanNacional(objePlanNacional,1)}"
@@ -2596,7 +2588,7 @@
                                                         </table>
                                                     </p:column>
                                                     <p:column headerText="Descripción">
-                                                        <h:outputText value="#{objePlanNacional.descripcion}" style="white-space: pre-line"/>
+                                                        <h:outputText value="#{objePlanNacional.svobviDescripcion}" style="white-space: pre-line"/>
                                                     </p:column>
                                                     <p:column headerText="Editar" width="35" style ="text-align: center">
                                                         <p:commandButton icon="ui-icon-pencil"
@@ -2633,8 +2625,8 @@
                                                                  <f:setPropertyActionListener value="#{objePlanNacional}" target="#{configuracionesController.objetivoPlanNacionalSelected}"/>
                                                              </p:commandButton>
                                                              
-                                                             <p:dataTable value="#{objePlanNacional.valoracionList}"  var="politicaObjetivo" 
-                                                                          rendered="#{not empty objePlanNacional.valoracionList}" 
+                                                             <p:dataTable value="#{objePlanNacional.svinObjetivoBVivirCollection}"  var="politicaObjetivo" 
+                                                                          rendered="#{not empty objePlanNacional.svinObjetivoBVivirCollection}" 
                                                                           rowIndexVar="index" style="width: 50%; padding-left: 30px">
                                                                  <p:column headerText="Nro." style="width:40px">
                                                                      <table>
@@ -2659,7 +2651,7 @@
                                                                                      <tr>
                                                                                          <td style="padding: 0px; border: hidden">
                                                                                             <p:commandButton icon="ui-icon-triangle-1-s"
-                                                                                                             disabled="#{politicaObjetivo.orden==objePlanNacional.valoracionList.size()}"
+                                                                                                             disabled="#{politicaObjetivo.orden==objePlanNacional.svinObjetivoBVivirCollection.size()}"
                                                                                                              style="width: 20px; height: 15px"
                                                                                                              onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
                                                                                                              title="Cambiar orden(Bajar)" action="#{configuracionesController.cambiarOrdenPoliticaPlanNacional(politicaObjetivo,1)}"
@@ -2674,7 +2666,7 @@
                                                                      </table>
                                                                  </p:column>
                                                                  <p:column headerText="Descripción:">
-                                                                     <h:outputText value="#{politicaObjetivo.descripcion}" style="white-space: pre-line;"></h:outputText>
+                                                                     <h:outputText value="#{politicaObjetivo.svobviDescripcion}" style="white-space: pre-line;"></h:outputText>
                                                                  </p:column>
                                                                  <p:column headerText="Editar" width="35" style="text-align: center;">
                                                                       <p:commandButton icon="ui-icon-pencil"

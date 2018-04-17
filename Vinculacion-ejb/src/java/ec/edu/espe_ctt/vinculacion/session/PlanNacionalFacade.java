@@ -34,7 +34,7 @@ public class PlanNacionalFacade extends AbstractFacade<PlanNacional> {
     }
     
     public boolean verificarPermitiriEdicionPlanNacional(Integer idPlanNacional){
-        Query query = em.createQuery("SELECT COUNT(o) FROM ObjetivoBVivirPrograma o WHERE o.objetivoBVivir = (SELECT TOP 1 p.svobviId FROM ObjetivoBVivir p WHERE p.sztvplanCode = :idPlanNacional)");
+        Query query = em.createQuery("SELECT COUNT(o) FROM ObjetivoBVivirPrograma o WHERE o.objetivoBVivir.configuracionPlanNacional.id = :idPlanNacional)");
         query.setParameter("idPlanNacional", idPlanNacional);
         return (Integer.valueOf(query.getSingleResult().toString()) == 0);
     }

@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -41,6 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 public class PlanNacional implements Serializable, Comparable<PlanNacional> {
     private static final long serialVersionUID = 1L;
+    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @SequenceGenerator(name = "SEQ_SZDTAVPLAN_NACIONAL", sequenceName = "SEQ_SZDTAVPLAN_NACIONAL", allocationSize = 1)
     @Id
@@ -59,7 +61,7 @@ public class PlanNacional implements Serializable, Comparable<PlanNacional> {
     @Size(max = 1)
     @Column(name = "SZTVPLAN_ESTADO")
     private String estado;
-    @OneToMany(mappedBy = "sztvplanCode", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "configuracionPlanNacional", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ObjetivoBVivir> objetivoBVivirList;
 
     public final static String ESTADO_ACTIVA = "A";
@@ -120,8 +122,16 @@ public class PlanNacional implements Serializable, Comparable<PlanNacional> {
     }
 
     public List<ObjetivoBVivir> getObjetivoBVivirList() {
+        
         if(objetivoBVivirList != null){
-           Collections.sort(objetivoBVivirList);
+            Iterator it = objetivoBVivirList.iterator();
+            while(it.hasNext()){
+                ObjetivoBVivir o = (ObjetivoBVivir) it.next();
+                if(o.getSvobviIdPadre() != null){
+                    it.remove();
+                }
+            }
+            Collections.sort(objetivoBVivirList);
         }
         return objetivoBVivirList;
     }
