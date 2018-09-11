@@ -2338,7 +2338,7 @@
 
                             </p:panel>     
 
-<!--panelObjectivosPlanNacional-->
+<!--panelObjectivosPlanNacional; Actor: Jhonny Jami-->
                             <p:panel id="panelPlanNacional" rendered="#{configuracionesController.opcionMenuCodeSelected=='13'}" style="border: hidden; margin-left: 20px;">
                                
 <!--                                Panel que da la capacidad de editar o crear un nuevo atributo de cualquier tipo-->
@@ -2415,7 +2415,7 @@
             
 <!--Panel Agregar O Editar - Objetivos: -->
 <h:panelGrid cellspacing="5" columns="1" style="width: 100%" rendered="#{configuracionesController.objetivoPlanNacionalSelected !=null and
-                                                                         configuracionesController.politicaObjetivo ==null}">
+                                                                         configuracionesController.politicaPlanNacionalSelected ==null}">
     
     <p:fieldset legend="#{configuracionesController.objetivoPlanNacionalSelected ==null ?
                           'NUEVO OBJETIVO DE PLAN NACIONAL':'EDICION OBJECTIVO DE PLAN NACIONAL'}">
@@ -2433,7 +2433,7 @@
         <h:panelGrid columns="2" cellpadding="0" cellspacing="0" style="margin-bottom: 10px;">
             <p:outputLabel for="txtDescObjetivoPlanNacional" value="* Descripcion:" style="font-weight: bold;"></p:outputLabel>
             <h:panelGrid columns="2">
-                <p:inputTextarea id="txtDescObjetivoPlanNacional" value="#{configuracionesController.objetivoPlanNacionalSelected.ordenDescripcion}" 
+                <p:inputTextarea id="txtDescObjetivoPlanNacional" value="#{configuracionesController.objetivoPlanNacionalSelected.svobviDescripcion}" 
                                  cols="100" rows="3" maxlength="500" 
                                  required="#{not empty param['formPrincipal:btnGrabarObjetivoPlanNacional']}"></p:inputTextarea>
                 <p:message for="txtDescObjetivoPlanNacional" />

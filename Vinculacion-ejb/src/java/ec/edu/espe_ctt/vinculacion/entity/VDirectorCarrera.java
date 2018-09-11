@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrador
  */
 @Entity
-@Table(name = "V_DIRECTOR_CARRERA")
+@Table(name = "V_DIRECTOR_CARRERA", schema = "SIEVAL")
 @XmlRootElement
 public class VDirectorCarrera implements Serializable, Comparable<VDirectorCarrera> {
 

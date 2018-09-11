@@ -715,17 +715,16 @@ donde donde parece la lista, este valor lo compruevo el cual me devolvera en el 
                                     </p:column> 
                                     <p:column id="colPrograma" rendered="#{reportes2Controller.visualizarPrograma}"  headerText="Programa" width="200" style="white-space: pre-line" sortBy="#{proy.programa}" >
                                         <h:outputText  value ="#{proy.programa}" /> 
-                                    </p:column>
-                                    
-<!--                                     <p:column id="colConvocatoria"  headerText="Convocatoria" width="200" style="white-space: pre-line" sortBy="#{proy.programa}" >
-                                        <h:outputText  value ="#{proy}" /> 
-                                    </p:column>-->
+                                    </p:column>                                
                                     
                                     <p:column id="colProyecto" headerText="Proyecto" width="300" style="white-space: pre-line" sortBy="#{proy.nombre}" >
                                         <h:outputText  value ="#{proy.nombre}"/> 
                                     </p:column>
                                     <p:column id="colCodigoProyecto" rendered="#{reportes2Controller.visualizarCodigoProyecto}"  headerText="Cód. Proyecto" width="92" style="white-space: pre-line" sortBy="#{proy.codigo}" >
                                         <h:outputText  value ="#{proy.codigo}"/> 
+                                    </p:column>
+                                   <p:column id="colConvocatoria"  headerText="Convocatoria" width="92" style="white-space: pre-line" sortBy="#{proy.convocatoria.nombre}" >
+                                        <h:outputText  value ="#{proy.convocatoria.nombre}"/> 
                                     </p:column>
                                     <p:column id="colEstado" rendered="#{reportes2Controller.visualizarEstado}"  headerText="Estado" width="100" style="white-space: pre-line" sortBy="#{proy.estado.descripcion}" >
                                         <h:outputText  value ="#{proy.estado.descripcion}"/> 

@@ -255,8 +255,8 @@ public class ProyectoReporte {
     public ProyectoReporte clon(){
         ProyectoReporte p = new ProyectoReporte();
         p.setId(id);
-        p.setConvocatoria(convocatoria);
         p.setCodigo(codigo);
+        p.setConvocatoria(convocatoria);
         p.setDirector(director);
         p.setNombre(nombre);
         p.setPrograma(programa);

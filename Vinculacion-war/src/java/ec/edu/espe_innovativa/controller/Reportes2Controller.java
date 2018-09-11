@@ -2126,7 +2126,9 @@ public class Reportes2Controller implements Serializable {
     private ProyectoReporte crearObjetoReporteProyecto(Proyecto proyecto) {
         ProyectoReporte reporteProyecto = new ProyectoReporte();
         reporteProyecto.setId(proyecto.getId());
-        
+        // Jhonny Jami; Aparece nombre convocatoria de los proyectos.
+        reporteProyecto.setConvocatoria(proyecto.getConvocatoria());
+        //
 
         reporteProyecto.setNombre(proyecto.getNombre().toUpperCase());
         reporteProyecto.setCodigo(proyecto.getCodigo());
@@ -2136,19 +2138,18 @@ public class Reportes2Controller implements Serializable {
             reporteProyecto.setPrograma("");
         }
         reporteProyecto.setEstado(new Estado(proyecto.getEstado().getPrdId().toString(), proyecto.getEstadoStr().toUpperCase()));
-        
-        
-        
-        reporteProyecto.setConvocatoria(proyecto.getConvocatoria());
-        
         reporteProyecto.setTipo(proyecto.getTipo());
         reporteProyecto.setCobertura(proyecto.getCoberturaStr().toUpperCase());
         VDocenteVinculacion2 doc = vistaDocenteFacade.findByUsuId(proyecto.getDirector().getUsuario().getUsuId());
-        ResponsableProyecto director = new ResponsableProyecto();
-        director.setUsuario(doc.getUsuario());
-        director.setCampus(doc.getCampus());
-        director.setDepartamento(doc.getDepartamento());
-        reporteProyecto.setDirector(director);
+        // Jhonny Jami; Posible Null en la variable DOC.
+        if(doc != null){
+            ResponsableProyecto director = new ResponsableProyecto();
+            director.setUsuario(doc.getUsuario());
+            director.setCampus(doc.getCampus());
+            director.setDepartamento(doc.getDepartamento());
+            reporteProyecto.setDirector(director);
+        }
+        //    
         if (proyecto.getEvaluacionFinal() != null) {
             reporteProyecto.setPuntajeEvaluacionFinalPertinencia(proyecto.getPuntajeEvaluacionPertinencia());
             reporteProyecto.setPuntajeEvaluacionFinalEficacia(proyecto.getPuntajeEvaluacionEficacia());
