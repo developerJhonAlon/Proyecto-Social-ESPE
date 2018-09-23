@@ -252,7 +252,7 @@ public class ResponsableProyecto implements Serializable, Comparable<Responsable
     public List<HorasResponsableProyecto> getHorasDedicadasList() {
         return horasDedicadasList;
     }
-
+    
     public void setHorasDedicadasList(List<HorasResponsableProyecto> horasDedicadasList) {
         this.horasDedicadasList = horasDedicadasList;
     }
@@ -262,6 +262,39 @@ public class ResponsableProyecto implements Serializable, Comparable<Responsable
         if (horasDedicadasList != null) {
             for (HorasResponsableProyecto hor : horasDedicadasList) {
                 temp += hor.getCantidadHoras();
+            }
+        }
+        return temp;
+    }
+      
+    
+    
+    /**
+     * Obtener la fecha inicio de las horas dedicadas por cada Docente.
+     *
+     * @autor Jhonny Jami.
+     * @return Fecha
+     */    
+    public Date getHorasDedicadasFechaDesde() {
+        Date temp = null;
+        if (horasDedicadasList != null) {
+            for (HorasResponsableProyecto hor : horasDedicadasList) {
+                temp = hor.getFechaDesde();
+            }
+        }
+        return temp;
+    }
+    /**
+     * Obtener la fecha final de las horas dedicadas por cada Docente.
+     *
+     * @autor Jhonny Jami.
+     * @return Fecha
+     */  
+     public Date getHorasDedicadasFechaHasta() {
+        Date temp = null;
+        if (horasDedicadasList != null) {
+            for (HorasResponsableProyecto hor : horasDedicadasList) {
+                temp = hor.getFechaHasta();
             }
         }
         return temp;

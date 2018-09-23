@@ -71,7 +71,6 @@
     <class>ec.edu.espe_ctt.vinculacion.entity.ParametroEvaluacion</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.ParametroEvaluacionFinalCabecera</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.PartidaPresupuestaria</class>
-    <class>ec.edu.espe_ctt.vinculacion.entity.PlanNacional</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.PresupuestoProyecto</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.Programa</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.Proyecto</class>

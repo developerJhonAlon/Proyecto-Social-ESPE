@@ -745,10 +745,10 @@ donde donde parece la lista, este valor lo compruevo el cual me devolvera en el 
                                     <p:column id="colDirector" rendered="#{reportes2Controller.visualizarDirector}"  headerText="Director (Nombre)" style="white-space: pre-line" width="120" sortBy="#{proy.director.usuario.nombresCompletos}" >
                                         <h:outputText  value ="#{proy.director.usuario.nombresCompletos}"/> 
                                     </p:column>
-                                    <p:column id="colDirectorEmail" rendered="#{reportes2Controller.visualizarDirector}"  headerText="Director (Nombre)" style="white-space: pre-line" width="120" sortBy="#{proy.director.usuario.usuEmail}" >
+                                    <p:column id="colDirectorEmail" rendered="#{reportes2Controller.visualizarDirector}"  headerText="Director (Correo)" style="white-space: pre-line" width="120" sortBy="#{proy.director.usuario.usuEmail}" >
                                         <h:outputText  value ="#{proy.director.usuario.usuEmail}"/> 
                                     </p:column>
-                                    <p:column id="colDirectorTelf" rendered="#{reportes2Controller.visualizarDirector}"  headerText="Director (Nombre)" style="white-space: pre-line" width="120" sortBy="#{proy.director.usuario.usuTelefonoFijo}" >
+                                    <p:column id="colDirectorTelf" rendered="#{reportes2Controller.visualizarDirector}"  headerText="Director (Telefono)" style="white-space: pre-line" width="120" sortBy="#{proy.director.usuario.usuTelefonoFijo}" >
                                         <h:outputText  value ="#{proy.director.usuario.usuTelefonoFijo}"/> 
                                     </p:column>
                                     
@@ -792,9 +792,26 @@ donde donde parece la lista, este valor lo compruevo el cual me devolvera en el 
                                         <h:outputText  value ="#{proy.docenteParticipante.usuario.nombresCompletos} (#{proy.docenteParticipante.tipoResponsable.descripcion})"
                                                        rendered="#{proy.docenteParticipante.id!=-1}"/> 
                                     </p:column>
+                                     <p:column id="colDocenteHorasPlanificada" rendered="#{reportes2Controller.visualizarDocenteParticipante}" headerText="Horas planificación docente" width="50" style="white-space: pre-line; text-align: center" >
+                                        <h:outputText  value ="#{proy.docenteParticipante.horasPlanificadas}"
+                                                       rendered="#{proy.docenteParticipante.id!=-1}"/>                                        
+                                    </p:column>
+                                    
                                     <p:column id="colDocenteNroHoras" rendered="#{reportes2Controller.visualizarDocenteParticipante}" headerText="Horas dedicación docente" width="50" style="white-space: pre-line; text-align: center" >
                                         <h:outputText  value ="#{proy.docenteParticipante.totalHorasDedicadas}"
                                                        rendered="#{proy.docenteParticipante.id!=-1}"/> 
+                                    </p:column>
+                                    <p:column id="colDocenteInicioFecha" rendered="#{reportes2Controller.visualizarDocenteParticipante}" headerText="Fecha inicio dedicación docente" width="50" style="white-space: pre-line; text-align: center" >
+                                        <h:outputText  value ="#{proy.docenteParticipante.horasDedicadasFechaDesde}"
+                                                       rendered="#{proy.docenteParticipante.id!=-1}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column id="colDocenteFinalFecha" rendered="#{reportes2Controller.visualizarDocenteParticipante}" headerText="Fecha final dedicación docente" width="50" style="white-space: pre-line; text-align: center" >
+                                        <h:outputText  value ="#{proy.docenteParticipante.horasDedicadasFechaHasta}"
+                                                       rendered="#{proy.docenteParticipante.id!=-1}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/> 
+                                        </h:outputText>                                    
                                     </p:column>
 
                                     <p:column id="colEstudianteCedula" rendered="#{reportes2Controller.visualizarEstudianteParticipante}" headerText="Cédula estudiante participante" width="70" style="white-space: pre-line; text-align: center">

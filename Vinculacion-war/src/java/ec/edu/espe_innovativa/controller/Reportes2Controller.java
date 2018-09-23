@@ -151,10 +151,10 @@ public class Reportes2Controller implements Serializable {
     @PostConstruct
     public void init() {
         /*this.codigoCarrera = "";
-        this.codigoDepartamento = "";
-        this.codigoPrograma = 0;
-        this.codigoSede = "";
-        this.codigoReporte = "1";*/
+         this.codigoDepartamento = "";
+         this.codigoPrograma = 0;
+         this.codigoSede = "";
+         this.codigoReporte = "1";*/
         tipoReporte = 0;
         this.departamentos = departamentoFacade.findAll();
         this.programas = programaFacade.findXEstado("");
@@ -168,7 +168,7 @@ public class Reportes2Controller implements Serializable {
         tipoProyectoList.add(new TipoProyecto("C", "Gasto Permanente"));
         tipoProyectoList.add(new TipoProyecto("I", "Gasto No Permanente"));
 
-        coberturaList = parametrosDetFacade.findByCodigoParametroActivos(SeaParametros.PARAM_COBERTURA);  
+        coberturaList = parametrosDetFacade.findByCodigoParametroActivos(SeaParametros.PARAM_COBERTURA);
         docenteList = responsableProyectoFacade.findDocenteParticipante();
         estudianteList = responsableProyectoFacade.findParticipante(TipoResponsable.TIPO_PARTICIPANTE_ESTUDIANTE);
 
@@ -239,21 +239,20 @@ public class Reportes2Controller implements Serializable {
     }
 
     /*public void onMenuSelect(NodeSelectEvent event) {
-        initVariables();
-        OpcionMenu opcionMenu = (OpcionMenu) opcionMenuSelected.getData();
+     initVariables();
+     OpcionMenu opcionMenu = (OpcionMenu) opcionMenuSelected.getData();
 
-        switch (opcionMenu.getCodigo()) {
-            case "1":
-                generarReporteProyAprobacionConsejoAcadémico();
-                break;
-            case "2":
-                initReporteProyAprobadosComisionEvaluacion();
-                break;
-            case "4":
-                initReporteProyectos();
-        }
-    }*/
-
+     switch (opcionMenu.getCodigo()) {
+     case "1":
+     generarReporteProyAprobacionConsejoAcadémico();
+     break;
+     case "2":
+     initReporteProyAprobadosComisionEvaluacion();
+     break;
+     case "4":
+     initReporteProyectos();
+     }
+     }*/
     private void initVariables() {
         estado = "";
         provincia = null;
@@ -292,8 +291,7 @@ public class Reportes2Controller implements Serializable {
     public void setCols(List<String> cols) {
         this.cols = cols;
     }
-    
-    
+
     public List<String> getCols() {
         /*List<String> cols = new ArrayList<>();
          if (proyectoList!=null && !proyectoList.isEmpty()){
@@ -326,48 +324,47 @@ public class Reportes2Controller implements Serializable {
 
     public Integer getColspanParametrosEvaluacion() {
         /*int cont = 0;
-        if (configuracionParametrosEvaluacionSelected == null) {
-            return 0;
-        }
-        for (ParametroEvaluacion par : configuracionParametrosEvaluacionSelected.getParametroEvaluacionList()) {
-            cont = cont + par.getValoracionList().size();
-        }
-        return cont + 1;*/
+         if (configuracionParametrosEvaluacionSelected == null) {
+         return 0;
+         }
+         for (ParametroEvaluacion par : configuracionParametrosEvaluacionSelected.getParametroEvaluacionList()) {
+         cont = cont + par.getValoracionList().size();
+         }
+         return cont + 1;*/
         return colspanParametrosEvaluacion;
     }
 
     /*public void generarReporteProyAprobadosComisionEvaluacion() {
-        proyectoList = proyectoFacade.findByEstadoAprobadoComisionVinculacion(estado);
-        colsSpan = new HashMap<>();
-        cols = new ArrayList<>();
-        cols2 = new ArrayList<>();
-        colspanParametrosEvaluacion = 0;
-        if (proyectoList != null && !proyectoList.isEmpty()) {
-            for (ParametroEvaluacion par : proyectoList.get(0).getConfiguracionParametrosEvaluacion().getParametroEvaluacionList()) {
-                cols.add(par.getDescripcion());
-                colsSpan.put(par.getDescripcion(), par.getValoracionList().size());
-                colspanParametrosEvaluacion = colspanParametrosEvaluacion + par.getValoracionList().size();
-                for (ValoracionParametroEvaluacion val : par.getValoracionList()) {
-                    cols2.add(val);
-                }
-            }
-        }
-        colspanParametrosEvaluacion = colspanParametrosEvaluacion + 3;
-        //cols.add("TOTAL");
-    }*/
+     proyectoList = proyectoFacade.findByEstadoAprobadoComisionVinculacion(estado);
+     colsSpan = new HashMap<>();
+     cols = new ArrayList<>();
+     cols2 = new ArrayList<>();
+     colspanParametrosEvaluacion = 0;
+     if (proyectoList != null && !proyectoList.isEmpty()) {
+     for (ParametroEvaluacion par : proyectoList.get(0).getConfiguracionParametrosEvaluacion().getParametroEvaluacionList()) {
+     cols.add(par.getDescripcion());
+     colsSpan.put(par.getDescripcion(), par.getValoracionList().size());
+     colspanParametrosEvaluacion = colspanParametrosEvaluacion + par.getValoracionList().size();
+     for (ValoracionParametroEvaluacion val : par.getValoracionList()) {
+     cols2.add(val);
+     }
+     }
+     }
+     colspanParametrosEvaluacion = colspanParametrosEvaluacion + 3;
+     //cols.add("TOTAL");
+     }*/
 
     /*public void initReporteProyAprobadosComisionEvaluacion() {
-        configuracionParametrosEvaluacionList = configuracionParametrosEvaluacionFacade.findXProyAprobadoComisionVinculacion();
-        if (!configuracionParametrosEvaluacionList.isEmpty()) {
-            configuracionParametrosEvaluacionSelected = configuracionParametrosEvaluacionList.get(0);
-        }
-    }*/
+     configuracionParametrosEvaluacionList = configuracionParametrosEvaluacionFacade.findXProyAprobadoComisionVinculacion();
+     if (!configuracionParametrosEvaluacionList.isEmpty()) {
+     configuracionParametrosEvaluacionSelected = configuracionParametrosEvaluacionList.get(0);
+     }
+     }*/
 
     /*public String generarReporteProyAprobacionConsejoAcadémico() {
-        proyectoList = proyectoFacade.findByPorAutorizarConsejoAcadémico();
-        return "";
-    }*/
-
+     proyectoList = proyectoFacade.findByPorAutorizarConsejoAcadémico();
+     return "";
+     }*/
 //<editor-fold defaultstate="collapsed" desc="Reportes de Programas">
     public Date getFechaDesde() {
         return fechaDesde;
@@ -517,130 +514,129 @@ public class Reportes2Controller implements Serializable {
     }
 
     /*public void generarReporteProgramas(String tipo) {
-        if (this.codigoReporte.equals("1")) {
-            generarReporteProgramasAnio(tipo);
-        } else if (this.codigoReporte.equals("2")) {
-            generarReporteAvancePrograma(tipo);
-        } else if (this.codigoReporte.equals("3")) {
-            generarReporteEvaluacionPrograma(tipo);
-        } else if (this.codigoReporte.equals("4")) {
-            generarReporteResultadosPrograma(tipo);
-        }
-    }*/
+     if (this.codigoReporte.equals("1")) {
+     generarReporteProgramasAnio(tipo);
+     } else if (this.codigoReporte.equals("2")) {
+     generarReporteAvancePrograma(tipo);
+     } else if (this.codigoReporte.equals("3")) {
+     generarReporteEvaluacionPrograma(tipo);
+     } else if (this.codigoReporte.equals("4")) {
+     generarReporteResultadosPrograma(tipo);
+     }
+     }*/
 
     /*private void generarReporteProgramasAnio(String tipoReporte) {
-        try {
-            //prepararParametrosProgramas();
-            programaList = programaFacade.findXCampos(fechaDesde, fechaHasta, codigoPrograma, estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede);
-            parametros = new HashMap<String, Object>();
-            parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
-            parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
-            parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
-            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_PROGRAMA_ANIO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, programaList);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
+     try {
+     //prepararParametrosProgramas();
+     programaList = programaFacade.findXCampos(fechaDesde, fechaHasta, codigoPrograma, estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede);
+     parametros = new HashMap<String, Object>();
+     parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+     parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+     parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
+     JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+     jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_PROGRAMA_ANIO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, programaList);
+     } catch (Exception ex) {
+     ex.printStackTrace();
+     }
+     }*/
 
     /*private void generarReporteAvancePrograma(String tipoReporte) {
-        try {
-            prepararParametrosProgramas();
-            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_AVANCE_PROGRAMA, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
+     try {
+     prepararParametrosProgramas();
+     JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+     jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_AVANCE_PROGRAMA, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros);
+     } catch (Exception ex) {
+     ex.printStackTrace();
+     }
+     }*/
 
     /*private void generarReporteEvaluacionPrograma(String tipoReporte) {
-        try {
-            generarReporteEvaluacionPrograma();
-            parametros = new HashMap<String, Object>();
-            parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
-            parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
-            parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
-            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_EVALUACION_PROGRAMA, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, programaList);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
+     try {
+     generarReporteEvaluacionPrograma();
+     parametros = new HashMap<String, Object>();
+     parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+     parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+     parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
+     JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+     jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_EVALUACION_PROGRAMA, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, programaList);
+     } catch (Exception ex) {
+     ex.printStackTrace();
+     }
+     }*/
 
     /*private void generarReporteResultadosPrograma(String tipoReporte) {
-        try {
-            programaList = programaFacade.findXCampos(fechaDesde, fechaHasta, codigoPrograma, estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede);
-            parametros = new HashMap<String, Object>();
-            parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
-            parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
-            parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
-            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_RESULTADOS_PROGRAMA, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, programaList);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
+     try {
+     programaList = programaFacade.findXCampos(fechaDesde, fechaHasta, codigoPrograma, estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede);
+     parametros = new HashMap<String, Object>();
+     parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+     parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+     parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
+     JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+     jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_RESULTADOS_PROGRAMA, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, programaList);
+     } catch (Exception ex) {
+     ex.printStackTrace();
+     }
+     }*/
     List<Programa> programaList;
 
     /*private void generarReporteEvaluacionPrograma() {
-        programaList = programaFacade.findXCampos(fechaDesde, fechaHasta, codigoPrograma, estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede);
-        for (Programa prog : programaList) {
-            for (Proyecto proy : prog.getProyectoActivoList()) {
-                if (proy.getEvaluacionFinal() == null) {
-                    proy.addEvaluacionFinal(new EvaluacionFinalProyecto());
-                }
-                if (proy.getConfiguracionParametrosEvaluacionFinal() == null) {
-                    proy.setConfiguracionParametrosEvaluacionFinal(configuracionParametrosEvaluacionFacade.findXEvaluacionFinalAndActivo());
-                }
-                if (proy.getConfiguracionParametrosEvaluacionFinal() != null) {
-                    for (ParametroEvaluacionFinalCabecera cab : proy.getConfiguracionParametrosEvaluacionFinal().getParametroEvaluacionFinalCabeceraList()) {
-                        if (cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICACIA)) {
-                            for (ObjetivoPrograma obj : proy.getObjetivoProyectoPadreList()) {
-                                if (obj.getSvopTipo().equals(ObjetivoPrograma.TIPO_FIN)) {
-                                    cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(obj));
-                                } else if (obj.getSvopTipo().equals(ObjetivoPrograma.TIPO_PROPOSITO)) {
-                                    cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(obj));
-                                    for (ObjetivoPrograma comp : obj.getSvinObjetivoHijoList()) {
-                                        cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(comp));
-                                        for (ObjetivoPrograma act : comp.getSvinObjetivoHijoList()) {
-                                            cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(act));
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        ParametroEvaluacion parametroEliminar = null;
-                        for (ParametroEvaluacion par : cab.getParametroEvaluacionList()) {
-                            if (cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICIENCIA)
-                                    && proy.getTipo().equals(Proyecto.TIPO_GASTO_PERMANENTE)
-                                    && par.getIdAspectoEvaluacion() != null
-                                    && par.getIdAspectoEvaluacion().equals(AspectoEvaluacionFinal.TIPO_PRESUPUESTO_UNIVERSIDAD)) {
-                                parametroEliminar = par;
-                            }
-                            par.setProyecto(proy);
-                            if (proy.getEvaluacionFinal().getId() != null) {
-                                if (!cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICACIA)) {
-                                    for (DetalleEvaluacionFinalProyecto det : proy.getEvaluacionFinal().getDetalleEvaluacionFinalProyectoList()) {
-                                        if (det.getValoracionParametroEvaluacion().getParametroEvaluacion().equals(par)) {
-                                            par.setValoracionParametroEvaluacion(det.getValoracionParametroEvaluacion());
-                                            par.setRespuestaInfoAdicional(det.getInfoAdicional());
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        if (parametroEliminar != null) {
-                            cab.removeParametro(parametroEliminar);
-                        }
-                    }
-                    proy.getConfiguracionParametrosEvaluacionFinal().initValoracion();
-                }
+     programaList = programaFacade.findXCampos(fechaDesde, fechaHasta, codigoPrograma, estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede);
+     for (Programa prog : programaList) {
+     for (Proyecto proy : prog.getProyectoActivoList()) {
+     if (proy.getEvaluacionFinal() == null) {
+     proy.addEvaluacionFinal(new EvaluacionFinalProyecto());
+     }
+     if (proy.getConfiguracionParametrosEvaluacionFinal() == null) {
+     proy.setConfiguracionParametrosEvaluacionFinal(configuracionParametrosEvaluacionFacade.findXEvaluacionFinalAndActivo());
+     }
+     if (proy.getConfiguracionParametrosEvaluacionFinal() != null) {
+     for (ParametroEvaluacionFinalCabecera cab : proy.getConfiguracionParametrosEvaluacionFinal().getParametroEvaluacionFinalCabeceraList()) {
+     if (cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICACIA)) {
+     for (ObjetivoPrograma obj : proy.getObjetivoProyectoPadreList()) {
+     if (obj.getSvopTipo().equals(ObjetivoPrograma.TIPO_FIN)) {
+     cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(obj));
+     } else if (obj.getSvopTipo().equals(ObjetivoPrograma.TIPO_PROPOSITO)) {
+     cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(obj));
+     for (ObjetivoPrograma comp : obj.getSvinObjetivoHijoList()) {
+     cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(comp));
+     for (ObjetivoPrograma act : comp.getSvinObjetivoHijoList()) {
+     cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(act));
+     }
+     }
+     }
+     }
+     }
+     ParametroEvaluacion parametroEliminar = null;
+     for (ParametroEvaluacion par : cab.getParametroEvaluacionList()) {
+     if (cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICIENCIA)
+     && proy.getTipo().equals(Proyecto.TIPO_GASTO_PERMANENTE)
+     && par.getIdAspectoEvaluacion() != null
+     && par.getIdAspectoEvaluacion().equals(AspectoEvaluacionFinal.TIPO_PRESUPUESTO_UNIVERSIDAD)) {
+     parametroEliminar = par;
+     }
+     par.setProyecto(proy);
+     if (proy.getEvaluacionFinal().getId() != null) {
+     if (!cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICACIA)) {
+     for (DetalleEvaluacionFinalProyecto det : proy.getEvaluacionFinal().getDetalleEvaluacionFinalProyectoList()) {
+     if (det.getValoracionParametroEvaluacion().getParametroEvaluacion().equals(par)) {
+     par.setValoracionParametroEvaluacion(det.getValoracionParametroEvaluacion());
+     par.setRespuestaInfoAdicional(det.getInfoAdicional());
+     break;
+     }
+     }
+     }
+     }
+     }
+     if (parametroEliminar != null) {
+     cab.removeParametro(parametroEliminar);
+     }
+     }
+     proy.getConfiguracionParametrosEvaluacionFinal().initValoracion();
+     }
 
-            }
-        }
-    }*/
-
+     }
+     }
+     }*/
     private ParametroEvaluacion crearParametroEvaluacionMatrizMarcoLogico(ObjetivoPrograma obj) {
         ParametroEvaluacion par = new ParametroEvaluacion();
         par.setIdAspectoEvaluacion(AspectoEvaluacionFinal.TIPO_MATRIZ_MARCO_LOGICO);
@@ -667,107 +663,105 @@ public class Reportes2Controller implements Serializable {
     private Map<String, Object> parametros;
 
     /*private void prepararParametrosProgramas() {
-        parametros = new HashMap<String, Object>();
-        parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
-        //parametros.put("as_hclinica", this.turnoSeleccionado.getDpaHclinica().getDpaHclinica());
-        //parametros.put("simbologia", JasperReportUtil.PATHSIMBOLOGIA);
-        //parametros.put("PATH", JasperReportUtil.PATH);
-        parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
-        parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
-        if (codigoDepartamento == null) {
-            parametros.put("codigoDepartamento", "");
-        } else {
-            parametros.put("codigoDepartamento", this.codigoDepartamento);
-        }
-        if (codigoCarrera == null) {
-            parametros.put("codigoCarrera", "");
-        } else {
-            parametros.put("codigoCarrera", this.codigoCarrera);
-        }
-        parametros.put("fechaDesde", this.fechaDesde);
-        parametros.put("fechaHasta", this.fechaHasta);
-        if (codigoSede == null) {
-            parametros.put("codigoSede", "");
-        } else {
-            parametros.put("codigoSede", this.codigoSede);
-        }
-        if (this.codigoPrograma == null || this.codigoPrograma == -1) {
-            parametros.put("codigoPrograma", null);
-        } else {
-            parametros.put("codigoPrograma", this.codigoPrograma);
-        }
-        if (estado == null) {
-            parametros.put("estado", "");
-        } else {
-            parametros.put("estado", this.estado);
-        }
-        if (provincia == null) {
-            parametros.put("codigoProvincia", "");
-        } else {
-            parametros.put("codigoProvincia", this.provincia.getProId());
-        }
-        if (canton == null) {
-            parametros.put("codigoCanton", "");
-        } else {
-            parametros.put("codigoCanton", this.canton.getCanId());
-        }
-        if (parroquia == null) {
-            parametros.put("codigoParroquia", "");
-        } else {
-            parametros.put("codigoParroquia", this.parroquia.getPrqId());
-        }
-        //parametros.put("PATH_IMG_1", JasperReportUtil.PATHIMG);
-    }*/
-
+     parametros = new HashMap<String, Object>();
+     parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
+     //parametros.put("as_hclinica", this.turnoSeleccionado.getDpaHclinica().getDpaHclinica());
+     //parametros.put("simbologia", JasperReportUtil.PATHSIMBOLOGIA);
+     //parametros.put("PATH", JasperReportUtil.PATH);
+     parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+     parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+     if (codigoDepartamento == null) {
+     parametros.put("codigoDepartamento", "");
+     } else {
+     parametros.put("codigoDepartamento", this.codigoDepartamento);
+     }
+     if (codigoCarrera == null) {
+     parametros.put("codigoCarrera", "");
+     } else {
+     parametros.put("codigoCarrera", this.codigoCarrera);
+     }
+     parametros.put("fechaDesde", this.fechaDesde);
+     parametros.put("fechaHasta", this.fechaHasta);
+     if (codigoSede == null) {
+     parametros.put("codigoSede", "");
+     } else {
+     parametros.put("codigoSede", this.codigoSede);
+     }
+     if (this.codigoPrograma == null || this.codigoPrograma == -1) {
+     parametros.put("codigoPrograma", null);
+     } else {
+     parametros.put("codigoPrograma", this.codigoPrograma);
+     }
+     if (estado == null) {
+     parametros.put("estado", "");
+     } else {
+     parametros.put("estado", this.estado);
+     }
+     if (provincia == null) {
+     parametros.put("codigoProvincia", "");
+     } else {
+     parametros.put("codigoProvincia", this.provincia.getProId());
+     }
+     if (canton == null) {
+     parametros.put("codigoCanton", "");
+     } else {
+     parametros.put("codigoCanton", this.canton.getCanId());
+     }
+     if (parroquia == null) {
+     parametros.put("codigoParroquia", "");
+     } else {
+     parametros.put("codigoParroquia", this.parroquia.getPrqId());
+     }
+     //parametros.put("PATH_IMG_1", JasperReportUtil.PATHIMG);
+     }*/
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Reportes de Proyectos"> 
     /*public void generarReporteProyectos(String tipo) {
-        if (this.codigoReporte.equals("1")) {
-            generarReporteAprobacionProyectos(tipo);
-        } else if (this.codigoReporte.equals("2")) {
-            generarReporteProyectosEjecutados(tipo);
-        } else if (this.codigoReporte.equals("3")) {
-            generarReporteDocentesProyectos(tipo);
-        } else if (this.codigoReporte.equals("4")) {
-            generarReporteEstudiantesProyectos(tipo);
-        } else if (this.codigoReporte.equals("5")) {
-            generarReporteBeneficiariosProyectos(tipo);
-        } else if (this.codigoReporte.equals("6")) {
-            generarReportePresupuestoProyectos(tipo);
-        } else if (this.codigoReporte.equals("7")) {
-            generarReporteAvanceProyectos(tipo);
-        } else if (this.codigoReporte.equals("8")) {
-            generarReporteEvaluacionProyectos(tipo);
-        } else if (this.codigoReporte.equals("9")) {
-            generarReporteResultadosProyectos(tipo);
-        } else if (this.codigoReporte.equals("10")) {
-            generarReporteCertificadosProyectos(tipo);
-        }
-    }*/
+     if (this.codigoReporte.equals("1")) {
+     generarReporteAprobacionProyectos(tipo);
+     } else if (this.codigoReporte.equals("2")) {
+     generarReporteProyectosEjecutados(tipo);
+     } else if (this.codigoReporte.equals("3")) {
+     generarReporteDocentesProyectos(tipo);
+     } else if (this.codigoReporte.equals("4")) {
+     generarReporteEstudiantesProyectos(tipo);
+     } else if (this.codigoReporte.equals("5")) {
+     generarReporteBeneficiariosProyectos(tipo);
+     } else if (this.codigoReporte.equals("6")) {
+     generarReportePresupuestoProyectos(tipo);
+     } else if (this.codigoReporte.equals("7")) {
+     generarReporteAvanceProyectos(tipo);
+     } else if (this.codigoReporte.equals("8")) {
+     generarReporteEvaluacionProyectos(tipo);
+     } else if (this.codigoReporte.equals("9")) {
+     generarReporteResultadosProyectos(tipo);
+     } else if (this.codigoReporte.equals("10")) {
+     generarReporteCertificadosProyectos(tipo);
+     }
+     }*/
     /*private void generarReporteProyectosEjecutados(String tipoReporte) {
-        try {
-            prepararParametrosReporteProyectos();
-            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_PROYECTOS_EJECUTADOS, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
+     try {
+     prepararParametrosReporteProyectos();
+     JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+     jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_PROYECTOS_EJECUTADOS, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros);
+     } catch (Exception ex) {
+     ex.printStackTrace();
+     }
+     }*/
 
     /*private void generarReporteAprobacionProyectos(String tipoReporte) {
-        try {
-            proyectoList = proyectoFacade.findByAprobadoComisionVinculacion(programa, codigoProyecto, tipoProyecto, codigoCarrera, codigoDepartamento, cobertura, provincia, canton, parroquia, codigoSede);
-            parametros = new HashMap<String, Object>();
-            parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
-            parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
-            parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
-            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_APROBACION_PROYECTO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
-
+     try {
+     proyectoList = proyectoFacade.findByAprobadoComisionVinculacion(programa, codigoProyecto, tipoProyecto, codigoCarrera, codigoDepartamento, cobertura, provincia, canton, parroquia, codigoSede);
+     parametros = new HashMap<String, Object>();
+     parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+     parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+     parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
+     JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+     jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_APROBACION_PROYECTO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
+     } catch (Exception ex) {
+     ex.printStackTrace();
+     }
+     }*/
     private Programa programa;
     private Integer codigoProyecto;
     @EJB
@@ -824,31 +818,30 @@ public class Reportes2Controller implements Serializable {
     }
 
     /*private void initReporteProyectos() {
-        cobertura = 0;
-        docenteList = responsableProyectoFacade.findParticipante(TipoResponsable.TIPO_PARTICIPANTE_DOCENTE);
-        estudianteList = responsableProyectoFacade.findParticipante(TipoResponsable.TIPO_PARTICIPANTE_ESTUDIANTE);
-    }*/
+     cobertura = 0;
+     docenteList = responsableProyectoFacade.findParticipante(TipoResponsable.TIPO_PARTICIPANTE_DOCENTE);
+     estudianteList = responsableProyectoFacade.findParticipante(TipoResponsable.TIPO_PARTICIPANTE_ESTUDIANTE);
+     }*/
 
     /*private void prepararParametrosReporteProyectos() {
-        parametros = new HashMap<String, Object>();
-        parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
-        parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
-        parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
-        parametros.put("codigoDepartamento", codigoDepartamento == null ? "" : codigoDepartamento);
-        parametros.put("codigoCarrera", codigoCarrera == null ? "" : codigoCarrera);
-        parametros.put("fechaDesde", this.fechaDesde);
-        parametros.put("fechaHasta", this.fechaHasta);
-        parametros.put("codigoSede", codigoSede == null ? "" : codigoSede);
-        parametros.put("codigoPrograma", codigoPrograma == null ? -1 : codigoPrograma);
-        parametros.put("estado", estado == null ? "" : estado);
-        parametros.put("codigoProvincia", provincia == null ? "" : provincia.getProId());
-        parametros.put("codigoCanton", canton == null ? "" : canton.getCanId());
-        parametros.put("codigoParroquia", parroquia == null ? "" : parroquia.getPrqId());
-        parametros.put("tipoProyecto", tipoProyecto == null ? "" : tipoProyecto);
-        parametros.put("cobertura", cobertura);
+     parametros = new HashMap<String, Object>();
+     parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
+     parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+     parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+     parametros.put("codigoDepartamento", codigoDepartamento == null ? "" : codigoDepartamento);
+     parametros.put("codigoCarrera", codigoCarrera == null ? "" : codigoCarrera);
+     parametros.put("fechaDesde", this.fechaDesde);
+     parametros.put("fechaHasta", this.fechaHasta);
+     parametros.put("codigoSede", codigoSede == null ? "" : codigoSede);
+     parametros.put("codigoPrograma", codigoPrograma == null ? -1 : codigoPrograma);
+     parametros.put("estado", estado == null ? "" : estado);
+     parametros.put("codigoProvincia", provincia == null ? "" : provincia.getProId());
+     parametros.put("codigoCanton", canton == null ? "" : canton.getCanId());
+     parametros.put("codigoParroquia", parroquia == null ? "" : parroquia.getPrqId());
+     parametros.put("tipoProyecto", tipoProyecto == null ? "" : tipoProyecto);
+     parametros.put("cobertura", cobertura);
 
-    }*/
-
+     }*/
     private String tipoProyecto;
 
     public String getTipoProyecto() {
@@ -870,212 +863,212 @@ public class Reportes2Controller implements Serializable {
     }
 
     /*private void generarReporteDocentesProyectos(String tipoReporte) {
-        try {
-            proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
-                    estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, usuario, null);
-            parametros = new HashMap<String, Object>();
-            parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
-            parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
-            parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
-            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_PARTICIPACION_DOCENTE, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
+     try {
+     proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
+     estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, usuario, null);
+     parametros = new HashMap<String, Object>();
+     parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+     parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+     parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
+     JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+     jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_PARTICIPACION_DOCENTE, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
+     } catch (Exception ex) {
+     ex.printStackTrace();
+     }
+     }*/
 
     /*private void generarReporteEstudiantesProyectos(String tipoReporte) {
-        try {
-            proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
-                    estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, null, usuario);
-            parametros = new HashMap<String, Object>();
-            parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
-            parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
-            parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
-            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_PARTICIPACION_ESTUDIANTE, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
+     try {
+     proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
+     estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, null, usuario);
+     parametros = new HashMap<String, Object>();
+     parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+     parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+     parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
+     JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+     jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_PARTICIPACION_ESTUDIANTE, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
+     } catch (Exception ex) {
+     ex.printStackTrace();
+     }
+     }*/
 
     /*private void generarReporteBeneficiariosProyectos(String tipoReporte) {
-        try {
-            proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
-                    estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, null, null);
-            parametros = new HashMap<String, Object>();
-            parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
-            parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
-            parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
-            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_BENEFICIARIOS_PROYECTO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
+     try {
+     proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
+     estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, null, null);
+     parametros = new HashMap<String, Object>();
+     parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+     parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+     parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
+     JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+     jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_BENEFICIARIOS_PROYECTO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
+     } catch (Exception ex) {
+     ex.printStackTrace();
+     }
+     }*/
 
     /*private void generarReportePresupuestoProyectos(String tipoReporte) {
-        try {
-            proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
-                    estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, null, null);
-            for (Proyecto proy : proyectoList) {
-                proy.inicializarListadoPresupuestos();
-            }
+     try {
+     proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
+     estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, null, null);
+     for (Proyecto proy : proyectoList) {
+     proy.inicializarListadoPresupuestos();
+     }
 
-            parametros = new HashMap<String, Object>();
-            parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
-            parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
-            parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
-            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_PRESUPUESTO_PROYECTO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+     parametros = new HashMap<String, Object>();
+     parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+     parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+     parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
+     JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+     jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_PRESUPUESTO_PROYECTO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
+     } catch (Exception ex) {
+     ex.printStackTrace();
+     }
+     }
 
-    private void generarReporteAvanceProyectos(String tipoReporte) {
-        try {
-            proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
-                    estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, null, null);
-            parametros = new HashMap<String, Object>();
-            parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
-            parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
-            parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
-            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_AVANCE_PROYECTO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
+     private void generarReporteAvanceProyectos(String tipoReporte) {
+     try {
+     proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
+     estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, null, null);
+     parametros = new HashMap<String, Object>();
+     parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+     parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+     parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
+     JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+     jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_AVANCE_PROYECTO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
+     } catch (Exception ex) {
+     ex.printStackTrace();
+     }
+     }*/
 
     /*private void generarReporteEvaluacionProyecto() {
-        proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
-                estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, null, null);
+     proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
+     estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, null, null);
 
-        for (Proyecto proy : proyectoList) {
-            if (proy.getEvaluacionFinal() == null) {
-                proy.addEvaluacionFinal(new EvaluacionFinalProyecto());
-            }
-            if (proy.getConfiguracionParametrosEvaluacionFinal() == null) {
-                proy.setConfiguracionParametrosEvaluacionFinal(configuracionParametrosEvaluacionFacade.findXEvaluacionFinalAndActivo());
-            }
-            if (proy.getConfiguracionParametrosEvaluacionFinal() != null) {
-                for (ParametroEvaluacionFinalCabecera cab : proy.getConfiguracionParametrosEvaluacionFinal().getParametroEvaluacionFinalCabeceraList()) {
-                    if (cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICACIA)) {
-                        for (ObjetivoPrograma obj : proy.getObjetivoProyectoPadreList()) {
-                            if (obj.getSvopTipo().equals(ObjetivoPrograma.TIPO_FIN)) {
-                                cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(obj));
-                            } else if (obj.getSvopTipo().equals(ObjetivoPrograma.TIPO_PROPOSITO)) {
-                                cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(obj));
-                                for (ObjetivoPrograma comp : obj.getSvinObjetivoHijoList()) {
-                                    cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(comp));
-                                    for (ObjetivoPrograma act : comp.getSvinObjetivoHijoList()) {
-                                        cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(act));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    ParametroEvaluacion parametroEliminar = null;
-                    for (ParametroEvaluacion par : cab.getParametroEvaluacionList()) {
-                        if (cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICIENCIA)
-                                && proy.getTipo().equals(Proyecto.TIPO_GASTO_PERMANENTE)
-                                && par.getIdAspectoEvaluacion() != null
-                                && par.getIdAspectoEvaluacion().equals(AspectoEvaluacionFinal.TIPO_PRESUPUESTO_UNIVERSIDAD)) {
-                            parametroEliminar = par;
-                        }
-                        par.setProyecto(proy);
-                        if (proy.getEvaluacionFinal().getId() != null) {
-                            if (!cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICACIA)) {
-                                for (DetalleEvaluacionFinalProyecto det : proy.getEvaluacionFinal().getDetalleEvaluacionFinalProyectoList()) {
-                                    if (det.getValoracionParametroEvaluacion().getParametroEvaluacion().equals(par)) {
-                                        par.setValoracionParametroEvaluacion(det.getValoracionParametroEvaluacion());
-                                        par.setRespuestaInfoAdicional(det.getInfoAdicional());
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (parametroEliminar != null) {
-                        cab.removeParametro(parametroEliminar);
-                    }
-                }
-                proy.getConfiguracionParametrosEvaluacionFinal().initValoracion();
-            }
+     for (Proyecto proy : proyectoList) {
+     if (proy.getEvaluacionFinal() == null) {
+     proy.addEvaluacionFinal(new EvaluacionFinalProyecto());
+     }
+     if (proy.getConfiguracionParametrosEvaluacionFinal() == null) {
+     proy.setConfiguracionParametrosEvaluacionFinal(configuracionParametrosEvaluacionFacade.findXEvaluacionFinalAndActivo());
+     }
+     if (proy.getConfiguracionParametrosEvaluacionFinal() != null) {
+     for (ParametroEvaluacionFinalCabecera cab : proy.getConfiguracionParametrosEvaluacionFinal().getParametroEvaluacionFinalCabeceraList()) {
+     if (cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICACIA)) {
+     for (ObjetivoPrograma obj : proy.getObjetivoProyectoPadreList()) {
+     if (obj.getSvopTipo().equals(ObjetivoPrograma.TIPO_FIN)) {
+     cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(obj));
+     } else if (obj.getSvopTipo().equals(ObjetivoPrograma.TIPO_PROPOSITO)) {
+     cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(obj));
+     for (ObjetivoPrograma comp : obj.getSvinObjetivoHijoList()) {
+     cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(comp));
+     for (ObjetivoPrograma act : comp.getSvinObjetivoHijoList()) {
+     cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(act));
+     }
+     }
+     }
+     }
+     }
+     ParametroEvaluacion parametroEliminar = null;
+     for (ParametroEvaluacion par : cab.getParametroEvaluacionList()) {
+     if (cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICIENCIA)
+     && proy.getTipo().equals(Proyecto.TIPO_GASTO_PERMANENTE)
+     && par.getIdAspectoEvaluacion() != null
+     && par.getIdAspectoEvaluacion().equals(AspectoEvaluacionFinal.TIPO_PRESUPUESTO_UNIVERSIDAD)) {
+     parametroEliminar = par;
+     }
+     par.setProyecto(proy);
+     if (proy.getEvaluacionFinal().getId() != null) {
+     if (!cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICACIA)) {
+     for (DetalleEvaluacionFinalProyecto det : proy.getEvaluacionFinal().getDetalleEvaluacionFinalProyectoList()) {
+     if (det.getValoracionParametroEvaluacion().getParametroEvaluacion().equals(par)) {
+     par.setValoracionParametroEvaluacion(det.getValoracionParametroEvaluacion());
+     par.setRespuestaInfoAdicional(det.getInfoAdicional());
+     break;
+     }
+     }
+     }
+     }
+     }
+     if (parametroEliminar != null) {
+     cab.removeParametro(parametroEliminar);
+     }
+     }
+     proy.getConfiguracionParametrosEvaluacionFinal().initValoracion();
+     }
 
-        }
-    }*/
+     }
+     }*/
 
     /*private void generarReporteEvaluacionProyectos(String tipoReporte) {
-        try {
-            generarReporteEvaluacionProyecto();
-            parametros = new HashMap<String, Object>();
-            parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
-            parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
-            parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
-            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_EVALUACION_PROYECTO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
+     try {
+     generarReporteEvaluacionProyecto();
+     parametros = new HashMap<String, Object>();
+     parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+     parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+     parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
+     JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+     jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_EVALUACION_PROYECTO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
+     } catch (Exception ex) {
+     ex.printStackTrace();
+     }
+     }*/
 
     /*private void generarReporteResultadosProyectos(String tipoReporte) {
-        try {
-            proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
-                    estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, null, null);
-            parametros = new HashMap<String, Object>();
-            parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
-            parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
-            parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
-            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_RESULTADOS_PROYECTO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
+     try {
+     proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
+     estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, null, null);
+     parametros = new HashMap<String, Object>();
+     parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+     parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+     parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
+     JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+     jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_RESULTADOS_PROYECTO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
+     } catch (Exception ex) {
+     ex.printStackTrace();
+     }
+     }*/
 
     /*private void generarReporteCertificadosProyectos(String tipoReporte) {
-        try {
-            proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
-                    estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, null, null);
-            parametros = new HashMap<String, Object>();
-            parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
-            parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
-            parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
-            JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_CERTIFICADOS_PROYECTO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }*/
+     try {
+     proyectoList = proyectoFacade.findXCampos(fechaDesde, fechaHasta, programa, codigoProyecto, tipoProyecto,
+     estado, codigoCarrera, codigoDepartamento, provincia, canton, parroquia, codigoSede, cobertura, null, null);
+     parametros = new HashMap<String, Object>();
+     parametros.put("SUBREPORT_DIR", JasperReportUtil.PATH);//JasperReportUtil.PATHIMG);
+     parametros.put("dirPhoto", JasperReportUtil.PATHIMG + "banner_SSD.png");//JasperReportUtil.PATHIMG);
+     parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
+     JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
+     jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_CERTIFICADOS_PROYECTO, tipoReporte.equals("PDF") ? JasperReportUtil.TIPO_PDF : (tipoReporte.equals("XLS") ? JasperReportUtil.TIPO_XLS : JasperReportUtil.TIPO_WORD), parametros, proyectoList);
+     } catch (Exception ex) {
+     ex.printStackTrace();
+     }
+     }*/
     //</editor-fold>    
 
     /*public void dynamicJasper() {
-        try {
+     try {
 
-            FastReportBuilder drb = new FastReportBuilder();
-            DynamicReport dr = drb.addColumn("State", "state", String.class.getName(), 30)
-                    .addColumn("Branch", "branch", String.class.getName(), 30)
-                    .addColumn("Product Line", "productLine", String.class.getName(), 50)
-                    .addColumn("Item", "item", String.class.getName(), 50)
-                    .addColumn("Item Code", "id", Long.class.getName(), 30, true)
-                    .addColumn("Quantity", "quantity", Long.class.getName(), 60, true)
-                    .addColumn("Amount", "amount", Float.class.getName(), 70, true)
-                    .addGroups(2)
-                    .setTitle("November 2006 sales report")
-                    .setSubtitle("This report was generated at " + new Date())
-                    .setPrintBackgroundOnOddRows(true)
-                    .setUseFullPageWidth(true)
-                    .build();
+     FastReportBuilder drb = new FastReportBuilder();
+     DynamicReport dr = drb.addColumn("State", "state", String.class.getName(), 30)
+     .addColumn("Branch", "branch", String.class.getName(), 30)
+     .addColumn("Product Line", "productLine", String.class.getName(), 50)
+     .addColumn("Item", "item", String.class.getName(), 50)
+     .addColumn("Item Code", "id", Long.class.getName(), 30, true)
+     .addColumn("Quantity", "quantity", Long.class.getName(), 60, true)
+     .addColumn("Amount", "amount", Float.class.getName(), 70, true)
+     .addGroups(2)
+     .setTitle("November 2006 sales report")
+     .setSubtitle("This report was generated at " + new Date())
+     .setPrintBackgroundOnOddRows(true)
+     .setUseFullPageWidth(true)
+     .build();
 
-            //JRDataSource ds = new JRBeanCollectionDataSource(TestRepositoryProducts.getDummyCollection());
-            JasperPrint jp = DynamicJasperHelper.generateJasperPrint(dr, new ClassicLayoutManager(), ds);
-            JasperViewer.viewReport(jp);    //finally display the report report
-        } catch (Exception e) {
-        }
-    }
+     //JRDataSource ds = new JRBeanCollectionDataSource(TestRepositoryProducts.getDummyCollection());
+     JasperPrint jp = DynamicJasperHelper.generateJasperPrint(dr, new ClassicLayoutManager(), ds);
+     JasperViewer.viewReport(jp);    //finally display the report report
+     } catch (Exception e) {
+     }
+     }
     
     
      */
@@ -1304,7 +1297,6 @@ public class Reportes2Controller implements Serializable {
     }
 
     private List<SeaParametrosDet> estadoList;
-    
 
     public List<SeaParametrosDet> getEstadoList() {
         return estadoList;
@@ -1333,7 +1325,7 @@ public class Reportes2Controller implements Serializable {
     public void setCoberturaList(List<SeaParametrosDet> coberturaList) {
         this.coberturaList = coberturaList;
     }
-    
+
     /**
      * Verfica cuales filtros fueron seleccionados por el usuario. 
      * y devuelve un Boolean para saber si debo o no filtrar esos datos. 
@@ -1434,7 +1426,7 @@ public class Reportes2Controller implements Serializable {
     }
 
 //    variable para use filter of primefaces
-   private List<ProyectoReporte> proyectoReporteFilter;
+    private List<ProyectoReporte> proyectoReporteFilter;
 
     public List<ProyectoReporte> getProyectoReporteFilter() {
         return proyectoReporteFilter;
@@ -1443,10 +1435,7 @@ public class Reportes2Controller implements Serializable {
     public void setProyectoReporteFilter(List<ProyectoReporte> proyectoReporteFilter) {
         this.proyectoReporteFilter = proyectoReporteFilter;
     }
-   
-   
-    
-    
+
     private List<ProyectoReporte> proyectosReporteList;
 
     public List<ProyectoReporte> getProyectosReporteList() {
@@ -1503,14 +1492,14 @@ public class Reportes2Controller implements Serializable {
                 for (SeaParametrosDet estadoFiltro : estadoList) {
                     if (estadoFiltro.getSelected() != null && estadoFiltro.getSelected()) {
                         /*if (estadoFiltro.getId().equals(Proyecto.ESTADO_CREADO)) {
-                            if (proy.getEstado().equals(Proyecto.ESTADO_CREADO) || proy.getEstado().equals(Proyecto.ESTADO_REVISION)) {
-                                encontro = true;
-                                break;
-                            }
-                        } else if (estadoFiltro.getId().equals(proy.getEstado())) {
-                            encontro = true;
-                            break;
-                        }*/
+                         if (proy.getEstado().equals(Proyecto.ESTADO_CREADO) || proy.getEstado().equals(Proyecto.ESTADO_REVISION)) {
+                         encontro = true;
+                         break;
+                         }
+                         } else if (estadoFiltro.getId().equals(proy.getEstado())) {
+                         encontro = true;
+                         break;
+                         }*/
                         if (estadoFiltro.getPrdId().equals(proy.getEstado().getPrdId())) {
                             encontro = true;
                             break;
@@ -1736,70 +1725,69 @@ public class Reportes2Controller implements Serializable {
     }
 
     /*private void agregaEvaluacionFinal() {
-        if (visualizarEvaluacionFinal) {
-            for (Proyecto proy : proyectoList) {
-                if (proy.getEstado().equals(Proyecto.ESTADO_EVALUADO) && proy.getEvaluacionFinal() != null) {
+     if (visualizarEvaluacionFinal) {
+     for (Proyecto proy : proyectoList) {
+     if (proy.getEstado().equals(Proyecto.ESTADO_EVALUADO) && proy.getEvaluacionFinal() != null) {
 
-                    for (ParametroEvaluacionFinalCabecera cab : proy.getConfiguracionParametrosEvaluacionFinal().getParametroEvaluacionFinalCabeceraList()) {
-                        if (cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICACIA)) {
-                            for (ObjetivoPrograma obj : proy.getObjetivoProyectoPadreList()) {
-                                if (obj.getSvopTipo().equals(ObjetivoPrograma.TIPO_FIN)) {
-                                    cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(obj));
-                                } else if (obj.getSvopTipo().equals(ObjetivoPrograma.TIPO_PROPOSITO)) {
-                                    cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(obj));
-                                    for (ObjetivoPrograma comp : obj.getSvinObjetivoHijoList()) {
-                                        cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(comp));
-                                        for (ObjetivoPrograma act : comp.getSvinObjetivoHijoList()) {
-                                            cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(act));
-                                        }
-                                    }
-                                }
-                            }
-                        }
+     for (ParametroEvaluacionFinalCabecera cab : proy.getConfiguracionParametrosEvaluacionFinal().getParametroEvaluacionFinalCabeceraList()) {
+     if (cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICACIA)) {
+     for (ObjetivoPrograma obj : proy.getObjetivoProyectoPadreList()) {
+     if (obj.getSvopTipo().equals(ObjetivoPrograma.TIPO_FIN)) {
+     cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(obj));
+     } else if (obj.getSvopTipo().equals(ObjetivoPrograma.TIPO_PROPOSITO)) {
+     cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(obj));
+     for (ObjetivoPrograma comp : obj.getSvinObjetivoHijoList()) {
+     cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(comp));
+     for (ObjetivoPrograma act : comp.getSvinObjetivoHijoList()) {
+     cab.addParametro(crearParametroEvaluacionMatrizMarcoLogico(act));
+     }
+     }
+     }
+     }
+     }
 
-                        ParametroEvaluacion parametroEliminar = null;
-                        for (ParametroEvaluacion par : cab.getParametroEvaluacionList()) {
-                            if (cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICIENCIA)
-                                    && proy.getTipo().equals(Proyecto.TIPO_GASTO_PERMANENTE)
-                                    && par.getIdAspectoEvaluacion() != null
-                                    && par.getIdAspectoEvaluacion().equals(AspectoEvaluacionFinal.TIPO_PRESUPUESTO_UNIVERSIDAD)) {
-                                parametroEliminar = par;
-                            }
-                            par.setProyecto(proy);
-                            if (proy.getEvaluacionFinal().getId() != null) {
-                                if (!cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICACIA)) {
-                                    for (DetalleEvaluacionFinalProyecto det : proy.getEvaluacionFinal().getDetalleEvaluacionFinalProyectoList()) {
-                                        try {
-                                            if (det.getValoracionParametroEvaluacion().getParametroEvaluacion().equals(par)) {
-                                                par.setValoracionParametroEvaluacion(det.getValoracionParametroEvaluacion());
-                                                par.setRespuestaInfoAdicional(det.getInfoAdicional());
-                                                break;
-                                            }
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
+     ParametroEvaluacion parametroEliminar = null;
+     for (ParametroEvaluacion par : cab.getParametroEvaluacionList()) {
+     if (cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICIENCIA)
+     && proy.getTipo().equals(Proyecto.TIPO_GASTO_PERMANENTE)
+     && par.getIdAspectoEvaluacion() != null
+     && par.getIdAspectoEvaluacion().equals(AspectoEvaluacionFinal.TIPO_PRESUPUESTO_UNIVERSIDAD)) {
+     parametroEliminar = par;
+     }
+     par.setProyecto(proy);
+     if (proy.getEvaluacionFinal().getId() != null) {
+     if (!cab.getTipo().equals(ParametroEvaluacionFinalCabecera.TIPO_ANALISIS_EFICACIA)) {
+     for (DetalleEvaluacionFinalProyecto det : proy.getEvaluacionFinal().getDetalleEvaluacionFinalProyectoList()) {
+     try {
+     if (det.getValoracionParametroEvaluacion().getParametroEvaluacion().equals(par)) {
+     par.setValoracionParametroEvaluacion(det.getValoracionParametroEvaluacion());
+     par.setRespuestaInfoAdicional(det.getInfoAdicional());
+     break;
+     }
+     } catch (Exception e) {
+     e.printStackTrace();
+     }
 
-                                    }
-                                }
-                            }
-                        }
-                        if (parametroEliminar != null) {
-                            cab.removeParametro(parametroEliminar);
-                        }
-                    }
-                    proy.getConfiguracionParametrosEvaluacionFinal().initValoracion();
-                    proy.setPuntajeEvaluacionEficacia(proy.getConfiguracionParametrosEvaluacionFinal().getParametroEvaluacionFinalCabeceraEficaciaList().get(0).getPuntajeTotal());
-                    proy.setPuntajeEvaluacionEficiencia(proy.getConfiguracionParametrosEvaluacionFinal().getParametroEvaluacionFinalCabeceraEficienciaList().get(0).getPuntajeTotal());
-                    proy.setPuntajeEvaluacionPertinencia(proy.getConfiguracionParametrosEvaluacionFinal().getParametroEvaluacionFinalCabeceraPertinenciaList().get(0).getPuntajeTotal());
-                    proy.setPuntajeEvaluacionSostenibilidad(proy.getConfiguracionParametrosEvaluacionFinal().getParametroEvaluacionFinalCabeceraSostenibilidadList().get(0).getPuntajeTotal());
-                    proy.setPuntajeEvaluacionTotal(proy.getConfiguracionParametrosEvaluacionFinal().getPuntajeTotalEvaluacionFinal());
-                    proy.setPuntajeEvaluacionSobre(proy.getConfiguracionParametrosEvaluacionFinal().getPuntajeMaximoEvaluacionFinal());
-                }
+     }
+     }
+     }
+     }
+     if (parametroEliminar != null) {
+     cab.removeParametro(parametroEliminar);
+     }
+     }
+     proy.getConfiguracionParametrosEvaluacionFinal().initValoracion();
+     proy.setPuntajeEvaluacionEficacia(proy.getConfiguracionParametrosEvaluacionFinal().getParametroEvaluacionFinalCabeceraEficaciaList().get(0).getPuntajeTotal());
+     proy.setPuntajeEvaluacionEficiencia(proy.getConfiguracionParametrosEvaluacionFinal().getParametroEvaluacionFinalCabeceraEficienciaList().get(0).getPuntajeTotal());
+     proy.setPuntajeEvaluacionPertinencia(proy.getConfiguracionParametrosEvaluacionFinal().getParametroEvaluacionFinalCabeceraPertinenciaList().get(0).getPuntajeTotal());
+     proy.setPuntajeEvaluacionSostenibilidad(proy.getConfiguracionParametrosEvaluacionFinal().getParametroEvaluacionFinalCabeceraSostenibilidadList().get(0).getPuntajeTotal());
+     proy.setPuntajeEvaluacionTotal(proy.getConfiguracionParametrosEvaluacionFinal().getPuntajeTotalEvaluacionFinal());
+     proy.setPuntajeEvaluacionSobre(proy.getConfiguracionParametrosEvaluacionFinal().getPuntajeMaximoEvaluacionFinal());
+     }
 
-            }
-        }
-    }*/
-    
+     }
+     }
+     }*/
     public void generarReporteProyectos() {
         try {
             columnaOrdenada = null;
@@ -1827,7 +1815,6 @@ public class Reportes2Controller implements Serializable {
             filtrarProyectos();
             //agregaEvaluacionFinal();
 
-           
             for (Proyecto p : proyectoList) {
                 if ((p.getLineaInvestigacionProyectoList() == null || p.getLineaInvestigacionProyectoList().isEmpty())
                         && (p.getDepartamentoProyectoList() == null || p.getDepartamentoProyectoList().isEmpty())
@@ -1931,16 +1918,32 @@ public class Reportes2Controller implements Serializable {
                 }
             }
 
-            //Docentes participantes
+            /**
+             * Refactorizacion de metodo, obtener los docentes participantes.
+             *
+             * @autor Jhonny Jami.
+             */
             for (Proyecto p : proyectoList) {
                 List<ResponsableProyecto> lista = p.getParticipanteDocenteTodosList();
                 if (lista == null || lista.isEmpty() || !visualizarDocenteParticipante) {
                     agregarProyecto(p);
-                } else if (visualizarDocenteParticipante) {
+                } else if (verificarFiltro(9)) {
+                    for (SegUsuario docenteFiltro : docenteList) {
+                        if (docenteFiltro.getSelected() != null && docenteFiltro.getSelected()) {
+                            for (ResponsableProyecto item : lista) {
+
+                                if (docenteFiltro.equals(item.getUsuario())) {
+                                    agregarProyectoDocenteParticipante(p, item);
+                                }
+                            }
+                        }
+                    }
+                } else {
                     for (ResponsableProyecto item : lista) {
                         agregarProyectoDocenteParticipante(p, item);
                     }
                 }
+
             }
 
             //Estudiantes participantes
@@ -2000,7 +2003,7 @@ public class Reportes2Controller implements Serializable {
                 if (p.getDepartamentoParticipante() == null) {
                     p.setDepartamentoParticipante(new Stvsubj("-1", ""));
                 }
-                if (p.getLineaInvestigacion() == null) {   
+                if (p.getLineaInvestigacion() == null) {
                     p.setLineaInvestigacion(new SeaLineainves(new BigDecimal("-1"), ""));
                 }
                 if (p.getProvincia() == null) {
@@ -2142,7 +2145,7 @@ public class Reportes2Controller implements Serializable {
         reporteProyecto.setCobertura(proyecto.getCoberturaStr().toUpperCase());
         VDocenteVinculacion2 doc = vistaDocenteFacade.findByUsuId(proyecto.getDirector().getUsuario().getUsuId());
         // Jhonny Jami; Posible Null en la variable DOC.
-        if(doc != null){
+        if (doc != null) {
             ResponsableProyecto director = new ResponsableProyecto();
             director.setUsuario(doc.getUsuario());
             director.setCampus(doc.getCampus());
@@ -2200,7 +2203,7 @@ public class Reportes2Controller implements Serializable {
         if (proyecto.getParticipanteEstudianteList() != null && !proyecto.getParticipanteEstudianteList().isEmpty()) {
             reporteProyecto.setDocumentacionNroEstudiantes(true);
         }
-        
+
         if (proyecto.getObjetivoProyectoList() != null && !proyecto.getObjetivoProyectoList().isEmpty()) {
             for (ObjetivoPrograma obj : proyecto.getObjetivoProyectoList()) {
                 if (obj.getSeguimientoProyectoActual().getAvanceActividadList() != null && !obj.getSeguimientoProyectoActual().getAvanceActividadList().isEmpty()) {
@@ -2431,18 +2434,22 @@ public class Reportes2Controller implements Serializable {
 
     private void agregarProyectoDocenteParticipante(Proyecto proyecto, ResponsableProyecto docente) {
         boolean encontro = false;
+        //Devuelve una lista de todos los proyectos que se encuentran dentro del ReporteProyecto los cuales no tengan o sean NULL sus valores relacionados al TipoBusqueda.
         for (ProyectoReporte p : buscarProyectos(proyecto.getId(), TipoBusqueda.DOCENTE)) {
-            p.setDocenteParticipante(docente);
+            p.setDocenteParticipante(docente); //Se asigna el Docente al ProyectoCorrespondiente pero dentro del ReporteProyecto.
             encontro = true;
         }
+        //El proyecto dentro de Lista ReporteProyecto ya tiene asignado por lo menos un Docente.
         if (!encontro) {
             String idBuscar = null;
             for (ProyectoReporte p : proyectosReporteList) {
                 if (p.getId().equals(proyecto.getId()) && p.getDocenteParticipante() != null) {
+                    // obtengo el ID para saber si el docentre ya esta asignadao en la lista de ProyectoReporte.
                     idBuscar = p.getDocenteParticipante().getUsuario().getUsuId().toString();
                     break;
                 }
             }
+            //Cuando ya existe docentes asignados a un proyecto de ProyectoReporte, pero no es el Docente que yo deseo asignar,
             if (idBuscar == null) {
                 boolean encontro2 = false;
                 for (ProyectoReporte p : buscarProyectos(proyecto.getId(), null)) {
@@ -2700,6 +2707,7 @@ public class Reportes2Controller implements Serializable {
     }
 
     private enum TipoBusqueda {
+
         LINEA_INVESTIGACION, DEPARTAMENTO, CAMPUS, CARRERA, PROVINCIA, CANTON, PARROQUIA, DOCENTE, ESTUDIANTE, PRESUPUESTO, AVANCE
     }
 
@@ -3023,6 +3031,7 @@ public class Reportes2Controller implements Serializable {
     }
 
     private enum COLUMNA {
+
         PROGRAMA, PROYECTO, CODIGO_PROYECTO, ESTADO, TIPO_PROYECTO, DIRECTOR, CAMPUS, DEPARTAMENTO, COBERTURA, LINEA_INVESTIGACION, CARRERA, CAMPUS_PARTICIPANTE, DEPARTAMENTO_PARTICIPANTE, PROVINCIA, CANTON, PARROQUIA, DOCENTE_PARTICIPANTE, ESTUDIANTE_PARTICIPANTE, PRESUPUESTO_PARTIDA
     }
 

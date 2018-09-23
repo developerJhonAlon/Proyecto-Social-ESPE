@@ -8,24 +8,19 @@ package ec.edu.espe_ctt.vinculacion.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -38,12 +33,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "SZDTAVOBJETIVO_B_VIVIR")
 @XmlRootElement
-public class ObjetivoBVivir implements Serializable ,Comparable<ObjetivoBVivir> {
+public class ObjetivoBVivir implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @SequenceGenerator(name = "SEQ_SZDTAVOBJETIVO_B_VIVIR", sequenceName = "SEQ_SZDTAVOBJETIVO_B_VIVIR", allocationSize = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_SZDTAVOBJETIVO_B_VIVIR")
     @Basic(optional = false)
     @NotNull
     @Column(name = "SVOBVI_ID")
@@ -58,15 +51,8 @@ public class ObjetivoBVivir implements Serializable ,Comparable<ObjetivoBVivir> 
     private ObjetivoBVivir svobviIdPadre;
     @Column(name = "SVOBVI_ORDEN")
     private Integer orden;
- 
-    @JoinColumn(name = "SZTVPLAN_CODE", referencedColumnName = "SZTVPLAN_CODE")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private PlanNacional configuracionPlanNacional;
-    
-    @Transient
-    private boolean expanded;
-    
-    
+
+
     public ObjetivoBVivir() {
     }
 
@@ -74,47 +60,14 @@ public class ObjetivoBVivir implements Serializable ,Comparable<ObjetivoBVivir> 
         this.svobviId = svobviId;
     }
 
-    
-    public boolean isExpanded() {
-        return expanded;
+    public BigDecimal getSvobviId() {
+        return svobviId;
     }
 
-    public void setExpanded(boolean expanded) {
-        this.expanded = expanded;
-    }
-
-    public void cambiarOrden(Integer cambio) {
-        Integer temp = orden;
-        if (cambio.equals(-1)) {
-            configuracionPlanNacional.getObjetivoBVivirList().get(temp - 2).setOrden(temp);
-      
-            
-            setOrden(temp - 1);
-        } else {
-            configuracionPlanNacional.getObjetivoBVivirList().get(temp).setOrden(temp);
-            setOrden(temp + 1);
-        }
-    }
-    
-    public void removePolitica(ObjetivoBVivir politicaPlanNacional) {
-        for (ObjetivoBVivir politica : getSvinObjetivoBVivirCollection()) {
-            if (politica.getOrden() > politicaPlanNacional.getOrden()) {
-                politica.setOrden(politica.getOrden() - 1);
-            }
-        }
-        svinObjetivoBVivirCollection.remove(politicaPlanNacional);
-    }
-   
     public void setSvobviId(BigDecimal svobviId) {
         this.svobviId = svobviId;
     }
 
-    public BigDecimal getSvobviId() {
-        return svobviId;
-    }
-   
-    
-    
     public String getSvobviDescripcion() {
         return svobviDescripcion;
     }
@@ -138,14 +91,6 @@ public class ObjetivoBVivir implements Serializable ,Comparable<ObjetivoBVivir> 
 
     public void setSvobviIdPadre(ObjetivoBVivir svobviIdPadre) {
         this.svobviIdPadre = svobviIdPadre;
-    }
-
-    public PlanNacional getConfiguracionPlanNacional() {
-        return configuracionPlanNacional;
-    }
-
-    public void setConfiguracionPlanNacional(PlanNacional configuracionPlanNacional) {
-        this.configuracionPlanNacional = configuracionPlanNacional;
     }
 
     @Override
@@ -189,11 +134,6 @@ public class ObjetivoBVivir implements Serializable ,Comparable<ObjetivoBVivir> 
             return orden.toString() + ". " + svobviDescripcion;
         }
     }
-
-    @Override
-    public int compareTo(ObjetivoBVivir o) {
-        return this.orden.compareTo(o.getOrden());
-    }
-
     
+
 }
