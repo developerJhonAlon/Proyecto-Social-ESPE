@@ -1,1 +1,5 @@
 /Vinculacion-war/dist/
+/build/
+/Vinculacion-ejb/build/
+/Vinculacion-ejb/dist/
+/Vinculacion-war/build/

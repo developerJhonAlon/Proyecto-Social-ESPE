@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -54,14 +55,14 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Administrador
  */
 @Entity
-@Table(name = "SZDTAVPROYEC")
+@Table(name = "SZDTAVPROYEC", schema = "SIEVAL")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Proyecto.findAll", query = "SELECT s FROM Proyecto s"),
     @NamedQuery(name = "Proyecto.findById", query = "SELECT s FROM Proyecto s WHERE s.id = :id")
 })
 public class Proyecto implements Serializable {
-
+  
     private static final long serialVersionUID = 1L;
     @SequenceGenerator(name = "SEQ_SZDTAVPROYEC", sequenceName = "SEQ_SZDTAVPROYEC", allocationSize = 1)
     @Id
@@ -218,6 +219,9 @@ public class Proyecto implements Serializable {
     @Size(max = 3000)
     @Column(name = "SZTVPROYEC_BIEN_SERVICIO")
     private String bienesServicios;
+    @Size(max = 3000)
+    @Column(name = "SZTVPROYEC_EFECTO_ESPERADO")
+    private String efectoEsperado;
     @Column(name = "SZTVPROYEC_TIPO_PROY")
     private String tipo;
     public static final String TIPO_GASTO_NO_PERMANENTE = "I";
@@ -383,7 +387,9 @@ public class Proyecto implements Serializable {
     private List<AnexoProyecto> anexoProyectoList;
     @OneToMany(mappedBy = "proyecto", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CompromisoParticipacionProyecto> compromisoParticipacionList;
-
+    @OneToMany(mappedBy = "proyecto", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImpactoEsperado> impactoEsperadoList;
+    
     @Transient
     private List<SeaLineainves> lineaInvestigacionList;
     @Transient
@@ -477,6 +483,37 @@ public class Proyecto implements Serializable {
         }
         return result;
     }
+    
+     public int[] getDuracionNum() {
+        
+        if (fechaFinalizacion != null && fechaInicio != null) {
+            SimpleDateFormat sdfIni = new SimpleDateFormat("dd/mm/yyyy");
+            SimpleDateFormat sdfFIn = new SimpleDateFormat("dd/mm/yyyy");
+            sdfIni.format(fechaInicio.getTime());
+            sdfFIn.format(fechaFinalizacion.getTime());
+            Calendar calendarInicio = Calendar.getInstance();
+            calendarInicio.setTime(this.fechaInicio);
+            Calendar calendarFin = Calendar.getInstance();
+            calendarFin.setTime(this.fechaFinalizacion);
+            if (calendarInicio.compareTo(calendarFin) == 1) {
+                fechaFinalizacion = null;
+            } else {
+                int mes1 = calendarInicio.get(Calendar.MONTH);
+                int mes2 = calendarFin.get(Calendar.MONTH);
+                int meses = 0;
+                if (mes1 > mes2) {
+                    meses = (12 - mes1) + mes2;
+                } else {
+                    meses = mes2 - mes1;
+                }
+                int anos = calendarFin.get(Calendar.YEAR) - calendarInicio.get(Calendar.YEAR);
+                int[] dur = {anos,meses};
+                return dur;
+            }
+        }
+        return null;
+    }
+    
 
     public String getViabilidadTecnica() {
         return viabilidadTecnica;
@@ -625,16 +662,93 @@ public class Proyecto implements Serializable {
     public List<IndicadorEstrategiaProyecto> getObjetivoEstrategicoList() {
         return objetivoEstrategicoList;
     }
+    
+    public List<ObjetivoEstrategico> getPlanMilenioList(){
+        return getPerspectivaListNivelDos(ConfiguraObjetivo.TIPO_PLAN_MILENIO);
+    }
+    
+     public List<ObjetivoEstrategico> getPlanUnescoList(){
+        return getPerspectivaList(ConfiguraObjetivo.TIPO_PLAN_UNESCO);
+    }
+    public List<ObjetivoEstrategico> getPlanEspeList(){
+        return getPerspectivaList(ConfiguraObjetivo.TIPO_PLAN_ESPE);
+    }
+    
+    
+    
+    public List<ObjetivoEstrategico> getPerspectivaListNivelDos(Integer tipoObjetivo) {
+         List<ObjetivoEstrategico> temp = new ArrayList<>();
+        List<IndicadorEstrategiaProyecto> tempTipos = new ArrayList<>();
+        
+        for (IndicadorEstrategiaProyecto tempTipo : objetivoEstrategicoList) {
+            if(tempTipo.getObjetivoEstrategico().getConfiguraObjetivo().getConfiguraObjetivoTipo().getId().equals(tipoObjetivo)){tempTipos.add(tempTipo);}
+        }
+       
+        //perspectivas
+        for (IndicadorEstrategiaProyecto obj : tempTipos) {
+            boolean encontro = false;
+            
+            ObjetivoEstrategico perspectiva = obj.getObjetivoEstrategico().getObjetivoEstrategicoPadre();
+            
+            for (ObjetivoEstrategico perspectivaTemp : temp) {
+                if (perspectivaTemp.equals(perspectiva) ) {
+                    encontro = true;
+                }
+            }
+            if (!encontro) {
+                ObjetivoEstrategico perspectivaNuevo = new ObjetivoEstrategico(perspectiva.getId(), perspectiva.getDescripcion());
+                temp.add(perspectivaNuevo);
+            }
+        }
+//
+ //objetivos
+        for (IndicadorEstrategiaProyecto obj : tempTipos) {
+            ObjetivoEstrategico perspectiva = null;
+            ObjetivoEstrategico objetivo = obj.getObjetivoEstrategico();
+            
+            for (ObjetivoEstrategico estrategiaTemp : temp) {
+                if (estrategiaTemp.equals(objetivo.getObjetivoEstrategicoPadre())) {
+                    perspectiva = estrategiaTemp;
+                    break;
+                }
+            }
+            ObjetivoEstrategico objetivoNuevo = new ObjetivoEstrategico(objetivo.getId(), objetivo.getDescripcion());
+            objetivoNuevo.setTipo(objetivo.getTipo());
+            boolean encontro = false;
+            if (perspectiva.getObjetivoEstrategicoHijoList() != null) {
+                for (ObjetivoEstrategico objetivoTemp : perspectiva.getObjetivoEstrategicoHijoList()) {
+                    if (objetivoTemp.equals(objetivoNuevo)) {
+                        encontro = true;
+                        break;
+                    }
+                }
+            }
+            if (!encontro) {
+                objetivoNuevo.setObjetivoEstrategicoPadre(perspectiva);
+                perspectiva.addObjetivoEstrategicoHijo(objetivoNuevo);
+            }
+        }
+        return temp;
+    }
 
-    public List<ObjetivoEstrategico> getPerspectivaList() {
+            
+            
+    public List<ObjetivoEstrategico> getPerspectivaList(Integer tipoObjetivo) {
         List<ObjetivoEstrategico> temp = new ArrayList<>();
+        List<IndicadorEstrategiaProyecto> tempTipos = new ArrayList<>();
+        
+        for (IndicadorEstrategiaProyecto tempTipo : objetivoEstrategicoList) {
+            if(tempTipo.getObjetivoEstrategico().getConfiguraObjetivo().getConfiguraObjetivoTipo().getId().equals(tipoObjetivo)){tempTipos.add(tempTipo);}
+        }
 
         //perspectivas
-        for (IndicadorEstrategiaProyecto obj : objetivoEstrategicoList) {
+        for (IndicadorEstrategiaProyecto obj : tempTipos) {
             boolean encontro = false;
+            
             ObjetivoEstrategico perspectiva = obj.getObjetivoEstrategico().getObjetivoEstrategicoPadre().getObjetivoEstrategicoPadre();
+            //Solo es equals(perspectivaTemp.equals(perspectiva)) porque es el primer registro.
             for (ObjetivoEstrategico perspectivaTemp : temp) {
-                if (perspectivaTemp.equals(perspectiva)) {
+                if (perspectivaTemp.equals(perspectiva) ) {
                     encontro = true;
                 }
             }
@@ -646,9 +760,10 @@ public class Proyecto implements Serializable {
         }
 
         //objetivos
-        for (IndicadorEstrategiaProyecto obj : objetivoEstrategicoList) {
+        for (IndicadorEstrategiaProyecto obj : tempTipos) {
             ObjetivoEstrategico perspectiva = null;
             ObjetivoEstrategico objetivo = obj.getObjetivoEstrategico().getObjetivoEstrategicoPadre();
+            
             for (ObjetivoEstrategico estrategiaTemp : temp) {
                 if (estrategiaTemp.equals(objetivo.getObjetivoEstrategicoPadre())) {
                     perspectiva = estrategiaTemp;
@@ -673,7 +788,7 @@ public class Proyecto implements Serializable {
         }
 
         //indicadores
-        for (IndicadorEstrategiaProyecto obj : objetivoEstrategicoList) {
+        for (IndicadorEstrategiaProyecto obj : tempTipos) {
             ObjetivoEstrategico indicadorEstrategia = obj.getObjetivoEstrategico();
             ObjetivoEstrategico objetivo = null;
             for (ObjetivoEstrategico perspectivaTemp : temp) {
@@ -2968,6 +3083,23 @@ public class Proyecto implements Serializable {
 
     public void setEstadoAprobVicerrectorado(String estadoAprobVicerrectorado) {
         this.estadoAprobVicerrectorado = estadoAprobVicerrectorado;
+    }
+
+    public String getEfectoEsperado() {
+        return efectoEsperado;
+    }
+
+    public void setEfectoEsperado(String efectoEsperado) {
+        this.efectoEsperado = efectoEsperado;
+    }
+
+    @XmlTransient
+    public List<ImpactoEsperado> getImpactoEsperadoList() {
+        return impactoEsperadoList;
+    }
+
+    public void setImpactoEsperadoList(List<ImpactoEsperado> impactoEsperadoList) {
+        this.impactoEsperadoList = impactoEsperadoList;
     }
     
 }

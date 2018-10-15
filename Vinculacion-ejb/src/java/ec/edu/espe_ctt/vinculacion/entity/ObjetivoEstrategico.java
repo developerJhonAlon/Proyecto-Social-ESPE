@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "SZDTAVOBJETIVOS_ESTRA_INSTI")
 @XmlRootElement
 public class ObjetivoEstrategico implements Serializable {
-
+    
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -49,7 +49,10 @@ public class ObjetivoEstrategico implements Serializable {
     private ObjetivoEstrategico objetivoEstrategicoPadre;
     @Column(name = "SZTVTIPESTR_CODE")
     private Integer tipo;
-
+    @JoinColumn(name = "SZTVCONFOBJ_CODE", referencedColumnName = "SZTVCONFOBJ_CODE")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ConfiguraObjetivo configuraObjetivo;
+    
     public final static Integer TIPO_PERSPECTIVA = 1;
     public final static Integer TIPO_OBJETIVO = 2;
     public final static Integer TIPO_INDICADOR = 3;
@@ -156,5 +159,15 @@ public class ObjetivoEstrategico implements Serializable {
         objetivoEstrategicoHijoList.add(objetivoEstrategico);
         
     }
+
+    public ConfiguraObjetivo getConfiguraObjetivo() {
+        return configuraObjetivo;
+    }
+
+    public void setConfiguraObjetivo(ConfiguraObjetivo configuraObjetivo) {
+        this.configuraObjetivo = configuraObjetivo;
+    }
+    
+    
 
 }

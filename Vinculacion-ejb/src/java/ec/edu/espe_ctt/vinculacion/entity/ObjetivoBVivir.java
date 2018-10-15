@@ -8,6 +8,7 @@ package ec.edu.espe_ctt.vinculacion.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.Basic;
@@ -33,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "SZDTAVOBJETIVO_B_VIVIR")
 @XmlRootElement
-public class ObjetivoBVivir implements Serializable {
+public class ObjetivoBVivir implements Serializable { 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -51,7 +52,9 @@ public class ObjetivoBVivir implements Serializable {
     private ObjetivoBVivir svobviIdPadre;
     @Column(name = "SVOBVI_ORDEN")
     private Integer orden;
-
+    @JoinColumn(name = "SZTVCONFOBJ_CODE", referencedColumnName = "SZTVCONFOBJ_CODE")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ConfiguraObjetivo configuraObjetivo;
 
     public ObjetivoBVivir() {
     }
@@ -134,6 +137,14 @@ public class ObjetivoBVivir implements Serializable {
             return orden.toString() + ". " + svobviDescripcion;
         }
     }
-    
 
+    public ConfiguraObjetivo getConfiguraObjetivo() {
+        return configuraObjetivo;
+    }
+
+    public void setConfiguraObjetivo(ConfiguraObjetivo configuraObjetivo) {
+        this.configuraObjetivo = configuraObjetivo;
+    }
+
+   
 }

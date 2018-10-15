@@ -36,6 +36,8 @@ import ec.edu.espe_ctt.vinculacion.entity.DetalleEvaluacionFinalProyecto;
 import ec.edu.espe_ctt.vinculacion.entity.DocumentoCompromisoParticipacion;
 import ec.edu.espe_ctt.vinculacion.entity.EvaluacionFinalProyecto;
 import ec.edu.espe_ctt.vinculacion.entity.HorasResponsableProyecto;
+import ec.edu.espe_ctt.vinculacion.entity.ImpactoEsperado;
+import ec.edu.espe_ctt.vinculacion.entity.ImpactoEsperadoTipo;
 import ec.edu.espe_ctt.vinculacion.entity.MiembroComisionCalificacion;
 import ec.edu.espe_ctt.vinculacion.entity.ParametroEvaluacion;
 import ec.edu.espe_ctt.vinculacion.entity.PartidaPresupuestaria;
@@ -71,6 +73,8 @@ import ec.edu.espe_ctt.vinculacion.session.ConvocatoriaFacade;
 import ec.edu.espe_ctt.vinculacion.session.DepartamentoProyectoFacade;
 import ec.edu.espe_ctt.vinculacion.session.EvaluacionFinalProyectoFacade;
 import ec.edu.espe_ctt.vinculacion.session.HorasResponsableProyectoFacade;
+import ec.edu.espe_ctt.vinculacion.session.ImpactoEsperadoFacade;
+import ec.edu.espe_ctt.vinculacion.session.ImpactoEsperadoTipoFacade;
 import ec.edu.espe_ctt.vinculacion.session.IndicadorEstrategiaProyectoFacade;
 import ec.edu.espe_ctt.vinculacion.session.LineaInvestigacionProyectoFacade;
 import ec.edu.espe_ctt.vinculacion.session.PartidaPresupuestariaFacade;
@@ -194,6 +198,10 @@ public class ProyectoController implements Serializable {
     private StvtermFacade periodoFacade;
     @EJB
     private VistaEstudianteCarreraPregradoFacade vEstudianteCarreraPregradoFacade;
+    @EJB
+    private ImpactoEsperadoTipoFacade impactoEsperadoTipoFacade;
+    @EJB
+    private ImpactoEsperadoFacade impactoEsperadoFacade;
 
     private List<SeaParametrosDet> tipoPoblacionList;
     private List<SeaParametrosDet> tipoPoblacionSelectedList;
@@ -207,6 +215,10 @@ public class ProyectoController implements Serializable {
     private List<ObjetivoBVivir> objBVivirPadreList;
     private List<ObjetivoBVivir> objBVivirHijoList;
     private List<ObjetivoEstrategico> perspectivasList;
+    private List<ObjetivoEstrategico> milenioList;
+     private List<ObjetivoEstrategico> unescoList;
+    private List<ImpactoEsperadoTipo> impactoEsperadoTipoList;
+    private List<ImpactoEsperado> impactoEsperadoList;
     private List<ComisionCalificacion> comisionCalificacionList;
 
     private Proyecto proyectoSelected;
@@ -221,6 +233,8 @@ public class ProyectoController implements Serializable {
     private ObjetivoBVivir objBVivirPadre = new ObjetivoBVivir();
     private ObjetivoBVivir objBVivirHijo = new ObjetivoBVivir();
     private ObjetivoEstrategico perspectivaSelected;
+    private ObjetivoEstrategico milenioSelected;
+    private ImpactoEsperado impactoEsperadoSelected;
     private ObjetivoEstrategico objetivoEstrategicoSelected;
     private IndicadorEstrategiaProyecto indicadorEstrategiaProyectoSelected;
     private CalificacionProyecto calificacionProyectoSelected;
@@ -246,6 +260,7 @@ public class ProyectoController implements Serializable {
         objetivoProyectoSelected = new ObjetivoPrograma();
         departamentoProyectoSelected = new DepartamentoProyecto();
         carreraProyectoSelected = new CarreraProyecto();
+        impactoEsperadoSelected = new ImpactoEsperado();
         hitoProyectoSelected = new HitoProyecto();
         objetivoBVivirSelected = new ObjetivoBVivirPrograma();
 
@@ -359,6 +374,46 @@ public class ProyectoController implements Serializable {
 
     public void setPerspectivaSelected(ObjetivoEstrategico perspectivaSelected) {
         this.perspectivaSelected = perspectivaSelected;
+    }
+
+    public List<ImpactoEsperadoTipo> getImpactoEsperadoTipoList() {
+        return impactoEsperadoTipoList;
+    }
+
+    public void setImpactoEsperadoTipoList(List<ImpactoEsperadoTipo> impactoEsperadoTipoList) {
+        this.impactoEsperadoTipoList = impactoEsperadoTipoList;
+    }
+
+    public List<ImpactoEsperado> getImpactoEsperadoList() {
+        return impactoEsperadoList;
+    }
+
+    public void setImpactoEsperadoList(List<ImpactoEsperado> impactoEsperadoList) {
+        this.impactoEsperadoList = impactoEsperadoList;
+    }
+
+    public ImpactoEsperado getImpactoEsperadoSelected() {
+        return impactoEsperadoSelected;
+    }
+
+    public void setImpactoEsperadoSelected(ImpactoEsperado impactoEsperadoSelected) {
+        this.impactoEsperadoSelected = impactoEsperadoSelected;
+    }
+        
+    public List<ObjetivoEstrategico> getMilenioList() {
+        return milenioList;
+    }
+
+    public void setMilenioList(List<ObjetivoEstrategico> milenioList) {
+        this.milenioList = milenioList;
+    }
+
+    public List<ObjetivoEstrategico> getUnescoList() {
+        return unescoList;
+    }
+
+    public void setUnescoList(List<ObjetivoEstrategico> unescoList) {
+        this.unescoList = unescoList;
     }
 
     public ObjetivoEstrategico getObjetivoEstrategicoSelected() {
@@ -1092,7 +1147,7 @@ public class ProyectoController implements Serializable {
         datosCompletos = false;
         carreraProyectoList = carreraProyectoFacade.findByProyecto(proyectoSelected.getId());
     }
-
+    
     public boolean validarVaciosP6() {
         datosCompletos = true;
         if (carreraProyectoSelected.getCarrera() == null || carreraProyectoSelected.getCarrera().getStvmajrCode() == null
@@ -1224,6 +1279,7 @@ public class ProyectoController implements Serializable {
         carreraProyectoSelected = new CarreraProyecto(proyectoSelected);
         nomCarreraSeleccionada = "";
         controlGrabar = true;
+        datosCompletos = false;
 
     }
 
@@ -1968,6 +2024,113 @@ public class ProyectoController implements Serializable {
     }
 
     //</editor-fold> 
+    
+//<editor-fold defaultstate="collapsed" desc="tab19: Objetivos de desarrollo sostenible del milenio">
+    private void initObjetivoMilenio(){
+        if (milenioList == null) {
+            milenioList = objetivoEstrategicoFacade.findObjetivosMilenio();
+        }
+        perspectivaSelected = null;
+        objetivoEstrategicoSelected = null;
+        cancelarIndicadorEstrategia();
+    }
+
+ 
+    
+    
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="tab121: Campo de conocimiento UNESCO">
+    private void initCampoUnesco(){
+        if (unescoList == null) {
+            unescoList = objetivoEstrategicoFacade.findCampoUnesco();
+        }
+        perspectivaSelected = null;
+        objetivoEstrategicoSelected = null;
+        cancelarIndicadorEstrategia();
+    }  
+    
+    
+//</editor-fold>    
+    
+//<editor-fold defaultstate="collapsed" desc="tab20: Impactos Esperados">
+    
+    private void initImpactoEsperado(){
+        if(impactoEsperadoTipoList == null){
+           impactoEsperadoTipoList = impactoEsperadoTipoFacade.findAll();          
+        }
+        controlGrabar = false;
+        cancelarImpactoEsperado();
+    }
+    
+//    public void cancelarImpactoEsperado() {
+//        proyectoSelected = proyectoFacade.find(proyectoSelected.getId());
+//        impactoEsperadoSelected = null;
+//    }
+    
+    public void cancelarImpactoEsperado() {
+        controlGrabar = false;
+        datosCompletos = false;
+        impactoEsperadoList = impactoEsperadoFacade.findByProyecto(proyectoSelected.getId());
+    }
+    
+    public void nuevoImpactoEsperado(ActionEvent event){
+        impactoEsperadoSelected = new ImpactoEsperado(proyectoSelected);
+        nomCarreraSeleccionada = "";
+        controlGrabar = true;
+        datosCompletos = false;
+    }
+    
+    public String registraImpactoEsperado() {
+        try {
+           
+            if (impactoEsperadoSelected.getId() == null) {
+                impactoEsperadoFacade.create(impactoEsperadoSelected);
+            } else {
+                impactoEsperadoFacade.edit(impactoEsperadoSelected);
+            }
+            cancelarImpactoEsperado();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
+            RequestContext.getCurrentInstance().update("formPrincipal:panelImpactoEsperado");
+        } catch (Exception e) {
+            try {
+                Throwable t = (Throwable) e;
+                while (t.getCause() != null) {
+                    t = t.getCause();
+                }
+                String msgError = "No fue posible grabar la información ingresada";
+                String controlMsgError = null;
+                if (t.getMessage().toUpperCase().contains("ORA-00001")) {
+                    msgError = "Ya existe un registro para el Impacto seleccionada";
+                    impactoEsperadoList = impactoEsperadoFacade.findByProyecto(proyectoSelected.getId());
+                    RequestContext.getCurrentInstance().update("formPrincipal:dataTImpactoEsperado");
+                    controlMsgError = "formPrincipal:selCarrera";
+                }
+                FacesContext.getCurrentInstance().addMessage(controlMsgError, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", msgError));
+            } catch (Exception e2) {
+            }
+        }
+        return "";
+    }
+    
+    public String editarImpactoEsperado() {
+        controlGrabar = true;
+        datosCompletos = true;
+        return "";
+    }
+    
+    public void eliminarImpacto() {
+        try {
+            impactoEsperadoFacade.remove(impactoEsperadoSelected);
+            cancelarImpactoEsperado();
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "El registro ha sido eliminado exitosamente"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No fue posible eliminar el registro seleccionado"));
+        }
+    }
+  
+//</editor-fold>
+    
 //<editor-fold defaultstate="collapsed" desc="tab17: Alineamiento del Proyecto-Objetivos Estratégicos Institucionales">
     private Integer tipoObjetivoEstrategico;
     @EJB
@@ -2561,6 +2724,7 @@ public class ProyectoController implements Serializable {
             TreeNode node112 = new DefaultTreeNode(new OpcionMenu("1.1.2", "1.2. Cobertura y Localización"), node11);
             //TreeNode node113 = new DefaultTreeNode(new OpcionMenu("1.1.3", "1.3. Origen de los fondos"), node11);
             TreeNode node114 = new DefaultTreeNode(new OpcionMenu("1.1.4", "1.3. Detalle de entregables del proyecto"), node11);
+            TreeNode node115 = new DefaultTreeNode(new OpcionMenu("1.1.5", "1.4. Impactos esperados"), node11);
             TreeNode node12 = new DefaultTreeNode(new OpcionMenu("1.2", "2. Diagnóstico y Problema"), nodePerfil);
             TreeNode node121 = new DefaultTreeNode(new OpcionMenu("1.2.1", "2.1. Diagnóstico y Problema"), node12);
             TreeNode node1211 = new DefaultTreeNode(new OpcionMenu("1.2.5", "2.2. Anexos imágenes"), node12);
@@ -2568,10 +2732,12 @@ public class ProyectoController implements Serializable {
             TreeNode node123 = new DefaultTreeNode(new OpcionMenu("1.2.3", "2.4. Docentes Participantes"), node12);
             TreeNode node124 = new DefaultTreeNode(new OpcionMenu("1.2.4", "2.5. Estudiantes Participantes"), node12);
             TreeNode node13 = new DefaultTreeNode(new OpcionMenu("1.3", "3. Alineamiento del Proyecto"), nodePerfil);
-            TreeNode node131 = new DefaultTreeNode(new OpcionMenu("1.3.1", "3.1. Objetivos PLNBV"), node13);
-            TreeNode node133 = new DefaultTreeNode(new OpcionMenu("1.3.3", "3.2. Objetivos Provinciales, Cantonales o Parroquiales"), node13);
-            TreeNode node132 = new DefaultTreeNode(new OpcionMenu("1.3.2", "3.3. Objetivos Estratégicos Institucionales"), node13);
-            TreeNode node135 = new DefaultTreeNode(new OpcionMenu("1.3.4", "3.4. Líneas de Investigación"), node13);
+            TreeNode node136 = new DefaultTreeNode(new OpcionMenu("1.3.5", "3.1. Objetivos de desarrollo sostenible del milenio"), node13);
+            TreeNode node131 = new DefaultTreeNode(new OpcionMenu("1.3.1", "3.2. Objetivos PLNBV"), node13);
+            TreeNode node133 = new DefaultTreeNode(new OpcionMenu("1.3.3", "3.3. Objetivos Provinciales, Cantonales o Parroquiales"), node13);
+            TreeNode node132 = new DefaultTreeNode(new OpcionMenu("1.3.2", "3.4. Objetivos Estratégicos Institucionales"), node13);
+            TreeNode node135 = new DefaultTreeNode(new OpcionMenu("1.3.4", "3.5. Líneas de Investigación"), node13);
+            TreeNode node137 = new DefaultTreeNode(new OpcionMenu("1.3.6", "3.6. Campo de conocimiento UNESCO"), node13);           
             TreeNode node134 = new DefaultTreeNode(new OpcionMenu("1.4", "4. Matriz del Marco Lógico"), nodePerfil);
             TreeNode node15 = new DefaultTreeNode(new OpcionMenu("1.5", "5. Viabilidad y Plan de Sostenibilidad"), nodePerfil);
             TreeNode node16 = new DefaultTreeNode(new OpcionMenu("1.6", "6. Presupuesto Detallado y Fuentes de Financiamiento"), nodePerfil);
@@ -2694,6 +2860,9 @@ public class ProyectoController implements Serializable {
                 case "1.1.4":
                     cancelarPerfil();
                     break;
+                case "1.1.5":
+                    initImpactoEsperado();
+                    break;
                 case "1.2.1":
                     cancelarPerfil();
                     break;
@@ -2720,6 +2889,12 @@ public class ProyectoController implements Serializable {
                     break;
                 case "1.3.4":
                     initLineaInvestigacion();
+                    break;
+                case "1.3.5":
+                    initObjetivoMilenio();
+                    break;
+                case "1.3.6":
+                    initCampoUnesco();
                     break;
                 case "1.4":
                     cancelarP15(true);
@@ -3828,6 +4003,7 @@ public class ProyectoController implements Serializable {
     public void nuevoPresupuestoProyecto(ActionEvent event) {
         presupuestoProyectoSelected = new PresupuestoProyecto(proyectoSelected);
         presupuestoProyectoSelected.setPartidaPresupuestaria(null);
+        
     }
 
     @EJB
@@ -3862,6 +4038,7 @@ public class ProyectoController implements Serializable {
     public void cancelarPresupuestoProyecto() {
         proyectoSelected = proyectoFacade.find(proyectoSelected.getId());
         proyectoSelected.inicializarListadoPresupuestos();
+       
         presupuestoProyectoSelected = null;
     }
 

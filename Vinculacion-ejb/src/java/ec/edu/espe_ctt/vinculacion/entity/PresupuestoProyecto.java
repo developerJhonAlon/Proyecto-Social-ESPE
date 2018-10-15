@@ -8,6 +8,8 @@ package ec.edu.espe_ctt.vinculacion.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -77,6 +79,10 @@ public class PresupuestoProyecto implements Serializable {
     public static final String TIPO_GASTO_CORRIENTE = "C";   //Gasto Permanente
     public static final String TIPO_GASTO_INVERSION = "I";   //Gasto No Permanente
 
+    @Size(max = 100)
+    @Column(name = "SZTVPRESUP_VALORANUAL")
+    private String valorAnual;
+    
     public PresupuestoProyecto() {
     }
 
@@ -205,14 +211,76 @@ public class PresupuestoProyecto implements Serializable {
         return valor.multiply(new BigDecimal(cantidad));
     }
 
+    public BigDecimal getTotalAnual(){
+        if(valorAnualUSD == null){
+            return BigDecimal.ZERO;
+        }
+        else{
+            BigDecimal valor2 = new BigDecimal(0);
+            for (CantidadAnual usb : valorAnualUSD) {
+                System.out.println(usb.getCantidad());
+                valor2 = valor2.add(usb.getCantidad()); 
+            }
+            return valor2;
+        }
+               
+    }
+    
     @Transient
     private String nombreCompleto;
+    
+    @Transient
+    private List<CantidadAnual> valorAnualUSD = new ArrayList<>();
+
+    
+    
+    public List<CantidadAnual> getValorAnualUSD() {
+        int[] dur = proyecto.getDuracionNum();
+        
+        int aux2 = dur[0];
+        int aux1 = dur[1];
+        if(valorAnual != null){
+            if(aux1 == 0){
+                    String[] valores = valorAnual.split(";");
+                    int i = 0;
+                    for (String valore : valores) {
+                        i++;
+                        CantidadAnual m = new CantidadAnual(i+"º año:",new BigDecimal(valore));
+                        valorAnualUSD.add(m);
+                    }
+           
+            }else{
+                    String[] valores = valorAnual.split(";");
+                   
+                    for (int i=1;i<=valores.length;i++) {
+                        if(i!=valores.length){ 
+                            CantidadAnual m = new CantidadAnual(i+"º año:",new BigDecimal(valores[i--]));
+                        valorAnualUSD.add(m);}
+                        else{
+                              CantidadAnual m = new CantidadAnual(aux1+" mes(es):",new BigDecimal(valores[i--]));
+                        valorAnualUSD.add(m);}
+                      
+                    }
+            }
+           return valorAnualUSD;
+        }else{
+            for (int i = 1; i <= aux2; i++) {
+            CantidadAnual m = new CantidadAnual(i+"º año:",new BigDecimal(0));
+            valorAnualUSD.add(m);
+                }
+                if(aux1 > 0){
+            CantidadAnual m = new CantidadAnual(aux1+" mes(es):",new BigDecimal(0));
+            valorAnualUSD.add(m);
+                };
+                return valorAnualUSD;
+        }
+    }
 
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
-
-    public String getNombreCompleto() {
+    
+     public String getNombreCompleto() {
         if (partidaPresupuestaria != null) {
             return partidaPresupuestaria.getNombreCompleto();
         } else {
@@ -246,6 +314,41 @@ public class PresupuestoProyecto implements Serializable {
                 return "APORTE COMUNIDAD BENEFICIARIA";
         }
         return "";
+    }   
+
+    //Mostrar en tabla
+    public String getValorAnual() {
+        int[] dur = proyecto.getDuracionNum();
+        int aux1 = dur[1];
+        
+        StringBuilder anual = new StringBuilder();
+        if(valorAnual != null){
+            if(aux1 == 0){
+                    String[] valores = valorAnual.split(";");
+                    int i = 0;
+                    for (String valore : valores) {
+                        anual.append(i++).append("º año:").append(valore).append("\r\n");
+                    }
+           
+            }else{
+                    String[] valores = valorAnual.split(";");
+                   
+                    for (int i=1;i<=valores.length;i++) {
+                        if(i!=valores.length){  anual.append(i).append("º año:").append(valores[i--]).append("\r\n");}
+                        else{anual.append(i).append(" mes(es):").append(valores[i--]).append("\r\n");}
+                      
+                    }
+            }
+           return anual.toString();
+        }else{
+            return null;
+        }
+       
     }
 
+    public void setValorAnual(String valorAnual) {
+        this.valorAnual = valorAnual;
+    }
+
+   
 }

@@ -34,7 +34,7 @@ public class ObjetivoBVivirFacade extends AbstractFacade<ObjetivoBVivir> {
 
     public List<ObjetivoBVivir> findObjetivosPadre() {
         List<ObjetivoBVivir> result = null;
-        Query query = em.createQuery("SELECT o FROM ObjetivoBVivir o WHERE o.svobviIdPadre IS NULL order by o.orden");
+        Query query = em.createQuery("SELECT o FROM ObjetivoBVivir o WHERE o.svobviIdPadre IS NULL and o.configuraObjetivo.id = 2 order by o.orden");
         result = query.getResultList();
         return result;
     }

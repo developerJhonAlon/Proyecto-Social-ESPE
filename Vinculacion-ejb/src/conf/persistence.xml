@@ -40,6 +40,8 @@
     <class>ec.edu.espe_ctt.vinculacion.entity.CatalogoCobertura</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.ComisionCalificacion</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.CompromisoParticipacionProyecto</class>
+    <class>ec.edu.espe_ctt.vinculacion.entity.ConfiguraObjetivo</class>
+    <class>ec.edu.espe_ctt.vinculacion.entity.ConfiguraObjetivoTipo</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.Configuracion</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.ConfiguracionParametrosEvaluacion</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.ConsolidacionCalificacionProyecto</class>
@@ -56,6 +58,8 @@
     <class>ec.edu.espe_ctt.vinculacion.entity.EvaluacionFinalProyecto</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.HitoProyecto</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.HorasResponsableProyecto</class>
+    <class>ec.edu.espe_ctt.vinculacion.entity.ImpactoEsperado</class>
+    <class>ec.edu.espe_ctt.vinculacion.entity.ImpactoEsperadoTipo</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.IndicadorEstrategiaProyecto</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.Institucion</class>
     <class>ec.edu.espe_ctt.vinculacion.entity.LeccionAprendidaPrograma</class>
