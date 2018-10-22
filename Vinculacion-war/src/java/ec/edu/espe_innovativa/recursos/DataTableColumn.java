@@ -6,6 +6,8 @@
 
 package ec.edu.espe_innovativa.recursos;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author PC1
@@ -22,5 +24,14 @@ public class DataTableColumn {
     }
     public String getProperty() {
         return property;
-    } 
+    }    
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public void setProperty(String property) {
+        this.property = property;
+    }
+    
 } 

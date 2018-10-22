@@ -1717,10 +1717,50 @@ public class Proyecto implements Serializable {
             for (PresupuestoProyecto pre : presupuestoProyectoList) {
                 if (tipoGasto != null) {
                     if (pre.getTipo().equals(tipoPresupuesto) && pre.getTipoGasto().equals(tipoGasto)) {
-                        total = total.add(pre.getTotal());
+                        if(pre.getCantidadAnualProyectoList().isEmpty()){
+                            total = total.add(pre.getTotal());
+                        }else{
+                            for(CantidadAnualProyecto cant : pre.getCantidadAnualProyectoList()){
+                                
+                                total = total.add(cant.getCantidadAnual());
+                            }
+                        }
+                       
+                        
                     }
                 } else if (pre.getTipo().equals(tipoPresupuesto)) {
-                    total = total.add(pre.getTotal());
+                   if(pre.getCantidadAnualProyectoList().isEmpty()){
+                       total = total.add(pre.getTotal());
+                   }else{
+                       for(CantidadAnualProyecto cant : pre.getCantidadAnualProyectoList()){
+                           
+                           total = total.add(cant.getCantidadAnual());
+                       }
+                   }
+                }
+            }
+        }
+        return total;
+    }
+    
+    private BigDecimal getTotalPresupuestoXTipoAnual(Integer tipoPresupuesto, String tipoGasto) {
+        BigDecimal total = BigDecimal.ZERO;
+        if (presupuestoProyectoList != null) {
+            for (PresupuestoProyecto pre : presupuestoProyectoList) {
+                if (tipoGasto != null) {
+                    if (pre.getTipo().equals(tipoPresupuesto) && pre.getTipoGasto().equals(tipoGasto)) {
+                        for(CantidadAnualProyecto cant : pre.getCantidadAnualProyectoList()){
+                            
+                            total = total.add(cant.getCantidadAnual());
+                        }
+                        
+                    }
+                } else if (pre.getTipo().equals(tipoPresupuesto)) {
+                    
+                    for(CantidadAnualProyecto cant : pre.getCantidadAnualProyectoList()){
+                            
+                            total = total.add(cant.getCantidadAnual());
+                        }
                 }
             }
         }

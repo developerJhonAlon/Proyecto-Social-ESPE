@@ -40,7 +40,7 @@ public class ObjetivoEstrategicoFacade extends AbstractFacade<ObjetivoEstrategic
         return query.getResultList();
     }
     public List<ObjetivoEstrategico> findObjetivosMilenio(){
-        Query query = em.createQuery("SELECT o FROM ObjetivoEstrategico o WHERE o.objetivoEstrategicoPadre is null AND o.configuraObjetivo.id = 4");
+        Query query = em.createQuery("SELECT o FROM ObjetivoEstrategico o WHERE o.objetivoEstrategicoPadre is null AND o.configuraObjetivo.id = 4 order by o.id");
         return query.getResultList();
     }
     

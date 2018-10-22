@@ -26,6 +26,7 @@ import ec.edu.espe_ctt.vinculacion.entity.Proyecto;
 import ec.edu.espe_ctt.vinculacion.entity.AvanceActividad;
 import ec.edu.espe_ctt.vinculacion.entity.AvanceComponente;
 import ec.edu.espe_ctt.vinculacion.entity.CalificacionProyecto;
+import ec.edu.espe_ctt.vinculacion.entity.CantidadAnualProyecto;
 import ec.edu.espe_ctt.vinculacion.entity.ComisionCalificacion;
 import ec.edu.espe_ctt.vinculacion.entity.CompromisoParticipacionProyecto;
 import ec.edu.espe_ctt.vinculacion.entity.Configuracion;
@@ -98,6 +99,7 @@ import ec.edu.espe_ctt_investigacion.entity.SeaProvincia;
 import ec.edu.espe_ctt_investigacion.session.SeaLineainvesFacade;
 import ec.edu.espe_ctt_investigacion.session.SeaParametrosDetFacade;
 import ec.edu.espe_ctt_investigacion.session.SeaProvinciaFacade;
+import ec.edu.espe_innovativa.recursos.DataTableColumn;
 import ec.edu.espe_innovativa.util.FacesUtils;
 import ec.edu.espe_innovativa.util.JasperReportUtil;
 import ec.edu.espe_innovativa.util.NumeroALetras;
@@ -242,6 +244,8 @@ public class ProyectoController implements Serializable {
     private Integer codProgramaSelected;
     private boolean controlGrabar;
     private boolean datosCompletos;
+    private boolean visualizarDataOld;
+    private int columNum;
     private int indiceTabActivo;
     private int indiceTabActivoEjecucion;
     private TreeNode root3;
@@ -254,6 +258,7 @@ public class ProyectoController implements Serializable {
     private List<SeaParametrosDet> coberturaList;
     private List<VDirectorDepartamento> directorDepartamentoList;
     private List<VDirectorCarrera> directorCarreraList;
+    private List<DataTableColumn> tablaPresUniversidad;
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Constructor">
     public ProyectoController() {
@@ -360,6 +365,41 @@ public class ProyectoController implements Serializable {
 
     //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="Getter and Setter">
+
+    public int getColumNum() {
+        return columNum;
+    }
+
+    public void setColumNum(int columNum) {
+        this.columNum = columNum;
+    }
+
+ 
+    
+    public List<DataTableColumn> getTablaPresUniversidad() {
+        return tablaPresUniversidad;
+    }
+
+    public void setTablaPresUniversidad(List<DataTableColumn> tablaPresUniversidad) {
+        this.tablaPresUniversidad = tablaPresUniversidad;
+    }
+    
+    public ComisionCalificacionFacade getComisionCalificacionFacade() {
+        return comisionCalificacionFacade;
+    }
+
+    public void setComisionCalificacionFacade(ComisionCalificacionFacade comisionCalificacionFacade) {
+        this.comisionCalificacionFacade = comisionCalificacionFacade;
+    }
+
+    public boolean isVisualizarDataOld() {
+        return visualizarDataOld;
+    }
+
+    public void setVisualizarDataOld(boolean visualizarDataOld) {
+        this.visualizarDataOld = visualizarDataOld;
+    }
+    
     public IndicadorEstrategiaProyecto getIndicadorEstrategiaProyectoSelected() {
         return indicadorEstrategiaProyectoSelected;
     }
@@ -1290,7 +1330,7 @@ public class ProyectoController implements Serializable {
         return "";
     }
 
-    //</editor-fold>
+    //</editor-fold>old
 //<editor-fold defaultstate="collapsed" desc="Tab7-Presupuesto Detallado y Fuentes de Financiamiento">
     private PresupuestoProyecto presupuestoProyectoSelected;
 
@@ -2723,8 +2763,8 @@ public class ProyectoController implements Serializable {
         if (proyectoSelected.getId() != null) {
             TreeNode node112 = new DefaultTreeNode(new OpcionMenu("1.1.2", "1.2. Cobertura y Localización"), node11);
             //TreeNode node113 = new DefaultTreeNode(new OpcionMenu("1.1.3", "1.3. Origen de los fondos"), node11);
-            TreeNode node114 = new DefaultTreeNode(new OpcionMenu("1.1.4", "1.3. Detalle de entregables del proyecto"), node11);
-            TreeNode node115 = new DefaultTreeNode(new OpcionMenu("1.1.5", "1.4. Impactos esperados"), node11);
+            TreeNode node114 = new DefaultTreeNode(new OpcionMenu("1.1.4", "1.3. Entregables del proyecto"), node11);
+            TreeNode node115 = new DefaultTreeNode(new OpcionMenu("1.1.5", "1.4. Impactos Esperados"), node11);
             TreeNode node12 = new DefaultTreeNode(new OpcionMenu("1.2", "2. Diagnóstico y Problema"), nodePerfil);
             TreeNode node121 = new DefaultTreeNode(new OpcionMenu("1.2.1", "2.1. Diagnóstico y Problema"), node12);
             TreeNode node1211 = new DefaultTreeNode(new OpcionMenu("1.2.5", "2.2. Anexos imágenes"), node12);
@@ -2732,12 +2772,12 @@ public class ProyectoController implements Serializable {
             TreeNode node123 = new DefaultTreeNode(new OpcionMenu("1.2.3", "2.4. Docentes Participantes"), node12);
             TreeNode node124 = new DefaultTreeNode(new OpcionMenu("1.2.4", "2.5. Estudiantes Participantes"), node12);
             TreeNode node13 = new DefaultTreeNode(new OpcionMenu("1.3", "3. Alineamiento del Proyecto"), nodePerfil);
-            TreeNode node136 = new DefaultTreeNode(new OpcionMenu("1.3.5", "3.1. Objetivos de desarrollo sostenible del milenio"), node13);
-            TreeNode node131 = new DefaultTreeNode(new OpcionMenu("1.3.1", "3.2. Objetivos PLNBV"), node13);
+            TreeNode node136 = new DefaultTreeNode(new OpcionMenu("1.3.5", "3.1. Objetivos de Desarrollo Sostenible del Milenio"), node13);
+            TreeNode node131 = new DefaultTreeNode(new OpcionMenu("1.3.1", "3.2. Objetivos Plan Nacional de Desarrollo"), node13);
             TreeNode node133 = new DefaultTreeNode(new OpcionMenu("1.3.3", "3.3. Objetivos Provinciales, Cantonales o Parroquiales"), node13);
             TreeNode node132 = new DefaultTreeNode(new OpcionMenu("1.3.2", "3.4. Objetivos Estratégicos Institucionales"), node13);
             TreeNode node135 = new DefaultTreeNode(new OpcionMenu("1.3.4", "3.5. Líneas de Investigación"), node13);
-            TreeNode node137 = new DefaultTreeNode(new OpcionMenu("1.3.6", "3.6. Campo de conocimiento UNESCO"), node13);           
+            TreeNode node137 = new DefaultTreeNode(new OpcionMenu("1.3.6", "3.6. Campo de Conocimiento UNESCO"), node13);           
             TreeNode node134 = new DefaultTreeNode(new OpcionMenu("1.4", "4. Matriz del Marco Lógico"), nodePerfil);
             TreeNode node15 = new DefaultTreeNode(new OpcionMenu("1.5", "5. Viabilidad y Plan de Sostenibilidad"), nodePerfil);
             TreeNode node16 = new DefaultTreeNode(new OpcionMenu("1.6", "6. Presupuesto Detallado y Fuentes de Financiamiento"), nodePerfil);
@@ -4002,6 +4042,7 @@ public class ProyectoController implements Serializable {
 
     public void nuevoPresupuestoProyecto(ActionEvent event) {
         presupuestoProyectoSelected = new PresupuestoProyecto(proyectoSelected);
+        presupuestoProyectoSelected.setearCantidadAnual();
         presupuestoProyectoSelected.setPartidaPresupuestaria(null);
         
     }
@@ -4036,8 +4077,30 @@ public class ProyectoController implements Serializable {
     }
 
     public void cancelarPresupuestoProyecto() {
+        List<PresupuestoProyecto> pre;
+        tablaPresUniversidad = new ArrayList<>();
+         
         proyectoSelected = proyectoFacade.find(proyectoSelected.getId());
         proyectoSelected.inicializarListadoPresupuestos();
+        if(proyectoSelected.getPresupuestoProyectoList().isEmpty()){
+            visualizarDataOld = false;
+        }else{
+            visualizarDataOld = proyectoSelected.getPresupuestoProyectoList().get(0).getCantidadAnualProyectoList().isEmpty();
+        }
+        
+            
+        
+//        pre = proyectoSelected.getDetallePresupuestoUniversidad();
+//        for(PresupuestoProyecto obj : pre){
+//            for(CantidadAnualProyecto anio : obj.getCantidadAnualProyectoList()){
+//                tablaPresUniversidad.add(new DataTableColumn(anio.getDescripcion(),"cantidadAnual"));
+//            }   
+//        
+//        }
+//       tablaPresUniversidad.add(new DataTableColumn("ANIO","id"));      
+//       tablaPresUniversidad.add(new DataTableColumn("ANIO","descripcion"));
+//       tablaPresUniversidad.add(new DataTableColumn("ANIO","cantidadAnual"));
+//       tablaPresUniversidad.add(new DataTableColumn("ANIO","presupuestoProyecto"));
        
         presupuestoProyectoSelected = null;
     }
@@ -4572,9 +4635,12 @@ public class ProyectoController implements Serializable {
     private boolean msgIdentificacionPoblacion;
     private boolean msgDocentesParticipantes;
     private boolean msgEstudiantesParticipantes;
+    private boolean msgImpactosEsperados;
     private boolean msgObjetivosBuenVivir;
     private boolean msgObjetivosProvCantParr;
     private boolean msgObjetivosEstrategicos;
+    private boolean msgObjetivosMilenios;
+    private boolean msgObjetivosUnesco;
     private boolean msgLineasInvestigacion;
     private boolean msgMatrizMarcoLogicoFin;
     private boolean msgMatrizMarcoLogicoProposito;
@@ -4588,6 +4654,30 @@ public class ProyectoController implements Serializable {
     private boolean msgActaCompromisoParticipacionDirectorProyecto;
     private boolean msgActaCompromisoParticipacionCarreras;
 
+    public boolean isMsgObjetivosUnesco() {
+        return msgObjetivosUnesco;
+    }
+
+    public void setMsgObjetivosUnesco(boolean msgObjetivosUnesco) {
+        this.msgObjetivosUnesco = msgObjetivosUnesco;
+    }
+
+    public boolean isMsgObjetivosMilenios() {
+        return msgObjetivosMilenios;
+    }
+
+    public void setMsgObjetivosMilenios(boolean msgObjetivosMilenios) {
+        this.msgObjetivosMilenios = msgObjetivosMilenios;
+    }
+
+    public boolean isMsgImpactosEsperados() {
+        return msgImpactosEsperados;
+    }
+
+    public void setMsgImpactosEsperados(boolean msgImpactosEsperados) {
+        this.msgImpactosEsperados = msgImpactosEsperados;
+    }
+    
     public boolean isMsgCronogramaActividades() {
         return msgCronogramaActividades;
     }
@@ -4778,6 +4868,9 @@ public class ProyectoController implements Serializable {
             if (proyectoSelected.getCarreraProyectoList() == null || proyectoSelected.getCarreraProyectoList().isEmpty()) {
                 msgEstudiantesParticipantes = true;
             }
+            if(proyectoSelected.getImpactoEsperadoList() == null || proyectoSelected.getImpactoEsperadoList().isEmpty()){
+                msgImpactosEsperados = true;
+            }
             if (proyectoSelected.getObjetivoBVivirProyectoList() == null || proyectoSelected.getObjetivoBVivirProyectoList().isEmpty()) {
                 msgObjetivosBuenVivir = true;
             }
@@ -4791,8 +4884,14 @@ public class ProyectoController implements Serializable {
             if (!encontro) {
                 msgObjetivosProvCantParr = true;
             }
-            if (proyectoSelected.getObjetivoEstrategicoList() == null || proyectoSelected.getObjetivoEstrategicoList().isEmpty()) {
+            if (proyectoSelected.getPlanMilenioList() == null || proyectoSelected.getPlanMilenioList().isEmpty()) {
+                msgObjetivosMilenios = true;
+            }
+            if (proyectoSelected.getPlanEspeList() == null || proyectoSelected.getPlanEspeList().isEmpty()) {
                 msgObjetivosEstrategicos = true;
+            }
+             if (proyectoSelected.getPlanUnescoList() == null || proyectoSelected.getPlanUnescoList().isEmpty()) {
+                msgObjetivosUnesco = true;
             }
             if (proyectoSelected.getLineaInvestigacionProyectoList() == null || proyectoSelected.getLineaInvestigacionProyectoList().isEmpty()) {
                 msgLineasInvestigacion = true;
@@ -4850,7 +4949,7 @@ public class ProyectoController implements Serializable {
 
             if (!(msgCoberturaLocalizacion || msgDiagnosticoProblema || msgDocentesParticipantes || msgEntregablesProducto || msgEstudiantesParticipantes
                     || msgIdentificacionPoblacion || msgMatrizMarcoLogicoFin || msgMatrizMarcoLogicoProposito || msgMatrizMarcoLogicoComponente || msgMatrizMarcoLogicoActividad
-                    || msgObjetivosBuenVivir || msgObjetivosEstrategicos || msgLineasInvestigacion || msgObjetivosProvCantParr || msgViabilidad || msgPresupuestoDetallado || msgPresupuestoDetalladoGastoPermanente || msgCronogramaActividades
+                    || msgObjetivosBuenVivir || msgObjetivosUnesco || msgImpactosEsperados || msgObjetivosMilenios || msgObjetivosEstrategicos || msgLineasInvestigacion || msgObjetivosProvCantParr || msgViabilidad || msgPresupuestoDetallado || msgPresupuestoDetalladoGastoPermanente || msgCronogramaActividades
                     || msgActaConsejoDepartamento || msgActaCompromisoParticipacionDirectorProyecto || msgActaCompromisoParticipacionCarreras)) {
                 proyectoSelected.setEstado(new SeaParametrosDet(SeaParametrosDet.ESTADO_CERRADO_PERFIL));
                 proyectoSelected.setFechaFinalizacionPerfil(new Date());

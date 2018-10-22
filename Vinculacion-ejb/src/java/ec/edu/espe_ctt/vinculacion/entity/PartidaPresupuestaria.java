@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "SZDTAVCLASPRE")
 @XmlRootElement
 public class PartidaPresupuestaria implements Serializable {
-
+   
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @SequenceGenerator(name = "SEQ_SZDTAVCLASPRE", sequenceName = "SEQ_SZDTAVCLASPRE", allocationSize = 1)
@@ -142,6 +142,6 @@ public class PartidaPresupuestaria implements Serializable {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
+
     
 }
