@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyecto" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6b4c77c-7a1f-4a03-b3c2-8c98554325d3">
-	<property name="ireport.zoom" value="2.143588810000017"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="3269"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -25,7 +25,7 @@
 	</style>
 	<subDataset name="Table Dataset 1" uuid="e9818e3b-ada0-4eb2-8a7d-87f95e90ed9f"/>
 	<parameter name="idProyecto" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[97]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[31]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
@@ -40,10 +40,10 @@ NVL(SZTVPROYEC_DIRECTOS_HOMBRES,0) SZTVPROYEC_DIRECTOS_HOMBRES, NVL(SZTVPROYEC_D
     (select count(*) from SZDTAVPOBLAPROY where SZDTAVPOBLAPROY.SZTVPROYEC_CODE=SZDTAVPROYEC.SZTVPROYEC_CODE and SZDTAVPOBLAPROY.PRD_ID_POBLACION=294) URB_MARG,
     (select count(*) from SZDTAVPOBLAPROY where SZDTAVPOBLAPROY.SZTVPROYEC_CODE=SZDTAVPROYEC.SZTVPROYEC_CODE and SZDTAVPOBLAPROY.PRD_ID_POBLACION=295) RURAL,
     (select count(*) from SZDTAVPOBLAPROY where SZDTAVPOBLAPROY.SZTVPROYEC_CODE=SZDTAVPROYEC.SZTVPROYEC_CODE and SZDTAVPOBLAPROY.PRD_ID_POBLACION=301) ATEN_PRIOR,
-(select nvl(sum(SZTVPRESUP_VALOR*SZTVPRESUP_CANTIDAD),0) from SZDTAVPRESUP where SZTVPROYEC_CODE=SZDTAVPROYEC.SZTVPROYEC_CODE AND  SZTVPRESUP_TIPO = 1 and SZTVPRESUP_TIPOGASTO= 'C') PRESUP_UNIV_GASTO_PERMAN,
-(select nvl(sum(SZTVPRESUP_VALOR*SZTVPRESUP_CANTIDAD),0)  from SZDTAVPRESUP where SZTVPROYEC_CODE=SZDTAVPROYEC.SZTVPROYEC_CODE AND  SZTVPRESUP_TIPO = 1 and SZTVPRESUP_TIPOGASTO= 'I') PRESUP_UNIV_GASTO_NO_PERMAN,
-(select nvl(sum(SZTVPRESUP_VALOR*SZTVPRESUP_CANTIDAD),0) from SZDTAVPRESUP where SZTVPROYEC_CODE=SZDTAVPROYEC.SZTVPROYEC_CODE AND  SZTVPRESUP_TIPO = 2) PRESUP_ENTIDAD_AUSP,
-(select nvl(sum(SZTVPRESUP_VALOR*SZTVPRESUP_CANTIDAD),0) from SZDTAVPRESUP where SZTVPROYEC_CODE=SZDTAVPROYEC.SZTVPROYEC_CODE AND  SZTVPRESUP_TIPO = 3) PRESUP_COMUNID_BENEF,
+(select nvl(sum(ANUAL.SZDTAVANUALVALOR_VALOR),0) from SZDTAVPRESUP SUP, SIEVAL.SZDTAVANUALVALOR ANUAL where SUP.SZTVPROYEC_CODE=SZDTAVPROYEC.SZTVPROYEC_CODE AND SUP.SZTVPRESUP_CODE=ANUAL.SZTVPRESUP_CODE AND  SUP.SZTVPRESUP_TIPO = 1 and SUP.SZTVPRESUP_TIPOGASTO= 'C') PRESUP_UNIV_GASTO_PERMAN,
+(select nvl(sum(ANUAL.SZDTAVANUALVALOR_VALOR),0)  from SZDTAVPRESUP SUP, SIEVAL.SZDTAVANUALVALOR ANUAL where SUP.SZTVPROYEC_CODE=SZDTAVPROYEC.SZTVPROYEC_CODE AND SUP.SZTVPRESUP_CODE=ANUAL.SZTVPRESUP_CODE AND  SUP.SZTVPRESUP_TIPO = 1 and SUP.SZTVPRESUP_TIPOGASTO= 'I') PRESUP_UNIV_GASTO_NO_PERMAN,
+(select nvl(sum(ANUAL.SZDTAVANUALVALOR_VALOR),0) from SZDTAVPRESUP SUP, SIEVAL.SZDTAVANUALVALOR ANUAL where SUP.SZTVPROYEC_CODE=SZDTAVPROYEC.SZTVPROYEC_CODE AND SUP.SZTVPRESUP_CODE=ANUAL.SZTVPRESUP_CODE AND  SUP.SZTVPRESUP_TIPO = 2) PRESUP_ENTIDAD_AUSP,
+(select nvl(sum(ANUAL.SZDTAVANUALVALOR_VALOR),0) from SZDTAVPRESUP SUP, SIEVAL.SZDTAVANUALVALOR ANUAL where SUP.SZTVPROYEC_CODE=SZDTAVPROYEC.SZTVPROYEC_CODE AND SUP.SZTVPRESUP_CODE=ANUAL.SZTVPRESUP_CODE AND  SUP.SZTVPRESUP_TIPO = 3) PRESUP_COMUNID_BENEF,
 (TRUNC(MONTHS_BETWEEN(SZTVPROYEC_FECHA_FINALIZA, SZTVPROYEC_FECHA_INICIO)/12)) DURACION_ANIOS,
 (TRUNC((MONTHS_BETWEEN(SZTVPROYEC_FECHA_FINALIZA, SZTVPROYEC_FECHA_INICIO)) - (TRUNC(MONTHS_BETWEEN(SZTVPROYEC_FECHA_FINALIZA, SZTVPROYEC_FECHA_INICIO)/12)*12))) DURACION_MESES,
 (TRUNC(SZTVPROYEC_FECHA_FINALIZA-(add_months(SZTVPROYEC_FECHA_INICIO,trunc(months_between(SZTVPROYEC_FECHA_FINALIZA,SZTVPROYEC_FECHA_INICIO)/12)*12+trunc(mod(months_between(SZTVPROYEC_FECHA_FINALIZA,SZTVPROYEC_FECHA_INICIO),12)))))) DURACION_DIAS,
@@ -143,9 +143,9 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 	<field name="DURACION_ANIOS" class="java.math.BigDecimal"/>
 	<field name="DURACION_MESES" class="java.math.BigDecimal"/>
 	<field name="DURACION_DIAS" class="java.math.BigDecimal"/>
-	<field name="SZTVPROYEC_SITUACTUAL2" class="oracle.sql.CLOB"/>
-	<field name="SZTVPROYEC_DIAGNOSTICO2" class="oracle.sql.CLOB"/>
-	<field name="SZTVPROYEC_LINEABASE2" class="oracle.sql.CLOB"/>
+	<field name="SZTVPROYEC_SITUACTUAL2" class="oracle.jdbc.OracleClob"/>
+	<field name="SZTVPROYEC_DIAGNOSTICO2" class="oracle.jdbc.OracleClob"/>
+	<field name="SZTVPROYEC_LINEABASE2" class="oracle.jdbc.OracleClob"/>
 	<field name="SZTVPROYEC_FACTORESC" class="java.lang.String"/>
 	<field name="SZTVPROYEC_RESTRICION" class="java.lang.String"/>
 	<field name="SZTVPROYEC_VIABILIDAD" class="java.lang.String"/>
@@ -915,7 +915,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 		</band>
 		<band height="627">
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="302" width="532" height="20" backcolor="#CCCCCC" uuid="42b7bff9-e886-4314-8ee5-b52beee7188c"/>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="387" width="532" height="20" backcolor="#CCCCCC" uuid="42b7bff9-e886-4314-8ee5-b52beee7188c"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -929,7 +929,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Identificación y caracterización de la población objetivo (beneficiarios y participantes)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="104" y="322" width="79" height="25" uuid="58ce291f-cf46-4546-8a51-f2b87db33c42"/>
+				<reportElement positionType="Float" x="104" y="407" width="79" height="25" uuid="58ce291f-cf46-4546-8a51-f2b87db33c42"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -943,7 +943,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Hombres]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="183" y="322" width="80" height="25" uuid="2060f8f4-1b94-4ce4-ac97-296ae4803bd1"/>
+				<reportElement positionType="Float" x="183" y="407" width="80" height="25" uuid="2060f8f4-1b94-4ce4-ac97-296ae4803bd1"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -957,7 +957,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Mujeres]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="263" y="322" width="80" height="25" uuid="620ce6d4-b5f9-43da-9c00-2a910ddf15c9"/>
+				<reportElement positionType="Float" x="263" y="407" width="80" height="25" uuid="620ce6d4-b5f9-43da-9c00-2a910ddf15c9"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -971,7 +971,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Niños]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="343" y="322" width="113" height="25" uuid="db1b6f05-5131-4695-a945-200ec1eb6487"/>
+				<reportElement positionType="Float" x="343" y="407" width="113" height="25" uuid="db1b6f05-5131-4695-a945-200ec1eb6487"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -985,7 +985,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Personas con capacidades especiales]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="10" y="347" width="94" height="20" uuid="a19da2f2-0ce4-4337-a105-8e0f10426a32"/>
+				<reportElement positionType="Float" x="10" y="432" width="94" height="20" uuid="a19da2f2-0ce4-4337-a105-8e0f10426a32"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -999,7 +999,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[DIRECTOS:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="456" y="322" width="86" height="25" uuid="81b4a6c5-7c94-428c-954c-0dbefe529764"/>
+				<reportElement positionType="Float" x="456" y="407" width="86" height="25" uuid="81b4a6c5-7c94-428c-954c-0dbefe529764"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1013,7 +1013,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Total]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="10" y="367" width="94" height="20" uuid="e3cb96db-6214-45d2-b49e-1fc477ac0bbd"/>
+				<reportElement positionType="Float" x="10" y="452" width="94" height="20" uuid="e3cb96db-6214-45d2-b49e-1fc477ac0bbd"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1027,7 +1027,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[INDIRECTOS:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" pattern="#,##0">
-				<reportElement positionType="Float" x="104" y="347" width="79" height="20" uuid="182ad317-d43c-421b-9d37-0dde3c1b7a17"/>
+				<reportElement positionType="Float" x="104" y="432" width="79" height="20" uuid="182ad317-d43c-421b-9d37-0dde3c1b7a17"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1041,7 +1041,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<textFieldExpression><![CDATA[$F{SZTVPROYEC_DIRECTOS_HOMBRES}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0">
-				<reportElement positionType="Float" x="183" y="347" width="80" height="20" uuid="a1cb2790-7e88-43cc-863a-9b2408132048"/>
+				<reportElement positionType="Float" x="183" y="432" width="80" height="20" uuid="a1cb2790-7e88-43cc-863a-9b2408132048"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1055,7 +1055,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<textFieldExpression><![CDATA[$F{SZTVPROYEC_DIRECTOS_MUJERES}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0">
-				<reportElement positionType="Float" x="263" y="347" width="80" height="20" uuid="7e185fd6-8001-4382-ad92-253c2bf308fa"/>
+				<reportElement positionType="Float" x="263" y="432" width="80" height="20" uuid="7e185fd6-8001-4382-ad92-253c2bf308fa"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1069,7 +1069,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<textFieldExpression><![CDATA[$F{SZTVPROYEC_DIRECTOS_NINIOS}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0">
-				<reportElement positionType="Float" x="343" y="347" width="113" height="20" uuid="714014a6-eecc-41d9-abfc-df53f4699dfd"/>
+				<reportElement positionType="Float" x="343" y="432" width="113" height="20" uuid="714014a6-eecc-41d9-abfc-df53f4699dfd"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1083,7 +1083,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<textFieldExpression><![CDATA[$F{SZTVPROYEC_DIRECTOS_DISCAPAC}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0">
-				<reportElement positionType="Float" x="456" y="367" width="86" height="20" uuid="2fa40de0-3be0-42bd-b496-f68c99a1444f"/>
+				<reportElement positionType="Float" x="456" y="452" width="86" height="20" uuid="2fa40de0-3be0-42bd-b496-f68c99a1444f"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1097,7 +1097,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<textFieldExpression><![CDATA[$F{SZTVPROYEC_INDIRECTOS}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0">
-				<reportElement positionType="Float" x="456" y="347" width="86" height="20" uuid="b8d43e53-d1f1-41e7-b7d2-a91085597736"/>
+				<reportElement positionType="Float" x="456" y="432" width="86" height="20" uuid="b8d43e53-d1f1-41e7-b7d2-a91085597736"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1111,7 +1111,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<textFieldExpression><![CDATA[$F{SZTVPROYEC_DIRECTOS_HOMBRES}+$F{SZTVPROYEC_DIRECTOS_MUJERES}+$F{SZTVPROYEC_DIRECTOS_NINIOS}+$F{SZTVPROYEC_DIRECTOS_DISCAPAC}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="411" width="532" height="20" backcolor="#CCCCCC" uuid="480281ad-5652-487c-957f-6e1abd39bb61"/>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="488" width="532" height="20" backcolor="#CCCCCC" uuid="480281ad-5652-487c-957f-6e1abd39bb61"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1125,93 +1125,15 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Docentes participantes]]></text>
 			</staticText>
 			<subreport>
-				<reportElement positionType="Float" x="10" y="431" width="532" height="13" uuid="3b41a77e-00a3-4e36-a941-c4ef8794e8a6"/>
+				<reportElement positionType="Float" x="10" y="508" width="532" height="13" uuid="3b41a77e-00a3-4e36-a941-c4ef8794e8a6"/>
 				<subreportParameter name="idProyecto">
 					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_CODE}.intValue()]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoDocentes.jasper"]]></subreportExpression>
 			</subreport>
-			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="463" width="532" height="20" backcolor="#CCCCCC" uuid="2935b7dc-f4d1-4441-bbb7-c99e848a342d"/>
-				<box leftPadding="5">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Estudiantes participantes]]></text>
-			</staticText>
 			<subreport>
-				<reportElement positionType="Float" x="10" y="483" width="532" height="11" uuid="5e93718b-a0a8-42ec-ae9f-453df79c06fa"/>
-				<subreportParameter name="idProyecto">
-					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_CODE}.intValue()]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoEstudiantes.jasper"]]></subreportExpression>
-			</subreport>
-			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="513" width="532" height="20" backcolor="#CCCCCC" uuid="511b2fc7-c247-485c-9d1d-fbc46e542793"/>
-				<box leftPadding="5">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Factores críticos de éxito:]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="10" y="533" width="532" height="20" uuid="4d37919c-d300-4e05-b20f-3cb55f3f1427"/>
-				<box topPadding="5" leftPadding="5" bottomPadding="5">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement markup="html">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{SZTVPROYEC_FACTORESC}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="568" width="532" height="20" backcolor="#CCCCCC" uuid="7e9ab16d-47ea-4b24-b748-1f967d843a36"/>
-				<box leftPadding="5">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Restricciones/Supuestos:]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="10" y="588" width="532" height="20" uuid="181fa785-4d22-4265-a448-a20f7b77d270"/>
-				<box topPadding="5" leftPadding="5" bottomPadding="5">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement markup="html">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{SZTVPROYEC_RESTRICION}]]></textFieldExpression>
-			</textField>
-			<subreport>
-				<reportElement positionType="Float" x="10" y="263" width="532" height="19" isRemoveLineWhenBlank="true" uuid="f348ef7f-7323-4698-9ff1-32e8129e9eda"/>
+				<reportElement positionType="Float" x="10" y="351" width="532" height="19" isRemoveLineWhenBlank="true" uuid="f348ef7f-7323-4698-9ff1-32e8129e9eda"/>
 				<subreportParameter name="pathAplicacion">
 					<subreportParameterExpression><![CDATA[$P{pathAplicacion}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -1222,7 +1144,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoImagenes.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="109" width="532" height="20" backcolor="#CCCCCC" uuid="a215c4e8-f0fd-4d74-8bdc-dd008cf9f817"/>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="190" width="532" height="20" backcolor="#CCCCCC" uuid="a215c4e8-f0fd-4d74-8bdc-dd008cf9f817"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -1236,7 +1158,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[2. DIAGNÓSTICO Y PROBLEMA]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="10" y="150" width="532" height="20" uuid="b160d8f9-16d1-4eb3-aa08-3446e86bd974"/>
+				<reportElement positionType="Float" x="10" y="231" width="532" height="20" uuid="b160d8f9-16d1-4eb3-aa08-3446e86bd974"/>
 				<box topPadding="5" leftPadding="5" bottomPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1250,7 +1172,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<textFieldExpression><![CDATA[$F{SZTVPROYEC_SITUACTUAL2}.stringValue()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="10" y="138" width="532" height="12" uuid="e766df4f-506e-4464-9176-b8f977194f5d"/>
+				<reportElement positionType="Float" x="10" y="219" width="532" height="12" uuid="e766df4f-506e-4464-9176-b8f977194f5d"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1264,7 +1186,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Descripción de la situación actual del área de intervención del proyecto:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="10" y="181" width="532" height="12" uuid="dddff2a1-8a5f-449e-b4fe-7cfd0b19485a"/>
+				<reportElement positionType="Float" x="10" y="262" width="532" height="12" uuid="dddff2a1-8a5f-449e-b4fe-7cfd0b19485a"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1278,7 +1200,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Identificación, descripción y diagnóstico del problema:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="10" y="193" width="532" height="20" uuid="ca522c89-64e7-4860-8320-8a19867da545"/>
+				<reportElement positionType="Float" x="10" y="274" width="532" height="20" uuid="ca522c89-64e7-4860-8320-8a19867da545"/>
 				<box topPadding="5" leftPadding="5" bottomPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1292,7 +1214,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<textFieldExpression><![CDATA[$F{SZTVPROYEC_DIAGNOSTICO2}.stringValue()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="10" y="222" width="532" height="12" uuid="137701ff-7c1b-4b04-9261-5456489caa52"/>
+				<reportElement positionType="Float" x="10" y="303" width="532" height="12" uuid="137701ff-7c1b-4b04-9261-5456489caa52"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1306,7 +1228,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Línea Base del proyecto:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="10" y="234" width="532" height="20" uuid="41eca18b-d120-4879-8744-9755ff775057"/>
+				<reportElement positionType="Float" x="10" y="315" width="532" height="20" uuid="41eca18b-d120-4879-8744-9755ff775057"/>
 				<box topPadding="5" leftPadding="5" bottomPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1358,13 +1280,13 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoBienesServicios.jasper"]]></subreportExpression>
 			</subreport>
 			<rectangle>
-				<reportElement positionType="Float" x="104" y="367" width="352" height="20" uuid="4e00d074-dce1-4e33-a096-36cd9ad2a9a3"/>
+				<reportElement positionType="Float" x="104" y="452" width="352" height="20" uuid="4e00d074-dce1-4e33-a096-36cd9ad2a9a3"/>
 				<graphicElement>
 					<pen lineWidth="0.25"/>
 				</graphicElement>
 			</rectangle>
 			<staticText>
-				<reportElement positionType="Float" x="10" y="322" width="94" height="25" uuid="0ffba565-955e-4e1e-8db8-dc9d8e795538"/>
+				<reportElement positionType="Float" x="10" y="407" width="94" height="25" uuid="0ffba565-955e-4e1e-8db8-dc9d8e795538"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1377,10 +1299,62 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				</textElement>
 				<text><![CDATA[]]></text>
 			</staticText>
-		</band>
-		<band height="650">
+			<subreport>
+				<reportElement positionType="Float" x="10" y="93" width="532" height="20" uuid="97af6c84-e480-4c04-97b3-87219d670b23"/>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_CODE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoEfectoEsperado.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="10" y="154" width="532" height="11" uuid="2c4235ce-30ce-4a13-81fb-804ea0685b48"/>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_CODE}.intValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoImpactoEsperado.jasper"]]></subreportExpression>
+			</subreport>
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="337" width="532" height="20" backcolor="#CCCCCC" uuid="0e7ad0a0-6f83-4233-8314-d89468f78b73"/>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="134" width="532" height="20" backcolor="#CCCCCC" uuid="99c99d0a-36f3-4da6-940a-2f1b1e15f34d"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Impactos Esperados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="539" width="532" height="20" backcolor="#CCCCCC" uuid="2935b7dc-f4d1-4441-bbb7-c99e848a342d"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estudiantes participantes]]></text>
+			</staticText>
+			<subreport>
+				<reportElement positionType="Float" x="10" y="559" width="532" height="11" uuid="5e93718b-a0a8-42ec-ae9f-453df79c06fa"/>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_CODE}.intValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoEstudiantes.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="704">
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="540" width="532" height="20" backcolor="#CCCCCC" uuid="0e7ad0a0-6f83-4233-8314-d89468f78b73"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -1394,7 +1368,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[5. VIABILIDAD Y PLAN DE SOSTENIBILIDAD]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="10" y="370" width="532" height="12" uuid="f3176cbe-2df7-442b-a84a-c5843d9dae33"/>
+				<reportElement positionType="Float" x="10" y="573" width="532" height="12" uuid="f3176cbe-2df7-442b-a84a-c5843d9dae33"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1408,7 +1382,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Viabilidad Técnica:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="10" y="382" width="532" height="20" uuid="134b46cb-b4d9-44ba-b28c-83a571cf3ecb"/>
+				<reportElement positionType="Float" x="10" y="585" width="532" height="20" uuid="134b46cb-b4d9-44ba-b28c-83a571cf3ecb"/>
 				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="1">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1422,7 +1396,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<textFieldExpression><![CDATA[$F{SZTVPROYEC_VIABILIDAD}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="10" y="425" width="532" height="12" uuid="2d919c08-3299-4802-8658-ececfc3f0295"/>
+				<reportElement positionType="Float" x="10" y="617" width="532" height="12" uuid="2d919c08-3299-4802-8658-ececfc3f0295"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1436,7 +1410,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[ ¿Qué perdería el país si el proyecto no se ejecuta en este periodo?: ]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="10" y="437" width="532" height="20" uuid="385f1534-3944-4bc8-88a6-ab68ee09ae36"/>
+				<reportElement positionType="Float" x="10" y="629" width="532" height="20" uuid="385f1534-3944-4bc8-88a6-ab68ee09ae36"/>
 				<box topPadding="5" leftPadding="5" bottomPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1450,91 +1424,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<textFieldExpression><![CDATA[$F{SZTVPROYEC_PERDERIA}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="10" y="483" width="532" height="12" uuid="3fd7e1a3-7f93-46b4-a2d7-9fbb6cc8f512"/>
-				<box leftPadding="5">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement>
-					<font fontName="SansSerif" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[¿Cuáles son los resultados o impactos esperados del proyecto?: ]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="10" y="495" width="532" height="20" uuid="49d35b66-7c88-4d2b-bf09-06933e2a5a89"/>
-				<box topPadding="5" leftPadding="5" bottomPadding="5">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement markup="html">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{SZTVPROYEC_RESULTADOS}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" x="10" y="542" width="532" height="12" uuid="4416f3d6-24ee-4041-874a-9f64b6ae18bb"/>
-				<box leftPadding="5">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement>
-					<font fontName="SansSerif" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[¿Análisis de impacto ambiental?: ]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="10" y="554" width="532" height="20" uuid="dc01bf8c-b6f2-437e-921f-2027c792b730"/>
-				<box topPadding="5" leftPadding="5" bottomPadding="5">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement markup="html">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{SZTVPROYEC_IMPACTOA}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" x="10" y="596" width="532" height="12" uuid="765f7922-51d4-4344-bc2b-7c030b7affb7"/>
-				<box leftPadding="5">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement>
-					<font fontName="SansSerif" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Sostenibilidad social: equidad, género, participación ciudadana: ]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="10" y="608" width="532" height="20" uuid="932b98d3-1d12-468e-b270-9a2a765bf470"/>
-				<box topPadding="5" leftPadding="5" bottomPadding="5">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement markup="html">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{SZTVPROYEC_SOSTENIBILIDAD}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="214" width="532" height="20" backcolor="#CCCCCC" uuid="556ba526-d431-40c9-a0c9-0f64d3c3f950"/>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="379" width="532" height="20" backcolor="#CCCCCC" uuid="556ba526-d431-40c9-a0c9-0f64d3c3f950"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1548,7 +1438,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[¿A qué lineas y sublineas de investigacion apunta el proyecto?:]]></text>
 			</staticText>
 			<subreport>
-				<reportElement positionType="Float" x="10" y="234" width="532" height="15" uuid="532d52ab-0ef0-41ee-b76d-b0f2929e2d80"/>
+				<reportElement positionType="Float" x="10" y="399" width="532" height="15" uuid="532d52ab-0ef0-41ee-b76d-b0f2929e2d80"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -1559,32 +1449,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoLineaInvestigacion.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="271" width="532" height="20" backcolor="#CCCCCC" uuid="49a79ca3-a55d-4eb8-be7d-744ffdd17877"/>
-				<box leftPadding="5">
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[4. MATRIZ DEL MARCO LÓGICO]]></text>
-			</staticText>
-			<subreport>
-				<reportElement positionType="Float" x="10" y="291" width="532" height="21" uuid="2147266e-62e5-429b-8fc7-923a2be4ed2e"/>
-				<subreportParameter name="SUBREPORT_DIR">
-					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportParameter name="idProyecto">
-					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoMatrizMarcoLogico.jasper"]]></subreportExpression>
-			</subreport>
-			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="160" width="532" height="20" backcolor="#CCCCCC" uuid="ef592582-b1c7-438d-9c60-cae95c73a41b"/>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="325" width="532" height="20" backcolor="#CCCCCC" uuid="ef592582-b1c7-438d-9c60-cae95c73a41b"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1598,7 +1463,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[¿A qué objetivos Estratégicos Institucionales apunta el Proyecto?:]]></text>
 			</staticText>
 			<subreport>
-				<reportElement positionType="Float" x="10" y="180" width="532" height="14" uuid="f61a167f-cdce-4e7c-b8e8-e6b1c1ac5e11"/>
+				<reportElement positionType="Float" x="10" y="345" width="532" height="14" uuid="f61a167f-cdce-4e7c-b8e8-e6b1c1ac5e11"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -1609,7 +1474,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoPerspectiva.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="107" width="532" height="20" backcolor="#CCCCCC" uuid="0b1a0c25-b298-4c86-bdfb-2f13dc676f8e"/>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="272" width="532" height="20" backcolor="#CCCCCC" uuid="0b1a0c25-b298-4c86-bdfb-2f13dc676f8e"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1623,7 +1488,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Objetivos provinciales, cantonales, parroquiales:]]></text>
 			</staticText>
 			<subreport>
-				<reportElement positionType="Float" x="10" y="127" width="532" height="12" uuid="8929b2ca-e56f-48bf-af55-eceb2ba31e6a"/>
+				<reportElement positionType="Float" x="10" y="292" width="532" height="12" uuid="8929b2ca-e56f-48bf-af55-eceb2ba31e6a"/>
 				<subreportParameter name="SUBREPORT_DIR"/>
 				<subreportParameter name="idProyecto">
 					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_CODE}.intValue()]]></subreportParameterExpression>
@@ -1635,7 +1500,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoObjProvCantParr.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="18" width="532" height="20" backcolor="#CCCCCC" uuid="58a9d311-880b-4819-9408-035bd718db10"/>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="133" width="532" height="20" backcolor="#CCCCCC" uuid="58a9d311-880b-4819-9408-035bd718db10"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -1649,7 +1514,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[3. ALINEAMIENTO DEL PROYECTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="53" width="532" height="20" backcolor="#CCCCCC" uuid="cf98d847-d4a9-40fc-9047-9710d98d3893"/>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="218" width="532" height="20" backcolor="#CCCCCC" uuid="cf98d847-d4a9-40fc-9047-9710d98d3893"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1660,10 +1525,10 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<textElement verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[¿A qué objetivo u objetivos del Plan Nacional del Buen Vivir se respalda el Proyecto?:]]></text>
+				<text><![CDATA[¿A qué objetivo u objetivos del Plan de Desarrollo se respalda el Proyecto?:]]></text>
 			</staticText>
 			<subreport>
-				<reportElement positionType="Float" x="10" y="73" width="532" height="13" uuid="bcefc2df-73f1-4816-929c-45e7ab77e27a"/>
+				<reportElement positionType="Float" x="10" y="238" width="532" height="13" uuid="bcefc2df-73f1-4816-929c-45e7ab77e27a"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -1673,10 +1538,141 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoObjetivosPLNBV.jasper"]]></subreportExpression>
 			</subreport>
-		</band>
-		<band height="698">
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="229" width="532" height="20" backcolor="#CCCCCC" uuid="44359403-6d18-4069-b97f-795815366f1d"/>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="428" width="532" height="20" backcolor="#CCCCCC" uuid="151a2450-824e-4fbb-990f-b90b0b6e3f9d"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿A qué objetivos Unesco apunta el Proyecto?:]]></text>
+			</staticText>
+			<subreport>
+				<reportElement positionType="Float" x="10" y="448" width="532" height="14" uuid="06b45844-d746-4780-92dc-a47e97263157"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_CODE}.intValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoAmplio.jasper"]]></subreportExpression>
+			</subreport>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="10" y="98" width="532" height="20" uuid="181fa785-4d22-4265-a448-a20f7b77d270"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement markup="html">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_RESTRICION}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="26" width="532" height="20" backcolor="#CCCCCC" uuid="511b2fc7-c247-485c-9d1d-fbc46e542793"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Factores críticos de éxito:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="10" y="46" width="532" height="20" uuid="4d37919c-d300-4e05-b20f-3cb55f3f1427"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement markup="html">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_FACTORESC}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="78" width="532" height="20" backcolor="#CCCCCC" uuid="7e9ab16d-47ea-4b24-b748-1f967d843a36"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Restricciones/Supuestos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="169" width="532" height="20" backcolor="#CCCCCC" uuid="d2d5199a-e0dc-4df5-a6e8-a019c2119f96"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿A qué objetivos Milenio apunta el Proyecto?:]]></text>
+			</staticText>
+			<subreport>
+				<reportElement positionType="Float" x="10" y="189" width="532" height="14" uuid="53e43e1f-68a6-466a-8ee1-c7b874d4f4c1"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_CODE}.intValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoMilenio.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="10" y="500" width="532" height="21" uuid="863a0d0a-6526-434d-b11c-101f61c223b1"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoMatrizMarcoLogico.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="480" width="532" height="20" backcolor="#CCCCCC" uuid="7506b9b8-5927-4735-9fb3-7ef7019d2eb2"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[4. MATRIZ DEL MARCO LÓGICO]]></text>
+			</staticText>
+		</band>
+		<band height="704">
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="368" width="532" height="20" backcolor="#CCCCCC" uuid="44359403-6d18-4069-b97f-795815366f1d"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -1690,7 +1686,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[7. ESTRATEGIA DE EJECUCIÓN-CRONOGRAMA ]]></text>
 			</staticText>
 			<subreport>
-				<reportElement positionType="Float" x="10" y="279" width="532" height="25" uuid="a7efade6-a385-4cda-a34d-87d1966dccc1"/>
+				<reportElement positionType="Float" x="10" y="418" width="532" height="25" uuid="a7efade6-a385-4cda-a34d-87d1966dccc1"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -1701,7 +1697,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoCronograma.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement positionType="Float" x="10" y="259" width="532" height="20" uuid="6034bd69-5ce7-4b1e-af79-11228cbc5b2a"/>
+				<reportElement positionType="Float" x="10" y="398" width="532" height="20" uuid="6034bd69-5ce7-4b1e-af79-11228cbc5b2a"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1715,7 +1711,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Componentes:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="10" y="103" width="532" height="14" uuid="e15bf2d5-fb58-48b9-8ff7-62260a454c40"/>
+				<reportElement positionType="Float" x="10" y="258" width="532" height="14" uuid="e15bf2d5-fb58-48b9-8ff7-62260a454c40"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1729,15 +1725,18 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Aporte de la Entidad Auspiciante:]]></text>
 			</staticText>
 			<subreport>
-				<reportElement positionType="Float" x="10" y="117" width="532" height="25" uuid="8a05949e-9e94-40d9-b708-d808e761b097"/>
+				<reportElement positionType="Float" x="10" y="272" width="532" height="25" uuid="8a05949e-9e94-40d9-b708-d808e761b097"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="idProyecto">
-					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_CODE}.intValue()]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoPresupuestoEntidadAuspiciante.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement positionType="Float" x="10" y="160" width="532" height="14" uuid="7b965b19-4465-43cc-b648-d22a67db7613"/>
+				<reportElement positionType="Float" x="10" y="315" width="532" height="14" uuid="7b965b19-4465-43cc-b648-d22a67db7613"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1751,15 +1750,18 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Aporte de la Comunidad Beneficiaria:]]></text>
 			</staticText>
 			<subreport>
-				<reportElement positionType="Float" x="10" y="174" width="532" height="25" uuid="ce2c42b3-72f6-4ee5-bcbf-9b759d6e1f97"/>
+				<reportElement positionType="Float" x="10" y="329" width="532" height="25" uuid="ce2c42b3-72f6-4ee5-bcbf-9b759d6e1f97"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="idProyecto">
-					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_CODE}.intValue()]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoPresupuestoComunidadBeneficiaria.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement positionType="Float" mode="Opaque" x="10" y="18" width="532" height="20" backcolor="#CCCCCC" uuid="0b49b8df-8334-472e-a979-4797480ae094"/>
+				<reportElement positionType="Float" mode="Opaque" x="10" y="173" width="532" height="20" backcolor="#CCCCCC" uuid="0b49b8df-8334-472e-a979-4797480ae094"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -1773,15 +1775,18 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[6. PRESUPUESTO DETALLADO Y FUENTES DE FINANCIAMIENTO]]></text>
 			</staticText>
 			<subreport>
-				<reportElement positionType="Float" x="10" y="63" width="532" height="25" uuid="e64f3034-53c6-4df9-9f7a-2153cfbbc6fd"/>
+				<reportElement positionType="Float" x="10" y="218" width="532" height="25" uuid="e64f3034-53c6-4df9-9f7a-2153cfbbc6fd"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="idProyecto">
-					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$F{SZTVPROYEC_CODE}.intValue()]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoPresupuestoUniversidad.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement positionType="Float" x="10" y="49" width="532" height="14" uuid="65dbab1d-b43f-4248-8864-aef90dd8e14d"/>
+				<reportElement positionType="Float" x="10" y="204" width="532" height="14" uuid="65dbab1d-b43f-4248-8864-aef90dd8e14d"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -1795,15 +1800,15 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 				<text><![CDATA[Aporte de la Universidad:]]></text>
 			</staticText>
 			<frame>
-				<reportElement positionType="Float" x="3" y="325" width="542" height="233" uuid="daa3edda-1f32-4964-9a31-ac4b7a17a53a"/>
+				<reportElement positionType="Float" x="0" y="461" width="542" height="233" uuid="daa3edda-1f32-4964-9a31-ac4b7a17a53a"/>
 				<rectangle>
-					<reportElement x="7" y="25" width="532" height="189" uuid="67e7367a-25be-4320-9bbc-e67e6ee1af50"/>
+					<reportElement x="7" y="37" width="532" height="189" uuid="67e7367a-25be-4320-9bbc-e67e6ee1af50"/>
 					<graphicElement>
 						<pen lineWidth="0.5"/>
 					</graphicElement>
 				</rectangle>
 				<staticText>
-					<reportElement positionType="Float" x="31" y="124" width="44" height="16" uuid="a7f6b997-c46f-4e33-bad3-9e75679f10b4"/>
+					<reportElement positionType="Float" x="31" y="131" width="44" height="16" uuid="a7f6b997-c46f-4e33-bad3-9e75679f10b4"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -1817,7 +1822,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<text><![CDATA[Fecha:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="31" y="34" width="284" height="16" uuid="574f5aaf-e8b4-44cb-8e0c-be2793492ce4"/>
+					<reportElement positionType="Float" x="31" y="41" width="284" height="16" uuid="574f5aaf-e8b4-44cb-8e0c-be2793492ce4"/>
 					<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="0">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -1831,7 +1836,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<text><![CDATA[Acta de Aprobación Consejo de Departamento]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="31" y="50" width="44" height="16" uuid="30928bc2-60d9-400d-8d6f-992f7da943a9"/>
+					<reportElement positionType="Float" x="31" y="57" width="44" height="16" uuid="30928bc2-60d9-400d-8d6f-992f7da943a9"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -1845,7 +1850,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<text><![CDATA[Nro:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="75" y="167" width="240" height="16" uuid="de4cba01-d23a-42a1-b77d-dc0f33e64df5"/>
+					<reportElement positionType="Float" x="75" y="174" width="240" height="16" uuid="de4cba01-d23a-42a1-b77d-dc0f33e64df5"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -1859,7 +1864,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<textFieldExpression><![CDATA[$F{SZTVPROYEC_CONS_ACAD_NROACTA}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="75" y="183" width="240" height="16" uuid="20deb3e9-2305-488c-8390-25772b9dfc01"/>
+					<reportElement positionType="Float" x="75" y="190" width="240" height="16" uuid="20deb3e9-2305-488c-8390-25772b9dfc01"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -1873,7 +1878,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<textFieldExpression><![CDATA[$F{SZTVPROYEC_FECHA_C}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="31" y="108" width="44" height="16" uuid="d13b6617-de16-4e03-9114-429c4f69ee7e"/>
+					<reportElement positionType="Float" x="31" y="115" width="44" height="16" uuid="d13b6617-de16-4e03-9114-429c4f69ee7e"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -1887,7 +1892,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<text><![CDATA[Nro:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="75" y="66" width="240" height="16" uuid="bee35b49-b1cb-4edc-9e1d-d9629d96127d"/>
+					<reportElement positionType="Float" x="75" y="73" width="240" height="16" uuid="bee35b49-b1cb-4edc-9e1d-d9629d96127d"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -1901,7 +1906,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<textFieldExpression><![CDATA[$F{SZTVPROYEC_APROB_CON_DEP_FEC}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" mode="Opaque" x="7" y="5" width="532" height="20" backcolor="#CCCCCC" uuid="c7250321-1b51-4e5d-9051-4715c00b0b45"/>
+					<reportElement positionType="Float" mode="Opaque" x="7" y="12" width="532" height="20" backcolor="#CCCCCC" uuid="c7250321-1b51-4e5d-9051-4715c00b0b45"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -1915,7 +1920,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<text><![CDATA[8. PROYECTO APROBADO CON:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="75" y="50" width="240" height="16" uuid="07d8c629-07d5-4b0f-acb5-a42d49bc2833"/>
+					<reportElement positionType="Float" x="75" y="57" width="240" height="16" uuid="07d8c629-07d5-4b0f-acb5-a42d49bc2833"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -1929,7 +1934,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<textFieldExpression><![CDATA[$F{SZTVPROYEC_APROB_CON_DEP_NRO}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement positionType="Float" x="31" y="92" width="284" height="16" uuid="e9a6d7cd-edbf-4894-a4f7-4f6131ee2d64"/>
+					<reportElement positionType="Float" x="31" y="99" width="284" height="16" uuid="e9a6d7cd-edbf-4894-a4f7-4f6131ee2d64"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -1943,7 +1948,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<text><![CDATA[Acta de Aprobación VIITT]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="31" y="66" width="44" height="16" uuid="3fdca4de-3194-4b80-8da7-ba7ad4eddb08"/>
+					<reportElement positionType="Float" x="31" y="73" width="44" height="16" uuid="3fdca4de-3194-4b80-8da7-ba7ad4eddb08"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -1957,7 +1962,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<text><![CDATA[Fecha:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="31" y="151" width="284" height="16" uuid="a968b3ba-9871-4422-abcd-2832691e3b70"/>
+					<reportElement positionType="Float" x="31" y="158" width="284" height="16" uuid="a968b3ba-9871-4422-abcd-2832691e3b70"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -1971,7 +1976,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<text><![CDATA[Acta de Aprobación Consejo Académico]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="31" y="167" width="44" height="16" uuid="a7a1e0e2-ecd4-4522-946c-6d38f5aa0373"/>
+					<reportElement positionType="Float" x="31" y="174" width="44" height="16" uuid="a7a1e0e2-ecd4-4522-946c-6d38f5aa0373"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -1985,7 +1990,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<text><![CDATA[Nro:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="31" y="183" width="44" height="16" uuid="b32f0a75-b323-4c48-87b6-5d81216fd4bb"/>
+					<reportElement positionType="Float" x="31" y="190" width="44" height="16" uuid="b32f0a75-b323-4c48-87b6-5d81216fd4bb"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -1999,7 +2004,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<text><![CDATA[Fecha:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="75" y="108" width="240" height="16" uuid="ae2dc93f-cf3c-4d82-8899-089f12d1d4aa"/>
+					<reportElement positionType="Float" x="75" y="115" width="240" height="16" uuid="ae2dc93f-cf3c-4d82-8899-089f12d1d4aa"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -2013,7 +2018,7 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<textFieldExpression><![CDATA[$F{SZTVPROYEC_APROB_VIITT_NRO}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-					<reportElement positionType="Float" x="75" y="124" width="240" height="16" uuid="524ac4ab-3803-43d0-8ab7-9d56584ddcaf"/>
+					<reportElement positionType="Float" x="75" y="131" width="240" height="16" uuid="524ac4ab-3803-43d0-8ab7-9d56584ddcaf"/>
 					<box leftPadding="5">
 						<pen lineWidth="0.5"/>
 						<topPen lineWidth="0.5"/>
@@ -2027,7 +2032,92 @@ and SZDTAVPROYEC.SPRV_ID =SZDTAVPROGRAMA_V.SPRV_ID]]>
 					<textFieldExpression><![CDATA[$F{SZTVPROYEC_APROB_VIITT_FEC}]]></textFieldExpression>
 				</textField>
 			</frame>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="127" width="532" height="12" uuid="765f7922-51d4-4344-bc2b-7c030b7affb7"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sostenibilidad social: equidad, género, participación ciudadana: ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="10" y="139" width="532" height="20" uuid="932b98d3-1d12-468e-b270-9a2a765bf470"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement markup="html">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_SOSTENIBILIDAD}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="30" width="532" height="12" uuid="3fd7e1a3-7f93-46b4-a2d7-9fbb6cc8f512"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Cuáles son los resultados o impactos esperados del proyecto?: ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="10" y="42" width="532" height="20" uuid="49d35b66-7c88-4d2b-bf09-06933e2a5a89"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement markup="html">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_RESULTADOS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="78" width="532" height="12" uuid="4416f3d6-24ee-4041-874a-9f64b6ae18bb"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[¿Análisis de impacto ambiental?: ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="10" y="90" width="532" height="20" uuid="dc01bf8c-b6f2-437e-921f-2027c792b730"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement markup="html">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_IMPACTOA}]]></textFieldExpression>
+			</textField>
 		</band>
+		<band height="49"/>
 	</detail>
 	<pageFooter>
 		<band height="50">

@@ -13,44 +13,9 @@
     <h:head>
         <!--<link rel="shortcut icon" />-->
         <h:outputStylesheet name="theme_sistema_SVS.css" library="css" />
-        <h:outputScript library="js" name="timelineLocales.js" />
+        <h:outputScript library="js" name="timelineLocales.js"/>
         <h:outputScript library="js" name="proyectoVinculacion.js" />
-        <script type="text/javascript">
-            var countDownTime;
-            var sessionTime = 30 * 60 * 1000;//in miliseconds
-            function countDownInit() {
-                countDownTime = (new Date()).getTime();
-            }
-            function checkCountDown() {
-                if (countDownTime == null) {
-                    countDownTime = (new Date()).getTime();
-                }
-                var now = (new Date()).getTime();
-                //console.log(now - countDownTime);
-                if ((now - countDownTime) > sessionTime) {
-                    PF('dlgSesion').show();
-                }
-            }
-            window.setInterval(checkCountDown, 1000);
-
-            function onrangechange1() {
-                var range = PF('timelineHitos').getVisibleRange();
-                PF('timelineActividades').setVisibleRange(range.start, range.end);
-            }
-
-            function onrangechange2() {
-                var range = PF('timelineActividades').getVisibleRange();
-                PF('timelineHitos').setVisibleRange(range.start, range.end);
-            }
-            function scrollToFistrMessage() {
-                try {
-                    PrimeFaces.scrollTo("formPrincipal:tabViewPrincipal:tabP:btnAgregarP7");
-                } catch (err) {
-                    console.log("errorrrrr");
-                }
-            }
-
-        </script>        
+       
     </h:head>
 
     <h:body>
@@ -210,6 +175,42 @@
 
             </div>
         </h:form>
+         <script type="text/javascript">
+            var countDownTime;
+            var sessionTime = 30 * 60 * 1000;//in miliseconds
+            function countDownInit() {
+                countDownTime = (new Date()).getTime();
+            }
+            function checkCountDown() {
+                if (countDownTime == null) {
+                    countDownTime = (new Date()).getTime();
+                }
+                var now = (new Date()).getTime();
+                //console.log(now - countDownTime);
+                if ((now - countDownTime) > sessionTime) {
+                    PF('dlgSesion').show();
+                }
+            }
+            window.setInterval(checkCountDown, 1000);
+
+            function onrangechange1() {
+                var range = PF('timelineHitos').getVisibleRange();
+                PF('timelineActividades').setVisibleRange(range.start, range.end);
+            }
+
+            function onrangechange2() {
+                var range = PF('timelineActividades').getVisibleRange();
+                PF('timelineHitos').setVisibleRange(range.start, range.end);
+            }
+            function scrollToFistrMessage() {
+                try {
+                    PrimeFaces.scrollTo("formPrincipal:tabViewPrincipal:tabP:btnAgregarP7");
+                } catch (err) {
+                    console.log("errorrrrr");
+                }
+            }
+
+        </script>        
     </h:body>
 
 

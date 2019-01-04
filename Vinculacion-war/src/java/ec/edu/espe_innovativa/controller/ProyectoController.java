@@ -1449,9 +1449,19 @@ public class ProyectoController implements Serializable {
 
     public void registraActividadProyecto() {
         TimelineUpdater timelineUpdater = TimelineUpdater.getCurrentInstance(":formPrincipal:timelineActividades");
-        ((ObjetivoPrograma) event.getData()).setFechaInicio(event.getStartDate());
-        ((ObjetivoPrograma) event.getData()).setFechaFin(event.getEndDate());
-        modelActividades.update(event, timelineUpdater);
+        boolean aceptarFecha = false;
+        if(event.getEndDate().after(event.getStartDate())){
+            ((ObjetivoPrograma) event.getData()).setFechaInicio(event.getStartDate());
+            ((ObjetivoPrograma) event.getData()).setFechaFin(event.getEndDate());
+             modelActividades.update(event, timelineUpdater);
+             aceptarFecha = true;
+        }else
+        {
+            aceptarFecha = false;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Fecha Inicio debe ser < Fecha Final"));
+        }
+        
+        RequestContext.getCurrentInstance().addCallbackParam("aceptarFecha", aceptarFecha);
     }
 
     BigDecimal codComponenteSelected;
@@ -2459,14 +2469,28 @@ public class ProyectoController implements Serializable {
     @EJB
     private ResponsableProyectoFacade responsableProyectoFacade;
 
+     /**
+     * Permite agregar colaboradores pero este no debe ser Director del Proyecto.
+     *
+     * @autor Jhonny Jami.
+     * @return String Mensaje
+     */ 
     public String grabarDocenteParticipante() {
         try {
-            if (responsableProyectoSelected.getId() == null) {
+          
+        if (responsableProyectoSelected.getId() == null) {
+                if(proyectoSelected.getDirector().getCedula().equals(responsableProyectoSelected.getCedula())){
+                    FacesContext.getCurrentInstance().addMessage("formPrincipal:btnGrabarDocenteParticipante", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Director no puede ser asignado como colaborador"));
+                    return "";
+
+                } 
                 responsableProyectoSelected.setProyecto(proyectoSelected);
                 responsableProyectoFacade.create(responsableProyectoSelected);
+                   
             } else {
                 responsableProyectoFacade.edit(responsableProyectoSelected);
             }
+
             cancelarDocenteProyecto();
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La información se guardó exitosamente"));
         } catch (Exception e) {
@@ -2482,6 +2506,7 @@ public class ProyectoController implements Serializable {
         }
         return "";
     }
+      
     private List<TipoResponsable> tipoResponsableList;
 
     public List<TipoResponsable> getTipoResponsableList() {
@@ -3601,6 +3626,10 @@ public class ProyectoController implements Serializable {
                 proyectoSelected.setEstado(new SeaParametrosDet(SeaParametrosDet.ESTADO_RECHAZADO_COMISION_VINCULACION));
             } else {
                 proyectoSelected.setEstado(new SeaParametrosDet(SeaParametrosDet.ESTADO_APROBADO_COMISION_VINCULACION));
+                if(proyectoSelected.getUrlDocAprobacionConcejoDep()==null){
+                    FacesContext.getCurrentInstance().addMessage("formPrincipal:btnFinalizarConsolidacion", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe ingresar el acta (punto 8)"));
+                    return;
+                };
             }
             con.setEstadoFinalizado(ConsolidacionCalificacionProyecto.ESTADO_FINALIZADO_SI);
             con.setFechaFinalizacionConsolidacion(new Date());
@@ -6063,7 +6092,15 @@ public class ProyectoController implements Serializable {
             parametros.put("pathAplicacion", JasperReportUtil.PATH_APLICACION);
             parametros.put("idProyecto", proyectoSelected.getId());
             JasperReportUtil jasperBean = (JasperReportUtil) FacesUtils.getManagedBean(JasperReportUtil.NOMBRE_BEAN);
-            jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_PERFIL_PROYECTO, tipoReporte, parametros);
+            SimpleDateFormat sdf = new  SimpleDateFormat("dd-MM-yyyy");
+            Date fechaVersion2Perfil = sdf.parse("05-11-2018");
+            if(proyectoSelected.getFechaInicio().after(fechaVersion2Perfil)){
+                jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_PERFIL_PROYECTO, tipoReporte, parametros);
+            }else{
+                jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_PERFIL_PROYECTO_X, tipoReporte, parametros);
+
+            }
+            
         } catch (Exception ex) {
             ex.printStackTrace();
         }

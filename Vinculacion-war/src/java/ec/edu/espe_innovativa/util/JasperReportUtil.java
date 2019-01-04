@@ -54,6 +54,7 @@ public class JasperReportUtil extends FacesUtils {
     public final static String TIPO_HTML;
 
     public final static String PATH_REPORTE_PERFIL_PROYECTO = PATH + "perfilProyecto.jasper";
+    public final static String PATH_REPORTE_PERFIL_PROYECTO_X = PATH + "perfilProyectoX.jasper";
     public final static String PATH_REPORTE_PERFIL_PROGRAMA = PATH + "perfilPrograma.jasper";
     /*public final static String PATH_REPORTE_PROGRAMA_ANIO = PATH + "programasAnio.jasper";
     public final static String PATH_REPORTE_AVANCE_PROGRAMA = PATH + "avancePrograma.jasper";

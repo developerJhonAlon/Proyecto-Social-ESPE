@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyectoPresupuestoEntidadAuspiciante" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
-	<property name="ireport.zoom" value="2.3579476910000032"/>
-	<property name="ireport.x" value="603"/>
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="idProyecto" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[102]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[31]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select
+		<![CDATA[select SZDTAVPRESUP.SZTVPRESUP_CODE PRESUP_ID,
 SZDTAVPRESUP.SZTVPRESUP_BIEN_SERVICIO,
 SZDTAVPRESUP.SZTVPRESUP_CANTIDAD,
 SZDTAVPRESUP.SZTVPRESUP_VALOR
@@ -15,6 +18,7 @@ from SZDTAVPRESUP
 where SZTVPROYEC_CODE= $P{idProyecto}
 and SZDTAVPRESUP.SZTVPRESUP_TIPO=2]]>
 	</queryString>
+	<field name="PRESUP_ID" class="java.math.BigDecimal"/>
 	<field name="SZTVPRESUP_BIEN_SERVICIO" class="java.lang.String"/>
 	<field name="SZTVPRESUP_CANTIDAD" class="java.math.BigDecimal"/>
 	<field name="SZTVPRESUP_VALOR" class="java.math.BigDecimal"/>
@@ -26,20 +30,6 @@ and SZDTAVPRESUP.SZTVPRESUP_TIPO=2]]>
 	</background>
 	<title>
 		<band height="24">
-			<staticText>
-				<reportElement x="350" y="0" width="54" height="24" uuid="981360f9-d9b2-4ba2-ba79-16ff17c36669"/>
-				<box>
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Cantidad]]></text>
-			</staticText>
 			<staticText>
 				<reportElement x="0" y="0" width="350" height="24" uuid="169e91ba-6343-4850-8e21-09a67d9f6cff"/>
 				<box>
@@ -55,7 +45,7 @@ and SZDTAVPRESUP.SZTVPRESUP_TIPO=2]]>
 				<text><![CDATA[Bien y/o Servicio]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="404" y="0" width="64" height="24" uuid="66555309-dbb5-4734-b40c-1528003a2e85"/>
+				<reportElement x="350" y="0" width="118" height="24" uuid="66555309-dbb5-4734-b40c-1528003a2e85"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -66,7 +56,7 @@ and SZDTAVPRESUP.SZTVPRESUP_TIPO=2]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Valor Unitario (USD)]]></text>
+				<text><![CDATA[Valor Anual (USD)]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="468" y="0" width="64" height="24" uuid="783f1dcb-e6e5-42b7-9084-31ada7e697e6"/>
@@ -87,7 +77,7 @@ and SZDTAVPRESUP.SZTVPRESUP_TIPO=2]]>
 	<detail>
 		<band height="20" splitType="Prevent">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="0" width="350" height="20" uuid="fd5b7bcf-e6a1-4017-803d-d31fe74f67f3"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="350" height="20" uuid="fd5b7bcf-e6a1-4017-803d-d31fe74f67f3"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -100,44 +90,58 @@ and SZDTAVPRESUP.SZTVPRESUP_TIPO=2]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{SZTVPRESUP_BIEN_SERVICIO}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="350" y="0" width="54" height="20" uuid="12447714-6997-42e7-af39-3f9b6ef0f06a"/>
-				<box rightPadding="5">
+			<subreport>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="350" y="0" width="118" height="20" uuid="cb3b7521-3b91-4ac4-bbc7-a423cac28659"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idPresupuesto">
+					<subreportParameterExpression><![CDATA[$F{PRESUP_ID}.intValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoPresupuestoAnual.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="468" y="0" width="64" height="20" uuid="228b2c72-cf94-4e53-8248-24a2b668ddea"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idPresupuesto">
+					<subreportParameterExpression><![CDATA[$F{PRESUP_ID}.intValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoPresupuestoAnualTotal.jasper"]]></subreportExpression>
+			</subreport>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="532" y="0" width="0" height="20" uuid="f21b3f02-b3de-4f3f-9780-c2c5487e351d"/>
+				<box topPadding="5" bottomPadding="5" rightPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{SZTVPRESUP_CANTIDAD}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{SZTVPRESUP_CANTIDAD}*$F{SZTVPRESUP_VALOR}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="404" y="0" width="64" height="20" uuid="89a9f33d-483d-4540-82f6-5368b980948b"/>
-				<box rightPadding="5">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="468" y="0" width="0" height="20" uuid="07ec73ea-205e-4cec-ad1c-6024e8b0b3c8"/>
+				<box topPadding="5" bottomPadding="5" rightPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
 					<leftPen lineWidth="0.25"/>
 					<bottomPen lineWidth="0.25"/>
 					<rightPen lineWidth="0.25"/>
 				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{SZTVPRESUP_VALOR}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="468" y="0" width="64" height="20" uuid="d867e897-ed9c-4dfb-8fa6-94235c5171f5"/>
-				<box rightPadding="5">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{SZTVPRESUP_CANTIDAD}*$F{SZTVPRESUP_VALOR}]]></textFieldExpression>
@@ -160,20 +164,20 @@ and SZDTAVPRESUP.SZTVPRESUP_TIPO=2]]>
 				</textElement>
 				<text><![CDATA[Total:]]></text>
 			</staticText>
-			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="468" y="0" width="64" height="14" uuid="5e115c5f-b64b-4e57-8367-db849ed3e0dd"/>
-				<box>
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
-			</textField>
+			<subreport>
+				<reportElement positionType="Float" x="468" y="0" width="64" height="14" uuid="a86930ca-c14b-46af-bac7-fcdfa9fb195e"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idPresupuesto">
+					<subreportParameterExpression><![CDATA[$F{PRESUP_ID}.intValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoPresupuestoTotalE.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</summary>
 </jasperReport>

@@ -6,9 +6,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:pe="http://primefaces.org/ui/extensions"
-
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:pe="http://primefaces.org/ui/extensions">
     <h:body>    
         <ui:composition template="/vista/template-sistema2.xhtml">
             <ui:define name="content">
@@ -47,7 +45,7 @@
 
                             </h:panelGrid>
 
-                            <h:panelGrid columns="1" style="width: 100%; margin-bottom: 10px">
+                            <h:panelGrid columns="1" style="margin-bottom: 10px">
                                 <h:panelGrid columns="2">
                                     <p:commandLink rendered="false" ajax="false" title="Exportar a Excel">  
                                         <p:graphicImage value="/resources/images/excel2.png" width="33"/>  
@@ -65,7 +63,9 @@
                                              value="#{aprobacionVicerrectoradoController.proyectoList}" var="proy"
                                              rowIndexVar="index" sortBy="#{proy.consolidacionCalificacionUltimaList[0].totalPuntaje}" 
                                              resizableColumns="false"
-                                             style="margin-bottom: 40px;width: 100%" expandedRow="false" emptyMessage="No existen registros."  >
+                                             scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="350" scrollWidth="1300"
+                                             expandedRow="false"
+                                             emptyMessage="No existen registros."  >
                                     <p:column width="45" headerText="Ver Detalle Calificación" exportable="false">
                                         <p:rowToggler/>
                                     </p:column>
@@ -75,6 +75,14 @@
                                         </f:facet> 
                                         <h:outputText value="#{index + 1}"/>
                                     </p:column>
+                                    
+                                    <p:column headerText="Perfil" width="40" style="text-align: center">
+                                        <h:commandLink  target="_blank" actionListener="#{aprobacionVicerrectoradoController.generarReportePerfilPDF(proy)}"
+                                                title="Perfil" >
+                                            <p:graphicImage url="../../resources/images/pdf.png" width="25"/>
+                                        </h:commandLink>  
+                                     </p:column>                                   
+                                  
                                     <p:column headerText="Programa" width="350" sortBy="#{proy.programa.nombre}">
                                         <f:facet name="header">  
                                             <h:outputText value="Programa"/>  

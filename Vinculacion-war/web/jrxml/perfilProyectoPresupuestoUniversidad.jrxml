@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyectoPresupuestoUniversidad" language="groovy" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
-	<property name="ireport.zoom" value="2.593742460100005"/>
-	<property name="ireport.x" value="748"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<subDataset name="dataset1" uuid="187a2aed-c032-4cc5-a11a-f0fd1b2508a4"/>
 	<parameter name="idProyecto" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[102]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[31]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select SEA_CLASIFICADOR_PRESUP.SCP_ID || '. ' || SEA_CLASIFICADOR_PRESUP.SCP_NOMBRE PARTIDA,
+		<![CDATA[select SZDTAVPRESUP.SZTVPRESUP_CODE PRESUP_ID, SEA_CLASIFICADOR_PRESUP.SCP_ID || '. ' || SEA_CLASIFICADOR_PRESUP.SCP_NOMBRE PARTIDA,
 SEA_CLASIFICADOR_PRESUP_PADRE.SCP_ID || '. ' || SEA_CLASIFICADOR_PRESUP_PADRE.SCP_NOMBRE PARTIDA_PADRE,
 SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_ID || '. ' || SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_NOMBRE PARTIDA_PADRE2,
 SEA_CLASIFICADOR_PRESUP_PADRE3.SCP_ID || '. ' || SEA_CLASIFICADOR_PRESUP_PADRE3.SCP_NOMBRE PARTIDA_PADRE3,
@@ -24,6 +28,7 @@ and SEA_CLASIFICADOR_PRESUP.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE.SCP_ID
 and SEA_CLASIFICADOR_PRESUP_PADRE.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_ID
 and SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE3.SCP_ID]]>
 	</queryString>
+	<field name="PRESUP_ID" class="java.math.BigDecimal"/>
 	<field name="PARTIDA" class="java.lang.String"/>
 	<field name="PARTIDA_PADRE" class="java.lang.String"/>
 	<field name="PARTIDA_PADRE2" class="java.lang.String"/>
@@ -40,20 +45,6 @@ and SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE3.SC
 	</background>
 	<title>
 		<band height="24">
-			<staticText>
-				<reportElement x="350" y="0" width="54" height="24" uuid="981360f9-d9b2-4ba2-ba79-16ff17c36669"/>
-				<box>
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Cantidad]]></text>
-			</staticText>
 			<staticText>
 				<reportElement x="0" y="0" width="190" height="24" uuid="169e91ba-6343-4850-8e21-09a67d9f6cff"/>
 				<box>
@@ -97,7 +88,7 @@ and SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE3.SC
 				<text><![CDATA[Tipo Gasto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="404" y="0" width="64" height="24" uuid="66555309-dbb5-4734-b40c-1528003a2e85"/>
+				<reportElement x="350" y="0" width="118" height="24" uuid="66555309-dbb5-4734-b40c-1528003a2e85"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -108,7 +99,7 @@ and SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE3.SC
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Valor Unitario (USD)]]></text>
+				<text><![CDATA[Valor Anual (USD)]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="468" y="0" width="64" height="24" uuid="783f1dcb-e6e5-42b7-9084-31ada7e697e6"/>
@@ -129,7 +120,7 @@ and SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE3.SC
 	<detail>
 		<band height="20" splitType="Prevent">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="0" width="190" height="20" uuid="fd5b7bcf-e6a1-4017-803d-d31fe74f67f3"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="190" height="20" uuid="fd5b7bcf-e6a1-4017-803d-d31fe74f67f3"/>
 				<box topPadding="5" leftPadding="5" bottomPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -170,8 +161,36 @@ and SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE3.SC
 				</textElement>
 				<textFieldExpression><![CDATA[$F{SZTVPRESUP_TIPOGASTO}=="C"?"Permanente":"No Permanente"]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="350" y="0" width="54" height="20" uuid="12447714-6997-42e7-af39-3f9b6ef0f06a"/>
+			<subreport>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="350" y="0" width="118" height="20" uuid="e6ce1c3e-2363-4d66-8763-3aab723715cb"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idPresupuesto">
+					<subreportParameterExpression><![CDATA[$F{PRESUP_ID}.intValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoPresupuestoAnual.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="468" y="0" width="64" height="20" uuid="0bee9c76-bbde-4efe-92cf-75162904282a"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idPresupuesto">
+					<subreportParameterExpression><![CDATA[$F{PRESUP_ID}.intValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoPresupuestoAnualTotal.jasper"]]></subreportExpression>
+			</subreport>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="532" y="0" width="0" height="20" uuid="a78f5073-723f-4766-a48d-c5f5cbfe513e"/>
 				<box topPadding="5" bottomPadding="5" rightPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -182,24 +201,10 @@ and SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE3.SC
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{SZTVPRESUP_CANTIDAD}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{SZTVPRESUP_CANTIDAD}*$F{SZTVPRESUP_VALOR}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="404" y="0" width="64" height="20" uuid="89a9f33d-483d-4540-82f6-5368b980948b"/>
-				<box topPadding="5" bottomPadding="5" rightPadding="5">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Right">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{SZTVPRESUP_VALOR}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="468" y="0" width="64" height="20" uuid="d867e897-ed9c-4dfb-8fa6-94235c5171f5"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="468" y="0" width="0" height="20" uuid="6f8c3f8d-c423-4f1d-baa7-f95511da9c1c"/>
 				<box topPadding="5" bottomPadding="5" rightPadding="5">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -230,20 +235,21 @@ and SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE3.SC
 				</textElement>
 				<text><![CDATA[Total:]]></text>
 			</staticText>
-			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="468" y="0" width="64" height="14" uuid="5e115c5f-b64b-4e57-8367-db849ed3e0dd"/>
-				<box rightPadding="5">
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
-			</textField>
+			<elementGroup/>
+			<subreport>
+				<reportElement positionType="Float" x="468" y="0" width="64" height="14" uuid="9426311e-3702-4f37-94cb-2171c2596e61"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idPresupuesto">
+					<subreportParameterExpression><![CDATA[$F{PRESUP_ID}.intValue()]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="idProyecto">
+					<subreportParameterExpression><![CDATA[$P{idProyecto}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "perfilProyectoPresupuestoTotal.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</summary>
 </jasperReport>

@@ -6,7 +6,6 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:pe="http://primefaces.org/ui/extensions"
       >
     <h:body>    
         <ui:composition template="/vista/template-sistema2.xhtml">
@@ -69,21 +68,16 @@
                     <p:dataTable id="dtProyectos" widgetVar="dtProyectos" value="#{listadoProyectosAsignacionComisionController.proyectoList}" var="d" 
                                  paginator="true" rows="5" rowIndexVar="index" resizableColumns="true"
                                  paginatorPosition="top"
-                                 scrollable="true" scrollHeight="250" scrollWidth="1300"
                                  emptyMessage="No se encontraron resultados"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}  Nro. items por página: {RowsPerPageDropdown}"
                                  currentPageReportTemplate="Registros del {startRecord}-{endRecord} , total: {totalRecords}"
                                  rowsPerPageTemplate="5,10,15,20,30,50,100" >
-                        <p:column headerText="Nro." width="20" style="text-align: center" sortBy="#{d.id}">
+                        <p:column headerText="Nro." width="10" style="text-align: center" sortBy="#{d.id}">
                             <h:outputText value="#{index + 1}" />
                         </p:column>
 
-                        <p:column headerText="Seleccione" width="50" style="text-align: center">
-                            <p:button outcome="proyecto" icon="ui-icon-circle-check" style="width: 22px; height: 22px">
-                                <f:param name="idProyecto" value="#{d.id}" />
-                            </p:button>                                    
-                        </p:column>
-                        <p:column headerText="Asignado comisión"  sortBy="#{d.asignadoComision}" filterBy="#{d.asignadoComision}" filterMatchMode="exact" width="65" style="text-align: center; white-space: pre-line">
+                        
+                        <p:column headerText="Asignado comisión"  sortBy="#{d.asignadoComision}" filterBy="#{d.asignadoComision}" filterMatchMode="exact" width="85" style="text-align: center; white-space: pre-line">
                             <f:facet name="filter">
                                 <p:selectOneMenu onchange="PF('dtProyectos').filter()" >
                                     <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true" />
@@ -97,10 +91,10 @@
                                             rendered="#{d.comisionCalificacion==null}"/>
                         </p:column>
 
-                        <p:column headerText="Código" width="60" style="white-space: pre-line" sortBy="#{d.codigo}" filterBy="#{d.codigo}" filterMatchMode="contains">
+                        <p:column headerText="Código" width="100" style="white-space: pre-line" sortBy="#{d.codigo}" filterBy="#{d.codigo}" filterMatchMode="contains">
                             <h:outputText  value ="#{d.codigo}"/> 
                         </p:column>
-                        <p:column headerText="Estado" width="150" style="white-space: pre-line" sortBy="#{d.estadoStr}" filterBy="#{d.estado.prdId}" filterMatchMode="exact">
+                        <p:column headerText="Estado" width="85" style="white-space: pre-line" sortBy="#{d.estadoStr}" filterBy="#{d.estado.prdId}" filterMatchMode="exact">
                             <f:facet name="filter">
                                 <p:selectOneMenu onchange="PF('dtProyectos').filter()" >
                                     <f:selectItem itemLabel="--Seleccione--" itemValue="#{null}" noSelectionOption="true" />
@@ -113,7 +107,7 @@
                         <p:column headerText="Nombre" width="420" style="white-space: pre-line" sortBy="#{d.nombre}" filterBy="#{d.nombre}" filterMatchMode="contains">
                             <h:outputText  value ="#{d.nombre}"/> 
                         </p:column>
-                        <p:column headerText="Director" style="white-space: pre-line" width="140"
+                        <p:column headerText="Director" style="white-space: pre-line" width="100"
                                   sortBy="#{d.director.usuario.usuNombres.concat(' ').concat(d.director.usuario.usuApellidos)}" 
                                   filterBy="#{d.director.usuario.usuCc.concat('-').concat(d.director.usuario.usuNombres).concat(' ').concat(d.director.usuario.usuApellidos)}" filterMatchMode="contains">
                             <h:outputText  value ="#{d.director.usuario.usuCc.concat('-').concat(d.director.usuario.usuNombres).concat(' ').concat(d.director.usuario.usuApellidos)}"/> 
@@ -124,7 +118,7 @@
                         <p:column headerText="Departamento" width="100" style="white-space: pre-line" sortBy="#{d.departamento.stvsubjDesc}" filterBy="#{d.departamento.stvsubjDesc}" filterMatchMode="contains">
                             <h:outputText  value ="#{d.departamento.stvsubjDesc}"/> 
                         </p:column>
-                        <p:column headerText="Tipo" width="60" style="white-space: pre-line" sortBy="#{d.tipo}" filterBy="#{d.tipo}" filterMatchMode="exact">
+                        <p:column headerText="Tipo" width="85" style="white-space: pre-line" sortBy="#{d.tipo}" filterBy="#{d.tipo}" filterMatchMode="exact">
                             <h:outputText  value ="#{d.tipo=='C'?'Gasto Permanente':'Gasto No Permanente'}"/>  
                             <f:facet name="filter">
                                 <p:selectOneMenu onchange="PF('dtProyectos').filter()" >
@@ -135,7 +129,7 @@
                             </f:facet>                                  
                         </p:column>
 
-                        <p:column headerText="Seleccione" width="50" style="text-align: center">
+                        <p:column headerText="Seleccione" width="45" style="text-align: center">
                             <p:button outcome="proyecto" icon="ui-icon-circle-check" style="width: 22px; height: 22px">
                                 <f:param name="idProyecto" value="#{d.id}" />
                             </p:button>                                    

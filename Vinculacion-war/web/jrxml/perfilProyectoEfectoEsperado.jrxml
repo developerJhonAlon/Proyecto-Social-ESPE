@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyectoEfectoEsperado" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" uuid="21dbd5c3-30d8-4eac-9b2b-8d0e83f5c944">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idProyecto" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[27]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select replace(replace(replace(replace(replace(replace(replace(replace(SZTVPROYEC_EFECTO_ESPERADO, 'arial', 'Arial'), 'comic sans ms', 'Comic Sans MS'), 'courier new', 'Courier New'), 'georgia','Georgia'), 'lucida sans unicode', 'Lucida Sans Unicode'), 'tahoma','Tahoma'), 'times new roman', 'Times New Roman'), 'verdana', 'Verdana') SZTVPROYEC_EFECTO_ESPERADO from SZDTAVPROYEC where SZTVPROYEC_CODE = $P{idProyecto}]]>
+	</queryString>
+	<field name="SZTVPROYEC_EFECTO_ESPERADO" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="102" height="20" uuid="320416e8-c25f-403b-b0d6-17fe11fd7333"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Efecto Esperado]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="102" y="0" width="430" height="20" uuid="d7477c2b-7f5f-4adb-8ced-45ea4e464ae3"/>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="1">
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font fontName="SansSerif" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SZTVPROYEC_EFECTO_ESPERADO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

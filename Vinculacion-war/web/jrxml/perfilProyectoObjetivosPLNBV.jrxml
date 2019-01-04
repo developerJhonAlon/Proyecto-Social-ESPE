@@ -4,17 +4,19 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="idProyecto" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[102]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[31]]></defaultValueExpression>
 	</parameter>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[Select distinct OBJ_PADRE.SVOBVI_ID, OBJ_PADRE.SVOBVI_DESCRIPCION, OBJ_PADRE.SVOBVI_ORDEN
-from SZDTAVPROG_OBJ, SZDTAVOBJETIVO_B_VIVIR OBJ_PADRE, SZDTAVOBJETIVO_B_VIVIR OBJ_HIJO
+from SZDTAVPROG_OBJ, SZDTAVOBJETIVO_B_VIVIR OBJ_PADRE, SZDTAVOBJETIVO_B_VIVIR OBJ_HIJO, SIEVAL.SZDTAVCONFOBJ TIPO
 where SZTVPROYEC_CODE = $P{idProyecto}
 and SZDTAVPROG_OBJ.SVOBVI_ID = OBJ_HIJO.SVOBVI_ID
-AND OBJ_HIJO.SVOBVI_ID_PADRE = OBJ_PADRE.SVOBVI_ID
+AND OBJ_HIJO.SVOBVI_ID_PADRE = OBJ_PADRE.SVOBVI_ID 
+and TIPO.SZTVCONFOBJTIPO_CODE = OBJ_PADRE.SZTVCONFOBJ_CODE 
+and TIPO.SZTVCONFOBJ_ESTADO = 'A'
 order by OBJ_PADRE.SVOBVI_ORDEN]]>
 	</queryString>
 	<field name="SVOBVI_ID" class="java.math.BigDecimal"/>
@@ -37,7 +39,7 @@ order by OBJ_PADRE.SVOBVI_ORDEN]]>
 				<textElement verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Objetivos del Plan Nacional del Buen Vivir:]]></text>
+				<text><![CDATA[Objetivos del Plan de Desarrollo:]]></text>
 			</staticText>
 		</band>
 	</title>

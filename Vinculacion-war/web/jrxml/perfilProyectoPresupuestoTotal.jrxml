@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perfilProyectoPresupuestoAnual" language="groovy" pageWidth="64" pageHeight="14" columnWidth="44" leftMargin="0" rightMargin="20" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="idProyecto" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[341]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\web\\jrxml\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idPresupuesto" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[28]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select nvl(sum(ANUAL.SZDTAVANUALVALOR_VALOR),0) VALOR from SIEVAL.SZDTAVANUALVALOR ANUAL where ANUAL.SZTVPRESUP_CODE IN 
+(select SZDTAVPRESUP.SZTVPRESUP_CODE PRESUP_ID
+from SZDTAVPRESUP , SZDTAVCLASPRE, SEA_CLASIFICADOR_PRESUP, SEA_CLASIFICADOR_PRESUP SEA_CLASIFICADOR_PRESUP_PADRE, SEA_CLASIFICADOR_PRESUP SEA_CLASIFICADOR_PRESUP_PADRE2, SEA_CLASIFICADOR_PRESUP SEA_CLASIFICADOR_PRESUP_PADRE3
+where SZTVPROYEC_CODE= $P{idProyecto}
+and SZDTAVPRESUP.SZTVPRESUP_TIPO=1
+and SZDTAVPRESUP.SZTVCLASPRE_CODE = SZDTAVCLASPRE.SZTVCLASPRE_CODE
+and SZDTAVCLASPRE.SCP_ID = SEA_CLASIFICADOR_PRESUP.SCP_ID
+and SEA_CLASIFICADOR_PRESUP.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE.SCP_ID
+and SEA_CLASIFICADOR_PRESUP_PADRE.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_ID
+and SEA_CLASIFICADOR_PRESUP_PADRE2.SCP_PADRE = SEA_CLASIFICADOR_PRESUP_PADRE3.SCP_ID)]]>
+	</queryString>
+	<field name="VALOR" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="false">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="64" height="14" uuid="cad1739c-fce6-4ace-83f6-77c8f23ce630"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+					<topPen lineWidth="0.25" lineStyle="Solid"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.25" lineStyle="Solid"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VALOR}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

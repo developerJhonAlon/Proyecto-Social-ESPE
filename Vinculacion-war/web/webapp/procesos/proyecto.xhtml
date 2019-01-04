@@ -71,7 +71,19 @@
                         width: 40px !important;
                     }
 
-                </style>                
+                </style>     
+                
+                <script type="text/javascript">
+                    function handleActividad(xhr, status, args) {
+                        if (args.validationFailed || !args.aceptarFecha) {
+                            PF('detalleActividadProyectoWdgt').jq.effect("shake", {times: 5}, 100);
+                        }
+                        else {
+                            PF('detalleActividadProyectoWdgt').hide();
+                            $('#loginLink').fadeOut();
+                        }
+                    }
+                </script>
 
                 <p:panel style="border: hidden; margin-bottom: 35px">
                     <h:panelGrid id="panelTitulo" columns="1" width="100%" columnClasses="centrado" style="background: rgb(39, 124, 75) none repeat">
@@ -1350,7 +1362,7 @@
                                     </h:panelGrid>                             
                                 </p:panel>                        
 
-                                <h:outputLabel value="¿A qué objetivos del Plan Nacional del Buen Vivir se respalda el Proyecto?" style="font-weight: bold"/>
+                                <h:outputLabel value="¿A qué objetivos del Plan de Desarrollo se respalda el Proyecto?" style="font-weight: bold"/>
                                 <p:dataTable id="dataTableObjPlan" value="#{proyectoController.proyectoSelected.objetivoBVivirProyectoPadreList}" var="proObjPlan" paginator="true"
                                              expandedRow="true" rows="10" rowIndexVar="index" resizableColumns="true" emptyMessage="No se encontraron resultados"  style="width: 99%">
                                     <p:ajax event="rowToggle" listener="#{proyectoController.onRowToggleObjetivoBVivir}"/>
@@ -1361,7 +1373,7 @@
                                     <p:column headerText="Nro." style="width: 20px;">
                                         <h:outputText value="#{index + 1}"/>
                                     </p:column>
-                                    <p:column headerText="Objetivos del Plan Nacional del Buen Vivir">
+                                    <p:column headerText="Objetivos del Plan de Desarrollo ">
                                         <h:outputText value="#{proObjPlan.objetivoBVivir.ordenDescripcion}" style="white-space: pre-line" />
                                     </p:column>
 
@@ -6345,7 +6357,7 @@
                                                              actionListener="#{proyectoController.nuevoConsolidacionCalificacion}" 
                                                              >
                                             </p:commandButton>
-                                            <p:commandButton value="Finalizar" title="Finalizar proceso de consolidación" icon="ui-icon-check" 
+                                            <p:commandButton id="btnFinalizarConsolidacion" value="Finalizar" title="Finalizar proceso de consolidación" icon="ui-icon-check" 
                                                              update=":formPrincipal:panelMenu, :formPrincipal:panelCentral, :formPrincipal:panelTitulo,  :formPrincipal:message1"
                                                              disabled="#{!proyectoController.permitirFinalizarConsolidacionCalificacion}"
                                                              onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
@@ -7096,9 +7108,9 @@
 
                             <p:commandButton id="btnGrabarActividad" value="Aceptar" 
                                              action="#{proyectoController.registraActividadProyecto}"  
-                                             update="panel1, formPrincipal:timelineActividades"
+                                             update="panel1, formPrincipal:timelineActividades, :formPrincipal:message1"
                                              process="form2"
-                                             oncomplete="if(!args.validationFailed){PF('detalleActividadProyectoWdgt').hide();}"/>  
+                                             oncomplete="handleActividad(xhr, status, args)"/>  
                             <p:commandButton id="btnCancelarActividad" value="Cancelar" 
                                              onclick="PF('detalleActividadProyectoWdgt').hide();"
                                              />
@@ -7241,7 +7253,7 @@
                     <h:form>
                         <p:fieldset legend="3.1. Objetivos PLNBV" style="margin-right: 10px">
                             <h:panelGrid columns="1" cellpadding="5">
-                                <h:outputLabel value="¿A qué objetivos del Plan Nacional del Buen Vivir se respalda el Proyecto?" style="font-weight: bold"/>
+                                <h:outputLabel value="¿A qué objetivos del Plan de Desarrollo se respalda el Proyecto?" style="font-weight: bold"/>
                                 <p:dataTable id="dataTableObjPlan" value="#{proyectoController.proyectoSelected.objetivoBVivirProyectoPadreList}" var="proObjPlan" paginator="true"
                                              rows="10" rowIndexVar="index" resizableColumns="true" emptyMessage="No se encontraron resultados" expandedRow="true" >
                                     <p:column width="20">
@@ -7250,7 +7262,7 @@
                                     <p:column headerText="Nro." width="20">
                                         <h:outputText value="#{index + 1}"/>
                                     </p:column>
-                                    <p:column headerText="Objetivos del Plan Nacional del Buen Vivir">
+                                    <p:column headerText="Objetivos del Plan de Desarrollo">
                                         <h:outputText value="#{proObjPlan.objetivoBVivir.ordenDescripcion}" style="white-space: pre-line" />
                                     </p:column>
 

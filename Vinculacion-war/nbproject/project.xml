@@ -136,6 +136,10 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
+                    <file>${libs.JasperReports.classpath}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
                     <file>${file.reference.jackson-annotations-2.1.4.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
