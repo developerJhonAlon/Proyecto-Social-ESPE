@@ -125,9 +125,7 @@
                         </p:column>
 
                         <p:column headerText="Seleccione" width="50" style="text-align: center">
-                            <p:button outcome="proyecto" icon="ui-icon-circle-check">
-                                <f:param name="idProyecto" value="#{d.id}" />
-                            </p:button>                                    
+                            <p:commandButton  icon="ui-icon-circle-check" action="#{listadoProyectosController.verificarVersion(d.id)}"/>                           
                         </p:column>
                     </p:dataTable>
                 </h:panelGrid>

@@ -27,8 +27,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.primefaces.component.inputtext.InputText;
-import org.primefaces.component.password.Password;
 
 /**
  *
@@ -53,8 +51,8 @@ public class LoginController implements Serializable {
 
 //    private HtmlInputText txt_usuario = new HtmlInputText();
 //    private HtmlInputSecret txt_clave = new HtmlInputSecret();
-    private InputText txt_usuario = new InputText();
-    private Password txt_clave = new Password();
+//    private InputText txt_usuario = new InputText();
+   // private Password txt_clave = new Password();
     @ManagedProperty(value = "#{mensajeBean}")
     private MensajeController mensajeBean;
     private BigDecimal sistema;
@@ -146,7 +144,8 @@ public class LoginController implements Serializable {
 
             //Obtener IP del equipo local
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            System.out.println("AppAspirante ipLocal: " + request.getRemoteAddr() + " User: " + usu.getUsuId() + " Date: " + new Date());
+            Logger.getLogger(LoginController.class.getName()).log(Level.INFO, "AppAspirante ipLocal: {0} User: {1} Date: {2}", new Object[]{request.getRemoteAddr(), usu.getUsuId(), new Date()});
+            //System.out.println("AppAspirante ipLocal: " + request.getRemoteAddr() + " User: " + usu.getUsuId() + " Date: " + new Date());
 
             result = "/vista/sistema.xhtml";
         } catch (Exception ex) {
@@ -163,29 +162,13 @@ public class LoginController implements Serializable {
     public void setMensajeBean(MensajeController mensajeBean) {
         this.mensajeBean = mensajeBean;
     }
-
+    
     public BigDecimal getSistema() {
         return sistema;
     }
 
     public void setSistema(BigDecimal sistema) {
         this.sistema = sistema;
-    }
-
-    public InputText getTxt_usuario() {
-        return txt_usuario;
-    }
-
-    public void setTxt_usuario(InputText txt_usuario) {
-        this.txt_usuario = txt_usuario;
-    }
-
-    public Password getTxt_clave() {
-        return txt_clave;
-    }
-
-    public void setTxt_clave(Password txt_clave) {
-        this.txt_clave = txt_clave;
     }
 
     public void buscarProductosActionListener(ActionEvent event) {

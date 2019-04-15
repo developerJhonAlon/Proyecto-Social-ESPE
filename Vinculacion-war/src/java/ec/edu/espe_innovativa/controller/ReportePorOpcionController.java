@@ -63,6 +63,7 @@ private List<SeaParametrosDet> coberturaList;
             llenarDatosDocenteXUsuId(proyectoSelected.getResponsableList().get(0).getUsuario().getUsuId());
         }
         proyectoSelected.setearObjetivoBVivirProyectoPadreList();
+        proyectoSelected.inicializarListadoPresupuestos();
         proyectoSelected.resetEstadoExpandidoObjetivo();
         tipoPoblacionSelectedList = new ArrayList<>();
         tipoPoblacionList = parametrosDetFacade.findByCodigoParametro(SeaParametros.PARAM_TIPO_POBLACION);

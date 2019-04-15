@@ -21,9 +21,14 @@ import ec.edu.espe_ctt.vinculacion.session.VDocenteVinculacion2Facade;
 import ec.edu.espe_ctt_investigacion.entity.SeaParametros;
 import ec.edu.espe_ctt_investigacion.entity.SeaParametrosDet;
 import ec.edu.espe_ctt_investigacion.session.SeaParametrosDetFacade;
+import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -231,6 +236,27 @@ public class ListadoProyectosController implements Serializable {
             FacesContext.getCurrentInstance().getExternalContext().redirect("proyecto.xhtml");
             //}
         } catch (Exception e) {
+        }
+        return "";
+    }
+    
+    public String verificarVersion(Integer idProyecto){
+        try {
+            Proyecto proyectoSelected;
+            proyectoSelected = proyectoFacade.findById(idProyecto);
+            SimpleDateFormat sdf = new  SimpleDateFormat("dd-MM-yyyy");
+            //Fecha de lanzamiento de la segunda version de la plataforma.
+            Date fechaVersion2Perfil = sdf.parse("05-11-2018");
+            if(proyectoSelected.getFechaInicio().after(fechaVersion2Perfil)){
+                FacesContext.getCurrentInstance().getExternalContext().redirect("proyecto2.xhtml?idProyecto=" + idProyecto);
+            }else{
+               
+                FacesContext.getCurrentInstance().getExternalContext().redirect("proyecto.xhtml?idProyecto=" + idProyecto);
+            }
+           
+           
+        } catch (Exception ex) {
+            Logger.getLogger(ListadoProyectosController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }

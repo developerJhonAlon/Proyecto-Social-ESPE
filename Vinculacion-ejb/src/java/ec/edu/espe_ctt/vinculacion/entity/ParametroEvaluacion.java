@@ -253,18 +253,20 @@ public class ParametroEvaluacion implements Serializable, Comparable<ParametroEv
                 return "1.1. Datos Generales";
             case "1.2":
                 return "1.2. Cobertura y Localización";
-            case "1.3":
-                return "1.3. Origen de los fondos";
+//            case "1.3":
+//                return "1.3. Origen de los fondos";
             case "1.4":
-                return "1.4. Detalle de entregables del proyecto";
+                return "1.3. Detalle de entregables del proyecto";
+            case "1.5":
+                return "1.4. Impactos Esperados";
             case "2.1":
                 return "2.1. Diagnóstico y Problema";
             case "2.2":
-                return "2.2. Identificación de Población";
+                return "2.3. Identificación de Población";
             case "2.3":
-                return "2.3. Docentes Participantes";
+                return "2.4. Docentes Participantes";
             case "2.4":
-                return "2.4. Estudiantes Participantes";
+                return "2.5. Estudiantes Participantes";
             case "3.1":
                 return "3.1. Objetivos PLNBV";
             case "3.2":
@@ -272,15 +274,28 @@ public class ParametroEvaluacion implements Serializable, Comparable<ParametroEv
             case "3.3":
                 return "3.3. Objetivos Estratégicos Institucionales";
             case "3.4":
-                return "3.4. Matriz del Marco Lógico";
+                return "4. Matriz del Marco Lógico";
+            case "3.0.1":
+                return "3.1. Objetivos de Desarrollo Sostenible del Milenio";
+            case "3.0.2":
+                return "3.2. Objetivos Plan Nacional de Desarrollo";
+            case "3.0.3":
+                return "3.3. Objetivos Provinciales, Cantonales o Parroquiales";
+            case "3.0.4":
+                return "3.4. Objetivos Estratégicos Institucionales";
+            case "3.0.6":
+                return "3.6. Campo de Conocimiento UNESCO";
+          
+            
             case "4":
-                return "4. Viabilidad y Plan de Sostenibilidad";
+                return "5. Viabilidad y Plan de Sostenibilidad";
             case "5":
-                return "5. Presupuesto Detallado y Fuentes de Financiamiento";
+                return "6. Presupuesto Detallado y Fuentes de Financiamiento";
             case "6":
-                return "6. Estrategia de Ejecución-Cronograma";
+                return "7. Estrategia de Ejecución-Cronograma";
             case "7":
-                return "7. Acta de Consejo de Departamento";
+                return "8. Acta de Consejo de Departamento";
+            
             default:
                 return "";
         }

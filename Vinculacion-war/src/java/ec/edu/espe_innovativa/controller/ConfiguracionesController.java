@@ -787,14 +787,21 @@ public class ConfiguracionesController implements Serializable {
         opcionesMenuParametroList.add(new OpcionMenu("1.2", "1.2. Cobertura y Localización"));
         //opcionesMenuParametroList.add(new OpcionMenu("1.3", "1.3. Origen de los fondos"));
         opcionesMenuParametroList.add(new OpcionMenu("1.4", "1.3. Detalle de entregables del proyecto"));
+        opcionesMenuParametroList.add(new OpcionMenu("1.5", "1.4. Impactos Esperados"));
         opcionesMenuParametroList.add(new OpcionMenu("2.1", "2.1. Diagnóstico y Problema"));
         opcionesMenuParametroList.add(new OpcionMenu("2.2", "2.3. Identificación de Población"));
         opcionesMenuParametroList.add(new OpcionMenu("2.3", "2.4. Docentes Participantes"));
         opcionesMenuParametroList.add(new OpcionMenu("2.4", "2.5. Estudiantes Participantes"));
-        opcionesMenuParametroList.add(new OpcionMenu("3.1", "3.1. Objetivos PLNBV"));
-        opcionesMenuParametroList.add(new OpcionMenu("3.2", "3.2. Objetivos Provinciales, Cantonales o Parroquiales"));
-        opcionesMenuParametroList.add(new OpcionMenu("3.3", "3.3. Objetivos Estratégicos Institucionales"));
+//        opcionesMenuParametroList.add(new OpcionMenu("3.1", "3.1. Objetivos PLNBV"));
+//        opcionesMenuParametroList.add(new OpcionMenu("3.2", "3.2. Objetivos Provinciales, Cantonales o Parroquiales"));
+//        opcionesMenuParametroList.add(new OpcionMenu("3.3", "3.3. Objetivos Estratégicos Institucionales"));
         opcionesMenuParametroList.add(new OpcionMenu("3.4", "4. Matriz del Marco Lógico"));
+        //opcionesMenuParametroList.add(new OpcionMenu("3.0.1", "3.1. Objetivos de Desarrollo Sostenible del Milenio"));
+        opcionesMenuParametroList.add(new OpcionMenu("3.0.2", "3.2. Objetivos Plan Nacional de Desarrollo"));
+        opcionesMenuParametroList.add(new OpcionMenu("3.0.3", "3.3. Objetivos Provinciales, Cantonales o Parroquiales"));
+        opcionesMenuParametroList.add(new OpcionMenu("3.0.4", "3.4. Objetivos Estratégicos Institucionales"));
+        //opcionesMenuParametroList.add(new OpcionMenu("3.0.6", "3.6.  Campo de Conocimiento UNESCO"));
+        
         opcionesMenuParametroList.add(new OpcionMenu("4", "5. Viabilidad y Plan de Sostenibilidad"));
         opcionesMenuParametroList.add(new OpcionMenu("5", "6. Presupuesto Detallado y Fuentes de Financiamiento"));
         opcionesMenuParametroList.add(new OpcionMenu("6", "7. Estrategia de Ejecución-Cronograma"));
