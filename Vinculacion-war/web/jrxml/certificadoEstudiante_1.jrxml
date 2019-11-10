@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="certificadoEstudiante" language="groovy" pageWidth="595" pageHeight="842" columnWidth="435" leftMargin="80" rightMargin="80" topMargin="0" bottomMargin="0" uuid="7802725a-c9b2-4bd5-b72d-0aa65d1a1f4f">
 	<property name="ireport.zoom" value="1.2100000000000033"/>
-	<property name="ireport.x" value="32"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="220"/>
 	<parameter name="idParticipante" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[26]]></defaultValueExpression>
 	</parameter>
@@ -27,7 +27,6 @@
 	<parameter name="pathAplicacion" class="java.lang.String">
 		<defaultValueExpression><![CDATA["E:\\CTT2015\\APP\\Vinculacion\\Vinculacion-war\\build\\web\\"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="nroCertificado" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select USU.SPBPERS_SEX, USU.USU_CC, USU.SPBPERS_NAME_PREFIX, USU.USU_NOMBRES, USU.USU_APELLIDOS, CAR.STVMAJR_DESC, PROY.SZTVPROYEC_NOMBRE,
 (select  usu.usu_nombres || ' ' || usu.usu_apellidos
@@ -74,60 +73,10 @@ AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<pageHeader>
-		<band height="50">
-			<staticText>
-				<reportElement positionType="Float" x="0" y="8" width="83" height="42" uuid="5cdfbe1d-4e20-427b-8efe-291c321b2d82"/>
-				<box>
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[]]></text>
-			</staticText>
-			<staticText>
-				<reportElement positionType="Float" x="340" y="8" width="95" height="42" uuid="94ee5e23-6a50-4d2c-882a-5cad646d0d98"/>
-				<box>
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Unidad de Gestión de la Vinculación]]></text>
-			</staticText>
-			<staticText>
-				<reportElement positionType="Float" x="83" y="8" width="257" height="42" uuid="1ebe3596-c064-4c40-bb42-8befd22ede12"/>
-				<box>
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[CERTIFICADO DE CUMPLIMIENTO DE HORAS DE SERVICIO A LA COMUNIDAD EN PROYECTOS DE VINCULACIÓN CON LA SOCIEDAD]]></text>
-			</staticText>
-			<image>
-				<reportElement x="10" y="24" width="62" height="26" uuid="6ed8959d-1ff8-471f-ab2b-7e314df7c56a"/>
-				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/logoEspeReportePerfil.jpg"]]></imageExpression>
-			</image>
-		</band>
-	</pageHeader>
 	<detail>
 		<band height="643" splitType="Stretch">
 			<staticText>
-				<reportElement positionType="Float" x="0" y="151" width="435" height="24" uuid="c82ae144-92b6-41ef-878f-0fe2326d2e30"/>
+				<reportElement positionType="Float" x="0" y="127" width="435" height="24" uuid="c82ae144-92b6-41ef-878f-0fe2326d2e30"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -141,7 +90,7 @@ AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
 				<text><![CDATA[UNIVERSIDAD DE LAS FUERZAS ARMADAS ESPE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="175" width="435" height="24" uuid="9d920aa2-02b0-4b62-bf4e-de599cb19c19"/>
+				<reportElement positionType="Float" x="0" y="151" width="435" height="24" uuid="9d920aa2-02b0-4b62-bf4e-de599cb19c19"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -155,7 +104,7 @@ AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
 				<text><![CDATA[VICERRECTORADO DE INVESTIGACIÓN, INNOVACIÓN Y]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="199" width="435" height="24" uuid="8041c846-2af1-4d32-abb3-8a6846a59dc3"/>
+				<reportElement positionType="Float" x="0" y="175" width="435" height="24" uuid="8041c846-2af1-4d32-abb3-8a6846a59dc3"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -169,7 +118,7 @@ AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
 				<text><![CDATA[TRANSFERENCIA DE TECNOLOGÍA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="223" width="435" height="24" uuid="9d944bcf-6804-46e7-a5e2-7038d9a8fcbc"/>
+				<reportElement positionType="Float" x="0" y="199" width="435" height="24" uuid="9d944bcf-6804-46e7-a5e2-7038d9a8fcbc"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -183,7 +132,7 @@ AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
 				<text><![CDATA[UNIDAD DE VINCULACIÓN CON LA SOCIEDAD]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="247" width="435" height="38" uuid="ea530f4f-e510-441d-ad0e-87c4fca2da68"/>
+				<reportElement positionType="Float" x="0" y="223" width="435" height="38" uuid="ea530f4f-e510-441d-ad0e-87c4fca2da68"/>
 				<box>
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -197,7 +146,7 @@ AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
 				<text><![CDATA[CERTIFICADO]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="330" width="435" height="16" uuid="464ecf01-cb85-475c-bcbd-3f7260cc755b"/>
+				<reportElement positionType="Float" x="0" y="306" width="435" height="16" uuid="464ecf01-cb85-475c-bcbd-3f7260cc755b"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -211,7 +160,7 @@ AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
 				<textFieldExpression><![CDATA[($F{SPBPERS_SEX}==null?"Señor/Señorita":($F{SPBPERS_SEX}=="M"?"Señor":"Señorita")) +" <b>" + $F{USU_APELLIDOS} + " " + $F{USU_NOMBRES}+ "</b>, con cédula de ciudadanía, " + $F{USU_CC} + ", Estudiante de la Carrera de " + $F{STVMAJR_DESC} + "."]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="364" width="435" height="16" uuid="8b1a6bef-3360-4539-a681-e18d20cf1c6e"/>
+				<reportElement positionType="Float" x="0" y="341" width="435" height="16" uuid="8b1a6bef-3360-4539-a681-e18d20cf1c6e"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -225,7 +174,7 @@ AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
 				<textFieldExpression><![CDATA["Quien participó en el Proyecto de Vinculación con la Sociedad, <b>" + $F{SZTVPROYEC_NOMBRE} + "</b>, cumpliendo con un total de " + $P{nroHorasTexto} + " (" + $P{nroHoras} + ") horas de servicio a la comunidad, a partir del " + $P{fechaDesde} + " hasta el " + $P{fechaHasta} + (($F{DIRECTOR_SEXO}==null || $F{DIRECTOR_TITULO}==null)?", bajo la dirección de ":(($F{DIRECTOR_SEXO}=="M" && $F{DIRECTOR_TITULO}!=null)?", bajo la dirección del ":(($F{DIRECTOR_SEXO}=="F" && $F{DIRECTOR_TITULO}!=null)?", bajo la dirección de la ":", bajo la dirección de "  ))) + ($F{DIRECTOR_TITULO}!=null?($F{DIRECTOR_TITULO}+" "):"") + $F{DIRECTOR} + (($F{DIRECTOR_SEXO}==null || $F{DIRECTOR_SEXO}== "M")?", Director del Proyecto.":", Directora del Proyecto.")]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="405" width="435" height="16" uuid="60c49cd6-3779-4cca-bb56-da5e3ad6ac9f"/>
+				<reportElement positionType="Float" x="0" y="388" width="435" height="16" uuid="60c49cd6-3779-4cca-bb56-da5e3ad6ac9f"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -239,7 +188,7 @@ AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
 				<textFieldExpression><![CDATA[$P{fechaActual}]]></textFieldExpression>
 			</textField>
 			<frame>
-				<reportElement positionType="Float" x="0" y="478" width="435" height="146" uuid="6f67ea4b-6d1b-4594-98be-488ebd870373"/>
+				<reportElement positionType="Float" x="0" y="471" width="435" height="146" uuid="6f67ea4b-6d1b-4594-98be-488ebd870373"/>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement positionType="Float" x="223" y="77" width="210" height="16" uuid="d9bd5678-d45f-47ea-adde-525d320a8adf"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -283,7 +232,7 @@ AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
 					<text><![CDATA[]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" x="223" y="108" width="210" height="30" uuid="31672f22-c317-4d46-8112-0dd383cfbc8c">
+					<reportElement positionType="Float" x="223" y="107" width="210" height="30" uuid="31672f22-c317-4d46-8112-0dd383cfbc8c">
 						<printWhenExpression><![CDATA[$F{VICERRECTOR_GRADO_MIL}!=null && $F{VICERRECTOR_GRADO_MIL}!=""]]></printWhenExpression>
 					</reportElement>
 					<box leftPadding="0">
@@ -299,7 +248,7 @@ AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
 					<text><![CDATA[VICERRECTOR DE INVESTIGACIÓN, INNOVACIÓN Y TRANSFERENCIA DE TECNOLOGÍA]]></text>
 				</staticText>
 				<staticText>
-					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="20" y="108" width="169" height="30" uuid="468b1f6e-5e9e-4376-b17a-7ce795a09604">
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="20" y="107" width="169" height="30" uuid="468b1f6e-5e9e-4376-b17a-7ce795a09604">
 						<printWhenExpression><![CDATA[$F{DIRECTOR_UNID_VINCU_GRADO_MIL}!=null && $F{DIRECTOR_UNID_VINCU_GRADO_MIL}!=""]]></printWhenExpression>
 					</reportElement>
 					<box leftPadding="0">
@@ -312,7 +261,7 @@ AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[DIRECTORA DE LA UNIDAD DE GESTIÓN DE VINCULACIÓN CON LA SOCIEDAD]]></text>
+					<text><![CDATA[DIRECTORA DE LA UNIDAD DE VINCULACION CON LA SOCIEDAD]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement positionType="Float" x="0" y="92" width="210" height="16" uuid="c571e63a-8284-4616-8c5b-40483b477ace">
@@ -332,13 +281,45 @@ AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{VICERRECTOR_GRADO_MIL}]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="20" y="93" width="169" height="30" uuid="4f38cf9b-44e5-47a7-b4a6-f373a2f0dcbf">
+						<printWhenExpression><![CDATA[$F{DIRECTOR_UNID_VINCU_GRADO_MIL}==null || $F{DIRECTOR_UNID_VINCU_GRADO_MIL}==""]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="0">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DIRECTORA DE LA UNIDAD DE VINCULACION CON LA SOCIEDAD]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="225" y="93" width="210" height="30" uuid="5668c43a-0515-458e-b831-1d52749de9a7">
+						<printWhenExpression><![CDATA[$F{VICERRECTOR_GRADO_MIL}==null || $F{VICERRECTOR_GRADO_MIL}==""]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="0">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[VICERRECTOR DE INVESTIGACIÓN, INNOVACIÓN Y TRANSFERENCIA DE TECNOLOGÍA]]></text>
+				</staticText>
 			</frame>
 			<image hAlign="Center">
-				<reportElement x="0" y="56" width="435" height="86" uuid="aad65c0a-5747-48ab-abdf-d7347929fd5e"/>
+				<reportElement x="0" y="32" width="433" height="86" uuid="aad65c0a-5747-48ab-abdf-d7347929fd5e"/>
 				<imageExpression><![CDATA[$P{pathAplicacion}+"/imagenes/Logo_ESPE.png"]]></imageExpression>
 			</image>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="295" width="435" height="21" uuid="82acc0d1-b4f2-4a5b-a1f2-b704ac8e6e19"/>
+				<reportElement positionType="Float" x="0" y="271" width="435" height="21" uuid="82acc0d1-b4f2-4a5b-a1f2-b704ac8e6e19"/>
 				<box leftPadding="5">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -351,86 +332,6 @@ AND RES.SZTVPROYEC_CODE = PROY.SZTVPROYEC_CODE]]>
 				</textElement>
 				<textFieldExpression><![CDATA[($F{SPBPERS_SEX}==null || $F{SPBPERS_SEX}=="M")?"Que se otorga al:":"Que se otorga a la:"]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="20" y="574" width="169" height="30" uuid="4f38cf9b-44e5-47a7-b4a6-f373a2f0dcbf">
-					<printWhenExpression><![CDATA[$F{DIRECTOR_UNID_VINCU_GRADO_MIL}==null || $F{DIRECTOR_UNID_VINCU_GRADO_MIL}==""]]></printWhenExpression>
-				</reportElement>
-				<box leftPadding="0">
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[DIRECTORA DE LA UNIDAD DE GESTIÓN DE VINCULACIÓN CON LA SOCIEDAD]]></text>
-			</staticText>
-			<staticText>
-				<reportElement positionType="Float" x="223" y="574" width="210" height="30" uuid="5668c43a-0515-458e-b831-1d52749de9a7">
-					<printWhenExpression><![CDATA[$F{VICERRECTOR_GRADO_MIL}==null || $F{VICERRECTOR_GRADO_MIL}==""]]></printWhenExpression>
-				</reportElement>
-				<box leftPadding="0">
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[VICERRECTOR DE INVESTIGACIÓN, INNOVACIÓN Y TRANSFERENCIA DE TECNOLOGÍA]]></text>
-			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="340" y="40" width="95" height="16" uuid="a95531f2-d399-45b6-b743-6111836d7ce6"/>
-				<box leftPadding="5">
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="html">
-					<font size="12" isItalic="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["<span style='color:red'>No. " + $P{nroCertificado} + "</span>"]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="49">
-			<staticText>
-				<reportElement positionType="Float" x="0" y="0" width="210" height="38" uuid="bad43957-5fb8-4d1d-ad95-c1c42f51f980"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="7" isBold="true"/>
-				</textElement>
-				<text><![CDATA[CÓDIGO DE DOCUMENTO: UGVS-INF-v2-2019-027 
-CODIGO: VNC.2.1.027]]></text>
-			</staticText>
-			<staticText>
-				<reportElement positionType="Float" x="225" y="0" width="210" height="38" uuid="7c7e9d5b-ca9b-44aa-9682-04701fc67b06"/>
-				<box>
-					<pen lineWidth="0.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement verticalAlignment="Middle">
-					<font fontName="SansSerif" size="7" isBold="true"/>
-				</textElement>
-				<text><![CDATA[REV. UPDI: Francisco Moreno
-FECHA: 20-sep-2019]]></text>
-			</staticText>
-		</band>
-	</pageFooter>
 </jasperReport>

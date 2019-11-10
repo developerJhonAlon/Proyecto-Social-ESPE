@@ -62,6 +62,9 @@ public class AnexoProyecto implements Serializable{
     @Size(max = 250)
     @Column(name = "SZVTANEXOSPR_URL")
     private String archivoUrl;
+    @Size(max = 250)
+    @Column(name = "SZVTANEXOSPR_DESCRIPCION")
+    private String descripcion;
     @Column(name = "SZVTANEXOSPR_TIPO")
     private Integer tipo;
     
@@ -137,6 +140,14 @@ public class AnexoProyecto implements Serializable{
         this.archivoUrl = archivoUrl;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+       
     public Integer getTipo() {
         return tipo;
     }

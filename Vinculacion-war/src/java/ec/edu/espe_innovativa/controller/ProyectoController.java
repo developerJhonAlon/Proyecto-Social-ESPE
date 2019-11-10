@@ -218,7 +218,7 @@ public class ProyectoController implements Serializable {
     private List<ObjetivoBVivir> objBVivirHijoList;
     private List<ObjetivoEstrategico> perspectivasList;
     private List<ObjetivoEstrategico> milenioList;
-     private List<ObjetivoEstrategico> unescoList;
+    private List<ObjetivoEstrategico> unescoList;
     private List<ImpactoEsperadoTipo> impactoEsperadoTipoList;
     private List<ImpactoEsperado> impactoEsperadoList;
     private List<ComisionCalificacion> comisionCalificacionList;
@@ -2788,8 +2788,7 @@ public class ProyectoController implements Serializable {
         if (proyectoSelected.getId() != null) {
             TreeNode node112 = new DefaultTreeNode(new OpcionMenu("1.1.2", "1.2. Cobertura y Localización"), node11);
             //TreeNode node113 = new DefaultTreeNode(new OpcionMenu("1.1.3", "1.3. Origen de los fondos"), node11);
-            TreeNode node114 = new DefaultTreeNode(new OpcionMenu("1.1.4", "1.3. Entregables del proyecto"), node11);
-            TreeNode node115 = new DefaultTreeNode(new OpcionMenu("1.1.5", "1.4. Impactos Esperados"), node11);
+            TreeNode node114 = new DefaultTreeNode(new OpcionMenu("1.1.4", "1.3. Detalle de entregables del proyecto"), node11);
             TreeNode node12 = new DefaultTreeNode(new OpcionMenu("1.2", "2. Diagnóstico y Problema"), nodePerfil);
             TreeNode node121 = new DefaultTreeNode(new OpcionMenu("1.2.1", "2.1. Diagnóstico y Problema"), node12);
             TreeNode node1211 = new DefaultTreeNode(new OpcionMenu("1.2.5", "2.2. Anexos imágenes"), node12);
@@ -2797,12 +2796,10 @@ public class ProyectoController implements Serializable {
             TreeNode node123 = new DefaultTreeNode(new OpcionMenu("1.2.3", "2.4. Docentes Participantes"), node12);
             TreeNode node124 = new DefaultTreeNode(new OpcionMenu("1.2.4", "2.5. Estudiantes Participantes"), node12);
             TreeNode node13 = new DefaultTreeNode(new OpcionMenu("1.3", "3. Alineamiento del Proyecto"), nodePerfil);
-            TreeNode node136 = new DefaultTreeNode(new OpcionMenu("1.3.5", "3.1. Objetivos de Desarrollo Sostenible del Milenio"), node13);
-            TreeNode node131 = new DefaultTreeNode(new OpcionMenu("1.3.1", "3.2. Objetivos Plan Nacional de Desarrollo"), node13);
-            TreeNode node133 = new DefaultTreeNode(new OpcionMenu("1.3.3", "3.3. Objetivos Provinciales, Cantonales o Parroquiales"), node13);
-            TreeNode node132 = new DefaultTreeNode(new OpcionMenu("1.3.2", "3.4. Objetivos Estratégicos Institucionales"), node13);
-            TreeNode node135 = new DefaultTreeNode(new OpcionMenu("1.3.4", "3.5. Líneas de Investigación"), node13);
-            TreeNode node137 = new DefaultTreeNode(new OpcionMenu("1.3.6", "3.6. Campo de Conocimiento UNESCO"), node13);           
+            TreeNode node131 = new DefaultTreeNode(new OpcionMenu("1.3.1", "3.1. Objetivos PLNBV"), node13);
+            TreeNode node133 = new DefaultTreeNode(new OpcionMenu("1.3.3", "3.2. Objetivos Provinciales, Cantonales o Parroquiales"), node13);
+            TreeNode node132 = new DefaultTreeNode(new OpcionMenu("1.3.2", "3.3. Objetivos Estratégicos Institucionales"), node13);
+            TreeNode node135 = new DefaultTreeNode(new OpcionMenu("1.3.4", "3.4. Líneas de Investigación"), node13);
             TreeNode node134 = new DefaultTreeNode(new OpcionMenu("1.4", "4. Matriz del Marco Lógico"), nodePerfil);
             TreeNode node15 = new DefaultTreeNode(new OpcionMenu("1.5", "5. Viabilidad y Plan de Sostenibilidad"), nodePerfil);
             TreeNode node16 = new DefaultTreeNode(new OpcionMenu("1.6", "6. Presupuesto Detallado y Fuentes de Financiamiento"), nodePerfil);
@@ -3866,7 +3863,7 @@ public class ProyectoController implements Serializable {
         options.put("resizable", true);
         options.put("draggable", true);
         options.put("modal", true);
-
+    
         /*if (opcionMenu.equals("1.1") || opcionMenu.equals("1.2") || opcionMenu.equals("3.3") || opcionMenu.equals("3.2") || opcionMenu.equals("3.4") || opcionMenu.equals("5") || opcionMenu.equals("6")) {
             options.put("contentWidth", "800");
         }
@@ -6070,7 +6067,7 @@ public class ProyectoController implements Serializable {
         return false;
     }
 
-    private boolean verificarPerfil(String perfil) {
+    protected boolean verificarPerfil(String perfil) {
         for (SegPerfil per : perfilUsuarioActual) {
             if (per.getPerNombre().toUpperCase().equals(perfil)) {
                 return true;
@@ -6100,7 +6097,6 @@ public class ProyectoController implements Serializable {
                 jasperBean.generarReporte(JasperReportUtil.PATH_REPORTE_PERFIL_PROYECTO_X, tipoReporte, parametros);
 
             }
-            
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -6195,6 +6191,31 @@ public class ProyectoController implements Serializable {
             NumeroALetras numeroALetras = new NumeroALetras();
             String nroHorasTexto = numeroALetras.convertir(responsableProyecto.getTotalHorasDedicadas().toString(), false);
             String fechaActual = "Sangolquí, " + formatter.format(new Date());
+            List<ResponsableProyecto> indexList = new ArrayList<>();
+            //indexList.addAll(proyectoSelected.getParticipanteEstudianteList());    
+            for (ResponsableProyecto responsableProyecto1 : proyectoSelected.getParticipanteEstudianteList()) {
+                ResponsableProyecto temp = new ResponsableProyecto(responsableProyecto1.getId(),responsableProyecto1.getUsuario());
+                indexList.add(temp);
+            }
+            int index = indexList.size();           
+            StringBuilder nroCertificado = new StringBuilder();
+            for(ResponsableProyecto r : indexList){
+                r.setId(index--);                                  
+            }
+            for (ResponsableProyecto responsableProyecto1 : indexList) {
+                if(responsableProyecto1.getUsuario().equals(responsableProyecto.getUsuario())){
+                    index = responsableProyecto1.getId();
+                    break;
+                }
+               
+            }
+            if(index>=10){
+                nroCertificado.append("0").append(index);
+            }else{
+                nroCertificado.append("00").append(index);
+            }
+   
+            parametros.put("nroCertificado", nroCertificado);
             parametros.put("idParticipante", responsableProyecto.getId());
             parametros.put("fechaDesde", fechaDesdeStr);
             parametros.put("fechaHasta", fechaHastaStr);

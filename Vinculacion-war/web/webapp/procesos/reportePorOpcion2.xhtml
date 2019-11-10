@@ -186,7 +186,7 @@
                                               disabled="true"
                                               style="font-weight: normal"
                                               >
-<f:selectItems value="#{reportePorOpcionController.coberturaList}" var="cobertura" itemLabel="#{cobertura.prdDescripcion}" itemValue="#{cobertura.prdId}"/>                                 
+                                <f:selectItems value="#{reportePorOpcionController.coberturaList}" var="cobertura" itemLabel="#{cobertura.prdDescripcion}" itemValue="#{cobertura.prdId}"/>                                 
                             </p:selectOneRadio>
                         </h:panelGrid>
                     </h:panelGrid>                    
@@ -244,7 +244,7 @@
                 </h:panelGrid>
             </p:fieldset>
 
-            <p:fieldset legend="1.4. Detalle de entregables del proyecto" rendered="#{reportePorOpcionController.opcionMenu=='1.4'}" style="margin-right: 10px">
+            <p:fieldset legend="1.3. Detalle de entregables del proyecto" rendered="#{reportePorOpcionController.opcionMenu=='1.4'}" style="margin-right: 10px">
                 <h:panelGrid columns="1" cellpadding="5" id="pInput4">
                     <p:outputLabel id="lblBienes" value="Bienes:" for="txtBienes" style="font-weight: bold"/>
                     <pe:ckEditor id="txtBienes" value="#{reportePorOpcionController.proyectoSelected.bienes}" 
@@ -272,8 +272,37 @@
                                  toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
                                  >  
                     </pe:ckEditor>
+
+                    <p:outputLabel value="Efectos Esperados" for="txtEfectosEsperados" style="font-weight: bold"/>
+                    <pe:ckEditor id="txtEfectosEsperados" value="#{reportePorOpcionController.proyectoSelected.efectoEsperado}" 
+                                 readonly="true"
+                                 width="100%"
+                                 height="100"
+                                 toolbar="[['SelectAll','-', 'Table' , 'HorizontalRule','-' ,'Cut','Copy','Paste','-', 'Bold','Underline','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' , '-' , 'NumberedList', 'BulletedList', 'Outdent' , 'Indent', '-', 'Styles', 'Format','Font','FontSize','TextColor','BGColor']]"
+                                 >  
+                    </pe:ckEditor>
                 </h:panelGrid> 
             </p:fieldset>
+
+            <p:fieldset legend="1.4. Detalle de Impactos Esperados" rendered="#{reportePorOpcionController.opcionMenu=='1.5'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <p:dataTable id="dataTImpactosEsperados" value="#{reportePorOpcionController.proyectoSelected.impactoEsperadoList}" var="impactoEsperado" paginator="true"
+                                 rows="10" rowIndexVar="index" resizableColumns="true"
+                                 emptyMessage="No se encontraron resultados">
+                        <p:column headerText="Nro." width="1">
+                            <h:outputText value="#{index + 1}" />
+                        </p:column>
+                        <p:column headerText="Tipo de Impacto Esperado" sortBy="#{impactoEsperado.impactoEsperadoTipo.descripcion}">
+                            <h:outputText value="#{impactoEsperado.impactoEsperadoTipo.descripcion}" style="white-space: pre-line" />
+                        </p:column>
+                        <p:column headerText="Descripción" sortBy="#{impactoEsperado.descripcion}">
+                            <h:outputText value="#{impactoEsperado.descripcion}" style="white-space: pre-line" />
+                        </p:column>
+                    </p:dataTable>
+                </h:panelGrid> 
+            </p:fieldset>         
+
+
             <p:fieldset legend="2.1. Diagnóstico y Problema" rendered="#{reportePorOpcionController.opcionMenu=='2.1'}" style="margin-right: 10px">
                 <h:panelGrid columns="1" cellpadding="2" >
                     <p:outputLabel value="Descripción de la situación actual del área de intervención del proyecto:" for="txtAreaIntervencion" style="font-weight: bold"/>
@@ -423,9 +452,9 @@
                 </h:panelGrid>
 
             </p:fieldset>
-            <p:fieldset legend="3.1. Objetivos PLNBV" rendered="#{reportePorOpcionController.opcionMenu=='3.1'}" style="margin-right: 10px">
+            <p:fieldset legend="3.2. Objetivos Plan Nacional de Desarrollo" rendered="#{reportePorOpcionController.opcionMenu=='3.0.2'}" style="margin-right: 10px">
                 <h:panelGrid columns="1" cellpadding="5">
-                    <h:outputLabel value="¿A qué objetivos del Plan Nacional del Buen Vivir se respalda el Proyecto?" style="font-weight: bold"/>
+                    <h:outputLabel value="¿A qué objetivos del Plan Nacional de Desarrollo se respalda el Proyecto?" style="font-weight: bold"/>
                     <p:dataTable id="dataTableObjPlan" value="#{reportePorOpcionController.proyectoSelected.objetivoBVivirProyectoPadreList}" var="proObjPlan" paginator="true"
                                  rows="10" rowIndexVar="index" resizableColumns="true" emptyMessage="No se encontraron resultados" expandedRow="true" >
                         <p:column width="1">
@@ -457,7 +486,7 @@
             </p:fieldset>
 
 
-            <p:fieldset legend="3.2. Objetivos Provinciales, Cantonales o Parroquiales" rendered="#{reportePorOpcionController.opcionMenu=='3.2'}" style="margin-right: 10px">
+            <p:fieldset legend="3.3. Objetivos Provinciales, Cantonales o Parroquiales" rendered="#{reportePorOpcionController.opcionMenu=='3.0.3'}" style="margin-right: 10px">
                 <h:panelGrid columns="1" cellpadding="5">
                     <p:dataTable id="dataTableObjParroquiales" value="#{reportePorOpcionController.proyectoSelected.objetivosProvCanParr}" var="ob"
                                  editable="true" style="width: 100%" paginator="true" rows="10" rowIndexVar="index"  resizableColumns="true" 
@@ -482,7 +511,7 @@
                 </h:panelGrid>
             </p:fieldset>
 
-            <p:fieldset legend="3.3. Objetivos Estratégicos Institucionales" rendered="#{reportePorOpcionController.opcionMenu=='3.3'}" style="margin-right: 10px">
+            <p:fieldset legend="3.4. Objetivos Estratégicos Institucionales" rendered="#{reportePorOpcionController.opcionMenu=='3.0.4'}" style="margin-right: 10px">
                 <h:panelGrid columns="1" cellpadding="5">
                     <h:outputLabel for="dataTableObjEstInt" value="¿A qué objetivos Estratégicos Institucionales apunta el Proyecto?:" style="font-weight: bold; width: 100%"/>
                     <p:dataTable id="dataTableObjEstInt" value="#{reportePorOpcionController.proyectoSelected.perspectivaList}" var="perspectivaProyecto"
@@ -702,37 +731,134 @@
                 </h:panelGrid>
             </p:fieldset>
 
-            <p:fieldset legend="5. Presupuesto Detallado y Fuentes de Financiamiento" rendered="#{reportePorOpcionController.opcionMenu=='5'}" style="margin-right: 10px">
-                <h:panelGrid columns="1" cellpadding="5" >
-                    <p:dataTable id="dataTPresupuestoPartidas" value="#{reportePorOpcionController.proyectoSelected.presupuestoProyectoList}" var="presupuestoProyecto" paginator="true"
-                                 rows="10" rowIndexVar="index" resizableColumns="true"
+            <p:fieldset legend="6. Presupuesto Detallado y Fuentes de Financiamiento" rendered="#{reportePorOpcionController.opcionMenu=='5'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" >
+                    <h:outputLabel value="Aporte de la Universidad:" style="font-weight: bold"/>
+                    <p:dataTable value="#{reportePorOpcionController.proyectoSelected.detallePresupuestoUniversidad}" var="presupuestoUniv" 
+                                 rowIndexVar="index" resizableColumns="true"
+                                 style="width: 99%"
                                  emptyMessage="No se encontraron Resultados"> 
-                        <p:column headerText="Nro." width="20">
+                        <p:column headerText="Nro." width="10">
                             <h:outputText value="#{index + 1}"/>
                         </p:column>
-                        <p:column headerText="Partida Presupuestaria" width="200" sortBy="#{presupuestoProyecto.partidaPresupuestaria.scpNombre}">
-                            <h:outputText value="#{presupuestoProyecto.partidaPresupuestaria.scpId}-#{presupuestoProyecto.partidaPresupuestaria.scpNombre}" style="white-space: pre-line"/>                                    
+                        <p:column headerText="Partida Presupuestaria" width="200" sortBy="#{presupuestoUniv.nombreCompleto}">
+                            <h:outputText value="#{presupuestoUniv.nombreCompleto}" style="white-space: pre-line"/>                                    
                         </p:column>
-                        <p:column headerText="Tipo Gasto" sortBy="#{presupuestoProyecto.tipoGastoStr}" width="100">
-                            <h:outputText value="#{presupuestoProyecto.tipoGastoStr}" style="white-space: pre-line"/>     
+                        <p:column headerText="Descripción" width="100" sortBy="#{presupuestoUniv.especificacionesTecnicas}">
+                            <h:outputText value="#{presupuestoUniv.especificacionesTecnicas}" style="white-space: pre-line"/>                                    
+                        </p:column>
+                        <p:column headerText="Tipo Gasto" sortBy="#{presupuestoUniv.tipoGastoStr}" width="60">
+                            <h:outputText value="#{presupuestoUniv.tipoGastoStr}" style="white-space: pre-line"/>     
                         </p:column>
 
-                        <p:column headerText="Especificaciones Técnicas" sortBy="#{presupuestoProyecto.especificacionesTecnicas}">
-                            <h:outputText value="#{presupuestoProyecto.especificacionesTecnicas}" style="white-space: pre-line"/>     
-                        </p:column>
-                        <p:column headerText="Valor (USD)" sortBy="#{presupuestoProyecto.valor}" width="70">
-                            <h:outputText value="#{presupuestoProyecto.valor}" style="white-space: pre-line; float: right">
-                                <f:convertNumber locale="es_ES"  pattern="#,##0.00" />
+                        <p:column headerText="Valor Anual (USD)" width="70" sortBy="#{presupuestoUniv.mostrarCantidadAnual}" >
+                            <h:outputText value="#{presupuestoUniv.mostrarCantidadAnual}" style="white-space: pre-line;">  
+
                             </h:outputText>
                         </p:column>
+
+                        <p:column headerText="Total Proy (USD)" width="50" sortBy="#{presupuestoUniv.totalCantidadAnual}" >
+                            <h:outputText value="#{presupuestoUniv.totalCantidadAnual}" style="white-space: pre-line; float:right">  
+                                <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
+                            </h:outputText>
+                        </p:column>
+
+
                         <p:columnGroup type="footer">
                             <p:row>
-                                <p:column colspan="4" style="text-align:right" footerText="Total:" />
-                                <p:column footerText="#{reportePorOpcionController.proyectoSelected.totalPresupuesto}" style="text-align: right" >
+                                <p:column colspan="5" style="text-align:right" footerText="Total (Permanente):" />
+                                <p:column footerText="#{reportePorOpcionController.proyectoSelected.totalPresupuestoUniversidadGastoPermanenteStr}" style="text-align: right" >
                                 </p:column>
+                               
                             </p:row>
+                            <p:row>
+                                <p:column colspan="5" style="text-align:right" footerText="Total (No Permanente):" />
+                                <p:column footerText="#{reportePorOpcionController.proyectoSelected.totalPresupuestoUniversidadGastoNoPermanenteStr}" style="text-align: right" >
+                                </p:column>
+                               
+                            </p:row>
+                            <p:row>
+                                <p:column colspan="5" style="text-align:right" footerText="Total:" />
+                                <p:column footerText="#{reportePorOpcionController.proyectoSelected.totalPresupuestoUniversidadStr}" style="text-align: right" >
+                                </p:column>
+                               
+                            </p:row>
+
+
                         </p:columnGroup>                                               
-                    </p:dataTable>                    
+
+                    </p:dataTable>
+
+                    <h:outputLabel value="Aporte de la Entidad Auspiciante:" style="font-weight: bold"/>
+                    <p:dataTable value="#{reportePorOpcionController.proyectoSelected.detallePresupuestoEntidadAuspiciante}" var="presupuestoEnt"
+                                 rowIndexVar="index"  
+                                 style="width: 99%"
+                                 resizableColumns="true"
+                                 emptyMessage="No se encontraron Resultados"> 
+                        <p:column headerText="Nro." width="10" >
+                            <h:outputText value="#{index + 1}"/>
+                        </p:column>
+                        <p:column headerText="Bien y/o Servicio" sortBy="#{presupuestoEnt.bienServicio}">
+                            <h:outputText value="#{presupuestoEnt.bienServicio}" style="white-space: pre-line"></h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Valor Anual (USD)" width="70" sortBy="#{presupuestoEnt.mostrarCantidadAnual}" >
+                            <h:outputText value="#{presupuestoEnt.mostrarCantidadAnual}" style="white-space: pre-line;">  
+
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Total Proy (USD)" width="50" sortBy="#{presupuestoEnt.totalCantidadAnual}" >
+                            <h:outputText value="#{presupuestoEnt.totalCantidadAnual}" style="white-space: pre-line; float:right">  
+                                <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column colspan="3" style="text-align:right" footerText="Total:" />
+                                <p:column footerText="#{reportePorOpcionController.proyectoSelected.totalPresupuestoEntidadAuspicianteStr}" style="text-align: right" >
+                                    <h:outputLabel value=""></h:outputLabel>
+                                </p:column>
+                               
+                            </p:row>
+                        </p:columnGroup>                                        
+                    </p:dataTable>                                  
+
+
+                    <h:outputLabel value="Aporte de la Comunidad Beneficiaria:" style="font-weight: bold"/>
+                    <p:dataTable value="#{reportePorOpcionController.proyectoSelected.detallePresupuestoComunidadBeneficiaria}" var="presupuestoCom"
+                                 rowIndexVar="index"  
+                                 style="width: 99%"
+                                 resizableColumns="true"
+                                 emptyMessage="No se encontraron Resultados"> 
+                        <p:column headerText="Nro." width="10" >
+                            <h:outputText value="#{index + 1}"/>
+                        </p:column>
+                        <p:column headerText="Bien y/o Servicio" sortBy="#{presupuestoCom.bienServicio}">
+                            <h:outputText value="#{presupuestoCom.bienServicio}" style="white-space: pre-line"></h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Valor Anual (USD)" width="70" sortBy="#{presupuestoCom.mostrarCantidadAnual}" >
+                            <h:outputText value="#{presupuestoCom.mostrarCantidadAnual}" style="white-space: pre-line;">  
+
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Total Proy (USD)" width="50" sortBy="#{presupuestoCom.totalCantidadAnual}" >
+                            <h:outputText value="#{presupuestoCom.totalCantidadAnual}" style="white-space: pre-line; float:right">  
+                                <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:columnGroup type="footer">
+                            <p:row>
+                                <p:column colspan="3" style="text-align:right" footerText="Total:" />
+                                <p:column footerText="#{reportePorOpcionController.proyectoSelected.totalPresupuestoComunidadBeneficiariaStr}" style="text-align: right" >
+                                    <h:outputLabel value=""></h:outputLabel>
+                                </p:column>
+                               
+                            </p:row>
+                        </p:columnGroup>                                        
+                    </p:dataTable>                          
                 </h:panelGrid>
             </p:fieldset>
 
@@ -835,7 +961,7 @@
             <h:panelGrid style="width: 100%; text-align: center; margin-top: 10px">
                 <p:commandButton value="Cerrar" actionListener="#{reportePorOpcionController.closeDialog()}" style="float: "/>
             </h:panelGrid>
-            
+
 
             <pe:blockUI widgetVar="blockUIWidget">  
                 <h:panelGrid columns="2">  

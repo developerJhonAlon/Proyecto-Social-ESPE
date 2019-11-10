@@ -193,6 +193,9 @@ public class Proyecto implements Serializable {
     @Lob
     @Column(name = "SZTVPROYEC_LINEABASE2")
     private String lineaBase;
+    @Size(max = 250)
+    @Column(name = "SZTVPROYEC_POBLACION_DESC")
+    private String descripcionPoblacion;
     @Column(name = "SZTVPROYEC_DIRECTOS_HOMBRES")
     private Integer nroBeneficiariosDirectosHombres;
     @Column(name = "SZTVPROYEC_DIRECTOS_MUJERES")
@@ -611,6 +614,14 @@ public class Proyecto implements Serializable {
         this.responsableList = responsableList;
     }
 
+    public String getDescripcionPoblacion() {
+        return descripcionPoblacion;
+    }
+
+    public void setDescripcionPoblacion(String descripcionPoblacion) {
+        this.descripcionPoblacion = descripcionPoblacion;
+    }
+       
     public Integer getNroBeneficiariosDirectosHombres() {
         return nroBeneficiariosDirectosHombres;
     }

@@ -240,13 +240,19 @@ public class ListadoProyectosController implements Serializable {
         return "";
     }
     
+     /**
+    * Comprueba la fecha del proyecto creado y lo redirect a la web page con sus caracteristicas particulares,
+    * apartir de aqui los proyecto nuevos deben acoplarse a los nuevos requerimientos y los anteriores proyectos finalizar con su logica anterior.
+     * @param idProyecto 
+     * @return Web page
+     * @autor Jhonny Jami 
+    */
     public String verificarVersion(Integer idProyecto){
         try {
             Proyecto proyectoSelected;
             proyectoSelected = proyectoFacade.findById(idProyecto);
             SimpleDateFormat sdf = new  SimpleDateFormat("dd-MM-yyyy");
-            //Fecha de lanzamiento de la segunda version de la plataforma.
-            Date fechaVersion2Perfil = sdf.parse("05-11-2018");
+            Date fechaVersion2Perfil = sdf.parse("05-11-2018"); //Fecha de lanzamiento de la segunda version de la app.
             if(proyectoSelected.getFechaInicio().after(fechaVersion2Perfil)){
                 FacesContext.getCurrentInstance().getExternalContext().redirect("proyecto2.xhtml?idProyecto=" + idProyecto);
             }else{

@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml" 
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core" 
+                 xmlns:ui="http://java.sun.com/jsf/facelets" 
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:pe="http://primefaces.org/ui/extensions">
+    <!--panelPresupuestoDetallado-->
+    <p:panel id="panelPresupuestoDetallado" rendered="#{proyectoController.selectedNodeCode=='1.6'}" style="border: hidden; margin-left: 20px;">
+        <h:panelGrid id="panelEdicionPresupuestoDetallado" columns="1" style="width: 100%; margin-bottom: 10px">
+            <h:panelGrid columns="2" rendered="#{proyectoController.presupuestoProyectoSelected==null}">
+                <p:commandButton value="Agregar" title="Agregar detalle de presupuesto" icon="ui-icon-plus" 
+                                 update=":formPrincipal:panelEdicionPresupuestoDetallado"
+                                 actionListener="#{proyectoController.nuevoPresupuestoProyecto}" 
+                                 disabled="#{!proyectoController.permitirEditarPerfil}"
+                                 >
+                </p:commandButton>
+            </h:panelGrid>
+            <h:panelGrid cellspacing="5" columns="1" style="width: 100%" 
+                         rendered="#{proyectoController.presupuestoProyectoSelected !=null}">
+                <p:fieldset legend="#{proyectoController.presupuestoProyectoSelected.id==null ? 'NUEVO DETALLE DE PRESUPUESTO':'EDICION DE DETALLE DE PRESUPUESTO'}">
+                    <h:panelGrid columns="2" cellpadding="0" cellspacing="5" style="margin-top: 10px; margin-bottom: 10px">
+                        <p:commandButton id="btnGrabarPresupuestoDetallado" value="Grabar" title="Grabar Información" icon="ui-icon-locked" 
+                                         update=":formPrincipal:panelPresupuestoDetallado, :formPrincipal:message1" 
+                                         action ="#{proyectoController.grabarPresupuestoProyecto()}"
+                                         onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" title="Cancela Información" icon="ui-icon-arrowreturnthick-1-w" 
+                                         update=":formPrincipal:panelPresupuestoDetallado" 
+                                         action="#{proyectoController.cancelarPresupuestoProyecto()}">
+                        </p:commandButton>
+                    </h:panelGrid>                                          
+
+                    <h:panelGrid columns="2" cellpadding="0" cellspacing="0" style="margin-bottom: 10px" columnClasses="col1_presupuesto">
+
+                        <p:outputLabel value="* Tipo Aporte:" for="txtTipoAportePresupuestoDetallado" style="font-weight: bold"/>
+                        <h:panelGrid columns="2">
+                            <p:selectOneMenu id="txtTipoAportePresupuestoDetallado"
+                                             required="#{not empty param['formPrincipal:btnGrabarPresupuestoDetallado']}" 
+                                             style="width:160px;" 
+                                             value="#{proyectoController.presupuestoProyectoSelected.tipo}" 
+                                             disabled="#{proyectoController.presupuestoProyectoSelected.id!=null}" 
+                                             >
+                                <f:selectItem itemLabel="[[-Seleccione un item-]]" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="Universidad" itemValue="1"/>
+                                <f:selectItem itemLabel="Entidad Auspiciante" itemValue="2"/>
+                                <f:selectItem itemLabel="Comunidad Beneficiaria" itemValue="3"/>
+                                <p:ajax event="change" update=":formPrincipal:panelDatos"  listener="#{proyectoController.onchangeTipoAporte}" />
+                            </p:selectOneMenu>
+                            <p:message for="txtTipoAportePresupuestoDetallado"></p:message>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <h:panelGrid id="panelDatos" columns="2" cellpadding="0" cellspacing="0" style="margin-bottom: 10px" columnClasses="col1_presupuesto">
+
+                        <p:outputLabel for="selTipoGastoPresupuestoDetallado" value="* Tipo de Gasto:" style="font-weight: bold"
+                                       rendered="#{proyectoController.presupuestoProyectoSelected.tipo==1 and proyectoController.proyectoSelected.tipo=='C'}"/>
+                        <p:outputLabel for="selTipoGastoPresupuestoDetallado2" value="* Tipo de Gasto:" style="font-weight: bold"
+                                       rendered="#{proyectoController.presupuestoProyectoSelected.tipo==1 and proyectoController.proyectoSelected.tipo=='I'}"/>
+                        <h:panelGrid columns="2" rendered="#{proyectoController.presupuestoProyectoSelected.tipo==1}">
+                            <p:selectOneMenu id="selTipoGastoPresupuestoDetallado" value="#{proyectoController.presupuestoProyectoSelected.tipoGasto}" 
+                                             required="#{not empty param['formPrincipal:btnGrabarPresupuestoDetallado']}"
+                                             rendered="#{proyectoController.proyectoSelected.tipo=='C'}"
+                                             converter="omnifaces.SelectItemsConverter"
+                                             style="width:160px"
+                                             >
+                                <f:selectItem itemLabel="[[-Seleccione un item-]]" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="Permanente" itemValue="C"/>
+                                <p:ajax event="change" update=":formPrincipal:panelDatos2" listener="#{proyectoController.onchangeTipoGasto}" />
+                            </p:selectOneMenu>
+                            <p:selectOneMenu id="selTipoGastoPresupuestoDetallado2" value="#{proyectoController.presupuestoProyectoSelected.tipoGasto}" 
+                                             required="#{not empty param['formPrincipal:btnGrabarPresupuestoDetallado']}"
+                                             rendered="#{proyectoController.proyectoSelected.tipo=='I'}"
+                                             converter="omnifaces.SelectItemsConverter"
+                                             style="width:160px"
+                                             >
+                                <f:selectItem itemLabel="[[-Seleccione un item-]]" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="Permanente" itemValue="C"/>
+                                <f:selectItem itemLabel="No Permanente" itemValue="I"/>
+                                <p:ajax event="change" update=":formPrincipal:panelDatos" listener="#{proyectoController.onchangeTipoGasto}" />
+                            </p:selectOneMenu>                                                    
+                            <p:message for="selTipoGastoPresupuestoDetallado2"></p:message>
+                        </h:panelGrid>                                                    
+
+                        <p:outputLabel id="lblBienServicioPresupuestoDetallado" value="#{proyectoController.presupuestoProyectoSelected.tipo==1?'* Partida Presupuestaria:':'* Bien y/o Servicio:'}" for="txtBienServicioPresupuestoDetallado" style="font-weight: bold"></p:outputLabel>
+                        <h:panelGrid id="panelDatos2" columns="3" >
+                            <p:commandButton title="Seleccionar Partida Presupuestaria(Permanente)" icon="ui-icon-search"
+                                             onclick="PF('dlgPartidaPresupuestaria').show();" process="@this" 
+                                             update=":formPrincipal:formModal"
+                                             rendered="#{proyectoController.presupuestoProyectoSelected.tipo==1 and proyectoController.presupuestoProyectoSelected.tipoGasto!='I'}"
+                                             disabled="#{proyectoController.presupuestoProyectoSelected.tipoGasto==null}"
+                                             >
+                            </p:commandButton>
+                            <p:commandButton title="Seleccionar Partida Presupuestaria(No Permanente)" icon="ui-icon-search"
+                                             onclick="PF('dlgPartidaPresupuestaria').show();" process="@this" 
+                                             update=":formPrincipal:formModal"
+                                             rendered="#{proyectoController.presupuestoProyectoSelected.tipo==1 and proyectoController.presupuestoProyectoSelected.tipoGasto=='I'}"
+                                             >
+                            </p:commandButton>
+                            <p:inputTextarea id="txtBienServicioPresupuestoDetallado" value="#{proyectoController.presupuestoProyectoSelected.tipo==1?proyectoController.presupuestoProyectoSelected.nombreCompleto:proyectoController.presupuestoProyectoSelected.bienServicio}"
+                                             cols="80" rows="3" maxlength="150"
+                                             disabled="#{proyectoController.presupuestoProyectoSelected.tipo==1}"
+                                             required="#{not empty param['formPrincipal:btnGrabarPresupuestoDetallado']}">
+                            </p:inputTextarea>
+                            <p:message for="txtBienServicioPresupuestoDetallado"></p:message>
+                        </h:panelGrid> 
+
+                        <p:outputLabel value="* Descripción:" for="txtDescripcionPresupuestoDetallado" style="font-weight: bold"
+                                       rendered="#{proyectoController.presupuestoProyectoSelected.tipo==1 and proyectoController.presupuestoProyectoSelected.tipoGasto=='I'}"></p:outputLabel>
+                        <h:panelGrid columns="2" rendered="#{proyectoController.presupuestoProyectoSelected.tipo==1  and proyectoController.presupuestoProyectoSelected.tipoGasto=='I'}">
+                            <p:inputTextarea id="txtDescripcionPresupuestoDetallado" value="#{proyectoController.presupuestoProyectoSelected.especificacionesTecnicas}"
+                                             cols="80" rows="3" maxlength="150"
+                                             required="#{not empty param['formPrincipal:btnGrabarPresupuestoDetallado']}">
+                            </p:inputTextarea>
+                            <p:message for="txtDescripcionPresupuestoDetallado"></p:message>
+                        </h:panelGrid> 
+
+                        <p:outputLabel value="* Cantidad:" for="txtCantidadPresupuestoDetallado" style="font-weight: bold"></p:outputLabel>
+                        <h:panelGrid columns="2">
+                            <pe:inputNumber id="txtCantidadPresupuestoDetallado" value="#{proyectoController.presupuestoProyectoSelected.cantidad}" decimalPlaces="0" minValue="0" maxValue="1000000" styleClass="inputNumber" required="#{not empty param['formPrincipal:btnGrabarPresupuestoDetallado']}">  
+                                <p:ajax event="change" update="formPrincipal:txtTotalPresupuestoDetallado"/>
+                            </pe:inputNumber>
+                            <p:message for="txtCantidadPresupuestoDetallado"></p:message>
+                        </h:panelGrid>
+
+                        <p:outputLabel value="* Valor Unitario (USD):" for="txtValorPresupuestoDetallado" style="font-weight: bold"></p:outputLabel>
+                        <h:panelGrid columns="2">
+                            <pe:inputNumber id="txtValorPresupuestoDetallado" value="#{proyectoController.presupuestoProyectoSelected.valor}" decimalPlaces="2" minValue="0" maxValue="1000000" styleClass="inputNumber" required="#{not empty param['formPrincipal:btnGrabarPresupuestoDetallado']}">  
+                                <p:ajax event="change" update="formPrincipal:txtTotalPresupuestoDetallado"/>
+                            </pe:inputNumber>
+                            <p:message for="txtValorPresupuestoDetallado"></p:message>
+                        </h:panelGrid>
+                        <p:outputLabel value="Total (USD):" for="txtTotalPresupuestoDetallado" style="font-weight: bold"></p:outputLabel>
+                        <h:panelGrid columns="2">
+                            <p:inputText id="txtTotalPresupuestoDetallado" value="#{proyectoController.presupuestoProyectoSelected.total}" disabled="true" style="width: 70px;">
+                                <f:convertNumber locale="es"  pattern="#,###,##0.00" />
+                            </p:inputText>                                        
+                            <p:message for="txtTotalPresupuestoDetallado"></p:message>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </p:fieldset>
+            </h:panelGrid>
+        </h:panelGrid>
+
+        <h:panelGrid columns="1">
+            <h:outputLabel value="Aporte de la Universidad:" style="font-weight: bold"/>
+            <p:dataTable value="#{proyectoController.proyectoSelected.detallePresupuestoUniversidad}" var="presupuestoUniv" 
+                         rowIndexVar="index" resizableColumns="true"
+                         style="width: 99%"
+                         emptyMessage="No se encontraron Resultados"> 
+                <p:column headerText="Nro." width="20">
+                    <h:outputText value="#{index + 1}"/>
+                </p:column>
+                <p:column headerText="Partida Presupuestaria" sortBy="#{presupuestoUniv.nombreCompleto}">
+                    <h:outputText value="#{presupuestoUniv.nombreCompleto}" style="white-space: pre-line"/>                                    
+                </p:column>
+                <p:column headerText="Descripción" width="150" sortBy="#{presupuestoUniv.especificacionesTecnicas}">
+                    <h:outputText value="#{presupuestoUniv.especificacionesTecnicas}" style="white-space: pre-line"/>                                    
+                </p:column>
+                <p:column headerText="Tipo Gasto" sortBy="#{presupuestoUniv.tipoGastoStr}" width="80">
+                    <h:outputText value="#{presupuestoUniv.tipoGastoStr}" style="white-space: pre-line"/>     
+                </p:column>
+
+                <p:column rendered="false" headerText="Especificaciones Técnicas" sortBy="#{presupuestoUniv.especificacionesTecnicas}">
+                    <h:outputText value="#{presupuestoUniv.especificacionesTecnicas}" style="white-space: pre-line"/>     
+                </p:column>
+                <p:column headerText="Cantidad" width="60" sortBy="#{presupuestoUniv.cantidad}">
+                    <h:outputText value="#{presupuestoUniv.cantidad}" style="white-space: pre-line; float:right">  
+                        <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Valor Unitario (USD)" width="100" sortBy="#{presupuestoUniv.valor}">
+                    <h:outputText value="#{presupuestoUniv.valor}" style="white-space: pre-line; float:right">  
+                        <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
+                    </h:outputText>
+                </p:column>                                        
+                <p:column headerText="Total (USD)" width="100" sortBy="#{presupuestoUniv.total}">
+                    <h:outputText value="#{presupuestoUniv.total}" style="white-space: pre-line; float:right">  
+                        <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Editar" width="50" style ="text-align: center">
+                    <p:commandButton icon="ui-icon-pencil"
+                                     title="Editar el registro"
+                                     disabled="#{!proyectoController.permitirEditarPerfil}"
+                                     update=":formPrincipal:panelEdicionPresupuestoDetallado"
+                                     >
+                        <f:setPropertyActionListener value="#{presupuestoUniv}" target="#{proyectoController.presupuestoProyectoSelected}"/>
+                    </p:commandButton>
+                </p:column>                                         
+                <p:column headerText="Eliminar" width="50" style ="text-align: center">
+                    <p:commandButton title="Eliminar el registro" icon="ui-icon-trash" 
+                                     onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                     action="#{proyectoController.eliminarPresupuestoProyecto()}"
+                                     disabled="#{!proyectoController.permitirEditarPerfil}"
+                                     update=":formPrincipal:panelPresupuestoDetallado, :formPrincipal:message1 ">
+                        <f:setPropertyActionListener value="#{presupuestoUniv}" target="#{proyectoController.presupuestoProyectoSelected}" />
+                        <p:confirm header="Confirmación" message="Confirma que desea eliminar el item seleccionado?" icon="ui-icon-alert" />
+                    </p:commandButton>  
+                </p:column>
+                <p:columnGroup type="footer">
+                    <p:row>
+                        <p:column colspan="6" style="text-align:right" footerText="Total (Permanente):" />
+                        <p:column footerText="#{proyectoController.proyectoSelected.totalPresupuestoUniversidadGastoPermanenteStr}" style="text-align: right" >
+                        </p:column>
+                        <p:column colspan="2"/>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="6" style="text-align:right" footerText="Total (No Permanente):" />
+                        <p:column footerText="#{proyectoController.proyectoSelected.totalPresupuestoUniversidadGastoNoPermanenteStr}" style="text-align: right" >
+                        </p:column>
+                        <p:column colspan="2"/>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="6" style="text-align:right" footerText="Total:" />
+                        <p:column footerText="#{proyectoController.proyectoSelected.totalPresupuestoUniversidadStr}" style="text-align: right" >
+                        </p:column>
+                        <p:column colspan="2"/>
+                    </p:row>
+
+                </p:columnGroup>                                               
+
+            </p:dataTable>
+
+            <h:outputLabel value="Aporte de la Entidad Auspiciante:" style="font-weight: bold"/>
+            <p:dataTable value="#{proyectoController.proyectoSelected.detallePresupuestoEntidadAuspiciante}" var="presupuestoEnt"
+                         rowIndexVar="index"  
+                         style="width: 99%"
+                         resizableColumns="true"
+                         emptyMessage="No se encontraron Resultados"> 
+                <p:column headerText="Nro." width="20" >
+                    <h:outputText value="#{index + 1}"/>
+                </p:column>
+                <p:column headerText="Bien y/o Servicio" sortBy="#{presupuestoEnt.bienServicio}">
+                    <h:outputText value="#{presupuestoEnt.bienServicio}" style="white-space: pre-line"></h:outputText>
+                </p:column>
+                <p:column headerText="Cantidad" width="60" sortBy="#{presupuestoEnt.cantidad}">
+                    <h:outputText value="#{presupuestoEnt.cantidad}" style="white-space: pre-line; float:right">  
+                        <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Valor Unitario (USD)" width="100" sortBy="#{presupuestoEnt.valor}">
+                    <h:outputText value="#{presupuestoEnt.valor}" style="white-space: pre-line; float:right">  
+                        <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Total (USD)" width="100" sortBy="#{presupuestoEnt.total}">
+                    <h:outputText value="#{presupuestoEnt.total}" style="white-space: pre-line; float:right">  
+                        <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Editar" width="50" style ="text-align: center">
+                    <p:commandButton icon="ui-icon-pencil"
+                                     title="Editar el registro"
+                                     disabled="#{!proyectoController.permitirEditarPerfil}"
+                                     update=":formPrincipal:panelEdicionPresupuestoDetallado"
+                                     >
+                        <f:setPropertyActionListener value="#{presupuestoEnt}" target="#{proyectoController.presupuestoProyectoSelected}"/>
+                    </p:commandButton>
+                </p:column>                                         
+                <p:column headerText="Eliminar" width="50" style ="text-align: center">
+                    <p:commandButton title="Eliminar el registro" icon="ui-icon-trash" 
+                                     onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                     action="#{proyectoController.eliminarPresupuestoProyecto()}"
+                                     disabled="#{!proyectoController.permitirEditarPerfil}"
+                                     update=":formPrincipal:panelPresupuestoDetallado, :formPrincipal:message1 ">
+                        <f:setPropertyActionListener value="#{presupuestoEnt}" target="#{proyectoController.presupuestoProyectoSelected}" />
+                        <p:confirm header="Confirmación" message="Confirma que desea eliminar el item seleccionado?" icon="ui-icon-alert" />
+                    </p:commandButton>  
+                </p:column>
+                <p:columnGroup type="footer">
+                    <p:row>
+                        <p:column colspan="4" style="text-align:right" footerText="Total:" />
+                        <p:column footerText="#{proyectoController.proyectoSelected.totalPresupuestoEntidadAuspicianteStr}" style="text-align: right" >
+                            <h:outputLabel value=""></h:outputLabel>
+                        </p:column>
+                        <p:column colspan="2"/>
+                    </p:row>
+                </p:columnGroup>                                        
+            </p:dataTable>                                  
+
+
+            <h:outputLabel value="Aporte de la Comunidad Beneficiaria:" style="font-weight: bold"/>
+            <p:dataTable value="#{proyectoController.proyectoSelected.detallePresupuestoComunidadBeneficiaria}" var="presupuestoCom"
+                         rowIndexVar="index"  
+                         style="width: 99%"
+                         resizableColumns="true"
+                         emptyMessage="No se encontraron Resultados"> 
+                <p:column headerText="Nro." width="20" >
+                    <h:outputText value="#{index + 1}"/>
+                </p:column>
+                <p:column headerText="Bien y/o Servicio" sortBy="#{presupuestoCom.bienServicio}">
+                    <h:outputText value="#{presupuestoCom.bienServicio}" style="white-space: pre-line"></h:outputText>
+                </p:column>
+                <p:column headerText="Cantidad" width="60" sortBy="#{presupuestoCom.cantidad}">
+                    <h:outputText value="#{presupuestoCom.cantidad}" style="white-space: pre-line; float:right">  
+                        <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Valor Unitario (USD)" width="100" sortBy="#{presupuestoCom.valor}">
+                    <h:outputText value="#{presupuestoCom.valor}" style="white-space: pre-line; float:right">  
+                        <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Total (USD)" width="100" sortBy="#{presupuestoCom.total}">
+                    <h:outputText value="#{presupuestoCom.total}" style="white-space: pre-line; float:right">  
+                        <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Editar" width="50" style ="text-align: center">
+                    <p:commandButton icon="ui-icon-pencil"
+                                     title="Editar el registro"
+                                     disabled="#{!proyectoController.permitirEditarPerfil}"
+                                     update=":formPrincipal:panelEdicionPresupuestoDetallado"
+                                     >
+                        <f:setPropertyActionListener value="#{presupuestoCom}" target="#{proyectoController.presupuestoProyectoSelected}"/>
+                    </p:commandButton>
+                </p:column>                                         
+                <p:column headerText="Eliminar" width="50" style ="text-align: center">
+                    <p:commandButton title="Eliminar el registro" icon="ui-icon-trash" 
+                                     onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                     action="#{proyectoController.eliminarPresupuestoProyecto()}"
+                                     disabled="#{!proyectoController.permitirEditarPerfil}"
+                                     update=":formPrincipal:panelPresupuestoDetallado, :formPrincipal:message1 ">
+                        <f:setPropertyActionListener value="#{presupuestoCom}" target="#{proyectoController.presupuestoProyectoSelected}" />
+                        <p:confirm header="Confirmación" message="Confirma que desea eliminar el item seleccionado?" icon="ui-icon-alert" />
+                    </p:commandButton>  
+                </p:column>
+                <p:columnGroup type="footer">
+                    <p:row>
+                        <p:column colspan="4" style="text-align:right" footerText="Total:" />
+                        <p:column footerText="#{proyectoController.proyectoSelected.totalPresupuestoComunidadBeneficiariaStr}" style="text-align: right" >
+                            <h:outputLabel value=""></h:outputLabel>
+                        </p:column>
+                        <p:column colspan="2"/>
+                    </p:row>
+                </p:columnGroup>                                        
+
+
+
+            </p:dataTable>                                                                             
+        </h:panelGrid>                              
+
+
+    </p:panel>
+
+</ui:composition>
+
