@@ -221,22 +221,6 @@ public class PresupuestoProyecto implements Serializable {
         }
         return valor.multiply(new BigDecimal(cantidad));
     }
-
-//    public BigDecimal getTotalAnual(){
-//        if(valorAnualUSD == null){
-//            return BigDecimal.ZERO;
-//        }
-//        else{
-//            BigDecimal valor2 = new BigDecimal(0);
-//            for (CantidadAnual usb : valorAnualUSD) {
-//                System.out.println(usb.getCantidad());
-//                valor2 = valor2.add(usb.getCantidad()); 
-//            }
-//            return valor2;
-//        }
-//               
-//    }
-//    
     
     public BigDecimal getTotalCantidadAnual(){
         if(cantidadAnualProyectoList == null){
@@ -256,74 +240,7 @@ public class PresupuestoProyecto implements Serializable {
     @Transient
     private String nombreCompleto;
     
-//    @Transient
-//    private BigDecimal anio1;
-//    
-//    @Transient
-//    private BigDecimal anio2;
-//    
-//    @Transient
-//    private BigDecimal anio3;
-//    
-//    @Transient
-//    private BigDecimal anio4;
-//
-//    @Transient
-//    private BigDecimal anio5;
-//
-//    public BigDecimal getAnio1() {
-//        return cantidadAnualProyectoList.size()==1?cantidadAnualProyectoList.get(0).getCantidadAnual():null;
-//    }
-//
-//
-//    public BigDecimal getAnio2() {
-//         return cantidadAnualProyectoList.size()==2?cantidadAnualProyectoList.get(1).getCantidadAnual():null;
-//    }
-//
-//   
-//    public BigDecimal getAnio3() {
-//         return cantidadAnualProyectoList.size()==3?cantidadAnualProyectoList.get(2).getCantidadAnual():null;
-//    }
-//
-//    public void setAnio3(BigDecimal anio3) {
-//        this.anio3 = anio3;
-//    }
-//
-//    public BigDecimal getAnio4() {
-//         return cantidadAnualProyectoList.size()==4?cantidadAnualProyectoList.get(3).getCantidadAnual():null;
-//    }
-//
-//    public void setAnio4(BigDecimal anio4) {
-//        this.anio4 = anio4;
-//    }
-//
-//    public BigDecimal getAnio5() {
-//         return cantidadAnualProyectoList.size()==5?cantidadAnualProyectoList.get(4).getCantidadAnual():null;
-//        
-//    }
-//
-//    public void setAnio5(BigDecimal anio5) {
-//        this.anio5 = anio5;
-//    }
-//   
-    
-    
-    
-//    @Transient
-//    private List<CantidadAnual> valorAnualUSD = new ArrayList<>();
-
-    
-    
-    
-//    public List<CantidadAnual> getValorAnualUSD() {
-//        return valorAnualUSD;
-//    }
-//
-//    public void setValorAnualUSD(List<CantidadAnual> valorAnualUSD) {
-//        this.valorAnualUSD = valorAnualUSD;
-//    }
-
-     public List<CantidadAnualProyecto> setearCantidadAnual() {
+    public List<CantidadAnualProyecto> setearCantidadAnual() {
         cantidadAnualProyectoList = new ArrayList<>();
         int[] tiempo = proyecto.getDuracionNum();
         int anios = tiempo[0];
@@ -334,51 +251,8 @@ public class PresupuestoProyecto implements Serializable {
             cantidadAnualProyectoList.add(m);
          }
         return cantidadAnualProyectoList;
-    }
-    
-    
-//    public List<CantidadAnual> setearValorAnualUSD() {
-//        int[] dur = proyecto.getDuracionNum();
-//        
-//        int aux2 = dur[0];
-//        int aux1 = dur[1];
-//        if(valorAnual != null){
-//            if(aux1 == 0){
-//                    String[] valores = valorAnual.split(";");
-//                    int i = 0;
-//                    for (String valore : valores) {
-//                        i++;
-//                        CantidadAnual m = new CantidadAnual(i+"º año:",new BigDecimal(valore));
-//                        valorAnualUSD.add(m);
-//                    }
-//           
-//            }else{
-//                    String[] valores = valorAnual.split(";");
-//                   
-//                    for (int i=1;i<=valores.length;i++) {
-//                        if(i!=valores.length){ 
-//                            CantidadAnual m = new CantidadAnual(i+"º año:",new BigDecimal(valores[i--]));
-//                        valorAnualUSD.add(m);}
-//                        else{
-//                              CantidadAnual m = new CantidadAnual(aux1+" mes(es):",new BigDecimal(valores[i--]));
-//                        valorAnualUSD.add(m);}
-//                      
-//                    }
-//            }
-//           return valorAnualUSD;
-//        }else{
-//            for (int i = 1; i <= aux2; i++) {
-//            CantidadAnual m = new CantidadAnual(i+"º año:",new BigDecimal(0));
-//            valorAnualUSD.add(m);
-//                }
-//                if(aux1 > 0){
-//            CantidadAnual m = new CantidadAnual(aux1+" mes(es):",new BigDecimal(0));
-//            valorAnualUSD.add(m);
-//                };
-//                return valorAnualUSD;
-//        }
-//    }
-
+    }  
+   
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
@@ -417,38 +291,8 @@ public class PresupuestoProyecto implements Serializable {
                 return "APORTE COMUNIDAD BENEFICIARIA";
         }
         return "";
-    }   
-
-//    //Mostrar en tabla
-//    public String getValorAnual() {
-//        int[] dur = proyecto.getDuracionNum();
-//        int aux1 = dur[1];
-//        
-//        StringBuilder anual = new StringBuilder();
-//        if(valorAnual != null){
-//            if(aux1 == 0){
-//                    String[] valores = valorAnual.split(";");
-//                    int i = 0;
-//                    for (String valore : valores) {
-//                        anual.append(i++).append("º año:").append(valore).append("\r\n");
-//                    }
-//           
-//            }else{
-//                    String[] valores = valorAnual.split(";");
-//                   
-//                    for (int i=1;i<=valores.length;i++) {
-//                        if(i!=valores.length){  anual.append(i).append("º año:").append(valores[i--]).append("\r\n");}
-//                        else{anual.append(i).append(" mes(es):").append(valores[i--]).append("\r\n");}
-//                      
-//                    }
-//            }
-//           return anual.toString();
-//        }else{
-//            return null;
-//        }
-//       
-//    }
-    
+    }  
+   
     private String decimalToString(BigDecimal valor) {
         DecimalFormat decimalFormat;
         Locale locale = new Locale("es", "ES");
@@ -475,8 +319,7 @@ public class PresupuestoProyecto implements Serializable {
 
 
     @XmlTransient
-    public List<CantidadAnualProyecto> getCantidadAnualProyectoList() {
-       
+    public List<CantidadAnualProyecto> getCantidadAnualProyectoList() {       
         return cantidadAnualProyectoList;
     }
 

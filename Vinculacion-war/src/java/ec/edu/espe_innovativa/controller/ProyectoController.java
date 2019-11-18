@@ -219,6 +219,7 @@ public class ProyectoController implements Serializable {
     private List<ObjetivoEstrategico> perspectivasList;
     private List<ObjetivoEstrategico> milenioList;
     private List<ObjetivoEstrategico> unescoList;
+    private List<ObjetivoEstrategico> dominiosList;
     private List<ImpactoEsperadoTipo> impactoEsperadoTipoList;
     private List<ImpactoEsperado> impactoEsperadoList;
     private List<ComisionCalificacion> comisionCalificacionList;
@@ -455,6 +456,13 @@ public class ProyectoController implements Serializable {
     public void setUnescoList(List<ObjetivoEstrategico> unescoList) {
         this.unescoList = unescoList;
     }
+    public List<ObjetivoEstrategico> getDominiosList() {
+        return dominiosList;
+    }
+
+    public void setDominiosList(List<ObjetivoEstrategico> dominiosList) {
+        this.dominiosList = dominiosList;
+    }    
 
     public ObjetivoEstrategico getObjetivoEstrategicoSelected() {
         return objetivoEstrategicoSelected;
@@ -2101,7 +2109,19 @@ public class ProyectoController implements Serializable {
     }  
     
     
-//</editor-fold>    
+//</editor-fold>   
+    
+//<editor-fold defaultstate="collapsed" desc="tab122: Dominios">
+    private void initDominios(){
+        if (dominiosList == null) {
+            dominiosList = objetivoEstrategicoFacade.findDominios();
+        }
+        perspectivaSelected = null;
+        objetivoEstrategicoSelected = null;
+        cancelarIndicadorEstrategia();
+    } 
+   
+//</editor-fold>     
     
 //<editor-fold defaultstate="collapsed" desc="tab20: Impactos Esperados">
     
@@ -2957,6 +2977,9 @@ public class ProyectoController implements Serializable {
                     break;
                 case "1.3.6":
                     initCampoUnesco();
+                    break;
+                case "1.3.7":
+                    initDominios();
                     break;
                 case "1.4":
                     cancelarP15(true);
@@ -4067,8 +4090,7 @@ public class ProyectoController implements Serializable {
     }
 
     public void nuevoPresupuestoProyecto(ActionEvent event) {
-        presupuestoProyectoSelected = new PresupuestoProyecto(proyectoSelected);
-        presupuestoProyectoSelected.setearCantidadAnual();
+        presupuestoProyectoSelected = new PresupuestoProyecto(proyectoSelected);        
         presupuestoProyectoSelected.setPartidaPresupuestaria(null);
         
     }
@@ -4102,32 +4124,9 @@ public class ProyectoController implements Serializable {
         return "";
     }
 
-    public void cancelarPresupuestoProyecto() {
-        List<PresupuestoProyecto> pre;
-        tablaPresUniversidad = new ArrayList<>();
-         
+     public void cancelarPresupuestoProyecto() {               
         proyectoSelected = proyectoFacade.find(proyectoSelected.getId());
         proyectoSelected.inicializarListadoPresupuestos();
-        if(proyectoSelected.getPresupuestoProyectoList().isEmpty()){
-            visualizarDataOld = false;
-        }else{
-            visualizarDataOld = proyectoSelected.getPresupuestoProyectoList().get(0).getCantidadAnualProyectoList().isEmpty();
-        }
-        
-            
-        
-//        pre = proyectoSelected.getDetallePresupuestoUniversidad();
-//        for(PresupuestoProyecto obj : pre){
-//            for(CantidadAnualProyecto anio : obj.getCantidadAnualProyectoList()){
-//                tablaPresUniversidad.add(new DataTableColumn(anio.getDescripcion(),"cantidadAnual"));
-//            }   
-//        
-//        }
-//       tablaPresUniversidad.add(new DataTableColumn("ANIO","id"));      
-//       tablaPresUniversidad.add(new DataTableColumn("ANIO","descripcion"));
-//       tablaPresUniversidad.add(new DataTableColumn("ANIO","cantidadAnual"));
-//       tablaPresUniversidad.add(new DataTableColumn("ANIO","presupuestoProyecto"));
-       
         presupuestoProyectoSelected = null;
     }
 

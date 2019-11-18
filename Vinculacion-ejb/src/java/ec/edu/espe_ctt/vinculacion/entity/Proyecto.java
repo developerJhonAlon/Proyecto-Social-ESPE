@@ -678,6 +678,10 @@ public class Proyecto implements Serializable {
         return getPerspectivaListNivelDos(ConfiguraObjetivo.TIPO_PLAN_MILENIO);
     }
     
+    public List<ObjetivoEstrategico> getPlanDominiosList(){
+        return getPerspectivaListNivelDos(ConfiguraObjetivo.TIPO_PLAN_DOMINIO);
+    }
+        
      public List<ObjetivoEstrategico> getPlanUnescoList(){
         return getPerspectivaList(ConfiguraObjetivo.TIPO_PLAN_UNESCO);
     }
@@ -3144,7 +3148,6 @@ public class Proyecto implements Serializable {
         this.efectoEsperado = efectoEsperado;
     }
 
-    @XmlTransient
     public List<ImpactoEsperado> getImpactoEsperadoList() {
         return impactoEsperadoList;
     }

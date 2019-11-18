@@ -48,4 +48,9 @@ public class ObjetivoEstrategicoFacade extends AbstractFacade<ObjetivoEstrategic
         Query query = em.createQuery("SELECT u FROM ObjetivoEstrategico u WHERE u.objetivoEstrategicoPadre is null AND u.configuraObjetivo.id = 3");
         return query.getResultList();
     }
+    
+    public List<ObjetivoEstrategico> findDominios(){
+        Query query = em.createQuery("SELECT u FROM ObjetivoEstrategico u WHERE u.objetivoEstrategicoPadre is null AND u.configuraObjetivo.id = 7");
+        return query.getResultList();
+    }
 }

@@ -69,6 +69,7 @@ public class ConfiguraObjetivo implements Serializable {
     public final static Integer TIPO_PLAN_ESPE = 2;
     public final static Integer TIPO_PLAN_UNESCO = 3;
     public final static Integer TIPO_PLAN_MILENIO = 4;
+    public final static Integer TIPO_PLAN_DOMINIO = 5;
     public final static String ESTADO_ACTIVA = "A";
     public final static String ESTADO_INACTIVA = "I";
 

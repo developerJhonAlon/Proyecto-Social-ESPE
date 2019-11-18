@@ -161,31 +161,12 @@
                     <p:column headerText="Tipo Gasto" sortBy="#{presupuestoUniv.tipoGastoStr}" width="80">
                         <h:outputText value="#{presupuestoUniv.tipoGastoStr}" style="white-space: pre-line"/>     
                     </p:column>
-                    <p:column headerText="Cantidad" width="60" sortBy="#{presupuestoUniv.cantidad}" rendered="#{proyectoController2.visualizarDataOld}">
-                        <h:outputText value="#{presupuestoUniv.cantidad}" style="white-space: pre-line; float:right">  
-                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="Valor Unitario (USD)" width="100" sortBy="#{presupuestoUniv.valor}" rendered="#{proyectoController2.visualizarDataOld}">
-                        <h:outputText value="#{presupuestoUniv.valor}" style="white-space: pre-line; float:right">  
-                            <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
-                        </h:outputText>
-                    </p:column>                                        
-                    <p:column headerText="Total (USD)" width="60" sortBy="#{presupuestoUniv.total}" rendered="#{proyectoController2.visualizarDataOld}">
-                        <h:outputText value="#{presupuestoUniv.total}" style="white-space: pre-line; float:right">  
-                            <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
-                        </h:outputText>
-                    </p:column>
-
-
-
-                    <p:column headerText="Valor Anual (USD)" width="100" sortBy="#{presupuestoUniv.mostrarCantidadAnual}"  rendered="#{!proyectoController2.visualizarDataOld}">
+                    <p:column headerText="Valor Anual (USD)" width="100" sortBy="#{presupuestoUniv.mostrarCantidadAnual}">
                         <h:outputText value="#{presupuestoUniv.mostrarCantidadAnual}" style="white-space: pre-line;">  
 
                         </h:outputText>
                     </p:column>
-
-                    <p:column headerText="Total Proy (USD)" width="60" sortBy="#{presupuestoUniv.totalCantidadAnual}" rendered="#{!proyectoController2.visualizarDataOld}">
+                    <p:column headerText="Total Proy (USD)" width="60" sortBy="#{presupuestoUniv.totalCantidadAnual}">
                         <h:outputText value="#{presupuestoUniv.totalCantidadAnual}" style="white-space: pre-line; float:right">  
                             <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
                         </h:outputText>
@@ -211,24 +192,23 @@
                     </p:column> 
                     <p:columnGroup type="footer">
                         <p:row>
-                            <p:column colspan="#{proyectoController2.visualizarDataOld?6:5}" style="text-align:right" footerText="Total (Permanente):" />
+                            <p:column colspan="5" style="text-align:right" footerText="Total (Permanente):" />
                             <p:column footerText="#{proyectoController2.proyectoSelected.totalPresupuestoUniversidadGastoPermanenteStr}" style="text-align: right" >
                             </p:column>
                             <p:column colspan="2"/>
                         </p:row>
                         <p:row>
-                            <p:column colspan="#{proyectoController2.visualizarDataOld?6:5}" style="text-align:right" footerText="Total (No Permanente):" />
+                            <p:column colspan="5" style="text-align:right" footerText="Total (No Permanente):" />
                             <p:column footerText="#{proyectoController2.proyectoSelected.totalPresupuestoUniversidadGastoNoPermanenteStr}" style="text-align: right" >
                             </p:column>
                             <p:column colspan="2"/>
                         </p:row>
                         <p:row>
-                            <p:column colspan="#{proyectoController2.visualizarDataOld?6:5}" style="text-align:right" footerText="Total:" />
+                            <p:column colspan="5" style="text-align:right" footerText="Total:" />
                             <p:column footerText="#{proyectoController2.proyectoSelected.totalPresupuestoUniversidadStr}" style="text-align: right" >
                             </p:column>
                             <p:column colspan="2"/>
                         </p:row>
-
 
                     </p:columnGroup>                                               
 
@@ -245,28 +225,13 @@
                     </p:column>
                     <p:column headerText="Bien y/o Servicio" sortBy="#{presupuestoEnt.bienServicio}">
                         <h:outputText value="#{presupuestoEnt.bienServicio}" style="white-space: pre-line"></h:outputText>
-                    </p:column>
-                    <p:column headerText="Cantidad" width="60" sortBy="#{presupuestoEnt.cantidad}" rendered="#{proyectoController2.visualizarDataOld}">
-                        <h:outputText value="#{presupuestoEnt.cantidad}" style="white-space: pre-line; float:right">  
-                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="Valor Unitario (USD)" width="100" sortBy="#{presupuestoEnt.valor}" rendered="#{proyectoController2.visualizarDataOld}">
-                        <h:outputText value="#{presupuestoEnt.valor}" style="white-space: pre-line; float:right">  
-                            <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="Total (USD)" width="100" sortBy="#{presupuestoEnt.total}" rendered="#{proyectoController2.visualizarDataOld}">
-                        <h:outputText value="#{presupuestoEnt.total}" style="white-space: pre-line; float:right">  
-                            <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
-                        </h:outputText>
-                    </p:column>                                    
-                    <p:column headerText="Valor Anual (USD)" width="100" sortBy="#{presupuestoEnt.mostrarCantidadAnual}"  rendered="#{!proyectoController2.visualizarDataOld}">
+                    </p:column>                                          
+                    <p:column headerText="Valor Anual (USD)" width="100" sortBy="#{presupuestoEnt.mostrarCantidadAnual}">
                         <h:outputText value="#{presupuestoEnt.mostrarCantidadAnual}" style="white-space: pre-line;">  
 
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Total Proy (USD)" width="120" sortBy="#{presupuestoEnt.totalCantidadAnual}" rendered="#{!proyectoController2.visualizarDataOld}">
+                    <p:column headerText="Total Proy (USD)" width="120" sortBy="#{presupuestoEnt.totalCantidadAnual}">
                         <h:outputText value="#{presupuestoEnt.totalCantidadAnual}" style="white-space: pre-line; float:right">  
                             <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
                         </h:outputText>
@@ -292,7 +257,7 @@
                     </p:column>
                     <p:columnGroup type="footer">
                         <p:row>
-                            <p:column colspan="#{proyectoController2.visualizarDataOld?4:3}" style="text-align:right" footerText="Total:" />
+                            <p:column colspan="3" style="text-align:right" footerText="Total:" />
                             <p:column footerText="#{proyectoController2.proyectoSelected.totalPresupuestoEntidadAuspicianteStr}" style="text-align: right" >
                                 <h:outputLabel value=""></h:outputLabel>
                             </p:column>
@@ -313,28 +278,13 @@
                     </p:column>
                     <p:column headerText="Bien y/o Servicio" sortBy="#{presupuestoCom.bienServicio}">
                         <h:outputText value="#{presupuestoCom.bienServicio}" style="white-space: pre-line"></h:outputText>
-                    </p:column>
-                    <p:column headerText="Cantidad" width="60" sortBy="#{presupuestoCom.cantidad}" rendered="#{proyectoController2.visualizarDataOld}">
-                        <h:outputText value="#{presupuestoCom.cantidad}" style="white-space: pre-line; float:right">  
-                            <f:convertNumber locale="es_ES"  pattern="#,###,##0" />
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="Valor Unitario (USD)" width="100" sortBy="#{presupuestoCom.valor}" rendered="#{proyectoController2.visualizarDataOld}">
-                        <h:outputText value="#{presupuestoCom.valor}" style="white-space: pre-line; float:right">  
-                            <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="Total (USD)" width="100" sortBy="#{presupuestoCom.total}" rendered="#{proyectoController2.visualizarDataOld}">
-                        <h:outputText value="#{presupuestoCom.total}" style="white-space: pre-line; float:right">  
-                            <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="Valor Anual (USD)" width="100" sortBy="#{presupuestoCom.mostrarCantidadAnual}"  rendered="#{!proyectoController2.visualizarDataOld}">
+                    </p:column>                   
+                    <p:column headerText="Valor Anual (USD)" width="100" sortBy="#{presupuestoCom.mostrarCantidadAnual}">
                         <h:outputText value="#{presupuestoCom.mostrarCantidadAnual}" style="white-space: pre-line;">  
 
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="Total Proy (USD)" width="120" sortBy="#{presupuestoCom.totalCantidadAnual}" rendered="#{!proyectoController2.visualizarDataOld}">
+                    <p:column headerText="Total Proy (USD)" width="120" sortBy="#{presupuestoCom.totalCantidadAnual}">
                         <h:outputText value="#{presupuestoCom.totalCantidadAnual}" style="white-space: pre-line; float:right">  
                             <f:convertNumber locale="es_ES"  pattern="#,###,##0.00" />
                         </h:outputText>
@@ -360,7 +310,7 @@
                     </p:column>
                     <p:columnGroup type="footer">
                         <p:row>
-                            <p:column colspan="#{proyectoController2.visualizarDataOld?4:3}" style="text-align:right" footerText="Total:" />
+                            <p:column colspan="3" style="text-align:right" footerText="Total:" />
                             <p:column footerText="#{proyectoController2.proyectoSelected.totalPresupuestoComunidadBeneficiariaStr}" style="text-align: right" >
                                 <h:outputLabel value=""></h:outputLabel>
                             </p:column>

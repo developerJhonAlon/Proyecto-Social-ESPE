@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml" 
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core" 
+                 xmlns:ui="http://java.sun.com/jsf/facelets" 
+                 xmlns:p="http://primefaces.org/ui">
+    <!--panelDominios-->
+    <p:panel id="panelDominios" rendered="#{proyectoController2.selectedNodeCode=='1.3.7'}" style="border: hidden; padding-left: 20px;">
+
+        <h:panelGrid id="panelEdicionDominio" columns="1" style="width: 100%; margin-bottom: 10px">
+            <h:panelGrid columns="1" rendered="#{proyectoController2.indicadorEstrategiaProyectoSelected==null}">
+
+                <p:commandButton value="Agregar Dominio" title="Agregar Dominio" icon="ui-icon-plus" 
+                                 update=":formPrincipal:panelEdicionDominio"
+                                 disabled="#{!proyectoController2.permitirEditarPerfil}"
+                                 actionListener="#{proyectoController2.nuevoEstrategia}">
+                </p:commandButton>
+
+            </h:panelGrid>                                    
+            <h:panelGrid cellspacing="5" columns="1" style="width: 100%" 
+                         rendered="#{proyectoController2.indicadorEstrategiaProyectoSelected !=null}">
+                <p:fieldset legend="#{proyectoController2.indicadorEstrategiaProyectoSelected.id==null ? 'NUEVO DOMINIO':'EDICION DOMINIO'}">
+                    <h:panelGrid columns="2" cellpadding="0" cellspacing="5" style="margin-top: 10px; margin-bottom: 10px">
+                        <p:commandButton id="btnGrabarDominioProyecto" value="Grabar" title="Grabar Información" icon="ui-icon-locked" 
+                                         update=":formPrincipal:panelDominios, :formPrincipal:message1" 
+                                         action ="#{proyectoController2.grabarIndicadorEstrategia()}"
+                                         onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()">
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" title="Cancela Información" icon="ui-icon-arrowreturnthick-1-w" 
+                                         update=":formPrincipal:panelDominios" 
+                                         action="#{proyectoController2.cancelarIndicadorEstrategia()}">
+                        </p:commandButton>
+
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="2" cellpadding="0" cellspacing="0" style="margin-bottom: 10px">
+                        <p:outputLabel for="selDomInstitucional" value="Dominio Institucional: " style="font-weight: bold"/>
+                        <h:panelGrid columns="2">
+                            <p:selectOneMenu id="selDomInstitucional" value="#{proyectoController2.perspectivaSelected}" 
+                                             required="#{not empty param['formPrincipal:btnGrabarDominioProyecto']}" 
+                                             converter="omnifaces.SelectItemsConverter"
+                                             style="width:460px">
+                                <f:selectItem itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                <f:selectItems value="#{proyectoController2.dominiosList}" var="domInstitucional" itemLabel="#{domInstitucional.descripcion}" 
+                                               itemValue="#{domInstitucional}"/>
+                                <p:ajax event="change"
+                                        update=":formPrincipal:selDomAcademico" 
+                                        />
+                            </p:selectOneMenu>
+                            <p:message for="selDomInstitucional"></p:message>
+
+
+                        </h:panelGrid>
+
+
+                        <p:outputLabel for="selDomAcademico" value="Dominio Academico: " style="font-weight: bold"/>
+                        <h:panelGrid columns="2">
+                            <p:selectOneMenu id="selDomAcademico" value="#{proyectoController2.indicadorEstrategiaProyectoSelected.objetivoEstrategico}" 
+                                             required="#{not empty param['formPrincipal:btnGrabarDominioProyecto']}" 
+                                             converter="omnifaces.SelectItemsConverter"
+                                             style="width:460px">
+                                <f:selectItem itemLabel="--Seleccione--" noSelectionOption="true"/>
+                                <f:selectItems value="#{proyectoController2.perspectivaSelected.objetivoEstrategicoHijoList}" var="domAcademico" itemLabel="#{domAcademico.descripcion}" itemValue="#{domAcademico}"/>
+
+                            </p:selectOneMenu> 
+                            <p:message for="selDomAcademico"></p:message>                                                
+
+                        </h:panelGrid>
+
+
+                    </h:panelGrid>  
+
+                </p:fieldset>
+
+
+
+            </h:panelGrid>                                    
+        </h:panelGrid>
+
+
+        <h:outputLabel value="¿A qué Dominios apunta el Proyecto?:" style="font-weight: bold"/>
+        <p:dataTable value="#{proyectoController2.proyectoSelected.planDominiosList}" var="domInsticionalProyecto"
+                     editable="true" rowIndexVar="index"  resizableColumns="true" expandedRow="true" style="width: 99%"
+                     emptyMessage="No se encontraron resultados">
+            <p:column style="width: 20px">
+                <p:rowToggler/>
+            </p:column>
+            <p:column headerText="Nro." style="width:20px">
+                <h:outputText value="#{index + 1}"/>
+            </p:column>
+            <p:column headerText="Dominio Institucional" style="white-space:pre-line">
+                <h:outputText value="#{domInsticionalProyecto.descripcion}" style="white-space: pre-line; "/>
+            </p:column>
+            <p:rowExpansion >
+                <p:panel style="border:hidden; width:95%; padding-left: 40px">
+                    <h:outputLabel value="Dominios Academicos:" style="font-weight: bold"/>
+                    <p:dataTable value="#{domInsticionalProyecto.objetivoEstrategicoHijoList}" var="domAcademicoProyecto"
+                                 rendered="#{not empty domInsticionalProyecto.objetivoEstrategicoHijoList}" 
+                                 rowIndexVar="index" style="width: 98%">
+                        <p:column headerText="Nro." style="width:20px">
+                            <h:outputText value="#{index + 1}"/>
+                        </p:column>
+                        <p:column headerText="Dominios Academicos" style="white-space:pre-line">
+                            <h:outputText value="#{domAcademicoProyecto.descripcion}" style="white-space: pre-line; "/>
+                        </p:column>
+                        <p:column headerText="Eliminar" width="50" style ="text-align: center">
+                            <p:commandButton title="Eliminar el registro" icon="ui-icon-trash" 
+                                             onstart="PF('blockUIWidget').block()" oncomplete="PF('blockUIWidget').unblock()"
+                                             disabled="#{!proyectoController2.permitirEditarPerfil}"
+                                             action="#{proyectoController2.eliminarIndicadorEstrategia}"
+                                             update=":formPrincipal:panelDominios, :formPrincipal:message1 ">
+                                <f:setPropertyActionListener value="#{domAcademicoProyecto}" target="#{proyectoController2.objetivoEstrategicoSelected}" />
+                                <p:confirm header="Confirmación" message="Confirma que desea eliminar el item seleccionado?" icon="ui-icon-alert" />
+                            </p:commandButton>  
+                        </p:column>                                         
+
+                    </p:dataTable>
+                </p:panel>
+            </p:rowExpansion>
+
+        </p:dataTable>        
+
+    </p:panel>    
+
+
+
+
+</ui:composition>
+

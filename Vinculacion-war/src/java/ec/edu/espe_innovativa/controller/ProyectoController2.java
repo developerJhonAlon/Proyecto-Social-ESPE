@@ -6,6 +6,7 @@
 package ec.edu.espe_innovativa.controller;
 
 import ec.edu.espe_ctt.seguridades.entity.SegPerfil;
+import ec.edu.espe_ctt.vinculacion.entity.PresupuestoProyecto;
 import ec.edu.espe_ctt_investigacion.entity.SeaParametrosDet;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -70,6 +72,7 @@ public class ProyectoController2 extends ProyectoController implements Serializa
             TreeNode node132 = new DefaultTreeNode(new OpcionMenu("1.3.2", "3.4. Objetivos Estratégicos Institucionales"), node13);
             TreeNode node135 = new DefaultTreeNode(new OpcionMenu("1.3.4", "3.5. Líneas de Investigación"), node13);
             TreeNode node137 = new DefaultTreeNode(new OpcionMenu("1.3.6", "3.6. Campo de Conocimiento UNESCO"), node13);
+            TreeNode node138 = new DefaultTreeNode(new OpcionMenu("1.3.7", "3.7. Dominios"), node13);
             TreeNode node134 = new DefaultTreeNode(new OpcionMenu("1.4", "4. Matriz del Marco Lógico"), nodePerfil);
             TreeNode node15 = new DefaultTreeNode(new OpcionMenu("1.5", "5. Viabilidad y Plan de Sostenibilidad"), nodePerfil);
             TreeNode node16 = new DefaultTreeNode(new OpcionMenu("1.6", "6. Presupuesto Detallado y Fuentes de Financiamiento"), nodePerfil);
@@ -201,5 +204,14 @@ public class ProyectoController2 extends ProyectoController implements Serializa
         return "";
     
     }
+    
+    @Override
+    public void nuevoPresupuestoProyecto(ActionEvent event) {
+        super.setPresupuestoProyectoSelected(new PresupuestoProyecto(super.getProyectoSelected()));
+        super.getPresupuestoProyectoSelected().setearCantidadAnual();
+        super.getPresupuestoProyectoSelected().setPartidaPresupuestaria(null);        
+    }
+    
+    
 
 }
