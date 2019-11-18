@@ -4847,6 +4847,11 @@
                                                     <p:message for="selTipoAnexo"></p:message>
                                                 </h:panelGrid>
 
+                                                <p:outputLabel for="txtDescripcionAnexo" value="* Descripción de Anexo:" style="font-weight: bold"></p:outputLabel>
+                                                <h:panelGrid columns="2">
+                                                    <p:inputTextarea id="txtDescripcionAnexo" cols="150" rows="3" value="#{proyectoController.anexoProyectoSelected.descripcion}" maxlength="1000" required="#{not empty param['formPrincipal:btnGrabarAnexo']}"></p:inputTextarea>
+                                                    <p:message for="txtDescripcionAnexo"></p:message>
+                                                </h:panelGrid>
 
                                                 <p:outputLabel value="* Documento adjunto:" for="hidNombreAnexo"  style="font-weight: bold"/>
                                                 <h:panelGrid columns="3">
@@ -4891,6 +4896,9 @@
                                     <p:column headerText="Tipo Anexo" width="200" sortBy="#{anexo.tipoDesc}">
                                         <h:outputText value="#{anexo.tipoDesc}" style="white-space: pre-line"></h:outputText>
                                     </p:column>
+                                    <p:column headerText="Descripción de Anexo" sortBy="#{anexo.descripcion}">
+                                        <h:outputText value="#{anexo.descripcion}" style="white-space: pre-line"></h:outputText>
+                                    </p:column> 
                                     <p:column headerText="Nombre Anexo" sortBy="#{anexo.archivoNombre}">
                                         <h:outputText value="#{anexo.archivoNombre}" style="white-space: pre-line"></h:outputText>
                                     </p:column>

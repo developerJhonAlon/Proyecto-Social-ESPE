@@ -662,6 +662,139 @@
                     </p:dataTable>                    
                 </h:panelGrid>
             </p:fieldset>
+                
+              
+            <p:fieldset legend="3.1. Objetivos de Desarrollo Sostenible del Milenio" rendered="#{reportePorOpcionController.opcionMenu=='3.0.1'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5">
+              <h:outputLabel value="¿A qué Objetivos Milenio apunta el Proyecto?:" style="font-weight: bold"/>
+                                <p:dataTable value="#{reportePorOpcionController.proyectoSelected.planMilenioList}" var="milenioProyecto"
+                                             editable="true" rowIndexVar="index"  resizableColumns="true" expandedRow="true" style="width: 99%"
+                                             emptyMessage="No se encontraron resultados">
+                                    <p:column style="width: 20px">
+                                        <p:rowToggler/>
+                                    </p:column>
+                                    <p:column headerText="Nro." style="width:20px">
+                                        <h:outputText value="#{index + 1}"/>
+                                    </p:column>
+                                    <p:column headerText="Milenio" style="white-space:pre-line">
+                                        <h:outputText value="#{milenioProyecto.descripcion}" style="white-space: pre-line; "/>
+                                    </p:column>
+                                    <p:rowExpansion >
+                                        <p:panel style="border:hidden; width:95%; padding-left: 40px">
+                                            <h:outputLabel value="Metas:" style="font-weight: bold"/>
+                                            <p:dataTable value="#{milenioProyecto.objetivoEstrategicoHijoList}" var="metaMilenioProyecto"
+                                                         rendered="#{not empty milenioProyecto.objetivoEstrategicoHijoList}" 
+                                                         rowIndexVar="index" style="width: 98%">
+                                                <p:column style="width: 20px">
+                                                    <p:rowToggler/>
+                                                </p:column>
+                                                <p:column headerText="Nro." style="width:20px">
+                                                    <h:outputText value="#{index + 1}"/>
+                                                </p:column>
+                                                <p:column headerText="Meta" style="white-space:pre-line">
+                                                    <h:outputText value="#{metaMilenioProyecto.descripcion}" style="white-space: pre-line; "/>
+                                                </p:column>                                                                                     
+
+                                            </p:dataTable>
+                                        </p:panel>
+                                    </p:rowExpansion>
+
+                                </p:dataTable>       
+                    </h:panelGrid>
+            </p:fieldset>
+            
+            
+            <p:fieldset legend="3.6. Campo de Conocimiento UNESCO" rendered="#{reportePorOpcionController.opcionMenu=='3.0.6'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputLabel value="¿A qué campos Unesco apunta el Proyecto?:" style="font-weight: bold"/>
+                    <p:dataTable value="#{reportePorOpcionController.proyectoSelected.planUnescoList}" var="campoAmplioProyecto"
+                                 editable="true" rowIndexVar="index"  resizableColumns="true" expandedRow="true" style="width: 99%"
+                                 emptyMessage="No se encontraron resultados">
+                        <p:column style="width: 20px">
+                            <p:rowToggler/>
+                        </p:column>
+                        <p:column headerText="Nro." style="width:20px">
+                            <h:outputText value="#{index + 1}"/>
+                        </p:column>
+                        <p:column headerText="Amplio" style="white-space:pre-line">
+                            <h:outputText value="#{campoAmplioProyecto.descripcion}" style="white-space: pre-line; "/>
+                        </p:column>
+                        <p:rowExpansion >
+                            <p:panel style="border:hidden; width:95%; padding-left: 40px">
+                                <h:outputLabel value="Especifico:" style="font-weight: bold"/>
+                                <p:dataTable value="#{campoAmplioProyecto.objetivoEstrategicoHijoList}" var="campoEspecificoProyecto"
+                                             rendered="#{not empty campoAmplioProyecto.objetivoEstrategicoHijoList}" expandedRow="true" 
+                                             rowIndexVar="index" style="width: 98%">
+                                    <p:column style="width: 20px">
+                                        <p:rowToggler/>
+                                    </p:column>
+                                    <p:column headerText="Nro." style="width:20px">
+                                        <h:outputText value="#{index + 1}"/>
+                                    </p:column>
+                                    <p:column headerText="Especifico" style="white-space:pre-line">
+                                        <h:outputText value="#{campoEspecificoProyecto.descripcion}" style="white-space: pre-line; "/>
+                                    </p:column>
+                                    <p:rowExpansion >
+                                        <p:panel style="border:hidden; width:95%; padding-left: 40px">
+
+                                            <h:outputLabel rendered="#{not empty campoEspecificoProyecto.objetivoEstrategicoHijoList}" value="Detallado:" style="font-weight: bold"/>
+                                            <p:dataTable value="#{campoEspecificoProyecto.objetivoEstrategicoHijoList}" var="campoDetalladoProyecto"
+                                                         rendered="#{not empty campoEspecificoProyecto.objetivoEstrategicoHijoList}"
+                                                         rowIndexVar="index" style="width: 98%">
+                                                <p:column headerText="Nro." style="width:20px">
+                                                    <h:outputText value="#{index + 1}"/>
+                                                </p:column>
+                                                <p:column headerText="Detallado" style="white-space:pre-line">
+                                                    <h:outputText value="#{campoDetalladoProyecto.descripcion}" style="white-space: pre-line; "/>
+                                                </p:column>
+
+                                            </p:dataTable>
+
+                                        </p:panel>
+                                    </p:rowExpansion>                                                    
+
+                                </p:dataTable>
+                            </p:panel>
+                        </p:rowExpansion>
+
+                    </p:dataTable>
+                </h:panelGrid>
+            </p:fieldset>
+
+
+            <p:fieldset legend="3.7. Dominios" rendered="#{reportePorOpcionController.opcionMenu=='3.0.7'}" style="margin-right: 10px">
+                <h:panelGrid columns="1" cellpadding="5">
+                    <h:outputLabel value="¿A qué Dominios apunta el Proyecto?:" style="font-weight: bold"/>
+                    <p:dataTable value="#{reportePorOpcionController.proyectoSelected.planDominiosList}" var="domInsticionalProyecto"
+                                 editable="true" rowIndexVar="index"  resizableColumns="true" expandedRow="true" style="width: 99%"
+                                 emptyMessage="No se encontraron resultados">
+                        <p:column style="width: 20px">
+                            <p:rowToggler/>
+                        </p:column>
+                        <p:column headerText="Nro." style="width:20px">
+                            <h:outputText value="#{index + 1}"/>
+                        </p:column>
+                        <p:column headerText="Dominio Institucional" style="white-space:pre-line">
+                            <h:outputText value="#{domInsticionalProyecto.descripcion}" style="white-space: pre-line; "/>
+                        </p:column>
+                        <p:rowExpansion >
+                            <p:panel style="border:hidden; width:95%; padding-left: 40px">
+                                <h:outputLabel value="Dominios Academicos:" style="font-weight: bold"/>
+                                <p:dataTable value="#{reportePorOpcionController.objetivoEstrategicoHijoList}" var="domAcademicoProyecto"
+                                             rendered="#{not empty reportePorOpcionController.objetivoEstrategicoHijoList}" 
+                                             rowIndexVar="index" style="width: 98%">
+                                    <p:column headerText="Nro." style="width:20px">
+                                        <h:outputText value="#{index + 1}"/>
+                                    </p:column>
+                                    <p:column headerText="Dominios Academicos" style="white-space:pre-line">
+                                        <h:outputText value="#{reportePorOpcionController.descripcion}" style="white-space: pre-line; "/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panel>
+                        </p:rowExpansion>
+                    </p:dataTable>        
+                </h:panelGrid>
+            </p:fieldset>
 
             <p:fieldset legend="4. Viabilidad y Plan de Sostenibilidad" rendered="#{reportePorOpcionController.opcionMenu=='4'}" style="margin-right: 10px">
                 <h:panelGrid columns="1" cellpadding="5" >
@@ -769,19 +902,19 @@
                                 <p:column colspan="5" style="text-align:right" footerText="Total (Permanente):" />
                                 <p:column footerText="#{reportePorOpcionController.proyectoSelected.totalPresupuestoUniversidadGastoPermanenteStr}" style="text-align: right" >
                                 </p:column>
-                               
+
                             </p:row>
                             <p:row>
                                 <p:column colspan="5" style="text-align:right" footerText="Total (No Permanente):" />
                                 <p:column footerText="#{reportePorOpcionController.proyectoSelected.totalPresupuestoUniversidadGastoNoPermanenteStr}" style="text-align: right" >
                                 </p:column>
-                               
+
                             </p:row>
                             <p:row>
                                 <p:column colspan="5" style="text-align:right" footerText="Total:" />
                                 <p:column footerText="#{reportePorOpcionController.proyectoSelected.totalPresupuestoUniversidadStr}" style="text-align: right" >
                                 </p:column>
-                               
+
                             </p:row>
 
 
@@ -819,7 +952,7 @@
                                 <p:column footerText="#{reportePorOpcionController.proyectoSelected.totalPresupuestoEntidadAuspicianteStr}" style="text-align: right" >
                                     <h:outputLabel value=""></h:outputLabel>
                                 </p:column>
-                               
+
                             </p:row>
                         </p:columnGroup>                                        
                     </p:dataTable>                                  
@@ -855,7 +988,7 @@
                                 <p:column footerText="#{reportePorOpcionController.proyectoSelected.totalPresupuestoComunidadBeneficiariaStr}" style="text-align: right" >
                                     <h:outputLabel value=""></h:outputLabel>
                                 </p:column>
-                               
+
                             </p:row>
                         </p:columnGroup>                                        
                     </p:dataTable>                          

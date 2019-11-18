@@ -4665,6 +4665,7 @@ public class ProyectoController implements Serializable {
     private boolean msgObjetivosProvCantParr;
     private boolean msgObjetivosEstrategicos;
     private boolean msgObjetivosMilenios;
+    private boolean msgDominios;
     private boolean msgObjetivosUnesco;
     private boolean msgLineasInvestigacion;
     private boolean msgMatrizMarcoLogicoFin;
@@ -4693,6 +4694,14 @@ public class ProyectoController implements Serializable {
 
     public void setMsgObjetivosMilenios(boolean msgObjetivosMilenios) {
         this.msgObjetivosMilenios = msgObjetivosMilenios;
+    }
+    
+    public boolean isMsgDominios() {
+        return msgDominios;
+    }
+
+    public void setMsgDominios(boolean msgDominios) {
+        this.msgDominios = msgDominios;
     }
 
     public boolean isMsgImpactosEsperados() {
@@ -4912,6 +4921,9 @@ public class ProyectoController implements Serializable {
             if (proyectoSelected.getPlanMilenioList() == null || proyectoSelected.getPlanMilenioList().isEmpty()) {
                 msgObjetivosMilenios = true;
             }
+            if (proyectoSelected.getPlanDominiosList() == null || proyectoSelected.getPlanDominiosList().isEmpty()) {
+                msgDominios = true;
+            }
             if (proyectoSelected.getPlanEspeList() == null || proyectoSelected.getPlanEspeList().isEmpty()) {
                 msgObjetivosEstrategicos = true;
             }
@@ -4974,7 +4986,7 @@ public class ProyectoController implements Serializable {
 
             if (!(msgCoberturaLocalizacion || msgDiagnosticoProblema || msgDocentesParticipantes || msgEntregablesProducto || msgEstudiantesParticipantes
                     || msgIdentificacionPoblacion || msgMatrizMarcoLogicoFin || msgMatrizMarcoLogicoProposito || msgMatrizMarcoLogicoComponente || msgMatrizMarcoLogicoActividad
-                    || msgObjetivosBuenVivir || msgObjetivosUnesco || msgImpactosEsperados || msgObjetivosMilenios || msgObjetivosEstrategicos || msgLineasInvestigacion || msgObjetivosProvCantParr || msgViabilidad || msgPresupuestoDetallado || msgPresupuestoDetalladoGastoPermanente || msgCronogramaActividades
+                    || msgObjetivosBuenVivir || msgObjetivosUnesco || msgImpactosEsperados || msgObjetivosMilenios || msgDominios || msgObjetivosEstrategicos || msgLineasInvestigacion || msgObjetivosProvCantParr || msgViabilidad || msgPresupuestoDetallado || msgPresupuestoDetalladoGastoPermanente || msgCronogramaActividades
                     || msgActaConsejoDepartamento || msgActaCompromisoParticipacionDirectorProyecto || msgActaCompromisoParticipacionCarreras)) {
                 proyectoSelected.setEstado(new SeaParametrosDet(SeaParametrosDet.ESTADO_CERRADO_PERFIL));
                 proyectoSelected.setFechaFinalizacionPerfil(new Date());

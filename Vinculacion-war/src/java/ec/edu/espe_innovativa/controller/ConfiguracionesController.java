@@ -799,12 +799,12 @@ public class ConfiguracionesController implements Serializable {
 //        opcionesMenuParametroList.add(new OpcionMenu("3.2", "3.2. Objetivos Provinciales, Cantonales o Parroquiales"));
 //        opcionesMenuParametroList.add(new OpcionMenu("3.3", "3.3. Objetivos Estratégicos Institucionales"));
         opcionesMenuParametroList.add(new OpcionMenu("3.4", "4. Matriz del Marco Lógico"));
-        //opcionesMenuParametroList.add(new OpcionMenu("3.0.1", "3.1. Objetivos de Desarrollo Sostenible del Milenio"));
+        opcionesMenuParametroList.add(new OpcionMenu("3.0.1", "3.1. Objetivos de Desarrollo Sostenible del Milenio"));
         opcionesMenuParametroList.add(new OpcionMenu("3.0.2", "3.2. Objetivos Plan Nacional de Desarrollo"));//Remplaza 3.1
         opcionesMenuParametroList.add(new OpcionMenu("3.0.3", "3.3. Objetivos Provinciales, Cantonales o Parroquiales"));//Remplaza 3.2
         opcionesMenuParametroList.add(new OpcionMenu("3.0.4", "3.4. Objetivos Estratégicos Institucionales"));//Remplaza 3.3
-        //opcionesMenuParametroList.add(new OpcionMenu("3.0.6", "3.6.  Campo de Conocimiento UNESCO"));
-        
+        opcionesMenuParametroList.add(new OpcionMenu("3.0.6", "3.6. Campo de Conocimiento UNESCO"));
+        opcionesMenuParametroList.add(new OpcionMenu("3.0.7", "3.7. Dominios"));
         opcionesMenuParametroList.add(new OpcionMenu("4", "5. Viabilidad y Plan de Sostenibilidad"));
         opcionesMenuParametroList.add(new OpcionMenu("5", "6. Presupuesto Detallado y Fuentes de Financiamiento"));
         opcionesMenuParametroList.add(new OpcionMenu("6", "7. Estrategia de Ejecución-Cronograma"));
