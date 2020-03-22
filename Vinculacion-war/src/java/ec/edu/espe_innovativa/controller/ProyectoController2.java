@@ -41,6 +41,7 @@ public class ProyectoController2 extends ProyectoController implements Serializa
         this.rootMenu2 = rootMenu2;
     }
     
+    
     @Override
     public void crearArbolMenu(Long estadoProyecto) {
         rootMenu2 = new DefaultTreeNode("Root", null);
@@ -209,7 +210,8 @@ public class ProyectoController2 extends ProyectoController implements Serializa
     public void nuevoPresupuestoProyecto(ActionEvent event) {
         super.setPresupuestoProyectoSelected(new PresupuestoProyecto(super.getProyectoSelected()));
         super.getPresupuestoProyectoSelected().setearCantidadAnual();
-        super.getPresupuestoProyectoSelected().setPartidaPresupuestaria(null);        
+        super.getPresupuestoProyectoSelected().setPartidaPresupuestaria(null);   
+        
     }
     
     
